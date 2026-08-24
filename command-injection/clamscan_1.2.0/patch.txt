@@ -1,0 +1,73 @@
+From 1a989169127d1b0f575d1f2a41df8b030cb2bbf8 Mon Sep 17 00:00:00 2001
+From: Mufeed VH <mufeedvh@gmail.com>
+Date: Sat, 11 Apr 2020 00:16:31 +0530
+Subject: [PATCH 1/3] Fixed Command Injection
+
+---
+ index.js | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/index.js b/index.js
+index 7cdbddf..97e9de9 100755
+--- a/index.js
++++ b/index.js
+@@ -491,8 +491,8 @@ class NodeClam {
+ 
+         try {
+             await fs_access(path, fs.constants.R_OK);
+-
+-            const {stdout} = await cp_exec(version_cmds[scanner]);
++            version_cmds_exec = version_cmds[scanner].split(' ');
++            const {stdout} = await cp_execfile(version_cmds_exec[0], version_cmds_exec[2]);
+             if (stdout.toString().match(/ClamAV/) === null) {
+                 if (this.settings.debug_mode) console.log(`${this.debug_label}: Could not verify the ${scanner} binary.`);
+                 return false;
+
+From 4aa2f2a64165c7f00cde435baf483515495c5c97 Mon Sep 17 00:00:00 2001
+From: Mufeed VH <mufeedvh@gmail.com>
+Date: Sat, 11 Apr 2020 00:35:43 +0530
+Subject: [PATCH 2/3] minor change
+
+---
+ index.js | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/index.js b/index.js
+index 97e9de9..fab9efb 100755
+--- a/index.js
++++ b/index.js
+@@ -492,7 +492,7 @@ class NodeClam {
+         try {
+             await fs_access(path, fs.constants.R_OK);
+             version_cmds_exec = version_cmds[scanner].split(' ');
+-            const {stdout} = await cp_execfile(version_cmds_exec[0], version_cmds_exec[2]);
++            const {stdout} = await cp_execfile(version_cmds_exec[0], [version_cmds_exec[2]]);
+             if (stdout.toString().match(/ClamAV/) === null) {
+                 if (this.settings.debug_mode) console.log(`${this.debug_label}: Could not verify the ${scanner} binary.`);
+                 return false;
+
+From 808192831dd6d96264cc43ffa46e5d580442eb82 Mon Sep 17 00:00:00 2001
+From: Jamie Slome <55323451+JamieSlome@users.noreply.github.com>
+Date: Mon, 20 Apr 2020 16:32:06 +0100
+Subject: [PATCH 3/3] Update index.js
+
+Fixing requested change to index value of version_cmds_exec.
+
+Co-Authored-By: Kyle Farris <kylefarris@gmail.com>
+---
+ index.js | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/index.js b/index.js
+index fab9efb..89f3a06 100755
+--- a/index.js
++++ b/index.js
+@@ -492,7 +492,7 @@ class NodeClam {
+         try {
+             await fs_access(path, fs.constants.R_OK);
+             version_cmds_exec = version_cmds[scanner].split(' ');
+-            const {stdout} = await cp_execfile(version_cmds_exec[0], [version_cmds_exec[2]]);
++            const {stdout} = await cp_execfile(version_cmds_exec[0], [version_cmds_exec[1]]);
+             if (stdout.toString().match(/ClamAV/) === null) {
+                 if (this.settings.debug_mode) console.log(`${this.debug_label}: Could not verify the ${scanner} binary.`);
+                 return false;

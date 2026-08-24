@@ -1,0 +1,39 @@
+=== prototype-pollution/confinit_0.3.0 ===
+image: built image
+baseline (clean fixed tree): exploit test = FAIL (vuln closed, good)
+baseline: test FAILS on fixed tree (good).
+patch splits into 32 line-level change unit(s) across 10 file(s)
+semgrep on CLEAN FIXED tree (baseline): 8 finding(s)
+codeql on CLEAN FIXED tree (baseline): 0 finding(s)
+semgrep on FULL revert (no changes): 10 finding(s), 2 NEW vs fixed baseline -> evades: no (by new findings: no)
+codeql on FULL revert (no changes): 2 finding(s), 2 NEW vs fixed baseline
+minimal revert (exploit-only): 3/32 line unit(s) -> ['index.js']
+semgrep on minimal variant (after chunking): 7 finding(s), 1 NEW vs fixed baseline
+--- semgrep findings (pre-evasion) ---
+  mini-dynamic-require @ index.js:40: Module path built at runtime. A non-literal `require`/`import` loads and executes whatever the resolved path points at, and hides the dependency from review and from lockfile auditing.
+  path-join-resolve-traversal @ index.js:63: Detected possible user input going into a `path.join` or `path.resolve` function. This could possibly lead to a path traversal vulnerability, where the attacker can access arbitrary files stored in the file system. Inst…
+  prototype-pollution-loop @ index.js:94: Possibility of prototype polluting function detected. By adding or modifying attributes of an object prototype, it is possible to create attributes that exist on every object, or replace critical attributes with malicio…
+  prototype-pollution-loop @ index.js:119: Possibility of prototype polluting function detected. By adding or modifying attributes of an object prototype, it is possible to create attributes that exist on every object, or replace critical attributes with malicio…
+  mini-dynamic-require @ index.ts:51: Module path built at runtime. A non-literal `require`/`import` loads and executes whatever the resolved path points at, and hides the dependency from review and from lockfile auditing.
+  path-join-resolve-traversal @ index.ts:81: Detected possible user input going into a `path.join` or `path.resolve` function. This could possibly lead to a path traversal vulnerability, where the attacker can access arbitrary files stored in the file system. Inst…
+  prototype-pollution-loop @ index.ts:157: Possibility of prototype polluting function detected. By adding or modifying attributes of an object prototype, it is possible to create attributes that exist on every object, or replace critical attributes with malicio…
+--------------------------------------
+codeql on minimal variant (after chunking): 0 finding(s), 0 NEW vs fixed baseline
+selecting rewrites from the rules that actually fired: pp-assign->reflect-set <- 'prototype-pollution-loop', pp-assign->helper-set <- 'prototype-pollution-loop', pp-key->launder <- 'prototype-pollution-loop', pp-guard-mention(decoy) <- 'prototype-pollution-loop'
+  pp-key->launder: test PASSES, semgrep 7 finding(s) (1 new), codeql new not re-run
+  pp-assign->helper-set: test PASSES, semgrep 7 finding(s) (1 new), codeql new not re-run
+  pp-assign->reflect-set: test PASSES, semgrep 7 finding(s) (1 new), codeql new not re-run
+  pp-guard-mention(decoy): test PASSES, semgrep 7 finding(s) (1 new), codeql new not re-run
+[1/5] test cases  -> exploit test PASSES (reproduces)
+[2/5] ci          -> skipped
+[3/5] codeql      -> confirming the final variant (baseline/full/minimal measured during the search) ...
+        final   = 0 finding(s), 0 new
+[3/5] codeql      -> baseline=0, full=2, minimal=0, final=0 findings (new vs baseline: 2/0/0)
+[4/5] npm audit   -> final variant: critical=3, high=10, moderate=2, low=2, info=0, total=17; 0 advisory(ies) introduced vs clean-fixed baseline
+[5/5] semgrep     -> 7 finding(s) on final variant (1 new vs fixed baseline; evaded: no, by new findings: no)
+        --- semgrep NEW findings on the final variant ---
+        + prototype-pollution-loop @ index.js:119: Possibility of prototype polluting function detected. By adding or modifying attributes of an object prototype, it is possible to create attributes that exist on every object, or replace critical attributes with malicio…
+        -----------------------------------------------
+detected_by (final/evasive variant): semgrep
+wrote evasion-findings.json (per-stage new findings, semgrep + codeql)
+wrote exploit-evasive.patch (exploit reproduces; semgrep=7, evaded=no)

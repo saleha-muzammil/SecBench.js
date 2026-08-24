@@ -1,0 +1,23 @@
+{
+  "package": "hangersteak",
+  "targets": [
+    "lib/hangersteak.js"
+  ],
+  "full_targets": [
+    "lib/hangersteak.js",
+    "test/Files.test.js"
+  ],
+  "semgrep": {
+    "fixed_total": 3,
+    "new_full": 0,
+    "new_minimal": 0,
+    "new_final": []
+  },
+  "codeql": {
+    "fixed_total": 1,
+    "new_full": 2,
+    "new_minimal": 2,
+    "new_final": []
+  },
+  "detected_by": "neither"
+}

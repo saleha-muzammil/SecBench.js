@@ -1,0 +1,7 @@
+=== redos/chrono-node_2.2.3 (corrected retest) ===
+package        : chrono-node
+fixed-tree ms  : 2669
+reverted ms    : 2650
+corrected label: no-repro
+detail         : reverted 2650ms < threshold 53387ms (fixed 2669.4ms) -- vuln needs more than the patch
+oracle         : timeout=25s floor=250ms ratio=20x; HANG or reverted>=max(floor,ratio*fixed) => reproduces

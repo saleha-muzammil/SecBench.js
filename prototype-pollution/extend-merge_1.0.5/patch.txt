@@ -1,0 +1,65 @@
+From 6c8dc4e4b5983fa3e85544716f8e347dea2ba3b0 Mon Sep 17 00:00:00 2001
+From: Simon JAILLET <sjaillet@gmail.com>
+Date: Mon, 31 Aug 2020 15:26:33 +0200
+Subject: [PATCH] Ignore __proto__ and contructor properties.
+
+---
+ base-extend.js     | 11 +++++------
+ spec/merge-spec.js | 16 ++++++++++++++++
+ 2 files changed, 21 insertions(+), 6 deletions(-)
+
+diff --git a/base-extend.js b/base-extend.js
+index 3284db2..25869f5 100644
+--- a/base-extend.js
++++ b/base-extend.js
+@@ -13,7 +13,7 @@ function clonable(value) {
+ }
+ 
+ function baseExtend(args, merge) {
+-  var i, j, obj, src, key, keys, len;
++  var i, obj, src, key;
+   var target = args[0];
+   var length = args.length;
+ 
+@@ -24,12 +24,11 @@ function baseExtend(args, merge) {
+       continue;
+     }
+ 
+-    keys = Object.keys(obj);
+-    len = keys.length;
+-
+-    for (j = 0; j < len; j++) {
+-      key = keys[j];
++    for (key in obj) {
+       src = obj[key];
++      if ((key === 'constructor' && typeof src === 'function') || key === '__proto__') {
++        continue;
++      }
+ 
+       if (clonable(src)) {
+         if (merge && clonable(target[key])) {
+diff --git a/spec/merge-spec.js b/spec/merge-spec.js
+index 48d021a..2706612 100644
+--- a/spec/merge-spec.js
++++ b/spec/merge-spec.js
+@@ -192,4 +192,20 @@ describe(".merge()", function() {
+ 
+   });
+ 
++  it("ignores constructors", function () {
++
++    var a = JSON.parse('{"constructor": {"__proto__":{"polluted":"yes"}}}');
++    var c = merge({}, a);
++    expect({}.polluted).toBe(undefined);
++
++  });
++
++  it("ignores __proto__", function () {
++
++    var a = JSON.parse('{"__proto__":{"polluted":"yes"}}');
++    var c = merge({}, a);
++    expect({}.polluted).toBe(undefined);
++
++  });
++
+ });

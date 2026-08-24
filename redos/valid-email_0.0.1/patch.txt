@@ -1,0 +1,46 @@
+From 624ffa60b42bed8c577a679d682dda286b4603e6 Mon Sep 17 00:00:00 2001
+From: Jamie Davis <davisjam@vt.edu>
+Date: Mon, 26 Feb 2018 16:02:35 -0500
+Subject: [PATCH] security: fix catastrophic backtracking
+
+Problem:
+The regex used to validate the user portion was vulnerable
+to catastrophic backtracking.
+
+This made valid-email vulnerable to a weak REDOS attack.
+Each malicious input blocks the event loop for about 0.1 seconds.
+
+Solution:
+I tweaked the behavior of the regex pattern.
+
+It now accepts double-quote and space ('"' and ' ', respectively)
+characters anywhere in the user portion.
+
+It used to accept a broader range of characters provided they were escaped.
+
+To retain the original language, I suspect a custom parser would be necessary.
+Seems like overkill for this module.
+---
+ lib/valid-email.js | 9 +++------
+ 1 file changed, 3 insertions(+), 6 deletions(-)
+
+diff --git a/lib/valid-email.js b/lib/valid-email.js
+index 28cabb6..f6d1c16 100644
+--- a/lib/valid-email.js
++++ b/lib/valid-email.js
+@@ -51,12 +51,9 @@ module.exports = function valid(email) {
+   if (domain.match(/\\.\\./)) {
+     return false; // domain part has two consecutive dots
+   }
+-  if (
+-    !user
+-      .replace("\\\\", "")
+-      .match(/^(\\\\.|[A-Za-z0-9!#%&`_=\\/$\'*+?^{}|~.-])+$/)
+-  ) {
+-    if (!user.replace("\\\\", "").match(/^"(\\\\"|[^"])+"$/)) return false;
++  if (!user.match(/^[A-Za-z0-9!#%&`_=\\/$\'*+?^{}|~.\-" ]+$/)) {
++    return false; // user part has invalid characters
+   }
++
+   return true;
+ };

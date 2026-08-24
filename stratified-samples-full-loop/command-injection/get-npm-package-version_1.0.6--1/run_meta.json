@@ -1,0 +1,47 @@
+{
+  "category": "command-injection",
+  "repository": "hoperyy/get-npm-package-version",
+  "package": "get-npm-package-version",
+  "version": "1.0.6",
+  "folder": "get-npm-package-version_1.0.6",
+  "started_at": "2026-08-20T10:52:58.189907+00:00",
+  "status": "ok",
+  "error": "",
+  "base_commit": "40b1cf31a0607ea66f9e30a0c3af1383b52b2dec",
+  "checkout": "/tmp/get-npm-package-version_1.0.6-src",
+  "image_tag": "secbench-fullloop/get-npm-package-version_1.0.6",
+  "docker_loop": true,
+  "evasive_patch_reused": true,
+  "evasive_patch_regenerated": false,
+  "evades_both": true,
+  "seed_patch_applies": null,
+  "seed_exploit_fires": null,
+  "verdict": "Pipeline done. seed=hardened, loop=no-win, final tests=PASSED \u2705, gates=PASS, final_gate=['SOLVED']",
+  "wall_seconds_setup": 36.4,
+  "wall_seconds_pipeline": 1727.4,
+  "wall_seconds_total": 1766.1,
+  "metrics": {
+    "totals": {
+      "instance_cost": 0.004311,
+      "api_calls": 17,
+      "prompt_tokens": 180735,
+      "completion_tokens": 8321,
+      "total_tokens": 189056,
+      "trajectories": 1
+    },
+    "per_trajectory": [
+      {
+        "file": "solve_gate/run_1/trajectory.traj.json",
+        "instance_cost": 0.004311,
+        "api_calls": 17,
+        "prompt_tokens": 180735,
+        "completion_tokens": 8321,
+        "total_tokens": 189056
+      }
+    ]
+  },
+  "pipeline_cmd": "mini-extra cve-pipeline --patch stratified-samples-full-loop/command-injection/get-npm-package-version_1.0.6/exploit-evasive.patch --ex_file /Users/saleha/Desktop/cispa/SecBench.js/command-injection/get-npm-package-version_1.0.6/get-npm-package-version.test.js --repo-path /tmp/get-npm-package-version_1.0.6-src --base 40b1cf31a0607ea66f9e30a0c3af1383b52b2dec --repo command-injection/get-npm-package-version_1.0.6 --docker-image secbench-fullloop/get-npm-package-version_1.0.6 --cost-limit 0.3",
+  "pipeline_returncode": 0,
+  "pipeline_out_dir": "stratified-samples-full-loop/command-injection/get-npm-package-version_1.0.6/pipeline_exploit-evasive",
+  "finished_at": "2026-08-20T11:22:24.326094+00:00"
+}

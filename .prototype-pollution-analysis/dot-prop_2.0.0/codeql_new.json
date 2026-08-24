@@ -1,0 +1,30 @@
+[
+  [
+    "Prototype-polluting assignment",
+    "Modifying an object obtained via a user-controlled property name may lead to accidental mutation of the built-in Object prototype, and possibly escalate to remote code execution or cross-site scripting.",
+    "warning",
+    "This assignment may alter Object.prototype if a malicious '__proto__' string is injected from [[\"library input\"|\"relative:///index.js:54:14:54:17\"]].",
+    "/index.js"
+  ],
+  [
+    "Prototype-polluting assignment",
+    "Modifying an object obtained via a user-controlled property name may lead to accidental mutation of the built-in Object prototype, and possibly escalate to remote code execution or cross-site scripting.",
+    "warning",
+    "This assignment may alter Object.prototype if a malicious '__proto__' string is injected from [[\"library input\"|\"relative:///index.js:54:14:54:17\"]].",
+    "/index.js"
+  ],
+  [
+    "Prototype-polluting assignment",
+    "Modifying an object obtained via a user-controlled property name may lead to accidental mutation of the built-in Object prototype, and possibly escalate to remote code execution or cross-site scripting.",
+    "warning",
+    "This assignment may alter Object.prototype if a malicious '__proto__' string is injected from [[\"library input\"|\"relative:///index.js:79:17:79:20\"]].",
+    "/index.js"
+  ],
+  [
+    "Prototype-polluting function",
+    "Functions recursively assigning properties on objects may be the cause of accidental modification of a built-in prototype object.",
+    "warning",
+    "The property chain [[\"here\"|\"relative:///index.js:9:11:9:22\"]] is recursively assigned to [[\"object\"|\"relative:///index.js:70:5:70:10\"]] without guarding against prototype pollution.\nThe property chain [[\"here\"|\"relative:///index.js:63:14:63:25\"]] is recursively assigned to [[\"object\"|\"relative:///index.js:70:5:70:10\"]] without guarding against prototype pollution.",
+    "/index.js"
+  ]
+]

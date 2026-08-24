@@ -1,0 +1,47 @@
+{
+  "category": "code-injection",
+  "repository": "floatinghotpot/mixin-pro",
+  "package": "mixin-pro",
+  "version": "0.6.0",
+  "folder": "mixin-pro_0.6.0",
+  "started_at": "2026-08-21T08:25:26.320482+00:00",
+  "status": "ok",
+  "error": "",
+  "base_commit": "8bb355209f0a082d24b04355b3e8051a6455454f",
+  "checkout": "/tmp/mixin-pro_0.6.0-src",
+  "image_tag": "secbench-fullloop/mixin-pro_0.6.0",
+  "docker_loop": true,
+  "evasive_patch_reused": true,
+  "evasive_patch_regenerated": false,
+  "evades_both": true,
+  "seed_patch_applies": null,
+  "seed_exploit_fires": null,
+  "verdict": "Pipeline done. seed=hardened, loop=SUCCESS, final tests=FAILED \u274c (exit 1), gates=PASS, final_gate=['SOLVED_SAFE']",
+  "wall_seconds_setup": 18.6,
+  "wall_seconds_pipeline": 528.5,
+  "wall_seconds_total": 547.4,
+  "metrics": {
+    "totals": {
+      "instance_cost": 0.043264,
+      "api_calls": 23,
+      "prompt_tokens": 442628,
+      "completion_tokens": 24734,
+      "total_tokens": 467362,
+      "trajectories": 1
+    },
+    "per_trajectory": [
+      {
+        "file": "solve_gate/run_1/trajectory.traj.json",
+        "instance_cost": 0.043264,
+        "api_calls": 23,
+        "prompt_tokens": 442628,
+        "completion_tokens": 24734,
+        "total_tokens": 467362
+      }
+    ]
+  },
+  "pipeline_cmd": "mini-extra cve-pipeline --patch stratified-samples-full-loop/code-injection/mixin-pro_0.6.0/exploit-evasive.patch --ex_file /Users/saleha/Desktop/cispa/SecBench.js/code-injection/mixin-pro_0.6.0/mixin-pro.test.js --repo-path /tmp/mixin-pro_0.6.0-src --base 8bb355209f0a082d24b04355b3e8051a6455454f --repo code-injection/mixin-pro_0.6.0 --docker-image secbench-fullloop/mixin-pro_0.6.0 --cost-limit 0.3",
+  "pipeline_returncode": 0,
+  "pipeline_out_dir": "stratified-samples-full-loop/code-injection/mixin-pro_0.6.0/pipeline_exploit-evasive",
+  "finished_at": "2026-08-21T08:34:33.724523+00:00"
+}

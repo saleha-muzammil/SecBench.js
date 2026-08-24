@@ -1,0 +1,19 @@
+{
+  "package": "terminal-kit",
+  "targets": [
+    "lib/misc.js"
+  ],
+  "full_targets": [
+    "browser/termkit.js",
+    "browser/termkit.min.js",
+    "lib/misc.js"
+  ],
+  "semgrep": {
+    "fixed_total": 87,
+    "new_full": 0,
+    "new_minimal": 0,
+    "new_final": []
+  },
+  "codeql": null,
+  "detected_by": "neither"
+}

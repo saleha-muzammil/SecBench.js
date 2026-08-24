@@ -1,0 +1,31 @@
+{
+  "package": "linux-cmdline",
+  "targets": [
+    "index.js"
+  ],
+  "full_targets": [
+    "index.js",
+    "test.js"
+  ],
+  "semgrep": {
+    "fixed_total": 1,
+    "new_full": 1,
+    "new_minimal": 1,
+    "new_final": [
+      {
+        "rule": "rules-mini.mini-prototype-pollution-path-write",
+        "path": "index.js",
+        "line": 1,
+        "severity": "ERROR",
+        "message": "Writes through a caller-supplied property path without rejecting the `__proto__`, `constructor` and `prototype` segments, so a crafted path reaches Object.prototype (prototype pollution)."
+      }
+    ]
+  },
+  "codeql": {
+    "fixed_total": 0,
+    "new_full": 0,
+    "new_minimal": 0,
+    "new_final": []
+  },
+  "detected_by": "semgrep"
+}

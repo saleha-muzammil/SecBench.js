@@ -1,0 +1,13 @@
+=== redos/html-parse-stringify2_2.0.1 (corrected retest) ===
+package        : html-parse-stringify2
+fixed-tree ms  : n/a
+reverted ms    : n/a
+corrected label: image-failed
+detail         : docker build failed:
+#0 building with "desktop-linux" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile.fixed
+#1 transferring dockerfile: 2B done
+#1 DONE 0.0s
+ERROR: failed to solve: failed to read dockerfile: open Dockerfile.fixed: no such file or directory
+oracle         : timeout=25s floor=250ms ratio=20x; HANG or reverted>=max(floor,ratio*fixed) => reproduces

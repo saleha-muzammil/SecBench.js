@@ -1,0 +1,229 @@
+From 01f13f040d1961ca3146dce7e2db990156e65e9a Mon Sep 17 00:00:00 2001
+From: hawk <whktk@qq.com>
+Date: Wed, 21 Mar 2018 09:17:22 +0800
+Subject: [PATCH] fix a bug and update test
+
+---
+ lib/index.js      |  9 +++++-
+ lib/utils.js      |  4 +++
+ package-lock.json | 73 ++++++++++++++++++++---------------------------
+ test/test.js      | 10 ++++++-
+ 4 files changed, 52 insertions(+), 44 deletions(-)
+
+diff --git a/lib/index.js b/lib/index.js
+index c9ef8d1..915aac4 100644
+--- a/lib/index.js
++++ b/lib/index.js
+@@ -7,7 +7,14 @@ var utils = require('./utils');
+ 
+ function HttpServer(option) {
+     var server = http.createServer(function (req, res) {
+-        var targetPath = path.join(rootPath, req.url);
++        var requestPath = path.join(rootPath, req.url);
++        var targetPath;
++        if(!utils.allowPath(requestPath, rootPath)){
++            targetPath = rootPath;
++            req.url = '/';
++        }else {
++            targetPath = requestPath;
++        }
+         if (fs.existsSync(targetPath)) {
+             var targetType = fs.lstatSync(targetPath);
+             if (targetType.isFile()) {
+diff --git a/lib/utils.js b/lib/utils.js
+index 88c67ce..d2fe55e 100644
+--- a/lib/utils.js
++++ b/lib/utils.js
+@@ -79,4 +79,8 @@ exports.assign = function (target) {
+     } else {
+         assignObject.apply(null, arguments)
+     }
++}
++
++exports.allowPath = function(requestPath, enablePath){
++    return requestPath.indexOf(enablePath) === 0;
+ }
+\ No newline at end of file
+diff --git a/package-lock.json b/package-lock.json
+index 2343a8a..fe5435e 100644
+--- a/package-lock.json
++++ b/package-lock.json
+@@ -5,18 +5,15 @@
+   "requires": true,
+   "dependencies": {
+     "concat-map": {
+-      "version": "0.0.1",
+-      "resolved": "http://registry.npm.taobao.org/concat-map/download/concat-map-0.0.1.tgz",
++      "version": "http://registry.npm.taobao.org/concat-map/download/concat-map-0.0.1.tgz",
+       "dev": true
+     },
+     "escape-string-regexp": {
+-      "version": "1.0.5",
+-      "resolved": "http://registry.npm.taobao.org/escape-string-regexp/download/escape-string-regexp-1.0.5.tgz",
++      "version": "http://registry.npm.taobao.org/escape-string-regexp/download/escape-string-regexp-1.0.5.tgz",
+       "dev": true
+     },
+     "fs.realpath": {
+-      "version": "1.0.0",
+-      "resolved": "http://registry.npm.taobao.org/fs.realpath/download/fs.realpath-1.0.0.tgz",
++      "version": "http://registry.npm.taobao.org/fs.realpath/download/fs.realpath-1.0.0.tgz",
+       "dev": true
+     },
+     "he": {
+@@ -26,8 +23,7 @@
+       "dev": true
+     },
+     "inflight": {
+-      "version": "1.0.6",
+-      "resolved": "http://registry.npm.taobao.org/inflight/download/inflight-1.0.6.tgz",
++      "version": "http://registry.npm.taobao.org/inflight/download/inflight-1.0.6.tgz",
+       "dev": true,
+       "requires": {
+         "once": "1.4.0",
+@@ -35,36 +31,35 @@
+       },
+       "dependencies": {
+         "once": {
+-          "version": "http://registry.npm.taobao.org/once/download/once-1.4.0.tgz",
+-          "bundled": true
++          "version": "1.4.0",
++          "bundled": true,
++          "dev": true,
++          "requires": {
++            "wrappy": "1.0.2"
++          }
+         },
+         "wrappy": {
+-          "version": "http://registry.npm.taobao.org/wrappy/download/wrappy-1.0.2.tgz",
+-          "bundled": true
++          "version": "1.0.2",
++          "bundled": true,
++          "dev": true
+         }
+       }
+     },
+     "inherits": {
+-      "version": "2.0.3",
+-      "resolved": "http://registry.npm.taobao.org/inherits/download/inherits-2.0.3.tgz",
+-      "dev": true
+-    },
+-    "minimist": {
+-      "version": "0.0.8",
+-      "resolved": "http://registry.npm.taobao.org/minimist/download/minimist-0.0.8.tgz",
++      "version": "http://registry.npm.taobao.org/inherits/download/inherits-2.0.3.tgz",
+       "dev": true
+     },
+     "mkdirp": {
+-      "version": "0.5.1",
+-      "resolved": "http://registry.npm.taobao.org/mkdirp/download/mkdirp-0.5.1.tgz",
++      "version": "http://registry.npm.taobao.org/mkdirp/download/mkdirp-0.5.1.tgz",
+       "dev": true,
+       "requires": {
+         "minimist": "0.0.8"
+       },
+       "dependencies": {
+         "minimist": {
+-          "version": "http://registry.npm.taobao.org/minimist/download/minimist-0.0.8.tgz",
+-          "bundled": true
++          "version": "0.0.8",
++          "bundled": true,
++          "dev": true
+         }
+       }
+     },
+@@ -78,11 +73,11 @@
+         "commander": "2.11.0",
+         "debug": "3.1.0",
+         "diff": "3.5.0",
+-        "escape-string-regexp": "1.0.5",
++        "escape-string-regexp": "http://registry.npm.taobao.org/escape-string-regexp/download/escape-string-regexp-1.0.5.tgz",
+         "glob": "7.1.2",
+         "growl": "1.10.3",
+         "he": "1.1.1",
+-        "mkdirp": "0.5.1",
++        "mkdirp": "http://registry.npm.taobao.org/mkdirp/download/mkdirp-0.5.1.tgz",
+         "supports-color": "4.4.0"
+       },
+       "dependencies": {
+@@ -99,7 +94,7 @@
+           "dev": true,
+           "requires": {
+             "balanced-match": "1.0.0",
+-            "concat-map": "0.0.1"
++            "concat-map": "http://registry.npm.taobao.org/concat-map/download/concat-map-0.0.1.tgz"
+           }
+         },
+         "browser-stdout": {
+@@ -135,12 +130,12 @@
+           "integrity": "sha1-wZyd+aAocC1nhhI4SmVSQExjbRU=",
+           "dev": true,
+           "requires": {
+-            "fs.realpath": "1.0.0",
+-            "inflight": "1.0.6",
+-            "inherits": "2.0.3",
++            "fs.realpath": "http://registry.npm.taobao.org/fs.realpath/download/fs.realpath-1.0.0.tgz",
++            "inflight": "http://registry.npm.taobao.org/inflight/download/inflight-1.0.6.tgz",
++            "inherits": "http://registry.npm.taobao.org/inherits/download/inherits-2.0.3.tgz",
+             "minimatch": "3.0.4",
+-            "once": "1.4.0",
+-            "path-is-absolute": "1.0.1"
++            "once": "http://registry.npm.taobao.org/once/download/once-1.4.0.tgz",
++            "path-is-absolute": "http://registry.npm.taobao.org/path-is-absolute/download/path-is-absolute-1.0.1.tgz"
+           }
+         },
+         "growl": {
+@@ -182,27 +177,21 @@
+       }
+     },
+     "once": {
+-      "version": "1.4.0",
+-      "resolved": "http://registry.npm.taobao.org/once/download/once-1.4.0.tgz",
++      "version": "http://registry.npm.taobao.org/once/download/once-1.4.0.tgz",
+       "dev": true,
+       "requires": {
+         "wrappy": "1.0.2"
+       },
+       "dependencies": {
+         "wrappy": {
+-          "version": "http://registry.npm.taobao.org/wrappy/download/wrappy-1.0.2.tgz",
+-          "bundled": true
++          "version": "1.0.2",
++          "bundled": true,
++          "dev": true
+         }
+       }
+     },
+     "path-is-absolute": {
+-      "version": "1.0.1",
+-      "resolved": "http://registry.npm.taobao.org/path-is-absolute/download/path-is-absolute-1.0.1.tgz",
+-      "dev": true
+-    },
+-    "wrappy": {
+-      "version": "1.0.2",
+-      "resolved": "http://registry.npm.taobao.org/wrappy/download/wrappy-1.0.2.tgz",
++      "version": "http://registry.npm.taobao.org/path-is-absolute/download/path-is-absolute-1.0.1.tgz",
+       "dev": true
+     }
+   }
+diff --git a/test/test.js b/test/test.js
+index 65c433d..68395c6 100644
+--- a/test/test.js
++++ b/test/test.js
+@@ -71,7 +71,15 @@ describe('m-server', function() {
+       var ret = utils.sort('3','3');
+       done();
+       assert(ret === 0)
+-    })
++    });
++    it('allow enable path', function(done){
++      assert(utils.allowPath('/test/b/a/c', '/test/b') === true);
++      done();
++    });
++    it('allow disable path', function(done){
++      assert(utils.allowPath('/c/c', '/test/b') === false);
++      done();
++    });
+ 
+   });
+ });
+\ No newline at end of file

@@ -1,0 +1,7 @@
+=== redos/marked_0.3.6 ===
+image: built image
+baseline (clean fixed tree): exploit test = FAIL (vuln closed, good)
+baseline: test FAILS on fixed tree (good).
+compiled package: patch edits a source tree but the runtime loads compiled output -> rebuilding after each revert via `npm run build`.
+patch splits into 70 hunk-level change unit(s) across 13 file(s)
+full revert applied but exploit does NOT reproduce (vuln needs more than this patch) -> cannot minimize.

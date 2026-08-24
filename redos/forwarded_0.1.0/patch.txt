@@ -1,0 +1,82 @@
+From d469116eda4931fbe1c0ccb29497b35930bfa328 Mon Sep 17 00:00:00 2001
+From: Douglas Christopher Wilson <doug@somethingdoug.com>
+Date: Thu, 14 Sep 2017 21:56:08 -0400
+Subject: [PATCH] perf: improve header parsing
+
+---
+ HISTORY.md |  1 +
+ index.js   | 42 ++++++++++++++++++++++++++++--------------
+ 2 files changed, 29 insertions(+), 14 deletions(-)
+
+diff --git a/HISTORY.md b/HISTORY.md
+index 7d8b47a..7bcaa6d 100644
+--- a/HISTORY.md
++++ b/HISTORY.md
+@@ -1,6 +1,7 @@
+ unreleased
+ ==========
+ 
++  * perf: improve header parsing
+   * perf: reduce overhead when no `X-Forwarded-For` header
+ 
+ 0.1.1 / 2017-09-10
+diff --git a/index.js b/index.js
+index 5739d36..7833b3d 100644
+--- a/index.js
++++ b/index.js
+@@ -6,13 +6,6 @@
+ 
+ 'use strict'
+ 
+-/**
+- * Simple expression to split token list.
+- * @private
+- */
+-
+-var TOKEN_LIST_REGEXP = / *, */
+-
+ /**
+  * Module exports.
+  * @public
+@@ -50,13 +43,34 @@ function forwarded (req) {
+  */
+ 
+ function parse (header) {
+-  if (!header) {
+-    return []
++  var end = header.length
++  var list = []
++  var start = header.length
++
++  // gather addresses, backwards
++  for (var i = header.length - 1; i >= 0; i--) {
++    switch (header.charCodeAt(i)) {
++      case 0x20: /*   */
++        if (start === end) {
++          start = end = i
++        }
++        break
++      case 0x2c: /* , */
++        if (start !== end) {
++          list.push(header.substring(start, end))
++        }
++        start = end = i
++        break
++      default:
++        start = i
++        break
++    }
++  }
++
++  // final address
++  if (start !== end) {
++    list.push(header.substring(start, end))
+   }
+ 
+-  return header
+-    .trim()
+-    .split(TOKEN_LIST_REGEXP)
+-    .filter(Boolean)
+-    .reverse()
++  return list
+ }

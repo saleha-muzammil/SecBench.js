@@ -1,0 +1,6 @@
+=== redos/mobile-detect_1.3.6 ===
+image: built image
+baseline (clean fixed tree): repo CI = pass
+baseline (clean fixed tree): exploit test = PASS (NOT fixed!)
+baseline: exploit test PASSES on the FIXED tree (installed mobile-detect@1.3.7, expected fixed >= 1.4.0) -> not truly fixed.
+  diagnosis: stubbing the package STOPS the exploit -> the image is not actually on the fixed version (BENCHMARK/setup fault).

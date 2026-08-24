@@ -1,0 +1,106 @@
+{
+  "package": "tree-kit",
+  "targets": [
+    "lib/dotPath.js"
+  ],
+  "full_targets": [
+    "lib/dotPath.js",
+    "lib/path.js",
+    "test/dotPath-test.js",
+    "test/path-test.js"
+  ],
+  "semgrep": {
+    "fixed_total": 5,
+    "new_full": 1,
+    "new_minimal": 1,
+    "new_final": [
+      {
+        "rule": "javascript.lang.security.audit.prototype-pollution.prototype-pollution-loop.prototype-pollution-loop",
+        "path": "lib/dotPath.js",
+        "line": 101,
+        "severity": "WARNING",
+        "message": "Possibility of prototype polluting function detected. By adding or modifying attributes of an object prototype, it is possible to create attributes that exist on every object, or replace critical attributes with malicious ones. This can be problematic if the software depends on existence or non-existence of certain attributes, or uses pre-defined attributes of object prototype (such as hasOwnProperty, toString or valueOf). Possible mitigations might be: freezing the object prototype, using an object without prototypes (via Object.create(null) ), blocking modifications of attributes that resolve to object prototype, using Map instead of object."
+      }
+    ]
+  },
+  "codeql": {
+    "fixed_total": 14,
+    "new_full": 26,
+    "new_minimal": 12,
+    "new_final": [
+      {
+        "rule": "js/prototype-polluting-assignment",
+        "message": "This assignment may alter Object.prototype if a malicious '__proto__' string is injected from [library input](1).\nThis assignment may alter Object.prototype if a malicious '__proto__' string is injected from [library input](2).\nThis assignment may alter Object.prototype if a malicious '__proto__' string is injected from [library input](3).\nThis assignment may alter Object.prototype if a malicious '__proto__' string is injected from [library input](4).\nThis assignment may alter Object.prototype if a malicious '__proto__' string is injected from [library input](5).\nThis assignment may alter Object.prototype if a malicious '__proto__' string is injected from [library input](6).\nThis assignment may alter Object.prototype if a malicious '__proto__' string is injected from [library input](7).\nThis assignment may alter Object.prototype if a malicious '__proto__' string is injected from [library input](8).\nThis assignment may alter Object.prototype if a malicious '__proto__' string is injected from [library input](9).",
+        "path": "lib/dotPath.js",
+        "line": 98
+      },
+      {
+        "rule": "js/prototype-polluting-assignment",
+        "message": "This assignment may alter Object.prototype if a malicious '__proto__' string is injected from [library input](1).",
+        "path": "lib/dotPath.js",
+        "line": 126
+      },
+      {
+        "rule": "js/prototype-polluting-assignment",
+        "message": "This assignment may alter Object.prototype if a malicious '__proto__' string is injected from [library input](1).",
+        "path": "lib/dotPath.js",
+        "line": 146
+      },
+      {
+        "rule": "js/prototype-polluting-assignment",
+        "message": "This assignment may alter Object.prototype if a malicious '__proto__' string is injected from [library input](1).",
+        "path": "lib/dotPath.js",
+        "line": 167
+      },
+      {
+        "rule": "js/prototype-polluting-assignment",
+        "message": "This assignment may alter Object.prototype if a malicious '__proto__' string is injected from [library input](1).",
+        "path": "lib/dotPath.js",
+        "line": 188
+      },
+      {
+        "rule": "js/prototype-polluting-assignment",
+        "message": "This assignment may alter Object.prototype if a malicious '__proto__' string is injected from [library input](1).",
+        "path": "lib/dotPath.js",
+        "line": 208
+      },
+      {
+        "rule": "js/prototype-polluting-assignment",
+        "message": "This assignment may alter Object.prototype if a malicious '__proto__' string is injected from [library input](1).",
+        "path": "lib/dotPath.js",
+        "line": 232
+      },
+      {
+        "rule": "js/prototype-polluting-assignment",
+        "message": "This assignment may alter Object.prototype if a malicious '__proto__' string is injected from [library input](1).",
+        "path": "lib/dotPath.js",
+        "line": 253
+      },
+      {
+        "rule": "js/prototype-polluting-assignment",
+        "message": "This assignment may alter Object.prototype if a malicious '__proto__' string is injected from [library input](1).",
+        "path": "lib/dotPath.js",
+        "line": 271
+      },
+      {
+        "rule": "js/prototype-polluting-assignment",
+        "message": "This assignment may alter Object.prototype if a malicious '__proto__' string is injected from [library input](1).",
+        "path": "lib/dotPath.js",
+        "line": 273
+      },
+      {
+        "rule": "js/prototype-polluting-assignment",
+        "message": "This assignment may alter Object.prototype if a malicious '__proto__' string is injected from [library input](1).",
+        "path": "lib/dotPath.js",
+        "line": 293
+      },
+      {
+        "rule": "js/prototype-polluting-assignment",
+        "message": "This assignment may alter Object.prototype if a malicious '__proto__' string is injected from [library input](1).",
+        "path": "lib/dotPath.js",
+        "line": 315
+      }
+    ]
+  },
+  "detected_by": "both"
+}

@@ -1,0 +1,7 @@
+=== prototype-pollution/utilitify_1.0.2 ===
+image: built image
+baseline (clean fixed tree): exploit test = FAIL (vuln closed, good)
+baseline: test FAILS on fixed tree (good).
+compiled package: patch edits a source tree but the runtime loads compiled output -> rebuilding after each revert via `npm run compile`.
+patch splits into 6 line-level change unit(s) across 3 file(s)
+full revert FAILED TO APPLY (git apply -R rejected -- patch.txt has lockfile/built/drifted hunks) -> cannot minimize.

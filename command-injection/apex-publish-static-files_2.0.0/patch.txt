@@ -1,0 +1,229 @@
+From 2209af8f2b65c24aa55ab757e0e05b958c16f063 Mon Sep 17 00:00:00 2001
+From: Vincent Morneau <vincent.morneau@gmail.com>
+Date: Wed, 17 Oct 2018 08:55:13 -0400
+Subject: [PATCH] uses spawn instead of exec
+
+---
+ index.js     | 78 +++++++++++++++++++++++++++++-----------------------
+ package.json |  4 +--
+ test.js      | 44 ++++++++++++++---------------
+ 3 files changed, 66 insertions(+), 60 deletions(-)
+
+diff --git a/index.js b/index.js
+index 90ef91b..b0e42cf 100644
+--- a/index.js
++++ b/index.js
+@@ -1,7 +1,7 @@
+ 'use strict';
+ 
+ const path = require('path');
+-const execSync = require('child_process').execSync;
++const spawnSync = require('child_process').spawnSync;
+ const fs = require('fs');
+ 
+ module.exports = {
+@@ -35,44 +35,54 @@ module.exports = {
+ 			throw new Error(`Directory ${opts.directory} is not a valid path.`);
+ 		}
+ 
+-		// Execute the upload process
+-		try {
+-			switch (opts.destination.toLowerCase()) {
+-				case 'theme':
+-					console.log(`Uploading to ${opts.appID} - Theme Files...`);
+-					break;
+-				case 'workspace':
+-					console.log(`Uploading to ${opts.appID} - Workspace Files...`);
+-					break;
+-				case 'plugin':
+-					console.log(`Uploading to ${opts.appID} - ${opts.pluginName} - Plugin Files...`);
+-					break;
+-				default:
+-					console.log(`Uploading to ${opts.appID} - Application Static Files...`);
+-			}
++		const getAllFiles = dir =>
++			fs.readdirSync(dir).reduce((files, file) => {
++				const name = path.join(dir, file);
++				const isDirectory = fs.statSync(name).isDirectory();
++				return isDirectory ? [...files, ...getAllFiles(name)] : [...files, name];
++			}, []);
+ 
+-			const childProcess = execSync(
+-				'"' + opts.sqlclPath + '"' + // Sqlcl path
+-				' ' + opts.connectString + // Connect string (user/pass@server:port/sid)
+-				' @"' + path.resolve(__dirname, 'lib/script') + '"' + // Sql to execute
+-				' "' + path.resolve(__dirname, 'lib/distUpload.js') + '"' + // Param &1 (js to execute)
+-				' "' + path.resolve(opts.directory) + '"' + // Param &2
+-				' ' + opts.appID + // Param &3
+-				' "' + opts.destination + '"' + // Param &4
+-				' "' + opts.pluginName + '"' // Param &5
+-				, {
+-					encoding: 'utf8'
++		if (getAllFiles(opts.directory).length === 0) {
++			console.log(`Directory is empty.`);
++		} else {
++			// Execute the upload process
++			try {
++				switch (opts.destination.toLowerCase()) {
++					case 'theme':
++						console.log(`Uploading to ${opts.appID} - Theme Files...`);
++						break;
++					case 'workspace':
++						console.log(`Uploading to ${opts.appID} - Workspace Files...`);
++						break;
++					case 'plugin':
++						console.log(`Uploading to ${opts.appID} - ${opts.pluginName} - Plugin Files...`);
++						break;
++					default:
++						console.log(`Uploading to ${opts.appID} - Application Static Files...`);
+ 				}
+-			);
+ 
+-			console.log(childProcess);
++				const spawnOpts = [
++					opts.connectString, // Connect string (user/pass@server:port/sid)
++					'@' + path.resolve(__dirname, 'lib/script'), // Sql to execute
++					path.resolve(__dirname, 'lib/distUpload.js'), // Param &1 (js to execute)
++					path.resolve(opts.directory), // Param &2
++					opts.appID, // Param &3
++					opts.destination, // Param &4
++					opts.pluginName // Param &5
++				];
+ 
+-			console.log('Files were uploaded successfully.');
++				const childProcess = spawnSync(
++					opts.sqlclPath, // Sqlcl path
++					spawnOpts, {
++						encoding: 'utf8'
++					}
++				);
+ 
+-			return true;
+-		} catch (err) {
+-			console.error(err);
+-			return false;
++				console.log(childProcess.stdout);
++				console.log('Files were uploaded successfully.');
++			} catch (err) {
++				console.error(err);
++			}
+ 		}
+ 	}
+ };
+diff --git a/package.json b/package.json
+index deb4f42..8433f10 100644
+--- a/package.json
++++ b/package.json
+@@ -24,8 +24,8 @@
+     "url": "https://github.com/vincentmorneau/apex-publish-static-files/issues"
+   },
+   "devDependencies": {
+-    "ava": "^0.24.0",
+-    "xo": "^0.18.0"
++    "ava": "^0.25.0",
++    "xo": "^0.23.0"
+   },
+   "xo": {
+     "ignores": [
+diff --git a/test.js b/test.js
+index 0aa536c..df69603 100644
+--- a/test.js
++++ b/test.js
+@@ -4,9 +4,9 @@ import _app from '.';
+ test('application', t => {
+ 	_app.publish({
+ 		sqlclPath: 'sql',
+-		connectString: 'dev/dev@localhost:32122/orclpdb513.localdomain',
++		connectString: 'dev/dev@localhost:32122/orclpdb1810.localdomain',
+ 		directory: './demo/demo-working/',
+-		appID: 101
++		appID: 105990
+ 	});
+ 
+ 	t.pass();
+@@ -15,9 +15,9 @@ test('application', t => {
+ test('workspace', t => {
+ 	_app.publish({
+ 		sqlclPath: 'sql',
+-		connectString: 'dev/dev@localhost:32122/orclpdb513.localdomain',
++		connectString: 'dev/dev@localhost:32122/orclpdb1810.localdomain',
+ 		directory: './demo/demo-working/',
+-		appID: 101,
++		appID: 105990,
+ 		destination: 'workspace'
+ 	});
+ 
+@@ -27,9 +27,9 @@ test('workspace', t => {
+ test('theme', t => {
+ 	_app.publish({
+ 		sqlclPath: 'sql',
+-		connectString: 'dev/dev@localhost:32122/orclpdb513.localdomain',
++		connectString: 'dev/dev@localhost:32122/orclpdb1810.localdomain',
+ 		directory: './demo/demo-working/',
+-		appID: 101,
++		appID: 105990,
+ 		destination: 'theme'
+ 	});
+ 
+@@ -39,9 +39,9 @@ test('theme', t => {
+ test('alias', t => {
+ 	_app.publish({
+ 		sqlclPath: 'sql',
+-		connectString: 'dev/dev@localhost:32122/orclpdb513.localdomain',
++		connectString: 'dev/dev@localhost:32122/orclpdb1810.localdomain',
+ 		directory: './demo/demo-working/',
+-		appID: 'demo'
++		appID: 'DEMO'
+ 	});
+ 
+ 	t.pass();
+@@ -50,9 +50,9 @@ test('alias', t => {
+ test('plugin', t => {
+ 	_app.publish({
+ 		sqlclPath: 'sql',
+-		connectString: 'dev/dev@localhost:32122/orclpdb513.localdomain',
++		connectString: 'dev/dev@localhost:32122/orclpdb1810.localdomain',
+ 		directory: './demo/demo-working/',
+-		appID: 101,
++		appID: 105990,
+ 		destination: 'plugin',
+ 		pluginName: 'ME.VMORNEAU.ANIMAPEX'
+ 	});
+@@ -61,27 +61,23 @@ test('plugin', t => {
+ });
+ 
+ test('empty', t => {
+-	try {
+-		_app.publish({
+-			sqlclPath: 'sql',
+-			connectString: 'dev/dev@localhost:32122/orclpdb513.localdomain',
+-			directory: './demo/demo-empty/',
+-			appID: 101
+-		});
+-	} catch (err) {
+-		if (err instanceof Error) {
+-			t.pass();
+-		}
+-	}
++	_app.publish({
++		sqlclPath: 'sql',
++		connectString: 'dev/dev@localhost:32122/orclpdb1810.localdomain',
++		directory: './demo/demo-empty/',
++		appID: 105990
++	});
++
++	t.pass();
+ });
+ 
+ test('invalid-path', t => {
+ 	try {
+ 		_app.publish({
+ 			sqlclPath: 'sql',
+-			connectString: 'dev/dev@localhost:32122/orclpdb513.localdomain',
++			connectString: 'dev/dev@localhost:32122/orclpdb1810.localdomain',
+ 			directory: './demo/demo-invalid/',
+-			appID: 101
++			appID: 105990
+ 		});
+ 	} catch (err) {
+ 		if (err instanceof Error) {

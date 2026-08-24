@@ -1,0 +1,14 @@
+=== prototype-pollution/firebase-util_0.3.3-canary.c47ba31d0 ===
+image: docker build failed:
+ \
+  33 | >>>            echo "       oracle would be measuring the wrong code." >&2; \
+  34 | >>>            echo "       Fix the version/commit for @firebase/util in repositories.csv, or" >&2; \
+  35 | >>>            echo "       regenerate with --allow-npm-fallback to install from npm." >&2; \
+  36 | >>>            exit 1; \
+  37 | >>>        fi \
+  38 | >>>     && npm install --no-audit --no-fund --ignore-scripts \
+  39 | >>>     && (npm run build --if-present || echo "WARNING: build step failed/partial; continuing") \
+  40 | >>>     && (npm run prepare --if-present || echo "WARNING: prepare step failed/partial; continuing")
+  41 |     
+--------------------
+ERROR: failed to solve: process "/bin/sh -c git clone https://github.com/firebase/firebase-js-sdk.git node_modules/@firebase/util     && cd node_modules/@firebase/util     && if ! (git checkout -q \"9cf727fcc3d049551b16ae0698ac33dc2fe45ada\" || { git fetch -q --depth 1 origin \"9cf727fcc3d049551b16ae0698ac33dc2fe45ada\" && git checkout -q FETCH_HEAD; } || git checkout -q \"v0.3.4\" || git checkout -q \"0.3.4\"); then            echo \"ERROR: cannot check out commit 9cf727fcc3 / tag v0.3.4 in https://github.com/firebase/firebase-js-sdk.\" >&2;            echo \"       Building anyway would silently use the default branch, which is\" >&2;            echo \"       neither @firebase/util@0.3.4 nor the pinned commit, so the exploit\" >&2;            echo \"       oracle would be measuring the wrong code.\" >&2;            echo \"       Fix the version/commit for @firebase/util in repositories.csv, or\" >&2;            echo \"       regenerate with --allow-npm-fallback to install from npm.\" >&2;            exit 1;        fi     && npm install --no-audit --no-fund --ignore-scripts     && (npm run build --if-present || echo \"WARNING: build step failed/partial; continuing\")     && (npm run prepare --if-present || echo \"WARNING: prepare step failed/partial; continuing\")" did not complete successfully: exit code: 1

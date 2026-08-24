@@ -1,0 +1,7 @@
+=== redos/codemirror_5.58.0 (corrected retest) ===
+package        : codemirror
+fixed-tree ms  : 1801
+reverted ms    : 2356
+corrected label: no-repro
+detail         : reverted 2356ms < threshold 36027ms (fixed 1801.4ms) -- vuln needs more than the patch
+oracle         : timeout=25s floor=250ms ratio=20x; HANG or reverted>=max(floor,ratio*fixed) => reproduces

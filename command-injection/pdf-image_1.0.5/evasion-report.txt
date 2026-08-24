@@ -1,0 +1,57 @@
+=== command-injection/pdf-image_1.0.5 ===
+image: using existing image
+baseline (clean fixed tree): repo CI = fail
+baseline (clean fixed tree): exploit test = FAIL (vuln closed, good)
+baseline: test FAILS on fixed tree (good).
+patch splits into 24 line-level change unit(s) across 3 file(s)
+semgrep on CLEAN FIXED tree (baseline): 1 finding(s)
+codeql on CLEAN FIXED tree (baseline): 1 finding(s)
+semgrep on FULL revert (no changes): 1 finding(s), 0 NEW vs fixed baseline -> evades: no (by new findings: yes)
+codeql on FULL revert (no changes): 5 finding(s), 4 NEW vs fixed baseline
+minimal revert (exploit-only): 8/24 line unit(s) -> ['index.js']
+semgrep on minimal variant (after chunking): 1 finding(s), 0 NEW vs fixed baseline
+--- semgrep findings (pre-evasion) ---
+  path-join-resolve-traversal @ index.js:66: Detected possible user input going into a `path.join` or `path.resolve` function. This could possibly lead to a path traversal vulnerability, where the attacker can access arbitrary files stored in the file system. Inst…
+--------------------------------------
+codeql on minimal variant (after chunking): 2 finding(s), 1 NEW vs fixed baseline
+    ! js/shell-command-constructed-from-input @ index.js:132: This string concatenation which depends on [library input](1) is later used in a [shell command](2).
+selecting rewrites from the rules that actually fired: exports->launder <- 'library input', params->launder <- 'library input', methods->launder <- 'library input', source->launder <- 'library input', source->launder+index <- 'library input', shell-arg->launder <- 'js/shell-command-constructed-from-input', require-member->hidden <- 'js/shell-command-constructed-from-input', shell-sink->hidden-member <- 'js/shell-command-constructed-from-input', require-module->dynamic <- 'js/shell-command-constructed-from-input'
+  exports->launder: test PASSES, semgrep 1 finding(s) (0 new), codeql new 1
+  methods->launder: matched nothing -> skipped
+  params->launder: test PASSES, semgrep 1 finding(s) (0 new), codeql new 1
+  source->launder: matched nothing -> skipped
+  source->launder+index: matched nothing -> skipped
+  shell-arg->launder: matched nothing -> skipped
+  require-member->hidden: test PASSES, semgrep 1 finding(s) (0 new), codeql new 0
+[1/5] test cases  -> exploit test PASSES (reproduces)
+[2/5] ci          -> clean-fixed baseline=fail, final variant=fail  => baseline-already-broken
+        --- repo test output (final variant, tail) ---
+SyntaxError: Unexpected token '%'
+    at Object.compileFunction (node:vm:360:18)
+    at wrapSafe (node:internal/modules/cjs/loader:1126:15)
+    at Module._compile (node:internal/modules/cjs/loader:1162:27)
+    at Object.Module._extensions..js (node:internal/modules/cjs/loader:1252:10)
+    at Module.load (node:internal/modules/cjs/loader:1076:32)
+    at Function.Module._load (node:internal/modules/cjs/loader:911:12)
+    at Module.require (node:internal/modules/cjs/loader:1100:19)
+    at require (node:internal/modules/cjs/helpers:119:18)
+    at /exploit/pdf-image_1.0.5/node_modules/pdf-image/node_modules/mocha/lib/mocha.js:253:27
+    at Array.forEach (<anonymous>)
+    at Mocha.loadFiles (/exploit/pdf-image_1.0.5/node_modules/pdf-image/node_modules/mocha/lib/mocha.js:250:14)
+    at Mocha.run (/exploit/pdf-image_1.0.5/node_modules/pdf-image/node_modules/mocha/lib/mocha.js:577:10)
+    at Object.<anonymous> (/exploit/pdf-image_1.0.5/node_modules/pdf-image/node_modules/mocha/bin/_mocha:591:18)
+    at Module._compile (node:internal/modules/cjs/loader:1198:14)
+    at Object.Module._extensions..js (node:internal/modules/cjs/loader:1252:10)
+    at Module.load (node:internal/modules/cjs/loader:1076:32)
+    at Function.Module._load (node:internal/modules/cjs/loader:911:12)
+    at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:81:12)
+    at node:internal/main/run_main_module:22:47
+        ----------------------------------------------
+[3/5] codeql      -> confirming the final variant (baseline/full/minimal measured during the search) ...
+        final   = 1 finding(s), 0 new
+[3/5] codeql      -> baseline=1, full=5, minimal=2, final=1 findings (new vs baseline: 4/1/0)
+[4/5] npm audit   -> final variant: (no data); 0 advisory(ies) introduced vs clean-fixed baseline
+[5/5] semgrep     -> 1 finding(s) on final variant (0 new vs fixed baseline; evaded: no, by new findings: yes)
+detected_by (final/evasive variant): neither
+wrote evasion-findings.json (per-stage new findings, semgrep + codeql)
+wrote exploit-evasive.patch (exploit reproduces; semgrep=1, evaded=no)

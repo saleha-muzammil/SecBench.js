@@ -1,0 +1,44 @@
+SecBench.js — test & CI inventory
+============================================================
+Entry      : code-injection/serialize-to-js_0.5.0
+Package    : serialize-to-js@0.5.0
+Repository : https://github.com/commenthol/serialize-to-js
+Source     : checked out: v0.5.0
+Generated  : 2026-06-22
+
+== package.json test scripts ==
+  test: mocha --reporter spec --check-leaks test/*.mocha.js
+  cover: istanbul cover _mocha --report lcov --report text -- --reporter dot --check-leaks test/*.mocha.js
+
+== test framework dependencies ==
+  mocha, istanbul
+
+== how to run the tests ==
+  npm install
+  npm test
+
+== test directories ==
+  test/   (1 files)
+
+== test files (0 found) ==
+  (none found)
+
+== test runner config ==
+  (none found)
+
+== CI / workflows ==
+  .travis.yml
+
+  --- .travis.yml ---
+  | sudo: false
+  | language: node_js
+  | 
+  | node_js:
+  |   - 0.12
+  |   - 4.7
+  |   - 6.9
+  |   - node
+  | 
+  | script:
+  |   - npm test
+

@@ -1,0 +1,154 @@
+From 881cf37eb956641fc26011ff66a436eb603c89d1 Mon Sep 17 00:00:00 2001
+From: Olivier Scherrer <pode.fr@gmail.com>
+Date: Wed, 23 Sep 2020 23:14:33 -0400
+Subject: [PATCH] Prevent mutation of Object.prototype and throw
+ ObjectPrototypeMutationError
+
+- Fix Hackerone issue  #788883
+---
+ CHANGELOG        |  4 ++++
+ README.md        |  8 ++++++++
+ index.js         | 23 +++++++++++++++++++++--
+ package.json     |  2 +-
+ test/set.spec.js | 29 +++++++++++++++++++++++++++++
+ 5 files changed, 63 insertions(+), 3 deletions(-)
+
+diff --git a/CHANGELOG b/CHANGELOG
+index d3da654..cb50fc0 100644
+--- a/CHANGELOG
++++ b/CHANGELOG
+@@ -1,5 +1,9 @@
+ # CHANGELOG
+ 
++### 3.0.0 - 27 SEP 2020
++
++* Prevent mutation of Object.prototype to address a security issue. (Full report coming soon)
++
+ ### 2.0.2 - 22 AUG 2020
+ 
+ * Upgrade dependencies to fix vulnerabilites reported by dependa bot
+diff --git a/README.md b/README.md
+index ad02d74..6736102 100644
+--- a/README.md
++++ b/README.md
+@@ -236,6 +236,14 @@ nestedProperty.isIn(obj, "nested.0.property", obj.nested[0].property); // true
+ nestedProperty.isIn(obj, "nested.0.property", true); // true
+ ```
+ 
++### nestedProperty.ObjectPrototypeMutationError
++
++__Note that it's not permitted to mutate Object.prototype:__
++
++```
++nestedProperty.set({}, '__protot__.a', 1); // throws nestedProperty.ObjectPrototypeMutationError
++```
++
+ # LICENSE
+ 
+ MIT
+diff --git a/index.js b/index.js
+index 5f5e7df..92ddf89 100644
+--- a/index.js
++++ b/index.js
+@@ -10,6 +10,15 @@
+ const ARRAY_WILDCARD = "+";
+ const PATH_DELIMITER = ".";
+ 
++class ObjectPrototypeMutationError extends Error {
++    constructor(params) {
++        super(params);
++
++        this.name = "ObjectPrototypeMutationError";
++    }
++}
++
++
+ module.exports = {
+     set: setNestedProperty,
+     get: getNestedProperty,
+@@ -17,7 +26,8 @@ module.exports = {
+     hasOwn: function (object, property, options) {
+         return this.has(object, property, options || { own: true });
+     },
+-    isIn: isInNestedProperty
++    isIn: isInNestedProperty,
++    ObjectPrototypeMutationError
+ };
+ 
+ /**
+@@ -120,6 +130,10 @@ function setNestedProperty(object, property, value) {
+ 
+     try {
+         return traverse(object, property, function _setNestedProperty(currentObject, currentProperty, segments, index) {
++            if (currentObject === Reflect.getPrototypeOf({})) {
++                throw new ObjectPrototypeMutationError("Attempting to mutate Object.prototype");
++            }
++
+             if (!currentObject[currentProperty]) {
+                 const nextPropIsNumber = Number.isInteger(Number(segments[index + 1]));
+                 const nextPropIsArrayWildcard = segments[index + 1] === ARRAY_WILDCARD;
+@@ -138,7 +152,12 @@ function setNestedProperty(object, property, value) {
+             return currentObject[currentProperty];
+         });
+     } catch (err) {
+-        return object;
++        if (err instanceof ObjectPrototypeMutationError) {
++            // rethrow
++            throw err;
++        } else {
++            return object;
++        }
+     }
+ }
+ 
+diff --git a/package.json b/package.json
+index 0bd5ec7..8f8961b 100644
+--- a/package.json
++++ b/package.json
+@@ -1,7 +1,7 @@
+ {
+   "name": "nested-property",
+   "description": "Read, write or test a data structure's nested property via a string like 'my.nested.property'. It works through arrays and objects.'",
+-  "version": "2.0.2",
++  "version": "3.0.0",
+   "homepage": "https://github.com/cosmosio/nested-property",
+   "license": "MIT",
+   "files": [
+diff --git a/test/set.spec.js b/test/set.spec.js
+index 51dbaad..802e555 100644
+--- a/test/set.spec.js
++++ b/test/set.spec.js
+@@ -369,4 +369,33 @@ describe("nested-property.set()", function () {
+             });
+         });
+     });
++
++    describe("When setting a property on an object's prototype", () => {
++        let newObj, protoObj;
++
++        beforeEach(function () {
++            protoObj = {};
++            newObj = Object.create(protoObj);
++
++            sut.set(newObj, "__proto__.a", 1);
++        });
++
++        it("Then mutates the prototype", function () {
++            expect(protoObj.hasOwnProperty("a")).to.be.true;
++        });
++    });
++
++    describe("When setting a property on Object.prototype", () => {
++        let newObj;
++
++        beforeEach(function () {
++            newObj = {};
++        });
++
++        it("Then throws an error", function () {
++            expect(function () {
++                sut.set(newObj, "__proto__.a", 1);
++            }).to.throw(sut.ObjectPrototypeMutationError);
++        });
++    });
+ });

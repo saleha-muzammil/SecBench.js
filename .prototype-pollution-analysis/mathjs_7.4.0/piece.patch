@@ -1,0 +1,19 @@
+diff --git a/test/unit-tests/utils/object.test.js b/test/unit-tests/utils/object.test.js
+index 3da1b443ff..e9b0710299 100644
+--- a/test/unit-tests/utils/object.test.js
++++ b/test/unit-tests/utils/object.test.js
+@@ -141,6 +141,14 @@ describe('object', function () {
+ 
+       delete Object.prototype.foo
+     })
++
++    it('should not pollute Object.__proto__', function () {
++      const obj = {}
++      assert.strictEqual(obj.polluted, undefined)
++
++      deepExtend(obj, JSON.parse('{"__proto__":{"polluted":"yes"}}'))
++      assert.strictEqual(obj.polluted, undefined)
++    })
+   })
+ 
+   describe('deepEqual', function () {

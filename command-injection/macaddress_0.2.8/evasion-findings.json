@@ -1,0 +1,25 @@
+{
+  "package": "macaddress",
+  "targets": [
+    "lib/linux.js",
+    "lib/unix.js"
+  ],
+  "full_targets": [
+    "lib/linux.js",
+    "lib/unix.js",
+    "lib/windows.js"
+  ],
+  "semgrep": {
+    "fixed_total": 5,
+    "new_full": 0,
+    "new_minimal": 0,
+    "new_final": []
+  },
+  "codeql": {
+    "fixed_total": 1,
+    "new_full": 2,
+    "new_minimal": 1,
+    "new_final": []
+  },
+  "detected_by": "neither"
+}

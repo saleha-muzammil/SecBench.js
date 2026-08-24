@@ -1,0 +1,45 @@
+From b1fdb5120b6d27a88400d8800e67ff5a22bd2103 Mon Sep 17 00:00:00 2001
+From: Sindre Sorhus <sindresorhus@gmail.com>
+Date: Fri, 21 May 2021 18:41:30 +0700
+Subject: [PATCH] Fix ReDoS for data URLs
+
+---
+ index.js |  2 +-
+ test.js  | 14 ++++++++++++++
+ 2 files changed, 15 insertions(+), 1 deletion(-)
+
+diff --git a/index.js b/index.js
+index b66a897..cac1807 100644
+--- a/index.js
++++ b/index.js
+@@ -9,7 +9,7 @@ const testParameter = (name, filters) => {
+ };
+ 
+ const normalizeDataURL = (urlString, {stripHash}) => {
+-	const match = /^data:(?<type>.*?),(?<data>.*?)(?:#(?<hash>.*))?$/.exec(urlString);
++	const match = /^data:(?<type>[^,]*?),(?<data>[^#]*?)(?:#(?<hash>.*))?$/.exec(urlString);
+ 
+ 	if (!match) {
+ 		throw new Error(`Invalid URL: ${urlString}`);
+diff --git a/test.js b/test.js
+index 4cf557e..d3be87a 100644
+--- a/test.js
++++ b/test.js
+@@ -344,3 +344,17 @@ test('view-source URL', t => {
+ 		normalizeUrl('view-source:https://www.sindresorhus.com');
+ 	}, '`view-source:` is not supported as it is a non-standard protocol');
+ });
++
++test('does not have exponential performance for data URLs', t => {
++	for (let index = 0; index < 1000; index += 50) {
++		const url = 'data:' + Array.from({length: index}).fill(',#').join('') + '\ra';
++		const start = Date.now();
++
++		try {
++			normalizeUrl(url);
++		} catch {}
++
++		const difference = Date.now() - start;
++		t.true(difference < 100, `Execution time: ${difference}`);
++	}
++});

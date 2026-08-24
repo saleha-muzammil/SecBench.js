@@ -1,0 +1,30 @@
+SecBench.js — test & CI inventory
+============================================================
+Entry      : code-injection/safe-eval_0.2.0
+Package    : safe-eval@0.2.0
+Repository : https://github.com/hacksparrow/safe-eval
+Source     : checked out: 0.2.0
+Generated  : 2026-06-22
+
+== package.json test scripts ==
+  test: node_modules/mocha/bin/mocha test
+
+== test framework dependencies ==
+  mocha
+
+== how to run the tests ==
+  npm install
+  npm test
+
+== test directories ==
+  test/   (1 files)
+
+== test files (1 found) ==
+  test/test.js
+
+== test runner config ==
+  (none found)
+
+== CI / workflows ==
+  (no CI / workflow files found)
+

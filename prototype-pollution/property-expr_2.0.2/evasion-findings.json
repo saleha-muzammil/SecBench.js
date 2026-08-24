@@ -1,0 +1,24 @@
+{
+  "package": "property-expr",
+  "targets": [
+    "index.js"
+  ],
+  "full_targets": [
+    "compiler.js",
+    "index.js",
+    "test.js"
+  ],
+  "semgrep": {
+    "fixed_total": 8,
+    "new_full": 0,
+    "new_minimal": 0,
+    "new_final": []
+  },
+  "codeql": {
+    "fixed_total": 1,
+    "new_full": 0,
+    "new_minimal": 0,
+    "new_final": []
+  },
+  "detected_by": "neither"
+}

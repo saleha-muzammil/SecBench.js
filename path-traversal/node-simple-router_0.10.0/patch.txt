@@ -1,0 +1,100 @@
+From dfdd52e2e80607af433097d940b3834fd96df488 Mon Sep 17 00:00:00 2001
+From: "Domingo E. Savoretti" <esavoretti@gmail.com>
+Date: Thu, 27 Apr 2017 02:36:35 -0300
+Subject: [PATCH] version 0.10.1 Fixed directory traversal vulnerability
+
+---
+ lib/router.js     | 14 +++++++++++---
+ package.json      |  2 +-
+ src/router.coffee | 10 ++++++++++
+ 3 files changed, 22 insertions(+), 4 deletions(-)
+
+diff --git a/lib/router.js b/lib/router.js
+index be232b9..d8f8e30 100644
+--- a/lib/router.js
++++ b/lib/router.js
+@@ -351,7 +351,6 @@
+       resp = {
+         "multipart-data": []
+       };
+-      // boundary = content_type.split(/;\s+/)[1].split('=')[1].trim();
+       boundary = content_type.split(/;\s+/)[1];
+       if (boundary) {
+         boundary = boundary.split('=')[1];
+@@ -390,10 +389,10 @@
+                 obj.fileLen = obj.fileData.length;
+               }
+               resp['multipart-data'].push(obj);
+-            }   
++            }
+           }
+         }
+-      } 
++      }
+       return resp;
+     };
+     _bodyparser = function(body, contentType) {
+@@ -731,6 +730,9 @@
+     dispatch["static"] = function(pathname, req, res) {
+       var full_path;
+       full_path = "" + dispatch.static_route + (unescape(pathname));
++      if (full_path.indexOf('..') !== -1) {
++        return dispatch._403(null, res, pathname, "Trying to get private things through directory traversal is a nasty thing to do.");
++      }
+       return fs.exists(full_path, function(exists) {
+         var e, error;
+         if (exists) {
+@@ -1274,6 +1276,12 @@
+         }
+       });
+     };
++    dispatch._403 = function(req, res, path, message) {
++      res.writeHead(500, {
++        'Content-Type': 'text/html'
++      });
++      return res.end("<h2>403 - Forbidden: " + message + "</h2>\n<hr/><h3>Served by " + dispatch.served_by + " v" + dispatch.version + "</h3>\n<p style=\"text-align: center;\"><button onclick='history.back();'>Back</button></p>");
++    };
+     dispatch._405 = function(req, res, path, message) {
+       res.writeHead(405, {
+         'Content-Type': 'text/html'
+diff --git a/package.json b/package.json
+index 2f53da0..070cbe6 100644
+--- a/package.json
++++ b/package.json
+@@ -21,7 +21,7 @@
+     "async",
+     "promises"
+   ],
+-  "version": "0.10.0",
++  "version": "0.10.1",
+   "homepage": "http://node-simple-router.herokuapp.com",
+   "author": "Ernesto Savoretti <esavoretti@gmail.com>",
+   "repository": {
+diff --git a/src/router.coffee b/src/router.coffee
+index 6dd7c68..a8b7d14 100644
+--- a/src/router.coffee
++++ b/src/router.coffee
+@@ -613,6 +613,8 @@ Router = (options = {}) ->
+ 
+   dispatch.static = (pathname, req, res) ->
+     full_path = "#{dispatch.static_route}#{unescape(pathname)}"
++    if full_path.indexOf('..') isnt -1
++      return dispatch._403(null, res, pathname, "Trying to get private things through directory traversal is a nasty thing to do.")
+     fs.exists full_path, (exists) ->
+       if exists
+         if ((pathname.indexOf("#{dispatch.cgi_dir}/") isnt - 1) or (pathname.match /\.php$/)) and (pathname.substr(-1) isnt "/") and (dispatch.serve_cgi is true)
+@@ -1002,6 +1004,14 @@ Router = (options = {}) ->
+           else
+             res.end data
+ 
++  dispatch._403 = (req, res, path, message) ->
++    res.writeHead(500, {'Content-Type': 'text/html'})
++    res.end("""
++                <h2>403 - Forbidden: #{message}</h2>
++                <hr/><h3>Served by #{dispatch.served_by} v#{dispatch.version}</h3>
++                <p style="text-align: center;"><button onclick='history.back();'>Back</button></p>
++            """)
++
+   dispatch._405 = (req, res, path, message) ->
+     res.writeHead(405, {'Content-Type': 'text/html'})
+     res.end("""

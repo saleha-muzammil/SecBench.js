@@ -1,0 +1,93 @@
+[
+  [
+    "Uncontrolled data used in path expression",
+    "Accessing paths influenced by users can allow an attacker to access unexpected resources.",
+    "error",
+    "This path depends on a [[\"user-provided value\"|\"relative:///crud-file-server.js:36:39:36:45\"]].",
+    "/crud-file-server.js"
+  ],
+  [
+    "Uncontrolled data used in path expression",
+    "Accessing paths influenced by users can allow an attacker to access unexpected resources.",
+    "error",
+    "This path depends on a [[\"user-provided value\"|\"relative:///crud-file-server.js:36:39:36:45\"]].",
+    "/crud-file-server.js"
+  ],
+  [
+    "Uncontrolled data used in path expression",
+    "Accessing paths influenced by users can allow an attacker to access unexpected resources.",
+    "error",
+    "This path depends on a [[\"user-provided value\"|\"relative:///crud-file-server.js:36:39:36:45\"]].",
+    "/crud-file-server.js"
+  ],
+  [
+    "Uncontrolled data used in path expression",
+    "Accessing paths influenced by users can allow an attacker to access unexpected resources.",
+    "error",
+    "This path depends on a [[\"user-provided value\"|\"relative:///crud-file-server.js:36:39:36:45\"]].",
+    "/crud-file-server.js"
+  ],
+  [
+    "Uncontrolled data used in path expression",
+    "Accessing paths influenced by users can allow an attacker to access unexpected resources.",
+    "error",
+    "This path depends on a [[\"user-provided value\"|\"relative:///crud-file-server.js:36:39:36:45\"]].",
+    "/crud-file-server.js"
+  ],
+  [
+    "Uncontrolled data used in path expression",
+    "Accessing paths influenced by users can allow an attacker to access unexpected resources.",
+    "error",
+    "This path depends on a [[\"user-provided value\"|\"relative:///crud-file-server.js:36:39:36:45\"]].",
+    "/crud-file-server.js"
+  ],
+  [
+    "Uncontrolled data used in path expression",
+    "Accessing paths influenced by users can allow an attacker to access unexpected resources.",
+    "error",
+    "This path depends on a [[\"user-provided value\"|\"relative:///crud-file-server.js:36:39:36:45\"]].",
+    "/crud-file-server.js"
+  ],
+  [
+    "Uncontrolled data used in path expression",
+    "Accessing paths influenced by users can allow an attacker to access unexpected resources.",
+    "error",
+    "This path depends on a [[\"user-provided value\"|\"relative:///crud-file-server.js:36:39:36:45\"]].",
+    "/crud-file-server.js"
+  ],
+  [
+    "Uncontrolled data used in path expression",
+    "Accessing paths influenced by users can allow an attacker to access unexpected resources.",
+    "error",
+    "This path depends on a [[\"user-provided value\"|\"relative:///crud-file-server.js:36:39:36:45\"]].",
+    "/crud-file-server.js"
+  ],
+  [
+    "Uncontrolled data used in path expression",
+    "Accessing paths influenced by users can allow an attacker to access unexpected resources.",
+    "error",
+    "This path depends on a [[\"user-provided value\"|\"relative:///crud-file-server.js:36:39:36:45\"]].",
+    "/crud-file-server.js"
+  ],
+  [
+    "Uncontrolled data used in path expression",
+    "Accessing paths influenced by users can allow an attacker to access unexpected resources.",
+    "error",
+    "This path depends on a [[\"user-provided value\"|\"relative:///crud-file-server.js:36:39:36:45\"]].",
+    "/crud-file-server.js"
+  ],
+  [
+    "Uncontrolled data used in path expression",
+    "Accessing paths influenced by users can allow an attacker to access unexpected resources.",
+    "error",
+    "This path depends on a [[\"user-provided value\"|\"relative:///crud-file-server.js:36:39:36:45\"]].",
+    "/crud-file-server.js"
+  ],
+  [
+    "Uncontrolled data used in path expression",
+    "Accessing paths influenced by users can allow an attacker to access unexpected resources.",
+    "error",
+    "This path depends on a [[\"user-provided value\"|\"relative:///crud-file-server.js:36:39:36:45\"]].",
+    "/crud-file-server.js"
+  ]
+]

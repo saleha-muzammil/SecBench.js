@@ -1,0 +1,13 @@
+=== prototype-pollution/set-object-value_0.0.5 ===
+image: docker build failed:
+"       oracle would be measuring the wrong code." >&2; \
+  34 | >>>            echo "       Fix the version/commit for set-object-value in repositories.csv, or" >&2; \
+  35 | >>>            echo "       regenerate with --allow-npm-fallback to install from npm." >&2; \
+  36 | >>>            exit 1; \
+  37 | >>>        fi \
+  38 | >>>     && npm install --no-audit --no-fund --ignore-scripts \
+  39 | >>>     && (npm run build --if-present || echo "WARNING: build step failed/partial; continuing") \
+  40 | >>>     && (npm run prepare --if-present || echo "WARNING: prepare step failed/partial; continuing")
+  41 |     
+--------------------
+ERROR: failed to solve: process "/bin/sh -c git clone https://github.com/react-atomic/react-atomic-organism.git node_modules/set-object-value     && cd node_modules/set-object-value     && if ! (git checkout -q \"c8ec63388f7785078cb27275b56ed955ffd3db6c\" || { git fetch -q --depth 1 origin \"c8ec63388f7785078cb27275b56ed955ffd3db6c\" && git checkout -q FETCH_HEAD; } || git checkout -q \"v0.0.6\" || git checkout -q \"0.0.6\"); then            echo \"ERROR: cannot check out commit c8ec63388f / tag v0.0.6 in https://github.com/react-atomic/react-atomic-organism.\" >&2;            echo \"       Building anyway would silently use the default branch, which is\" >&2;            echo \"       neither set-object-value@0.0.6 nor the pinned commit, so the exploit\" >&2;            echo \"       oracle would be measuring the wrong code.\" >&2;            echo \"       Fix the version/commit for set-object-value in repositories.csv, or\" >&2;            echo \"       regenerate with --allow-npm-fallback to install from npm.\" >&2;            exit 1;        fi     && npm install --no-audit --no-fund --ignore-scripts     && (npm run build --if-present || echo \"WARNING: build step failed/partial; continuing\")     && (npm run prepare --if-present || echo \"WARNING: prepare step failed/partial; continuing\")" did not complete successfully: exit code: 1

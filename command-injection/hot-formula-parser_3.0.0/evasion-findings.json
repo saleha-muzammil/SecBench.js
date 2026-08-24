@@ -1,0 +1,20 @@
+{
+  "package": "hot-formula-parser",
+  "targets": [
+    "src/grammar-parser/grammar-parser.js",
+    "lib/grammar-parser/grammar-parser.js"
+  ],
+  "full_targets": [
+    "src/grammar-parser/grammar-parser.js",
+    "test/integration/parsing/function.js",
+    "lib/grammar-parser/grammar-parser.js"
+  ],
+  "semgrep": {
+    "fixed_total": 5,
+    "new_full": 3,
+    "new_minimal": 3,
+    "new_final": []
+  },
+  "codeql": null,
+  "detected_by": "neither"
+}

@@ -1,0 +1,23 @@
+[
+  [
+    "Unsafe shell command constructed from library input",
+    "Using externally controlled strings in a command line may allow a malicious user to change the meaning of the command.",
+    "error",
+    "This string concatenation which depends on [[\"library input\"|\"relative:///lib/libnmap.js:62:30:62:32\"]] is later used in a [[\"shell command\"|\"relative:///lib/classes/tools.js:114:25:117:10\"]].\nThis string concatenation which depends on [[\"library input\"|\"relative:///lib/libnmap.js:91:26:91:28\"]] is later used in a [[\"shell command\"|\"relative:///lib/classes/tools.js:114:25:117:10\"]].",
+    "/lib/classes/tools.js"
+  ],
+  [
+    "Unsafe shell command constructed from library input",
+    "Using externally controlled strings in a command line may allow a malicious user to change the meaning of the command.",
+    "error",
+    "This string concatenation which depends on [[\"library input\"|\"relative:///lib/libnmap.js:62:30:62:32\"]] is later used in a [[\"shell command\"|\"relative:///lib/classes/tools.js:114:25:117:10\"]].\nThis string concatenation which depends on [[\"library input\"|\"relative:///lib/libnmap.js:62:30:62:32\"]] is later used in a [[\"shell command\"|\"relative:///lib/classes/tools.js:114:25:117:10\"]].\nThis string concatenation which depends on [[\"library input\"|\"relative:///lib/libnmap.js:62:30:62:32\"]] is later used in a [[\"shell command\"|\"relative:///lib/classes/tools.js:114:25:117:10\"]].\nThis string concatenation which depends on [[\"library input\"|\"relative:///lib/libnmap.js:91:26:91:28\"]] is later used in a [[\"shell command\"|\"relative:///lib/classes/tools.js:114:25:117:10\"]].\nThis string concatenation which depends on [[\"library input\"|\"relative:///lib/libnmap.js:91:26:91:28\"]] is later used in a [[\"shell command\"|\"relative:///lib/classes/tools.js:114:25:117:10\"]].",
+    "/lib/classes/tools.js"
+  ],
+  [
+    "Unsafe shell command constructed from library input",
+    "Using externally controlled strings in a command line may allow a malicious user to change the meaning of the command.",
+    "error",
+    "This string concatenation which depends on [[\"library input\"|\"relative:///lib/libnmap.js:62:30:62:32\"]] is later used in a [[\"shell command\"|\"relative:///lib/classes/tools.js:114:25:117:10\"]].\nThis string concatenation which depends on [[\"library input\"|\"relative:///lib/libnmap.js:91:26:91:28\"]] is later used in a [[\"shell command\"|\"relative:///lib/classes/tools.js:114:25:117:10\"]].",
+    "/lib/classes/tools.js"
+  ]
+]

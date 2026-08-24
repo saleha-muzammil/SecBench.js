@@ -1,0 +1,91 @@
+From c235b24b0342e12a5dbf502f89daabe95883b6c8 Mon Sep 17 00:00:00 2001
+From: Jas- <jason.gerfen@gmail.com>
+Date: Sun, 21 Oct 2018 23:19:20 +0000
+Subject: [PATCH] v0.4.16: Version bump & move to a stream object with .spawn()
+
+---
+ lib/classes/tools.js | 28 ++++++++++++++++++++--------
+ package.json         |  2 +-
+ 2 files changed, 21 insertions(+), 9 deletions(-)
+
+diff --git a/lib/classes/tools.js b/lib/classes/tools.js
+index 1be0e9b..46b45c1 100644
+--- a/lib/classes/tools.js
++++ b/lib/classes/tools.js
+@@ -9,7 +9,7 @@
+ const async = require('async');
+ const merge = require('deepmerge');
+ const caller = require('stack-trace');
+-const proc = require('child_process').exec;
++const proc = require('child_process').spawn;
+ const emitter = require('events').EventEmitter;
+ 
+ const network = require('./networking.js');
+@@ -74,7 +74,8 @@ class tools extends emitter {
+ 
+       if (Array.isArray(value)) {
+         return this.flatten(value, obj);
+-      } else {
++      }
++      else {
+         result.push(value);
+       }
+     }
+@@ -102,28 +103,39 @@ class tools extends emitter {
+ 
+     Object.keys(opts.range).forEach(function blocks(block) {
+ 
++      // Acquire an array of ranges
+       const range = opts.range[block];
++
++      // Create a new function for each range block
+       funcs[range] = function block(callback) {
++        const report = [];
++
++
++        // Capture the flags, & ranges as a command string
+         cmd = scope.command(opts, range);
+ 
++        // Split up cmd for .spawn()
++        const obj = cmd.split(" ");
++        cmd = obj[0];
++        const args = obj.slice(1);
++
+         if (opts.verbose)
+           console.log(`Running: ${cmd}`);
+ 
+-        const report = [];
+-
+-        const execute = proc(cmd, (err, stdout, stderr) => {
+-          if (err)
+-            return reporting.reports(opts, err, callback);
+-        });
++        // Push it on to the heap
++        const execute = proc(cmd, args);
+ 
++        // Discard stderr for now, maybe log?
+         execute.stderr.on('data', (chunk) => {
+           /* Silently discard stderr messages to not interupt scans */
+         });
+ 
++        // Push to array of reports
+         execute.stdout.on('data', (chunk) => {
+           report.push(chunk);
+         });
+ 
++        // Push report array to reporting function on stream end
+         execute.stdout.on('end', () => {
+           if (report.length > 0)
+             return reporting.reports(opts, report, callback);
+diff --git a/package.json b/package.json
+index adc0f8d..9ff186f 100644
+--- a/package.json
++++ b/package.json
+@@ -1,6 +1,6 @@
+ {
+   "name": "libnmap",
+-  "version": "v0.4.15",
++  "version": "v0.4.16",
+   "description": "libnmap for node.js",
+   "author": "Jason Gerfen <jason.gerfen@gmail.com>",
+   "keywords": [

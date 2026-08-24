@@ -1,0 +1,54 @@
+From 8efe421dd19c474cbdeb0908cbcc7aabfe343d5e Mon Sep 17 00:00:00 2001
+From: Daniel Cohen Gindi <danielgindi@gmail.com>
+Date: Mon, 27 Jul 2020 09:04:46 +0300
+Subject: [PATCH] [security] throw on unsafe option names
+
+---
+ index.js | 14 +++++++++++++-
+ 1 file changed, 13 insertions(+), 1 deletion(-)
+
+diff --git a/index.js b/index.js
+index e9b9659..ff9a251 100644
+--- a/index.js
++++ b/index.js
+@@ -2,7 +2,8 @@
+ 
+ const ChildProcess = require('child_process');
+ let vBoxManageBinary,
+-    escapeArg;
++    escapeArg,
++    isOptionSafe;
+ 
+ // Host operating system
+ if (/^win/.test(process.platform)) {
+@@ -23,12 +24,20 @@ if (/^win/.test(process.platform)) {
+         return '"' + arg.replace(/"/g, '"""') + '"';
+     };
+ 
++    isOptionSafe = opt => {
++        return !/\s|[\\"&]/.test(opt);
++    };
++
+ } else {
+     vBoxManageBinary = 'vboxmanage';
+ 
+     escapeArg = arg => {
+         return arg.replace(/([ \t\\|;&"`$*])/g, '\\$1');
+     };
++
++    isOptionSafe = opt => {
++        return !/([ \t\\|;&"`$*])/.test(opt);
++    };
+ }
+ 
+ 
+@@ -54,6 +63,9 @@ VBoxManage.manage = function (command, options) {
+     }
+ 
+     for (const [option, value] of Object.entries(options)) {
++        if (!isOptionSafe(option))
++            throw new Error('An unsafe option was passed to VBoxManage.manage: ' + option);
++
+         command.push('--' + option);
+ 
+         if (value !== true) {

@@ -1,0 +1,109 @@
+# Sink-focused rules for the SecBench.js code-injection benchmark.
+#
+# The generic registry packs (p/javascript, p/nodejs, p/security-audit) flag
+# child_process but NOT eval()/new Function()/vm.*, which are the actual sinks in
+# most of these entries. These rules close that gap. They intentionally match the
+# raw sink (any argument) because the benchmark's vulnerability is that
+# attacker-controlled input reaches the sink once the fix is reverted.
+rules:
+  - id: secbench-eval-call
+    languages: [javascript, typescript]
+    severity: ERROR
+    message: >-
+      eval() executes its argument as code; if attacker-controlled this is a
+      code-injection sink.
+    metadata:
+      category: security
+      sink: eval
+    pattern: eval(...)
+
+  - id: secbench-function-constructor
+    languages: [javascript, typescript]
+    severity: ERROR
+    message: >-
+      The Function constructor compiles a string into executable code; with
+      attacker-controlled input this is a code-injection sink.
+    metadata:
+      category: security
+      sink: Function
+    pattern-either:
+      - pattern: new Function(...)
+      - pattern: Function(...)
+
+  - id: secbench-vm-execution
+    languages: [javascript, typescript]
+    severity: ERROR
+    message: >-
+      The vm module executes code; running attacker-controlled input through it
+      is a code-injection sink.
+    metadata:
+      category: security
+      sink: vm
+    pattern-either:
+      - pattern: vm.runInThisContext(...)
+      - pattern: vm.runInNewContext(...)
+      - pattern: vm.runInContext(...)
+      - pattern: vm.compileFunction(...)
+      - pattern: new vm.Script(...)
+
+  - id: secbench-unsafe-deserialize
+    languages: [javascript, typescript]
+    severity: WARNING
+    message: >-
+      Unsafe deserialization (unserialize) can eval embedded function payloads;
+      a code-injection sink for serialize-style packages.
+    metadata:
+      category: security
+      sink: deserialize
+    pattern-either:
+      - pattern: unserialize(...)
+      - pattern: $X.unserialize(...)
+
+  - id: secbench-string-timer
+    languages: [javascript, typescript]
+    severity: WARNING
+    message: >-
+      Passing a string to setTimeout/setInterval evaluates it as code.
+    metadata:
+      category: security
+      sink: timer-string
+    pattern-either:
+      - pattern: setTimeout("...", ...)
+      - pattern: setInterval("...", ...)
+
+  # Dataflow rule: fires only when untrusted input actually reaches a code
+  # sink, and is cleared if it passes through the package's sanitizer. This is
+  # the robustness-baseline detector -- it resists surface transforms (rename,
+  # helper extraction, sink substitution) because it tracks the source->sink
+  # path rather than a syntactic shape.
+  - id: secbench-tainted-code-exec
+    mode: taint
+    languages: [javascript, typescript]
+    severity: ERROR
+    message: >-
+      Untrusted input reaches a dynamic code-execution sink without passing
+      through a sanitizer.
+    metadata:
+      category: security
+      sink: taint-code-exec
+    pattern-sources:
+      # exported/public function parameters: the "attacker" is the API caller
+      - patterns:
+          - pattern: function $F($SRC, ...) { ... }
+          - focus-metavariable: $SRC
+      - pattern: req.body
+      - pattern: req.query
+      - pattern: req.params
+      - pattern: process.argv
+    pattern-sanitizers:
+      - pattern: sanitize(...)
+      - pattern: JSON.parse(...)
+    pattern-sinks:
+      - pattern: eval(...)
+      - pattern: new Function(...)
+      - pattern: Function(...)
+      - pattern: vm.runInThisContext(...)
+      - pattern: vm.runInNewContext(...)
+      - pattern: vm.runInContext(...)
+      - pattern: setTimeout(...)
+      - pattern: setInterval(...)

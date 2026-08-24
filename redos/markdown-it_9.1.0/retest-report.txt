@@ -1,0 +1,7 @@
+=== redos/markdown-it_9.1.0 (corrected retest) ===
+package        : markdown-it
+fixed-tree ms  : 397
+reverted ms    : 151
+corrected label: no-repro
+detail         : reverted 151ms < threshold 7942ms (fixed 397.1ms) -- vuln needs more than the patch
+oracle         : timeout=25s floor=250ms ratio=20x; HANG or reverted>=max(floor,ratio*fixed) => reproduces

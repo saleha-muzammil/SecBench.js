@@ -1,0 +1,41 @@
+From 31b82468d72f2e1456a27a4827cea378196db6db Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?=E6=9D=8E=E5=96=86=E6=98=8E?= <lizheming@bytedance.com>
+Date: Sat, 24 Jul 2021 15:55:46 +0800
+Subject: [PATCH] feat: proto pollution fix
+
+---
+ index.js      | 3 +++
+ test/index.js | 6 ++++++
+ 2 files changed, 9 insertions(+)
+
+diff --git a/index.js b/index.js
+index a8e005e..8d15a6e 100644
+--- a/index.js
++++ b/index.js
+@@ -45,6 +45,9 @@ class Config {
+     }
+     let config = this.config;
+     name = name.split('.');
++    if (name.some(item => /^__proto__|prototype|construcotr$/.test(item))) {
++      return this;
++    }
+     const length = name.length;
+     name.forEach((item, index) => {
+       if (index === length - 1) {
+diff --git a/test/index.js b/test/index.js
+index a27caef..6587e61 100644
+--- a/test/index.js
++++ b/test/index.js
+@@ -81,6 +81,12 @@ test('config set 6', t => {
+   t.deepEqual(config.get('name'), {value: {name: 3}});
+ });
+ 
++test('config set 7', t => {
++  const config = new Config({name: 2});
++  config.set('name.__proto__', 1234);
++  t.deepEqual(config.get('name.__proto__'), undefined);
++});
++
+ test('getConfigFn 1', t => {
+   const fn = getConfigFn({name: 1}, false);
+   const result = fn('name');

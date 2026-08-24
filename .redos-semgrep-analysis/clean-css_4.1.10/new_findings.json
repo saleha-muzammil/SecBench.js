@@ -1,0 +1,29 @@
+[
+  {
+    "check_id": "Users.saleha.Desktop.cispa.mini-swe-agent.src.minisweagent.config.extra.mini-regexp-from-variable",
+    "path": "lib/optimizer/validator.js",
+    "start": {
+      "line": 440,
+      "col": 32,
+      "offset": 7897
+    },
+    "end": {
+      "line": 440,
+      "col": 119,
+      "offset": 7984
+    },
+    "extra": {
+      "message": "Regular expression compiled from a value. An attacker-supplied pattern gives control over matching (ReDoS, or a validator that matches everything).",
+      "metadata": {
+        "category": "security",
+        "cwe": "CWE-1333: Inefficient Regular Expression Complexity",
+        "confidence": "LOW"
+      },
+      "severity": "WARNING",
+      "fingerprint": "requires login",
+      "lines": "requires login",
+      "validation_state": "NO_VALIDATOR",
+      "engine_kind": "OSS"
+    }
+  }
+]

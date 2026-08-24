@@ -1,0 +1,7 @@
+=== redos/cejs_2.0.20170212 (corrected retest) ===
+package        : cejs
+fixed-tree ms  : 672
+reverted ms    : 607
+corrected label: no-repro
+detail         : reverted 607ms < threshold 13443ms (fixed 672.1ms) -- vuln needs more than the patch
+oracle         : timeout=25s floor=250ms ratio=20x; HANG or reverted>=max(floor,ratio*fixed) => reproduces

@@ -1,0 +1,96 @@
+From 6944abf9e0694bd22fd9dad293faa40c2bc8a955 Mon Sep 17 00:00:00 2001
+From: isaacs <i@izs.me>
+Date: Fri, 17 Jun 2016 09:00:24 -0700
+Subject: [PATCH] Handle extremely long and terrible patterns more gracefully
+
+Reported by @nstarke, thanks
+---
+ minimatch.js  | 18 +++++++++++++++---
+ test/redos.js | 28 ++++++++++++++++++++++++++++
+ 2 files changed, 43 insertions(+), 3 deletions(-)
+ create mode 100644 test/redos.js
+
+diff --git a/minimatch.js b/minimatch.js
+index ec4c05c5..830a2724 100644
+--- a/minimatch.js
++++ b/minimatch.js
+@@ -235,7 +235,7 @@ function braceExpand (pattern, options) {
+     ? this.pattern : pattern
+ 
+   if (typeof pattern === 'undefined') {
+-    throw new Error('undefined pattern')
++    throw new TypeError('undefined pattern')
+   }
+ 
+   if (options.nobrace ||
+@@ -261,6 +261,10 @@ function braceExpand (pattern, options) {
+ Minimatch.prototype.parse = parse
+ var SUBPARSE = {}
+ function parse (pattern, isSub) {
++  if (pattern.length > 1024 * 64) {
++    throw new TypeError('pattern is too long')
++  }
++
+   var options = this.options
+ 
+   // shortcuts
+@@ -518,7 +522,7 @@ function parse (pattern, isSub) {
+   for (pl = patternListStack.pop(); pl; pl = patternListStack.pop()) {
+     var tail = re.slice(pl.reStart + 3)
+     // maybe some even number of \, then maybe 1 \, followed by a |
+-    tail = tail.replace(/((?:\\{2})*)(\\?)\|/g, function (_, $1, $2) {
++    tail = tail.replace(/((?:\\{2}){0,64})(\\?)\|/g, function (_, $1, $2) {
+       if (!$2) {
+         // the | isn't already escaped, so escape it.
+         $2 = '\\'
+@@ -615,7 +619,15 @@ function parse (pattern, isSub) {
+   }
+ 
+   var flags = options.nocase ? 'i' : ''
+-  var regExp = new RegExp('^' + re + '$', flags)
++  try {
++    var regExp = new RegExp('^' + re + '$', flags)
++  } catch (er) {
++    // If it was an invalid regular expression, then it can't match
++    // anything.  This trick looks for a character after the end of
++    // the string, which is of course impossible, except in multi-line
++    // mode, but it's not a /m regex.
++    return new RegExp('$.')
++  }
+ 
+   regExp._glob = pattern
+   regExp._src = re
+diff --git a/test/redos.js b/test/redos.js
+new file mode 100644
+index 00000000..9430a576
+--- /dev/null
++++ b/test/redos.js
+@@ -0,0 +1,28 @@
++var t = require('tap')
++
++var minimatch = require('../')
++
++// utility function for generating long strings
++var genstr = function (len, chr) {
++  var result = ''
++  for (var i = 0; i <= len; i++) {
++    result = result + chr
++  }
++
++  return result
++}
++
++var exploit = '!(' + genstr(1024 * 15, '\\') + 'A)'
++
++// within the limits, and valid match
++t.ok(minimatch('A', exploit))
++
++// within the limits, but results in an invalid regexp
++exploit = '[!(' + genstr(1024 * 15, '\\') + 'A'
++t.notOk(minimatch('A', exploit))
++
++t.throws(function () {
++  // too long, throws TypeError
++  exploit = '!(' + genstr(1024 * 64, '\\') + 'A)'
++  minimatch('A', exploit)
++}, TypeError)

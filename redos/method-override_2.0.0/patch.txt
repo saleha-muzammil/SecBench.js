@@ -1,0 +1,55 @@
+From 4c58835a61fdf7a8e070d6f8ecd5379a961d0987 Mon Sep 17 00:00:00 2001
+From: Douglas Christopher Wilson <doug@somethingdoug.com>
+Date: Wed, 27 Sep 2017 09:34:39 -0400
+Subject: [PATCH] perf: skip unnecessary parsing of entire header
+
+---
+ HISTORY.md |  1 +
+ index.js   | 16 ++++++++++++++--
+ 2 files changed, 15 insertions(+), 2 deletions(-)
+
+diff --git a/HISTORY.md b/HISTORY.md
+index 6cef8ef..a131702 100644
+--- a/HISTORY.md
++++ b/HISTORY.md
+@@ -7,6 +7,7 @@ unreleased
+     - perf: unroll the "fast-path" `RegExp`
+   * deps: vary@~1.1.2
+     - perf: improve header token parsing speed
++  * perf: skip unnecessary parsing of entire header
+ 
+ 2.3.9 / 2017-05-19
+ ==================
+diff --git a/index.js b/index.js
+index 618c4a7..58e636c 100644
+--- a/index.js
++++ b/index.js
+@@ -110,14 +110,26 @@ function createQueryGetter (key) {
+  */
+ 
+ function createHeaderGetter (str) {
+-  var header = str.toLowerCase()
++  var name = str.toLowerCase()
+ 
+   return function (req, res) {
+     // set appropriate Vary header
+     vary(res, str)
+ 
++    // get header
++    var header = req.headers[name]
++
++    if (!header) {
++      return undefined
++    }
++
+     // multiple headers get joined with comma by node.js core
+-    return (req.headers[header] || '').split(/ *, */)
++    var index = header.indexOf(',')
++
++    // return first value
++    return index !== -1
++      ? header.substr(0, index).trim()
++      : header.trim()
+   }
+ }
+ 

@@ -1,0 +1,7 @@
+=== redos/browserslist_4.16.4 (corrected retest) ===
+package        : browserslist
+fixed-tree ms  : 1161
+reverted ms    : 1531
+corrected label: no-repro
+detail         : reverted 1531ms < threshold 23212ms (fixed 1160.6ms) -- vuln needs more than the patch
+oracle         : timeout=25s floor=250ms ratio=20x; HANG or reverted>=max(floor,ratio*fixed) => reproduces

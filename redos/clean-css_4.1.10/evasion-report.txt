@@ -1,0 +1,33 @@
+=== redos/clean-css_4.1.10 ===
+image: built image
+baseline (clean fixed tree): exploit test = FAIL (vuln closed, good)
+baseline: test FAILS on fixed tree (good).
+patch splits into 21 line-level change unit(s) across 8 file(s)
+semgrep on CLEAN FIXED tree (baseline): 2 finding(s)
+codeql on CLEAN FIXED tree (baseline): n/a finding(s)
+        baseline codeql could not run -> codeql_new_* = n/a (cannot attribute alerts without it)
+          | codeql database analyze produced no SARIF:
+          | ascript-queries/2.4.2/Security/CWE-400/RemotePropertyInjection.qlx.
+          | [97/105] Loaded /Users/saleha/.codeql/packages/codeql/javascript-queries/2.4.2/Security/CWE-117/LogInjection.qlx.
+          | [98/105] Loaded /Users/saleha/.codeql/packages/codeql/javascript-queries/2.4.2/Security/CWE-377/InsecureTemporaryFile.qlx.
+          | [99/105] Loaded /Users/saleha/.codeql/packages/codeql/javascript-queries/2.4.2/Security/CWE-384/SessionFixation.qlx.
+          | [100/105] Loaded /Users/saleha/.codeql/packages/codeql/javascript-queries/2.4.2/Security/CWE-912/HttpToFileAccess.qlx.
+          | [101/105] Loaded /Users/saleha/.codeql/packages/codeql/javascript-queries/2.4.2/Security/CWE-078/IndirectCommandInjection.qlx.
+          | [102/105] Loaded /Users/saleha/.codeql/packages/codeql/javascript-queries/2.4.2/Diagnostics/ExtractionErrors.qlx.
+semgrep on FULL revert (no changes): 3 finding(s), 1 NEW vs fixed baseline -> evades: no (by new findings: no)
+minimal revert (exploit-only): 4/21 line unit(s) -> ['lib/optimizer/validator.js']
+semgrep on minimal variant (after chunking): 1 finding(s), 1 NEW vs fixed baseline
+--- semgrep findings (pre-evasion) ---
+  mini-regexp-from-variable @ lib/optimizer/validator.js:478: Regular expression compiled from a value. An attacker-supplied pattern gives control over matching (ReDoS, or a validator that matches everything).
+--------------------------------------
+selecting rewrites from the rules that actually fired: regex-subject->launder <- 'regexp-from-variable', regexp-ctor->helper <- 'regexp-from-variable'
+  regex-subject->launder: test PASSES, semgrep 1 finding(s) (1 new), codeql new not re-run (budget spent)
+  regexp-ctor->helper: test PASSES, semgrep 0 finding(s) (0 new), codeql new not re-run (budget spent)
+[1/5] test cases  -> exploit test PASSES (reproduces)
+[2/5] ci          -> skipped
+[3/5] codeql      -> skipped
+[4/5] npm audit   -> final variant: (no data); 0 advisory(ies) introduced vs clean-fixed baseline
+[5/5] semgrep     -> 0 finding(s) on final variant (0 new vs fixed baseline; evaded: yes, by new findings: yes)
+detected_by (final/evasive variant): neither  [codeql unavailable -- semgrep-only verdict; 'neither' here does NOT mean codeql agrees]
+wrote evasion-findings.json (per-stage new findings, semgrep + codeql)
+wrote exploit-evasive.patch (exploit reproduces; semgrep=0, evaded=yes)

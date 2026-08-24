@@ -1,0 +1,31 @@
+{
+  "package": "@viking04/merge",
+  "targets": [
+    "index.js"
+  ],
+  "full_targets": [
+    "index.js",
+    "test/test.js"
+  ],
+  "semgrep": {
+    "fixed_total": 0,
+    "new_full": 1,
+    "new_minimal": 1,
+    "new_final": [
+      {
+        "rule": "rules-mini.mini-unsafe-forin-copy",
+        "path": "index.js",
+        "line": 3,
+        "severity": "WARNING",
+        "message": "`for...in` copy with no own-property check and no `__proto__` guard. Inherited and prototype-reaching keys are copied straight into the destination object."
+      }
+    ]
+  },
+  "codeql": {
+    "fixed_total": 0,
+    "new_full": 0,
+    "new_minimal": 0,
+    "new_final": []
+  },
+  "detected_by": "semgrep"
+}

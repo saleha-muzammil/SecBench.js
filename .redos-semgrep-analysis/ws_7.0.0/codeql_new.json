@@ -1,0 +1,9 @@
+[
+  [
+    "Polynomial regular expression used on uncontrolled data",
+    "A regular expression that can require polynomial time to match may be vulnerable to denial-of-service attacks.",
+    "warning",
+    "This [[\"regular expression\"|\"relative:///lib/websocket-server.js:289:41:289:42\"]] that depends on [[\"library input\"|\"relative:///lib/websocket-server.js:181:17:181:19\"]] may run slow on strings with many repetitions of ' '.\nThis [[\"regular expression\"|\"relative:///lib/websocket-server.js:289:41:289:42\"]] that depends on [[\"library input\"|\"relative:///lib/websocket-server.js:261:36:261:38\"]] may run slow on strings with many repetitions of ' '.",
+    "/lib/websocket-server.js"
+  ]
+]

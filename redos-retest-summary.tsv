@@ -1,0 +1,81 @@
+folder	package	fixed_ms	reverted_ms	corrected_label	detail
+ansi-regex_4.1.0	ansi-regex	0	1251	reproduces	reverted 1251ms >= threshold 250ms (fixed 0.2ms)
+axios_0.21.0	axios	1	1474	reproduces	reverted 1474ms >= threshold 250ms (fixed 1.2ms)
+browserslist_4.16.4	browserslist	1161	1531	no-repro	reverted 1531ms < threshold 23212ms (fixed 1160.6ms) -- vuln needs more than the patch
+cejs_2.0.20170212	cejs	672	607	no-repro	reverted 607ms < threshold 13443ms (fixed 672.1ms) -- vuln needs more than the patch
+chrono-node_2.2.3	chrono-node	2669	2650	no-repro	reverted 2650ms < threshold 53387ms (fixed 2669.4ms) -- vuln needs more than the patch
+clean-css_4.1.10	clean-css	47	4256	reproduces	reverted 4256ms >= threshold 946ms (fixed 47.3ms)
+codemirror_5.58.0	codemirror	1801	2356	no-repro	reverted 2356ms < threshold 36027ms (fixed 1801.4ms) -- vuln needs more than the patch
+color-string_1.5.4	color-string	0	1085	reproduces	reverted 1085ms >= threshold 250ms (fixed 0.2ms)
+colors-cli_1.0.25	colors-cli	1	2423	reproduces	reverted 2423ms >= threshold 250ms (fixed 0.6ms)
+content-type-parser_1.0.1	content-type-parser	n/a	n/a	image-failed	docker build failed:
+#0 building with "desktop-linux" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile.fixed
+#1 transferring dockerfile: 2B done
+#1 DONE 0.0s
+ERROR: failed to solve: failed to read dockerfile: open Dockerfile.fixed: no such file or directory
+content_3.0.5	content	n/a	n/a	test-error	exploit test errored before measuring (setup/dep issue)
+conventional-commits-parser_3.2.0	conventional-commits-parser	n/a	n/a	test-error	exploit test errored before measuring (setup/dep issue)
+d3-color_2.0.0	d3-color	n/a	n/a	image-failed	docker build failed:
+#0 building with "desktop-linux" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile.fixed
+#1 transferring dockerfile: 2B done
+#1 DONE 0.0s
+ERROR: failed to solve: failed to read dockerfile: open Dockerfile.fixed: no such file or directory
+date-and-time_0.14.1	date-and-time	0	1413	reproduces	reverted 1413ms >= threshold 250ms (fixed 0.1ms)
+dirty-json_0.4.0	dirty-json	0	1107	reproduces	reverted 1107ms >= threshold 250ms (fixed 0.5ms)
+ducktype_1.2.0	ducktype	373	1023	no-repro	reverted 1023ms < threshold 7451ms (fixed 372.6ms) -- vuln needs more than the patch
+email-existence_0.1.5	email-existence	0	1409	reproduces	reverted 1409ms >= threshold 250ms (fixed 0.0ms)
+ethers_5.2.0	ethers	n/a	n/a	test-error	exploit test errored before measuring (setup/dep issue)
+fast-csv_4.3.5	fast-csv	n/a	n/a	test-error	exploit test errored before measuring (setup/dep issue)
+forwarded_0.1.0	forwarded	2	1468	reproduces	reverted 1468ms >= threshold 250ms (fixed 1.6ms)
+fresh_0.5.0	fresh	1	1472	reproduces	reverted 1472ms >= threshold 250ms (fixed 1.3ms)
+glob-parent_5.0.0	glob-parent	1	4	no-repro	reverted 4ms < threshold 250ms (fixed 0.6ms) -- vuln needs more than the patch
+highlight.js_10.4.0	highlight.js	n/a	n/a	test-error	exploit test errored before measuring (setup/dep issue)
+hosted-git-info_3.0.0	hosted-git-info	20	1001	reproduces	reverted 1001ms >= threshold 398ms (fixed 19.9ms)
+html-dom-parser_0.1.2	html-dom-parser	703	714	no-repro	reverted 714ms < threshold 14061ms (fixed 703.0ms) -- vuln needs more than the patch
+html-parse-stringify2_2.0.1	html-parse-stringify2	n/a	n/a	image-failed	docker build failed:
+#0 building with "desktop-linux" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile.fixed
+#1 transferring dockerfile: 2B done
+#1 DONE 0.0s
+ERROR: failed to solve: failed to read dockerfile: open Dockerfile.fixed: no such file or directory
+html-parse-stringify_2.0.0	html-parse-stringify	0	0	no-repro	reverted 0ms < threshold 250ms (fixed 0.1ms) -- vuln needs more than the patch
+is-email_1.0.0	is-email	0	4158	reproduces	reverted 4158ms >= threshold 250ms (fixed 0.5ms)
+is-my-json-valid_2.20.1	is-my-json-valid	0	4354	reproduces	reverted 4354ms >= threshold 250ms (fixed 0.0ms)
+is-svg_4.2.2	is-svg	44	n/a	test-error	exploit test errored before measuring (setup/dep issue)
+jspdf_2.1.1	jspdf	4242	4272	no-repro	reverted 4272ms < threshold 84842ms (fixed 4242.1ms) -- vuln needs more than the patch
+locutus_2.0.10	locutus	n/a	n/a	image-failed	docker build failed:
+ocutus     && cd node_modules/locutus     && if git checkout -q \"eb863321990e7e5514aa14f68b8d9978ece9e65e\" || git checkout -q \"v2.0.15\" || git checkout -q \"2.0.15\"; then            npm install --no-audit --no-fund --ignore-scripts            && (npm run build --if-present || echo \"WARNING: build step failed/partial; continuing\")            && (npm run prepare --if-present || echo \"WARNING: prepare step failed/partial; continuing\");        else            echo \"WARNING: could not check out commit eb86332199 / tag v2.0.15; installing locutus@2.0.15 from npm instead\"            && cd /exploit/locutus_2.0.10            && rm -rf node_modules/locutus            && npm install --no-audit --no-fund --ignore-scripts locutus@2.0.15;        fi" did not complete successfully: exit code: 1
+lodash_4.17.4	lodash	5	1	no-repro	reverted 1ms < threshold 250ms (fixed 4.9ms) -- vuln needs more than the patch
+markdown-it_9.1.0	markdown-it	397	151	no-repro	reverted 151ms < threshold 7942ms (fixed 397.1ms) -- vuln needs more than the patch
+marked_0.3.6	marked	11	8	no-repro	reverted 8ms < threshold 250ms (fixed 10.8ms) -- vuln needs more than the patch
+method-override_2.0.0	method-override	1	668	reproduces	reverted 668ms >= threshold 250ms (fixed 0.7ms)
+mime_1.4.0	mime	n/a	n/a	test-error	exploit test errored before measuring (setup/dep issue)
+minimatch_3.0.0	minimatch	n/a	2932	reproduces	reverted 2932ms >= threshold 250ms (fixed 0.0ms)
+mobile-detect_1.3.6	mobile-detect	1101	1100	no-repro	reverted 1100ms < threshold 22022ms (fixed 1101.1ms) -- vuln needs more than the patch
+natural_5.1.0	natural	0	1197	reproduces	reverted 1197ms >= threshold 250ms (fixed 0.3ms)
+normalize-url_6.0.0	normalize-url	0	971	reproduces	reverted 971ms >= threshold 250ms (fixed 0.2ms)
+npm-user-validate_1.0.0	npm-user-validate	0	666	reproduces	reverted 666ms >= threshold 250ms (fixed 0.0ms)
+nth-check_2.0.0	nth-check	1	1	no-repro	reverted 1ms < threshold 250ms (fixed 1.4ms) -- vuln needs more than the patch
+papaparse_5.1.1	papaparse	2	3526	reproduces	reverted 3526ms >= threshold 250ms (fixed 2.5ms)
+postcss_8.0.0	postcss	n/a	n/a	image-failed	docker build failed:
+postcss     && cd node_modules/postcss     && if git checkout -q \"2b1d04c867995e55124e0a165b7c6622c1735956\" || git checkout -q \"v7.0.36\" || git checkout -q \"7.0.36\"; then            npm install --no-audit --no-fund --ignore-scripts            && (npm run build --if-present || echo \"WARNING: build step failed/partial; continuing\")            && (npm run prepare --if-present || echo \"WARNING: prepare step failed/partial; continuing\");        else            echo \"WARNING: could not check out commit 2b1d04c867 / tag v7.0.36; installing postcss@7.0.36 from npm instead\"            && cd /exploit/postcss_8.0.0            && rm -rf node_modules/postcss            && npm install --no-audit --no-fund --ignore-scripts postcss@7.0.36;        fi" did not complete successfully: exit code: 1
+ramda_0.27.1	ramda	1	4	no-repro	reverted 4ms < threshold 250ms (fixed 0.8ms) -- vuln needs more than the patch
+react-native_0.63.0-rc.0	react-native	n/a	n/a	image-failed	docker build failed:
+react-native     && if git checkout -q \"ca09ae82715e33c9ac77b3fa55495cf84ba891c7\" || git checkout -q \"v0.64.1\" || git checkout -q \"0.64.1\"; then            npm install --no-audit --no-fund --ignore-scripts            && (npm run build --if-present || echo \"WARNING: build step failed/partial; continuing\")            && (npm run prepare --if-present || echo \"WARNING: prepare step failed/partial; continuing\");        else            echo \"WARNING: could not check out commit ca09ae8271 / tag v0.64.1; installing react-native@0.64.1 from npm instead\"            && cd /exploit/react-native_0.63.0-rc.0            && rm -rf node_modules/react-native            && npm install --no-audit --no-fund --ignore-scripts react-native@0.64.1;        fi" did not complete successfully: exit code: 1
+sanitize_2.0.0	sanitize	1	2635	reproduces	reverted 2635ms >= threshold 250ms (fixed 1.5ms)
+semver-regex_3.1.1	semver-regex	n/a	n/a	test-error	exploit test errored before measuring (setup/dep issue)
+simple-markdown_0.7.2	simple-markdown	1032	1030	no-repro	reverted 1030ms < threshold 20645ms (fixed 1032.3ms) -- vuln needs more than the patch
+ssri_8.0.0	ssri	0	762	reproduces	reverted 762ms >= threshold 250ms (fixed 0.1ms)
+terminal-kit_2.1.0	terminal-kit	6	1029	reproduces	reverted 1029ms >= threshold 250ms (fixed 6.4ms)
+tmpl_1.0.0	tmpl	0	659	reproduces	reverted 659ms >= threshold 250ms (fixed 0.4ms)
+trim-off-newlines_1.0.0	trim-off-newlines	0	1658	reproduces	reverted 1658ms >= threshold 250ms (fixed 0.1ms)
+truncate_2.0.0	truncate	66	3529	reproduces	reverted 3529ms >= threshold 1326ms (fixed 66.3ms)
+ua-parser-js_0.7.22	ua-parser-js	8	8	no-repro	reverted 8ms < threshold 250ms (fixed 8.3ms) -- vuln needs more than the patch
+valid-email_0.0.1	valid-email	0	441	reproduces	reverted 441ms >= threshold 250ms (fixed 0.1ms)
+validator_13.5.2	validator	n/a	n/a	npm-fallback	no git tree to revert
+ws_7.0.0	ws	728	727	no-repro	reverted 727ms < threshold 14565ms (fixed 728.3ms) -- vuln needs more than the patch

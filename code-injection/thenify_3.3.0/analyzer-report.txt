@@ -1,0 +1,43 @@
+Analyzer report for code-injection/thenify_3.3.0
+Package : thenify@3.3.0  (fixed: 3.3.1)
+CVE     : CVE-2020-7677
+Repo    : thenables/thenify
+Image   : secbench-fixed/thenify_3.3.0
+Image   : using existing image
+
+========================================================================
+PATCH REVERT
+========================================================================
+Reverted patch.txt via: git apply -R
+Files changed by the patch (2):
+  index.js
+  test/test.js
+
+========================================================================
+SEMGREP (sink file + changed files)
+========================================================================
+sink file scanned: index.js
+Scanned files: index.js, test/test.js
+semgrep configs: secbench-code-injection.yml (local), p/javascript, p/nodejs, p/security-audit
+Summary: Ran 88 rules on 1 file: 2 findings.
+
+┌─────────────────┐
+│ 2 Code Findings │
+└─────────────────┘
+                 
+    /src/index.js
+   ❯❯❱ rules.secbench-eval-call
+          ❰❰ Blocking ❱❱
+          eval() executes its argument as code; if attacker-controlled this is a code-injection sink.
+                                                                                                     
+           17┆ return eval(createWrapper($$__fn__$$.name, options))
+            ⋮┆----------------------------------------
+           33┆ return eval(createWrapper($$__fn__$$.name, options))
+
+========================================================================
+NPM AUDIT DELTA (introduced by reverting the fix)
+========================================================================
+fixed tree   : critical=4, high=2, moderate=2, low=0, info=0, total=8
+reverted tree: critical=4, high=2, moderate=2, low=0, info=0, total=8
+
+No new advisories introduced by the revert (deps unchanged or already-known to the audit DB).

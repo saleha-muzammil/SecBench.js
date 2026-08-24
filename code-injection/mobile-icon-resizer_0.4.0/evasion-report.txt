@@ -1,0 +1,50 @@
+=== code-injection/mobile-icon-resizer_0.4.0 ===
+image: using existing image
+baseline (clean fixed tree): exploit test = FAIL (vuln closed, good)
+baseline: test FAILS on fixed tree (good).
+patch splits into 5 line-level change unit(s) across 2 file(s)
+semgrep on CLEAN FIXED tree (baseline): 8 finding(s)
+codeql on CLEAN FIXED tree (baseline): 0 finding(s)
+semgrep on FULL revert (no changes): 12 finding(s), 4 NEW vs fixed baseline -> evades: no (by new findings: no)
+codeql on FULL revert (no changes): 0 finding(s), 0 NEW vs fixed baseline
+minimal revert (exploit-only): 1/5 line unit(s) -> ['lib/resize.js']
+semgrep on minimal variant (after chunking): 12 finding(s), 4 NEW vs fixed baseline
+--- semgrep findings (pre-evasion) ---
+  eval-detected @ lib/resize.js:32: Detected the use of eval(). eval() can be dangerous if used to evaluate dynamic content. If this content can be input from outside the program, this may be a code injection vulnerability. Ensure evaluated content is not…
+  mini-dynamic-code-evaluation @ lib/resize.js:32: Runtime code evaluation. Turning a value into executable code -- via eval, the Function constructor, node:vm, a string-valued timer, or an alias/computed reference to any of them -- makes every value that reaches this e…
+  secbench-eval-call @ lib/resize.js:32: eval() executes its argument as code; if attacker-controlled this is a code-injection sink.
+  secbench-tainted-code-exec @ lib/resize.js:32: Untrusted input reaches a dynamic code-execution sink without passing through a sanitizer.
+  path-join-resolve-traversal @ lib/resize.js:61: Detected possible user input going into a `path.join` or `path.resolve` function. This could possibly lead to a path traversal vulnerability, where the attacker can access arbitrary files stored in the file system. Inst…
+  path-join-resolve-traversal @ lib/resize.js:61: Detected possible user input going into a `path.join` or `path.resolve` function. This could possibly lead to a path traversal vulnerability, where the attacker can access arbitrary files stored in the file system. Inst…
+  path-join-resolve-traversal @ lib/resize.js:105: Detected possible user input going into a `path.join` or `path.resolve` function. This could possibly lead to a path traversal vulnerability, where the attacker can access arbitrary files stored in the file system. Inst…
+  path-join-resolve-traversal @ lib/resize.js:105: Detected possible user input going into a `path.join` or `path.resolve` function. This could possibly lead to a path traversal vulnerability, where the attacker can access arbitrary files stored in the file system. Inst…
+  path-join-resolve-traversal @ lib/resize.js:107: Detected possible user input going into a `path.join` or `path.resolve` function. This could possibly lead to a path traversal vulnerability, where the attacker can access arbitrary files stored in the file system. Inst…
+  path-join-resolve-traversal @ lib/resize.js:107: Detected possible user input going into a `path.join` or `path.resolve` function. This could possibly lead to a path traversal vulnerability, where the attacker can access arbitrary files stored in the file system. Inst…
+  mini-dynamic-require @ lib/resize.js:162: Module path built at runtime. A non-literal `require`/`import` loads and executes whatever the resolved path points at, and hides the dependency from review and from lockfile auditing.
+  path-join-resolve-traversal @ lib/resize.js:162: Detected possible user input going into a `path.join` or `path.resolve` function. This could possibly lead to a path traversal vulnerability, where the attacker can access arbitrary files stored in the file system. Inst…
+--------------------------------------
+codeql on minimal variant (after chunking): 0 finding(s), 0 NEW vs fixed baseline
+selecting rewrites from the rules that actually fired: params->launder <- 'tainted', source->launder <- 'tainted', source->launder+index <- 'tainted', eval->parenthesised <- 'eval-detected', eval-assign->hoisted-indirect <- 'eval-detected', eval->Function+locals <- 'eval-detected', Function-call->indirect <- 'eval-detected', eval->indirect <- 'eval-detected'
+  params->launder: test PASSES, semgrep 12 finding(s) (4 new), codeql new not re-run
+  source->launder: matched nothing -> skipped
+  source->launder+index: matched nothing -> skipped
+  eval->parenthesised: test PASSES, semgrep 12 finding(s) (4 new), codeql new not re-run
+  eval-assign->hoisted-indirect: matched nothing -> skipped
+  eval->Function+locals: test PASSES, semgrep 9 finding(s) (1 new), codeql new not re-run
+  Function-call->indirect: matched nothing -> skipped
+  eval->indirect: broke the exploit test -> rejected
+  eval->Function+locals+params->launder: test PASSES, semgrep 9 finding(s) (1 new), codeql new not re-run
+  eval->Function+locals+eval->parenthesised: test PASSES, semgrep 12 finding(s) (4 new), codeql new not re-run
+[1/5] test cases  -> exploit test PASSES (reproduces)
+[2/5] ci          -> skipped
+[3/5] codeql      -> confirming the final variant (baseline/full/minimal measured during the search) ...
+        final   = 0 finding(s), 0 new
+[3/5] codeql      -> baseline=0, full=0, minimal=0, final=0 findings (new vs baseline: 0/0/0)
+[4/5] npm audit   -> final variant: (no data); 0 advisory(ies) introduced vs clean-fixed baseline
+[5/5] semgrep     -> 9 finding(s) on final variant (1 new vs fixed baseline; evaded: no, by new findings: no)
+        --- semgrep NEW findings on the final variant ---
+        + secbench-tainted-code-exec @ lib/resize.js:32: Untrusted input reaches a dynamic code-execution sink without passing through a sanitizer.
+        -----------------------------------------------
+detected_by (final/evasive variant): semgrep
+wrote evasion-findings.json (per-stage new findings, semgrep + codeql)
+wrote exploit-evasive.patch (exploit reproduces; semgrep=9, evaded=no)

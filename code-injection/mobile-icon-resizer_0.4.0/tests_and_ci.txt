@@ -1,0 +1,30 @@
+SecBench.js — test & CI inventory
+============================================================
+Entry      : code-injection/mobile-icon-resizer_0.4.0
+Package    : mobile-icon-resizer@0.4.0
+Repository : https://github.com/muzzley/mobile-icon-resizer
+Source     : checked out: v0.4.0
+Generated  : 2026-06-22
+
+== package.json test scripts ==
+  test: echo "Error: no test specified" && exit 1
+
+== test framework dependencies ==
+  (none detected)
+
+== how to run the tests ==
+  npm install
+  npm test
+
+== test directories ==
+  (none found)
+
+== test files (0 found) ==
+  (none found)
+
+== test runner config ==
+  (none found)
+
+== CI / workflows ==
+  (no CI / workflow files found)
+

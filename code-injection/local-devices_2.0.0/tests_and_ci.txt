@@ -1,0 +1,55 @@
+SecBench.js — test & CI inventory
+============================================================
+Entry      : code-injection/local-devices_2.0.0
+Package    : local-devices@2.0.0
+Repository : https://github.com/DylanPiercey/local-devices
+Source     : checked out: v2.0.0
+Generated  : 2026-06-22
+
+== package.json test scripts ==
+  coveralls: jest --coverage && cat ./coverage/lcov.info | coveralls
+  test: jest
+  watch-test: jest --watch
+
+== test framework dependencies ==
+  jest
+
+== how to run the tests ==
+  npm install
+  npm test
+
+== test directories ==
+  __tests__/   (1 files)
+
+== test files (0 found) ==
+  (none found)
+
+== test runner config ==
+  package.json#jest
+
+== CI / workflows ==
+  .travis.yml
+
+  --- .travis.yml ---
+  | language: node_js
+  | 
+  | node_js:
+  |   - '8'
+  |   - '10'
+  | 
+  | script:
+  |   - npm run test
+  | 
+  | notifications:
+  |   email:
+  |     on_success: change
+  |     on_failure: always
+  | 
+  | after_success: 'npm run coveralls'
+  | 
+  | cache:
+  |   directories:
+  |     - ~/.npm # cache npm's cache
+  |     - ~/npm # cache latest npm
+  |     - node_modules # npm install, unlike npm ci, doesn't wipe node_modules
+

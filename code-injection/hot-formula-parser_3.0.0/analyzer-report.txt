@@ -1,0 +1,44 @@
+Analyzer report for code-injection/hot-formula-parser_3.0.0
+Package : hot-formula-parser@3.0.0  (fixed: 3.0.1)
+CVE     : CVE-2020-6836
+Repo    : handsontable/formula-parser
+Image   : secbench-fixed/hot-formula-parser_3.0.0
+Image   : using existing image
+
+========================================================================
+PATCH REVERT
+========================================================================
+Reverted patch.txt via: git apply -R
+Files changed by the patch (5):
+  package-lock.json
+  package.json
+  src/grammar-parser/grammar-parser.jison
+  src/grammar-parser/grammar-parser.js
+  test/integration/parsing/function.js
+
+========================================================================
+SEMGREP (sink file + changed files)
+========================================================================
+sink file scanned: lib/grammar-parser/grammar-parser.js
+Scanned files: src/grammar-parser/grammar-parser.js, test/integration/parsing/function.js, lib/grammar-parser/grammar-parser.js
+semgrep configs: secbench-code-injection.yml (local), p/javascript, p/nodejs, p/security-audit
+Summary: Ran 88 rules on 2 files: 1 finding.
+
+┌────────────────┐
+│ 1 Code Finding │
+└────────────────┘
+                                             
+    /src/src/grammar-parser/grammar-parser.js
+   ❯❯❱ rules.secbench-eval-call
+          ❰❰ Blocking ❱❱
+          eval() executes its argument as code; if attacker-controlled this is a code-injection sink.
+                                                                                                     
+          226┆ var arr = eval("[" + yytext + "]");
+
+========================================================================
+NPM AUDIT DELTA (introduced by reverting the fix)
+========================================================================
+fixed tree   : critical=50, high=38, moderate=35, low=6, info=0, total=129
+reverted tree: critical=49, high=38, moderate=32, low=6, info=0, total=125
+
+No new advisories introduced by the revert (deps unchanged or already-known to the audit DB).

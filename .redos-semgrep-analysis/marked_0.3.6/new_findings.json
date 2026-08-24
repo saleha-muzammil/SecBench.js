@@ -1,0 +1,353 @@
+[
+  {
+    "check_id": "Users.saleha.Desktop.cispa.mini-swe-agent.src.minisweagent.config.extra.mini-shell-exec-nonliteral",
+    "path": "lib/marked.esm.js",
+    "start": {
+      "line": 967,
+      "col": 20,
+      "offset": 23682
+    },
+    "end": {
+      "line": 967,
+      "col": 61,
+      "offset": 23723
+    },
+    "extra": {
+      "message": "Shell command assembled from a value. `exec`/`execSync` run the string through a shell, so any interpolated value can inject additional commands; use `execFile` with an argument array.",
+      "metadata": {
+        "category": "security",
+        "cwe": "CWE-78: OS Command Injection",
+        "confidence": "MEDIUM"
+      },
+      "severity": "ERROR",
+      "fingerprint": "requires login",
+      "lines": "requires login",
+      "validation_state": "NO_VALIDATOR",
+      "engine_kind": "OSS"
+    }
+  },
+  {
+    "check_id": "Users.saleha.Desktop.cispa.mini-swe-agent.src.minisweagent.config.extra.mini-shell-exec-nonliteral",
+    "path": "lib/marked.esm.js",
+    "start": {
+      "line": 993,
+      "col": 17,
+      "offset": 24214
+    },
+    "end": {
+      "line": 993,
+      "col": 49,
+      "offset": 24246
+    },
+    "extra": {
+      "message": "Shell command assembled from a value. `exec`/`execSync` run the string through a shell, so any interpolated value can inject additional commands; use `execFile` with an argument array.",
+      "metadata": {
+        "category": "security",
+        "cwe": "CWE-78: OS Command Injection",
+        "confidence": "MEDIUM"
+      },
+      "severity": "ERROR",
+      "fingerprint": "requires login",
+      "lines": "requires login",
+      "validation_state": "NO_VALIDATOR",
+      "engine_kind": "OSS"
+    }
+  },
+  {
+    "check_id": "Users.saleha.Desktop.cispa.mini-swe-agent.src.minisweagent.config.extra.mini-shell-exec-nonliteral",
+    "path": "lib/marked.esm.js",
+    "start": {
+      "line": 1695,
+      "col": 25,
+      "offset": 45902
+    },
+    "end": {
+      "line": 1695,
+      "col": 82,
+      "offset": 45959
+    },
+    "extra": {
+      "message": "Shell command assembled from a value. `exec`/`execSync` run the string through a shell, so any interpolated value can inject additional commands; use `execFile` with an argument array.",
+      "metadata": {
+        "category": "security",
+        "cwe": "CWE-78: OS Command Injection",
+        "confidence": "MEDIUM"
+      },
+      "severity": "ERROR",
+      "fingerprint": "requires login",
+      "lines": "requires login",
+      "validation_state": "NO_VALIDATOR",
+      "engine_kind": "OSS"
+    }
+  },
+  {
+    "check_id": "Users.saleha.Desktop.cispa.mini-swe-agent.src.minisweagent.config.extra.mini-shell-exec-nonliteral",
+    "path": "lib/marked.esm.js",
+    "start": {
+      "line": 1703,
+      "col": 21,
+      "offset": 46323
+    },
+    "end": {
+      "line": 1703,
+      "col": 74,
+      "offset": 46376
+    },
+    "extra": {
+      "message": "Shell command assembled from a value. `exec`/`execSync` run the string through a shell, so any interpolated value can inject additional commands; use `execFile` with an argument array.",
+      "metadata": {
+        "category": "security",
+        "cwe": "CWE-78: OS Command Injection",
+        "confidence": "MEDIUM"
+      },
+      "severity": "ERROR",
+      "fingerprint": "requires login",
+      "lines": "requires login",
+      "validation_state": "NO_VALIDATOR",
+      "engine_kind": "OSS"
+    }
+  },
+  {
+    "check_id": "Users.saleha.Desktop.cispa.mini-swe-agent.src.minisweagent.config.extra.mini-shell-exec-nonliteral",
+    "path": "lib/marked.js",
+    "start": {
+      "line": 1081,
+      "col": 22,
+      "offset": 28410
+    },
+    "end": {
+      "line": 1081,
+      "col": 63,
+      "offset": 28451
+    },
+    "extra": {
+      "message": "Shell command assembled from a value. `exec`/`execSync` run the string through a shell, so any interpolated value can inject additional commands; use `execFile` with an argument array.",
+      "metadata": {
+        "category": "security",
+        "cwe": "CWE-78: OS Command Injection",
+        "confidence": "MEDIUM"
+      },
+      "severity": "ERROR",
+      "fingerprint": "requires login",
+      "lines": "requires login",
+      "validation_state": "NO_VALIDATOR",
+      "engine_kind": "OSS"
+    }
+  },
+  {
+    "check_id": "Users.saleha.Desktop.cispa.mini-swe-agent.src.minisweagent.config.extra.mini-shell-exec-nonliteral",
+    "path": "lib/marked.js",
+    "start": {
+      "line": 1108,
+      "col": 17,
+      "offset": 29008
+    },
+    "end": {
+      "line": 1108,
+      "col": 49,
+      "offset": 29040
+    },
+    "extra": {
+      "message": "Shell command assembled from a value. `exec`/`execSync` run the string through a shell, so any interpolated value can inject additional commands; use `execFile` with an argument array.",
+      "metadata": {
+        "category": "security",
+        "cwe": "CWE-78: OS Command Injection",
+        "confidence": "MEDIUM"
+      },
+      "severity": "ERROR",
+      "fingerprint": "requires login",
+      "lines": "requires login",
+      "validation_state": "NO_VALIDATOR",
+      "engine_kind": "OSS"
+    }
+  },
+  {
+    "check_id": "Users.saleha.Desktop.cispa.mini-swe-agent.src.minisweagent.config.extra.mini-shell-exec-nonliteral",
+    "path": "lib/marked.js",
+    "start": {
+      "line": 1713,
+      "col": 27,
+      "offset": 51629
+    },
+    "end": {
+      "line": 1713,
+      "col": 84,
+      "offset": 51686
+    },
+    "extra": {
+      "message": "Shell command assembled from a value. `exec`/`execSync` run the string through a shell, so any interpolated value can inject additional commands; use `execFile` with an argument array.",
+      "metadata": {
+        "category": "security",
+        "cwe": "CWE-78: OS Command Injection",
+        "confidence": "MEDIUM"
+      },
+      "severity": "ERROR",
+      "fingerprint": "requires login",
+      "lines": "requires login",
+      "validation_state": "NO_VALIDATOR",
+      "engine_kind": "OSS"
+    }
+  },
+  {
+    "check_id": "Users.saleha.Desktop.cispa.mini-swe-agent.src.minisweagent.config.extra.mini-shell-exec-nonliteral",
+    "path": "lib/marked.js",
+    "start": {
+      "line": 1722,
+      "col": 23,
+      "offset": 52062
+    },
+    "end": {
+      "line": 1722,
+      "col": 76,
+      "offset": 52115
+    },
+    "extra": {
+      "message": "Shell command assembled from a value. `exec`/`execSync` run the string through a shell, so any interpolated value can inject additional commands; use `execFile` with an argument array.",
+      "metadata": {
+        "category": "security",
+        "cwe": "CWE-78: OS Command Injection",
+        "confidence": "MEDIUM"
+      },
+      "severity": "ERROR",
+      "fingerprint": "requires login",
+      "lines": "requires login",
+      "validation_state": "NO_VALIDATOR",
+      "engine_kind": "OSS"
+    }
+  },
+  {
+    "check_id": "Users.saleha.Desktop.cispa.mini-swe-agent.src.minisweagent.config.extra.mini-shell-exec-nonliteral",
+    "path": "src/Tokenizer.js",
+    "start": {
+      "line": 605,
+      "col": 17,
+      "offset": 15366
+    },
+    "end": {
+      "line": 605,
+      "col": 48,
+      "offset": 15397
+    },
+    "extra": {
+      "message": "Shell command assembled from a value. `exec`/`execSync` run the string through a shell, so any interpolated value can inject additional commands; use `execFile` with an argument array.",
+      "metadata": {
+        "category": "security",
+        "cwe": "CWE-78: OS Command Injection",
+        "confidence": "MEDIUM"
+      },
+      "severity": "ERROR",
+      "fingerprint": "requires login",
+      "lines": "requires login",
+      "validation_state": "NO_VALIDATOR",
+      "engine_kind": "OSS"
+    }
+  },
+  {
+    "check_id": "Users.saleha.Desktop.cispa.mini-swe-agent.src.minisweagent.config.extra.mini-shell-exec-nonliteral",
+    "path": "src/Tokenizer.js",
+    "start": {
+      "line": 616,
+      "col": 17,
+      "offset": 15554
+    },
+    "end": {
+      "line": 616,
+      "col": 53,
+      "offset": 15590
+    },
+    "extra": {
+      "message": "Shell command assembled from a value. `exec`/`execSync` run the string through a shell, so any interpolated value can inject additional commands; use `execFile` with an argument array.",
+      "metadata": {
+        "category": "security",
+        "cwe": "CWE-78: OS Command Injection",
+        "confidence": "MEDIUM"
+      },
+      "severity": "ERROR",
+      "fingerprint": "requires login",
+      "lines": "requires login",
+      "validation_state": "NO_VALIDATOR",
+      "engine_kind": "OSS"
+    }
+  },
+  {
+    "check_id": "Users.saleha.Desktop.cispa.mini-swe-agent.src.minisweagent.config.extra.mini-shell-exec-nonliteral",
+    "path": "src/Tokenizer.js",
+    "start": {
+      "line": 645,
+      "col": 15,
+      "offset": 16108
+    },
+    "end": {
+      "line": 645,
+      "col": 46,
+      "offset": 16139
+    },
+    "extra": {
+      "message": "Shell command assembled from a value. `exec`/`execSync` run the string through a shell, so any interpolated value can inject additional commands; use `execFile` with an argument array.",
+      "metadata": {
+        "category": "security",
+        "cwe": "CWE-78: OS Command Injection",
+        "confidence": "MEDIUM"
+      },
+      "severity": "ERROR",
+      "fingerprint": "requires login",
+      "lines": "requires login",
+      "validation_state": "NO_VALIDATOR",
+      "engine_kind": "OSS"
+    }
+  },
+  {
+    "check_id": "Users.saleha.Desktop.cispa.mini-swe-agent.src.minisweagent.config.extra.mini-shell-exec-nonliteral",
+    "path": "src/Tokenizer.js",
+    "start": {
+      "line": 655,
+      "col": 20,
+      "offset": 16448
+    },
+    "end": {
+      "line": 655,
+      "col": 61,
+      "offset": 16489
+    },
+    "extra": {
+      "message": "Shell command assembled from a value. `exec`/`execSync` run the string through a shell, so any interpolated value can inject additional commands; use `execFile` with an argument array.",
+      "metadata": {
+        "category": "security",
+        "cwe": "CWE-78: OS Command Injection",
+        "confidence": "MEDIUM"
+      },
+      "severity": "ERROR",
+      "fingerprint": "requires login",
+      "lines": "requires login",
+      "validation_state": "NO_VALIDATOR",
+      "engine_kind": "OSS"
+    }
+  },
+  {
+    "check_id": "Users.saleha.Desktop.cispa.mini-swe-agent.src.minisweagent.config.extra.mini-shell-exec-nonliteral",
+    "path": "src/Tokenizer.js",
+    "start": {
+      "line": 681,
+      "col": 17,
+      "offset": 16978
+    },
+    "end": {
+      "line": 681,
+      "col": 49,
+      "offset": 17010
+    },
+    "extra": {
+      "message": "Shell command assembled from a value. `exec`/`execSync` run the string through a shell, so any interpolated value can inject additional commands; use `execFile` with an argument array.",
+      "metadata": {
+        "category": "security",
+        "cwe": "CWE-78: OS Command Injection",
+        "confidence": "MEDIUM"
+      },
+      "severity": "ERROR",
+      "fingerprint": "requires login",
+      "lines": "requires login",
+      "validation_state": "NO_VALIDATOR",
+      "engine_kind": "OSS"
+    }
+  }
+]

@@ -1,0 +1,6 @@
+=== path-traversal/serve-here.js_1.1.0 ===
+image: built image
+installed test deps: sleep
+baseline (clean fixed tree): exploit test = PASS (NOT fixed!)
+baseline: exploit test PASSES on the FIXED tree (installed serve-here.js@1.1.0, expected fixed >= 1.2.0) -> not truly fixed.
+  diagnosis: exploit fires with the package STUBBED OUT -> the *.test.js PoC is self-firing (EXPLOIT fault, not setup).

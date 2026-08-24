@@ -1,0 +1,22 @@
+{
+  "package": "axios",
+  "targets": [
+    "lib/utils.js"
+  ],
+  "full_targets": [
+    "lib/utils.js"
+  ],
+  "semgrep": {
+    "fixed_total": 0,
+    "new_full": 0,
+    "new_minimal": 0,
+    "new_final": []
+  },
+  "codeql": {
+    "fixed_total": 11,
+    "new_full": 0,
+    "new_minimal": 0,
+    "new_final": []
+  },
+  "detected_by": "neither"
+}

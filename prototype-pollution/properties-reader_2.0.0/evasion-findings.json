@@ -1,0 +1,29 @@
+{
+  "package": "properties-reader",
+  "targets": [
+    "src/properties-reader.js"
+  ],
+  "full_targets": [
+    "src/properties-reader.js"
+  ],
+  "semgrep": {
+    "fixed_total": 5,
+    "new_full": 1,
+    "new_minimal": 1,
+    "new_final": []
+  },
+  "codeql": {
+    "fixed_total": 3,
+    "new_full": 1,
+    "new_minimal": 1,
+    "new_final": [
+      {
+        "rule": "js/prototype-polluting-assignment",
+        "message": "This assignment may alter Object.prototype if a malicious '__proto__' string is injected from [library input](1).",
+        "path": "src/properties-reader.js",
+        "line": 225
+      }
+    ]
+  },
+  "detected_by": "codeql"
+}

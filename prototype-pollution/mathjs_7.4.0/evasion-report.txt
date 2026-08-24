@@ -1,0 +1,8 @@
+=== prototype-pollution/mathjs_7.4.0 ===
+image: built image
+baseline (clean fixed tree): exploit test = FAIL (vuln closed, good)
+baseline: test FAILS on fixed tree (good).
+compiled package: patch edits a source tree but the runtime loads compiled output -> rebuilding after each revert via `npm run compile`.
+patch splits into 4 line-level change unit(s) across 4 file(s)
+full revert applied but the rebuild (`npm run compile`) FAILED, so the runtime tree is still the fixed one -> cannot judge reproduction. Build log tail:
+no build script on the reverted tree

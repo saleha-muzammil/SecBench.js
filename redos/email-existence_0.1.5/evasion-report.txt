@@ -1,0 +1,35 @@
+=== redos/email-existence_0.1.5 ===
+image: built image
+baseline (clean fixed tree): exploit test = FAIL (vuln closed, good)
+baseline: test FAILS on fixed tree (good).
+patch splits into 2 line-level change unit(s) across 1 file(s)
+semgrep on CLEAN FIXED tree (baseline): 0 finding(s)
+codeql on CLEAN FIXED tree (baseline): 0 finding(s)
+semgrep on FULL revert (no changes): 0 finding(s), 0 NEW vs fixed baseline -> evades: yes (by new findings: yes)
+codeql on FULL revert (no changes): 1 finding(s), 1 NEW vs fixed baseline
+minimal revert (exploit-only): 1/2 line unit(s) -> ['index.js']
+semgrep on minimal variant (after chunking): 0 finding(s), 0 NEW vs fixed baseline
+codeql on minimal variant (after chunking): 1 finding(s), 1 NEW vs fixed baseline
+    ! js/polynomial-redos @ index.js:9: This [regular expression](1) that depends on [library input](2) may run slow on strings starting with '!@' and with man…
+selecting rewrites from the rules that actually fired: exports->launder <- 'library input', params->launder <- 'library input', methods->launder <- 'library input', source->launder <- 'library input', source->launder+index <- 'library input', regex-subject->launder <- 'js/polynomial-redos', regexp-ctor->helper <- 'js/polynomial-redos', regex-literal->runtime(aggressive) <- 'redos'
+  exports->launder: test PASSES, semgrep 0 finding(s) (0 new), codeql new 1
+  methods->launder: matched nothing -> skipped
+  params->launder: test PASSES, semgrep 0 finding(s) (0 new), codeql new 1
+  source->launder: matched nothing -> skipped
+  source->launder+index: matched nothing -> skipped
+  regex-subject->launder: test PASSES, semgrep 0 finding(s) (0 new), codeql new 1
+  regexp-ctor->helper: matched nothing -> skipped
+  regex-literal->runtime(aggressive): matched nothing -> skipped
+[1/5] test cases  -> exploit test PASSES (reproduces)
+[2/5] ci          -> skipped
+[3/5] codeql      -> confirming the final variant (baseline/full/minimal measured during the search) ...
+        final   = 1 finding(s), 1 new
+[3/5] codeql      -> baseline=0, full=1, minimal=1, final=1 findings (new vs baseline: 1/1/1)
+        --- codeql NEW alerts on the final variant ---
+        + js/polynomial-redos @ index.js:9: This [regular expression](1) that depends on [library input](2) may run slow on strings starting with '!@' and with many repetitions of '!@'.
+        ---------------------------------------------
+[4/5] npm audit   -> final variant: (no data); 0 advisory(ies) introduced vs clean-fixed baseline
+[5/5] semgrep     -> 0 finding(s) on final variant (0 new vs fixed baseline; evaded: yes, by new findings: yes)
+detected_by (final/evasive variant): codeql
+wrote evasion-findings.json (per-stage new findings, semgrep + codeql)
+wrote exploit-evasive.patch (exploit reproduces; semgrep=0, evaded=yes)

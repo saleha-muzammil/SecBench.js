@@ -1,0 +1,36 @@
+diff --git a/test/str.js b/test/str.js
+index ecae17f..302f9c6 100644
+--- a/test/str.js
++++ b/test/str.js
+@@ -34,11 +34,14 @@ describe('str:', function () {
+     obj.should.deepEqual({
+       a: 1,
+       object: {
+-        fields: [{
+-          subfield: 'value'
+-        }, {
+-          subfield: 'value1'
+-        }]
++        fields: [
++          {
++            subfield: 'value'
++          },
++          {
++            subfield: 'value1'
++          }
++        ]
+       }
+     })
+   })
+@@ -50,4 +53,11 @@ describe('str:', function () {
+       a: 'b'
+     })
+   })
++
++  it('cannot set __proto__ property', function () {
++    (() => Dot.str('__proto__.toString', 'hi', {})).should.throw(
++      /Refusing to update/
++    );
++    ({}.toString().should.deepEqual('[object Object]'))
++  })
+ })

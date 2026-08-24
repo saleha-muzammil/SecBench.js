@@ -1,0 +1,281 @@
+From 1cd433960e5b9db4c0b537afb28366198a319429 Mon Sep 17 00:00:00 2001
+From: commenthol <commenthol@gmail.com>
+Date: Fri, 10 Feb 2017 05:19:22 +0900
+Subject: [PATCH] harmful deserialization fix
+
+---
+ README.md                         |  6 +++++
+ lib/deserialize.js                | 16 +++++++++----
+ lib/internal/sanitize.js          | 39 +++++++++++++++++++++++++++++++
+ lib/serialize.js                  | 10 ++------
+ lib/serializeToModule.js          |  5 +---
+ package.json                      |  7 +++---
+ test/{index.mocha.js => index.js} | 17 ++++++++++++++
+ test/sanitize.js                  | 30 ++++++++++++++++++++++++
+ 8 files changed, 110 insertions(+), 20 deletions(-)
+ create mode 100644 lib/internal/sanitize.js
+ rename test/{index.mocha.js => index.js} (94%)
+ create mode 100644 test/sanitize.js
+
+diff --git a/README.md b/README.md
+index 44ff604..e561600 100644
+--- a/README.md
++++ b/README.md
+@@ -98,6 +98,10 @@ console.log(opts.references);
+ 
+ deserialize a serialized object to javascript
+ 
++> _NOTE_: Deserialization uses `new Function()` for code evaluation which may be "harmful".
++> In default mode input code gets inspected, but removing `new Function, function, eval` might still not be sufficient.  
++> **SO NOW YOU ARE WARNED!**
++
+ #### Example - deserializing regex, date, ...
+ 
+ ```js
+@@ -114,6 +118,8 @@ console.log(res)
+ 
+ **str**: `String`, string containing serialized data
+ 
++**unsafe**: `Boolean`, if `true` unsafe and harmful code evaluation (default=false)
++
+ **Returns**: `Any`, deserialized data
+ 
+ 
+diff --git a/lib/deserialize.js b/lib/deserialize.js
+index 89e6d38..73a417c 100644
+--- a/lib/deserialize.js
++++ b/lib/deserialize.js
+@@ -6,12 +6,16 @@
+ 
+ 'use strict'
+ 
++var sanitize = require('./internal/sanitize')
++
+ /**
+  * deserialize a serialized object to javascript
+  *
+- * #### Example - serializing regex, date, buffer, ...
++ * _NOTE_: Deserialization uses `new Function()` for code evaluation which may be "harmful".
++ * In default mode input code gets inspected, but removing `new Function, function, eval` might still not be sufficient.
++ * *So now you are WARNED!*
+  *
+- * ```js
++ * @example <caption>serializing regex, date, buffer, ...</caption>
+  * var str = '{obj: {foo: "bar"}, arr: [1, "2"], regexp: /^test?$/, date: new Date("2016-04-15T16:22:52.009Z")}'
+  * var res = deserialize(str)
+  * console.log(res)
+@@ -19,12 +23,14 @@
+  * //>   arr: [ 1, '2' ],
+  * //>   regexp: /^test?$/,
+  * //>   date: Sat Apr 16 2016 01:22:52 GMT+0900 (JST) }
+- * ```
+  *
++ * @throws {Error|TypeError} parsing error
+  * @param {String} str - string containing serialized data
++ * @param {Boolean} [unsafe] - if `true` unsafe and harmful code evaluation (default=false)
+  * @return {Any} deserialized data
+  */
+-function deserialize (str) {
+-  return (new Function('return ' + str))()
++function deserialize (str, unsafe) {
++  if (!unsafe) str = sanitize(str)
++  return (new Function('"use strict"; return ' + str))()
+ }
+ module.exports = deserialize
+diff --git a/lib/internal/sanitize.js b/lib/internal/sanitize.js
+new file mode 100644
+index 0000000..ef844ba
+--- /dev/null
++++ b/lib/internal/sanitize.js
+@@ -0,0 +1,39 @@
++'use strict'
++
++var esprima = require('esprima')
++
++/**
++* remove `new Function`, `(function` and `eval` from `str`
++* @param {String} str
++* @return {String}
++*/
++module.exports = function sanitize (str) {
++  var tokens = esprima.tokenize(str)
++  // console.log(tokens)
++  var i = 0
++  while (i < tokens.length - 1) {
++    var arr = tokens.slice(i, i + 2)
++    var x = arr[0]
++    var y = arr[1]
++    if ((x.type === 'Identifier' && x.value === 'eval')) {
++      tokens.splice(i, 1)
++    } else if (
++      (x.type === 'Punctuator' && y.type === 'Keyword' && /Function/i.test(y.value)) ||
++      (y.type === 'Identifier' && y.value === 'eval')
++    ) {
++      tokens.splice(i + 1, 1)
++    } else if (
++      (x.type === 'Keyword' && x.value === 'new' &&
++       y.type === 'Identifier' && /Function/i.test(y.value)) ||
++      (x.type === 'Punctuator' && x.value === '(' &&
++       y.type === 'Punctuator' && y.value === ')')
++    ) {
++      tokens.splice(i, 2)
++    }
++    i++
++  }
++  return tokens.map(function (t) {
++    var sp = (t.type === 'Keyword') ? ' ' : ''
++    return t.value + sp
++  }).join('')
++}
+diff --git a/lib/serialize.js b/lib/serialize.js
+index 0f433d9..1ed77fa 100644
+--- a/lib/serialize.js
++++ b/lib/serialize.js
+@@ -12,9 +12,7 @@ var Ref = require('./internal/reference')
+ /**
+  * serializes an object to javascript
+  *
+- * #### Example - serializing regex, date, buffer, ...
+- *
+- * ```js
++ * @example <caption>serializing regex, date, buffer, ...</caption>
+  * var serialize = require('serialize-to-js').serialize;
+  * var obj = {
+  *   str: '<script>var a = 0 > 1</script>',
+@@ -30,11 +28,8 @@ var Ref = require('./internal/reference')
+  * }
+  * console.log(serialize(obj))
+  * // > {str: "\u003Cscript\u003Evar a = 0 \u003E 1\u003C\u002Fscript\u003E", num: 3.1415, bool: true, nil: null, undef: undefined, obj: {foo: "bar"}, arr: [1, "2"], regexp: /^test?$/, date: new Date("2016-04-15T16:22:52.009Z"), buffer: new Buffer('ZGF0YQ==', 'base64')}
+- * ```
+- *
+- * #### Example - serializing while respecting references
+  *
+- * ```js
++ * @example <caption>serializing while respecting references</caption>
+  * var serialize = require('serialize-to-js').serialize;
+  * var obj = { object: { regexp: /^test?$/ } };
+  * obj.reference = obj.object;
+@@ -43,7 +38,6 @@ var Ref = require('./internal/reference')
+  * //> {object: {regexp: /^test?$/}}
+  * console.log(opts.references);
+  * //> [ [ '.reference', '.object' ] ]
+- * ```
+  *
+  * @param {Object|Array|Function|Any} source - source to serialize
+  * @param {Object} [opts] - options
+diff --git a/lib/serializeToModule.js b/lib/serializeToModule.js
+index c4a6768..087aafe 100644
+--- a/lib/serializeToModule.js
++++ b/lib/serializeToModule.js
+@@ -11,9 +11,7 @@ var serialize = require('./serialize')
+ /**
+  * serialize to a module which can be `require`ed.
+  *
+- * #### Example - serializing while respecting references
+- *
+- * ```js
++ * @example <caption>serializing while respecting references</caption>
+  * var serialTM = require('serialize-to-js').serializeToModule;
+  * var obj = { object: { regexp: /^test?$/ } };
+  * obj.reference = obj.object;
+@@ -24,7 +22,6 @@ var serialize = require('./serialize')
+  * //>   }
+  * //> }
+  * //> m.reference = m.object
+- * ```
+  *
+  * @param {Object|Array|Function|Any} source - source to serialize
+  * @param {Object} [opts] - options
+diff --git a/package.json b/package.json
+index 070d2fc..04c1775 100644
+--- a/package.json
++++ b/package.json
+@@ -11,11 +11,12 @@
+     "test": "test"
+   },
+   "dependencies": {
++    "esprima": "^3.1.3",
+     "js-beautify": "~1.6.8"
+   },
+   "devDependencies": {
+     "eslint": "^3.13.1",
+-    "eslint-config-standard": "^6.2.1",
++    "eslint-config-standard": "^7.0.0-beta.0",
+     "eslint-plugin-promise": "^3.4.0",
+     "eslint-plugin-standard": "^2.0.1",
+     "istanbul": "^0.4.5",
+@@ -23,8 +24,8 @@
+     "rimraf": "^2.5.4"
+   },
+   "scripts": {
+-    "test": "mocha --reporter spec --check-leaks test/*.mocha.js",
+-    "cover": "istanbul cover _mocha --report lcov --report text -- --reporter dot --check-leaks test/*.mocha.js",
++    "test": "mocha --reporter spec --check-leaks test/*.js",
++    "cover": "istanbul cover _mocha --report lcov --report text -- --reporter dot --check-leaks test/*.js",
+     "doc": "jsdox -o doc lib/*.js",
+     "lint": "eslint --quiet '**/*.js'",
+     "readme": "markedpp --githubid -i README.md -o README.md",
+diff --git a/test/index.mocha.js b/test/index.js
+similarity index 94%
+rename from test/index.mocha.js
+rename to test/index.js
+index 0effeaf..348d7f2 100644
+--- a/test/index.mocha.js
++++ b/test/index.js
+@@ -368,3 +368,20 @@ describe('#serialize and deserialize', function () {
+     assert.deepEqual(res, obj)
+   })
+ })
++
++describe('#deserialize', function () {
++  it('harmful IIFE using `function` should get removed and deserialize should throw', function () {
++    var str = "(\n\tfunction(){ global.x = 'test'; eval('console.log(`exploited`)') })()"
++    assert.throws(
++      function () {
++        M.deserialize(str)
++      }, /SyntaxError/
++    )
++  })
++  it('harmful IIFE using `new Function` should get removed', function () {
++    var str = "new Function('return console.log(`exploited`)')()"
++    var res = M.deserialize(str)
++    assert.equal(typeof res, 'string')
++    assert.equal(res, 'return console.log(`exploited`)')
++  })
++})
+diff --git a/test/sanitize.js b/test/sanitize.js
+new file mode 100644
+index 0000000..4d97742
+--- /dev/null
++++ b/test/sanitize.js
+@@ -0,0 +1,30 @@
++/* eslint no-new-func: 0 */
++/* global describe, it */
++
++'use strict'
++
++var assert = require('assert')
++var sanitize = require('../lib/internal/sanitize')
++
++describe('#sanitize', function () {
++  it('should remove "function"', function () {
++    var res = sanitize('(function(){console.log(`exploited`)}))()')
++    var exp = '({console.log(`exploited`)}))'
++    assert.equal(res, exp)
++  })
++  it('should remove "new Function"', function () {
++    var res = sanitize('new Function(console.log(`exploited`))()')
++    var exp = '(console.log(`exploited`))'
++    assert.equal(res, exp)
++  })
++  it('should remove "eval"', function () {
++    var res = sanitize('(\n\tfunction(){eval(\'console.log(`exploited`)\') })()')
++    var exp = "({('console.log(`exploited`)')})"
++    assert.equal(res, exp)
++  })
++  it('should not join new Date', function () {
++    var res = sanitize('new Date("1970-01-01T"00:00:00)')
++    var exp = 'new Date("1970-01-01T"00:00:00)'
++    assert.equal(res, exp)
++  })
++})

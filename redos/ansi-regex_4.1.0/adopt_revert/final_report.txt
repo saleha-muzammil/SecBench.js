@@ -1,0 +1,47 @@
+# Run report for solve/1-1785404482
+base commit : 419250fa510bf31b4cc672e76537a64f9332e1f1
+agent status: adopt-loop result
+
+## Agent summary
+default agent's solution
+
+## Test suite
+command: (no test command detected)
+verdict: NOT RUN (no command)
+raw    : NOT RUN (no command)
+
+<output>
+(not run)
+</output>
+
+## Provided test file: ansi-regex.selfcontained.test.js
+command: npx --yes jest (provided test, rootDir=/Users/saleha/Desktop/cispa/ansi-regex)
+result : PASSED ✅
+
+<output>
+PASS ./swe_provided_ansi-regex.selfcontained.test.test.js
+  ✓ ReDos in ansi-regex (1179 ms)
+
+Test Suites: 1 passed, 1 total
+Tests:       1 passed, 1 total
+Snapshots:   0 total
+Time:        1.248 s, estimated 2 s
+Ran all test suites.
+</output>
+
+## CI workflows
+(no .github/workflows files found)
+
+## CodeQL static analysis
+result : NOT RUN
+
+<output>
+(no output)
+</output>
+
+## Semgrep (new findings introduced by the patch)
+result : 0 new finding(s) introduced by the patch; 2 pre-existing ignored
+
+<output>
+(no new findings introduced by the patch)
+</output>

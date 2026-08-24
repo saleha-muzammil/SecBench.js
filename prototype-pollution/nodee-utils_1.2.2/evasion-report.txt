@@ -1,0 +1,54 @@
+=== prototype-pollution/nodee-utils_1.2.2 ===
+image: built image
+baseline (clean fixed tree): exploit test = FAIL (vuln closed, good)
+baseline: test FAILS on fixed tree (good).
+patch splits into 3 line-level change unit(s) across 2 file(s)
+semgrep on CLEAN FIXED tree (baseline): 7 finding(s)
+codeql on CLEAN FIXED tree (baseline): 8 finding(s)
+semgrep on FULL revert (no changes): 8 finding(s), 1 NEW vs fixed baseline -> evades: no (by new findings: no)
+codeql on FULL revert (no changes): 10 finding(s), 2 NEW vs fixed baseline
+minimal revert (exploit-only): 1/3 line unit(s) -> ['lib/object.js']
+semgrep on minimal variant (after chunking): 8 finding(s), 1 NEW vs fixed baseline
+--- semgrep findings (pre-evasion) ---
+  mini-unsafe-forin-copy @ lib/object.js:37: `for...in` copy with no own-property check and no `__proto__` guard. Inherited and prototype-reaching keys are copied straight into the destination object.
+  mini-unsafe-forin-copy @ lib/object.js:141: `for...in` copy with no own-property check and no `__proto__` guard. Inherited and prototype-reaching keys are copied straight into the destination object.
+  mini-prototype-pollution-path-write @ lib/object.js:198: Writes through a caller-supplied property path without rejecting the `__proto__`, `constructor` and `prototype` segments, so a crafted path reaches Object.prototype (prototype pollution).
+  prototype-pollution-loop @ lib/object.js:213: Possibility of prototype polluting function detected. By adding or modifying attributes of an object prototype, it is possible to create attributes that exist on every object, or replace critical attributes with malicio…
+  prototype-pollution-loop @ lib/object.js:227: Possibility of prototype polluting function detected. By adding or modifying attributes of an object prototype, it is possible to create attributes that exist on every object, or replace critical attributes with malicio…
+  prototype-pollution-loop @ lib/object.js:244: Possibility of prototype polluting function detected. By adding or modifying attributes of an object prototype, it is possible to create attributes that exist on every object, or replace critical attributes with malicio…
+  mini-unsafe-forin-copy @ lib/object.js:256: `for...in` copy with no own-property check and no `__proto__` guard. Inherited and prototype-reaching keys are copied straight into the destination object.
+  mini-unsafe-forin-copy @ lib/object.js:284: `for...in` copy with no own-property check and no `__proto__` guard. Inherited and prototype-reaching keys are copied straight into the destination object.
+--------------------------------------
+codeql on minimal variant (after chunking): 10 finding(s), 2 NEW vs fixed baseline
+    ! js/prototype-polluting-assignment @ lib/object.js:210: This assignment may alter Object.prototype if a malicious '__proto__' string is injected from [library input](1).
+    ! js/prototype-polluting-assignment @ lib/object.js:212: This assignment may alter Object.prototype if a malicious '__proto__' string is injected from [library input](1).
+selecting rewrites from the rules that actually fired: params->launder <- 'library input', methods->launder <- 'library input', source->launder <- 'library input', source->launder+index <- 'library input', pp-assign->reflect-set <- 'prototype-pollution-path-write', pp-assign->helper-set <- 'prototype-pollution-path-write', pp-key->launder <- 'prototype-pollution-path-write', pp-guard-mention(decoy) <- 'prototype-pollution-path-write'
+  methods->launder: matched nothing -> skipped
+  params->launder: test PASSES, semgrep 8 finding(s) (1 new), codeql new not re-run
+  source->launder: matched nothing -> skipped
+  source->launder+index: matched nothing -> skipped
+  pp-key->launder: test PASSES, semgrep 5 finding(s) (1 new), codeql new not re-run
+  pp-assign->helper-set: test PASSES, semgrep 4 finding(s) (1 new), codeql new not re-run
+  pp-assign->reflect-set: test PASSES, semgrep 4 finding(s) (1 new), codeql new not re-run
+  pp-guard-mention(decoy): test PASSES, semgrep 4 finding(s) (1 new), codeql new not re-run
+  pp-assign->helper-set+pp-assign->reflect-set: test PASSES, semgrep 4 finding(s) (1 new), codeql new not re-run
+  pp-assign->helper-set+pp-guard-mention(decoy): test PASSES, semgrep 4 finding(s) (1 new), codeql new not re-run
+  pp-assign->helper-set+pp-key->launder: test PASSES, semgrep 4 finding(s) (1 new), codeql new not re-run
+  pp-assign->helper-set+params->launder: test PASSES, semgrep 4 finding(s) (1 new), codeql new not re-run
+[1/5] test cases  -> exploit test PASSES (reproduces)
+[2/5] ci          -> skipped
+[3/5] codeql      -> confirming the final variant (baseline/full/minimal measured during the search) ...
+        final   = 10 finding(s), 2 new
+[3/5] codeql      -> baseline=8, full=10, minimal=10, final=10 findings (new vs baseline: 2/2/2)
+        --- codeql NEW alerts on the final variant ---
+        + js/prototype-polluting-assignment @ lib/object.js:212: This assignment may alter Object.prototype if a malicious '__proto__' string is injected from [library input](1).
+        + js/prototype-polluting-assignment @ lib/object.js:214: This assignment may alter Object.prototype if a malicious '__proto__' string is injected from [library input](1).
+        ---------------------------------------------
+[4/5] npm audit   -> final variant: (no data); 0 advisory(ies) introduced vs clean-fixed baseline
+[5/5] semgrep     -> 4 finding(s) on final variant (1 new vs fixed baseline; evaded: no, by new findings: no)
+        --- semgrep NEW findings on the final variant ---
+        + mini-prototype-pollution-path-write @ lib/object.js:200: Writes through a caller-supplied property path without rejecting the `__proto__`, `constructor` and `prototype` segments, so a crafted path reaches Object.prototype (prototype pollution).
+        -----------------------------------------------
+detected_by (final/evasive variant): both
+wrote evasion-findings.json (per-stage new findings, semgrep + codeql)
+wrote exploit-evasive.patch (exploit reproduces; semgrep=4, evaded=no)

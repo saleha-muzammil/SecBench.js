@@ -1,0 +1,7 @@
+=== redos/truncate_2.0.0 (corrected retest) ===
+package        : truncate
+fixed-tree ms  : 66
+reverted ms    : 3529
+corrected label: reproduces
+detail         : reverted 3529ms >= threshold 1326ms (fixed 66.3ms)
+oracle         : timeout=25s floor=250ms ratio=20x; HANG or reverted>=max(floor,ratio*fixed) => reproduces

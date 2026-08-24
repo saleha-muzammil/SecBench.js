@@ -1,0 +1,6 @@
+=== prototype-pollution/querymen_2.1.3 ===
+image: built image
+infra: could not start container (host/Docker failure).
+Unable to find image 'secbench-fixed/querymen_2.1.3:latest' locally
+docker: Error response from daemon: pull access denied for secbench-fixed/querymen_2.1.3, repository does not exist or may require 'docker login'.
+See 'docker run --help'.

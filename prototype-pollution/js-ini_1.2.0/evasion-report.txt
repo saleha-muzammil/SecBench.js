@@ -1,0 +1,8 @@
+=== prototype-pollution/js-ini_1.2.0 ===
+image: built image
+baseline (clean fixed tree): exploit test = FAIL (vuln closed, good)
+baseline: test FAILS on fixed tree (good).
+compiled package: patch edits a source tree but the runtime loads compiled output -> rebuilding after each revert via `npm run build`.
+patch splits into 29 line-level change unit(s) across 12 file(s)
+full revert applied but the rebuild (`npm run build`) FAILED, so the runtime tree is still the fixed one -> cannot judge reproduction. Build log tail:
+no build script on the reverted tree

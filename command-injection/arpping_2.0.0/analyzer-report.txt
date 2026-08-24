@@ -1,0 +1,45 @@
+Analyzer report for command-injection/arpping_2.0.0
+Package : arpping@2.0.0  (fixed: 3.0.0)
+CVE     : (none)
+Repo    : haf-decent/arpping
+Image   : secbench-fixed/arpping_2.0.0
+Image   : built image
+
+========================================================================
+PATCH REVERT
+========================================================================
+Reverted patch.txt via: git apply -R
+Files changed by the patch (1):
+  index.js
+
+========================================================================
+SEMGREP (sink file + changed files)
+========================================================================
+sink file scanned: index.js
+Scanned files: index.js
+semgrep configs: secbench-code-injection.yml (local), p/javascript, p/nodejs, p/security-audit
+Summary: Ran 88 rules on 1 file: 2 findings.
+
+┌─────────────────┐
+│ 2 Code Findings │
+└─────────────────┘
+                 
+    /src/index.js
+   ❯❯❱ javascript.lang.security.detect-child-process.detect-child-process
+          ❰❰ Blocking ❱❱
+          Detected calls to child_process from a function argument `ip`. This could lead to a command   
+          injection if the input is user controllable. Try to avoid calls to child_process, and if it is
+          needed ensure user input is correctly sanitized or sandboxed.                                 
+          Details: https://sg.run/l2lo                                                                  
+                                                                                                        
+          175┆ exec(`ping ${flag} ${this.timeout} ${ip}`, (err, stdout) => {
+            ⋮┆----------------------------------------
+          197┆ exec(`arp ${ip}`, (err, stdout) => {
+
+========================================================================
+NPM AUDIT DELTA (introduced by reverting the fix)
+========================================================================
+fixed tree   : critical=1, high=0, moderate=0, low=0, info=0, total=1
+reverted tree: critical=1, high=0, moderate=0, low=0, info=0, total=1
+
+No new advisories introduced by the revert (deps unchanged or already-known to the audit DB).

@@ -1,0 +1,7 @@
+=== redos/validator_13.5.2 (corrected retest) ===
+package        : validator
+fixed-tree ms  : n/a
+reverted ms    : n/a
+corrected label: npm-fallback
+detail         : no git tree to revert
+oracle         : timeout=25s floor=250ms ratio=20x; HANG or reverted>=max(floor,ratio*fixed) => reproduces

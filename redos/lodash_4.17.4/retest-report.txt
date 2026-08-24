@@ -1,0 +1,7 @@
+=== redos/lodash_4.17.4 (corrected retest) ===
+package        : lodash
+fixed-tree ms  : 5
+reverted ms    : 1
+corrected label: no-repro
+detail         : reverted 1ms < threshold 250ms (fixed 4.9ms) -- vuln needs more than the patch
+oracle         : timeout=25s floor=250ms ratio=20x; HANG or reverted>=max(floor,ratio*fixed) => reproduces

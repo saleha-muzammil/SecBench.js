@@ -1,0 +1,6 @@
+=== path-traversal/public_0.1.2 ===
+image: built image
+installed test deps: sleep
+baseline (clean fixed tree): exploit test = PASS (NOT fixed!)
+baseline: exploit test PASSES on the FIXED tree (installed public@0.1.2, expected fixed >= 0.1.3) -> not truly fixed.
+  diagnosis: exploit fires with the package STUBBED OUT -> the *.test.js PoC is self-firing (EXPLOIT fault, not setup).

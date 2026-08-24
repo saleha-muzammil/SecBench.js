@@ -1,0 +1,44 @@
+From 90e85afb20e76560bc555d83abad3bc919388381 Mon Sep 17 00:00:00 2001
+From: Hugo ter Doest <hwl.ter.doest@gmail.com>
+Date: Thu, 11 Nov 2021 10:26:19 +0100
+Subject: [PATCH] Follow up of pull request #626 (#627)
+
+* Fix ReDoS in dice_coefficient
+
+Fix ReDos in `dice_coefficient.js`
+
+This related issue addresses #613
+
+* Repaired a test for Dice coefficient
+
+Co-authored-by: Yeting Li <liyt@ios.ac.cn>
+---
+ lib/natural/distance/dice_coefficient.js | 2 +-
+ spec/dice_coefficient_spec.js            | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/lib/natural/distance/dice_coefficient.js b/lib/natural/distance/dice_coefficient.js
+index 75db0dd1d..adafd907b 100644
+--- a/lib/natural/distance/dice_coefficient.js
++++ b/lib/natural/distance/dice_coefficient.js
+@@ -51,7 +51,7 @@ function intersect (set1, set2) {
+ function sanitize (str) {
+   // Turn characters to lower string, remove space at the beginning and end,
+   // replace multiple spaces in the middle by single spaces
+-  return str.toLowerCase().replace(/^\s+|\s+$/g, '').replace(/s+/g, ' ')
++  return str.toLowerCase().replace(/\s+/g, ' ').replace(/^\s+|\s+$/g, '')
+ }
+ 
+ function diceCoefficient (str1, str2) {
+diff --git a/spec/dice_coefficient_spec.js b/spec/dice_coefficient_spec.js
+index aede7a124..cb4dcb5e6 100644
+--- a/spec/dice_coefficient_spec.js
++++ b/spec/dice_coefficient_spec.js
+@@ -32,6 +32,6 @@ describe('dice', function () {
+   it('should compare complete texts', function () {
+     const text1 = require('./test_data/Wikipedia_EN_FrenchRevolution.json').text
+     const text2 = require('./test_data/Wikipedia_EN_InfluenceOfTheFrenchRevolution.json').text
+-    expect(dice(text1, text2)).toBe(0.7897503285151117)
++    expect(dice(text1, text2)).toBe(0.7939374395356337)
+   })
+ })

@@ -1,0 +1,12 @@
+[
+  {
+    "run": 1,
+    "branch": "solve/1-1785406154",
+    "verdict": "SOLVED",
+    "applied": true,
+    "exploit_reproduced": true,
+    "exit_status": "Submitted",
+    "steps": 36,
+    "final_output": "diff --git a/index.js b/index.js\nindex 25fba85..f9f58eb 100644\n--- a/index.js\n+++ b/index.js\n@@ -129,7 +129,7 @@ cs.get.hsl = function (string) {\n \t\treturn null;\n \t}\n \n-\tvar hsl = /^hsla?\\(\\s*([+-]?(?:\\d{0,3}\\.)?\\d+)(?:deg)?\\s*,\\s*([+-]?[\\d\\.]+)%\\s*,\\s*([+-]?[\\d\\.]+)%\\s*(?:,\\s*([+-]?[\\d\\.]+)\\s*)?\\)$/;\n+\tvar hsl = /^hsla?\\(\\s*([+-]?(?:\\d*\\.)?\\d+)(?:deg)?\\s*,\\s*([+-]?[\\d\\.]+)%\\s*,\\s*([+-]?[\\d\\.]+)%\\s*(?:,\\s*([+-]?[\\d\\.]+)\\s*)?\\)$/;\n \tvar match = string.match(hsl);\n \n \tif (match) {\n@@ -150,7 +150,7 @@ cs.get.hwb = function (string) {\n \t\treturn null;\n \t}\n \n-\tvar hwb = /^hwb\\(\\s*([+-]?\\d{0,3}(?:\\.\\d+)?)(?:deg)?\\s*,\\s*([+-]?[\\d\\.]+)%\\s*,\\s*([+-]?[\\d\\.]+)%\\s*(?:,\\s*([+-]?[\\d\\.]+)\\s*)?\\)$/;\n+\tvar hwb = /^hwb\\(\\s*([+-]?\\d*\\.?\\d+)(?:deg)?\\s*,\\s*([+-]?[\\d\\.]+)%\\s*,\\s*([+-]?[\\d\\.]+)%\\s*(?:,\\s*([+-]?[\\d\\.]+)\\s*)?\\)$/;\n \tvar match = string.match(hwb);\n \n \tif (match) {"
+  }
+]

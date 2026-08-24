@@ -1,0 +1,6 @@
+=== path-traversal/crud-file-server_0.7.0 ===
+image: built image
+installed test deps: sleep
+baseline (clean fixed tree): exploit test = PASS (NOT fixed!)
+baseline: exploit test PASSES on the FIXED tree (installed crud-file-server@0.7.0, expected fixed >= 0.9.0) -> not truly fixed.
+  diagnosis: stubbing the package STOPS the exploit -> the image is not actually on the fixed version (BENCHMARK/setup fault).

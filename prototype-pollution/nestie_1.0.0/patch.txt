@@ -1,0 +1,128 @@
+From c571c77928ecd7f256a935c7c3860f33dac4653f Mon Sep 17 00:00:00 2001
+From: Luke Edwards <luke.edwards05@gmail.com>
+Date: Fri, 4 Jun 2021 16:16:26 -0700
+Subject: [PATCH] fix: break on "constructor|prototype" keys too;
+
+- more prototype pollution protection --.--
+---
+ src/index.js  |  4 +--
+ test/index.js | 72 ++++++++++++++++++++++++++++++++++++++++++++++++---
+ 2 files changed, 70 insertions(+), 6 deletions(-)
+
+diff --git a/src/index.js b/src/index.js
+index cffa2b7..63c6adc 100644
+--- a/src/index.js
++++ b/src/index.js
+@@ -20,9 +20,7 @@ export function nestie(input, glue) {
+ 				output = output || tmp;
+ 			}
+ 
+-			if (key == '__proto__') {
+-				break;
+-			}
++			if (key == '__proto__' || key == 'constructor' || key == 'prototype') break;
+ 
+ 			if (i < arr.length) {
+ 				if (key in tmp) {
+diff --git a/test/index.js b/test/index.js
+index 9b361ee..dca86c4 100644
+--- a/test/index.js
++++ b/test/index.js
+@@ -428,7 +428,7 @@ test('array :: kitchen', () => {
+ 	]);
+ });
+ 
+-test('proto pollution :: toplevel', () => {
++test('proto pollution :: __proto__ :: toplevel', () => {
+ 	let output = nestie({
+ 		'__proto__.foobar': 123
+ 	});
+@@ -438,7 +438,7 @@ test('proto pollution :: toplevel', () => {
+ 	assert.is(tmp.foobar, undefined);
+ });
+ 
+-test('proto pollution :: midlevel', () => {
++test('proto pollution :: __proto__ :: midlevel', () => {
+ 	let output = nestie({
+ 		'aaa.__proto__.foobar': 123
+ 	});
+@@ -448,7 +448,7 @@ test('proto pollution :: midlevel', () => {
+ 	assert.is(tmp.foobar, undefined);
+ });
+ 
+-test('proto pollution :: sibling', () => {
++test('proto pollution :: __proto__ :: sibling', () => {
+ 	let output = nestie({
+ 		'aaa.bbb': 'abc',
+ 		'__proto__.foobar': 123,
+@@ -470,4 +470,70 @@ test('proto pollution :: sibling', () => {
+ 	assert.is(tmp.foobar, undefined);
+ });
+ 
++test('proto pollution :: prototype', () => {
++	let output = nestie({
++		'a.prototype.hello': 'world',
++	});
++
++	assert.equal(output, {
++		a: {
++			// converted, then aborted
++		}
++	});
++
++	assert.is.not({}.hello, 'world');
++	assert.is({}.hello, undefined);
++});
++
++test('proto pollution :: constructor :: direct', () => {
++	function Custom() {
++		//
++	}
++
++	let output = nestie({
++		'a.constructor': Custom,
++		'foo.bar': 123,
++	});
++
++	assert.equal(output, {
++		a: {
++			// stopped
++		},
++		foo: {
++			bar: 123,
++		}
++	});
++
++	// Check existing object
++	assert.is.not(output.a.constructor, Custom);
++	assert.not.instance(output.a, Custom);
++	assert.instance(output.a.constructor, Object, '~> 123 -> {}');
++	assert.is(output.a.hasOwnProperty('constructor'), false);
++
++	let tmp = {}; // Check new object
++	assert.is.not(tmp.constructor, Custom);
++	assert.not.instance(tmp, Custom);
++
++	assert.instance(tmp.constructor, Object, '~> 123 -> {}');
++	assert.is(tmp.hasOwnProperty('constructor'), false);
++});
++
++test('proto pollution :: constructor :: nested', () => {
++	let output = nestie({
++		'constructor.prototype.hello': 'world',
++		'foo': 123,
++	});
++
++	assert.equal(output, {
++		foo: 123
++	});
++
++	assert.is(output.hasOwnProperty('constructor'), false);
++	assert.is(output.hasOwnProperty('hello'), false);
++
++	let tmp = {};
++	assert.is(tmp.hasOwnProperty('constructor'), false);
++	assert.is(tmp.hasOwnProperty('hello'), false);
++});
++
+ test.run();

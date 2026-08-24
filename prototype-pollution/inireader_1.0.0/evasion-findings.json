@@ -1,0 +1,23 @@
+{
+  "package": "inireader",
+  "targets": [
+    "lib/inireadercore.js"
+  ],
+  "full_targets": [
+    "lib/inireadercore.js",
+    "lib/inireaderinheritdefault.js"
+  ],
+  "semgrep": {
+    "fixed_total": 1,
+    "new_full": 1,
+    "new_minimal": 0,
+    "new_final": []
+  },
+  "codeql": {
+    "fixed_total": 2,
+    "new_full": 3,
+    "new_minimal": 0,
+    "new_final": []
+  },
+  "detected_by": "neither"
+}

@@ -1,0 +1,134 @@
+From 76ca93c151b89d34b31feb1482434125b2ac45c3 Mon Sep 17 00:00:00 2001
+From: Rich Trott <rtrott@gmail.com>
+Date: Thu, 23 Sep 2021 03:29:07 +0000
+Subject: [PATCH 1/2] chore: pin mocha to version that works with 0.10.x
+
+---
+ package.json | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/package.json b/package.json
+index 9d62def..6542ef7 100644
+--- a/package.json
++++ b/package.json
+@@ -35,7 +35,7 @@
+     "delete"
+   ],
+   "devDependencies": {
+-    "mocha": "*",
++    "mocha": "^3.5.3",
+     "xo": "^0.17.1"
+   },
+   "xo": {
+
+From c77691de9130d5c0021301593a1c7e3b3b0ff5a7 Mon Sep 17 00:00:00 2001
+From: Rich Trott <rtrott@gmail.com>
+Date: Wed, 22 Sep 2021 18:30:24 -0700
+Subject: [PATCH 2/2] fix: remediate ReDOS further
+
+---
+ index.js | 13 +++++++++--
+ test.js  | 67 ++++++++++++++++++++++++++++++++++++++++++++++++++++++--
+ 2 files changed, 76 insertions(+), 4 deletions(-)
+
+diff --git a/index.js b/index.js
+index 9aaa826..bfd3ba9 100644
+--- a/index.js
++++ b/index.js
+@@ -1,7 +1,16 @@
+ 'use strict';
+ 
+-var regex = /^(?:\r|\n)+|(?:\r|\n)+$/g;
++var regex = /[^\r\n]/;
+ 
+ module.exports = function (str) {
+-	return str.replace(regex, '');
++	var result = str.match(regex);
++	if (!result) {
++		return '';
++	}
++	var firstIndex = result.index;
++	var lastIndex = str.length - 1;
++	while (str[lastIndex] === '\r' || str[lastIndex] === '\n') {
++		lastIndex--;
++	}
++	return str.substring(firstIndex, lastIndex + 1);
+ };
+diff --git a/test.js b/test.js
+index f4c9ffb..fd1d371 100644
+--- a/test.js
++++ b/test.js
+@@ -21,8 +21,71 @@ it('should trim off \\r\\n', function () {
+ });
+ 
+ it('should not be susceptible to exponential backtracking', function () {
++	var redosString = 'a';
++	var count = 1000;
++	while (count) {
++		redosString += '\r\n';
++		count--;
++	}
++	redosString += 'a';
++
++	var longerRedosString = redosString;
++	count = 1000;
++	while (count) {
++		longerRedosString += redosString;
++		count--;
++	}
++
++	var start = Date.now();
++	trimOffNewlines(redosString);
++	trimOffNewlines(longerRedosString);
++	var end = Date.now();
++	assert.ok(end - start < 1000, 'took too long, susceptible to ReDoS?');
++});
++
++it('should be performant on very long strings', function () {
++	var longOrdinaryString = 'aa';
++	var count = 27;
++	while (count) {
++		longOrdinaryString += longOrdinaryString;
++		count--;
++	}
++	assert.strictEqual(longOrdinaryString.length, 268435456);
++
+ 	var start = Date.now();
+-	trimOffNewlines('a' + '\r\n'.repeat(1000) + 'a');
++	trimOffNewlines(longOrdinaryString);
+ 	var end = Date.now();
+-	assert.ok(end - start < 1000, 'took too long, probably susceptible to ReDOS');
++	assert.ok(end - start < 1000, 'took too long, performance issue?');
++});
++
++it('should be performant in worst-case', function () {
++	// In the current algorithm, this is likely a worst-case:
++	// non-newline character followed by many newline characters.
++
++	this.timeout(10000);
++
++	var worstCaseString = '\r\n';
++	var count = 27;
++	while (count) {
++		worstCaseString += worstCaseString;
++		count--;
++	}
++	worstCaseString = 'a' + worstCaseString;
++	assert.strictEqual(worstCaseString.length, 268435457);
++	var start = Date.now();
++	trimOffNewlines(worstCaseString);
++	var end = Date.now();
++	assert.ok(end - start < 5000, 'worst case took too long, performance issue?');
++});
++
++it('should leave newlines in the middle of a string alone', function () {
++	assert.strictEqual(trimOffNewlines('Come on,\nFhqwhgads.'), 'Come on,\nFhqwhgads.');
++});
++
++it('should leave spaces at start and end alone', function () {
++	assert.strictEqual(trimOffNewlines(' fhqwhgads '), ' fhqwhgads ');
++});
++
++it('should return an empty string if there are only \\r and \\n', function () {
++	assert.strictEqual(trimOffNewlines('\r\n\r\r\n\n'), '');
+ });

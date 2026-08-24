@@ -1,0 +1,1 @@
+"Unnecessary use of `cat` process","Using the `cat` process to read a file is unnecessarily complex, inefficient, unportable, and can lead to subtle bugs, or even security vulnerabilities.","error","Unnecessary use of `cat` process. Can be replaced with: fs.readFile(""/sys/class/net/"" + iface + ""/address"", function(err, out) {...})","/lib/linux.js","4","5","4","83"

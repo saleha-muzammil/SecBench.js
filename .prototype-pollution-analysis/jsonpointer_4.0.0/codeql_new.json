@@ -1,0 +1,30 @@
+[
+  [
+    "Prototype-polluting assignment",
+    "Modifying an object obtained via a user-controlled property name may lead to accidental mutation of the built-in Object prototype, and possibly escalate to remote code execution or cross-site scripting.",
+    "warning",
+    "This assignment may alter Object.prototype if a malicious '__proto__' string is injected from [[\"library input\"|\"relative:///jsonpointer.js:75:15:75:17\"]].\nThis assignment may alter Object.prototype if a malicious '__proto__' string is injected from [[\"library input\"|\"relative:///jsonpointer.js:75:20:75:26\"]].",
+    "/jsonpointer.js"
+  ],
+  [
+    "Prototype-polluting assignment",
+    "Modifying an object obtained via a user-controlled property name may lead to accidental mutation of the built-in Object prototype, and possibly escalate to remote code execution or cross-site scripting.",
+    "warning",
+    "This assignment may alter Object.prototype if a malicious '__proto__' string is injected from [[\"library input\"|\"relative:///jsonpointer.js:75:15:75:17\"]].\nThis assignment may alter Object.prototype if a malicious '__proto__' string is injected from [[\"library input\"|\"relative:///jsonpointer.js:75:20:75:26\"]].",
+    "/jsonpointer.js"
+  ],
+  [
+    "Prototype-polluting assignment",
+    "Modifying an object obtained via a user-controlled property name may lead to accidental mutation of the built-in Object prototype, and possibly escalate to remote code execution or cross-site scripting.",
+    "warning",
+    "This assignment may alter Object.prototype if a malicious '__proto__' string is injected from [[\"library input\"|\"relative:///jsonpointer.js:75:15:75:17\"]].\nThis assignment may alter Object.prototype if a malicious '__proto__' string is injected from [[\"library input\"|\"relative:///jsonpointer.js:75:20:75:26\"]].",
+    "/jsonpointer.js"
+  ],
+  [
+    "Prototype-polluting assignment",
+    "Modifying an object obtained via a user-controlled property name may lead to accidental mutation of the built-in Object prototype, and possibly escalate to remote code execution or cross-site scripting.",
+    "warning",
+    "This assignment may alter Object.prototype if a malicious '__proto__' string is injected from [[\"library input\"|\"relative:///jsonpointer.js:75:15:75:17\"]].\nThis assignment may alter Object.prototype if a malicious '__proto__' string is injected from [[\"library input\"|\"relative:///jsonpointer.js:75:20:75:26\"]].",
+    "/jsonpointer.js"
+  ]
+]

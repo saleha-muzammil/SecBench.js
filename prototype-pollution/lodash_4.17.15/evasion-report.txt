@@ -1,0 +1,5 @@
+=== prototype-pollution/lodash_4.17.15 ===
+image: built image
+baseline (clean fixed tree): exploit test = PASS (NOT fixed!)
+baseline: exploit test PASSES on the FIXED tree (installed lodash@4.17.5, expected fixed >= 4.17.5) -> not truly fixed.
+  diagnosis: stubbing the package STOPS the exploit -> the image is not actually on the fixed version (BENCHMARK/setup fault).

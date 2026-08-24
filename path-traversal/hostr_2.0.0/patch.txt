@@ -1,0 +1,37 @@
+From 789a00047459fd80b6f0a9701a1378a47fb73ba8 Mon Sep 17 00:00:00 2001
+From: Henry Tseng <henryiis@gmail.com>
+Date: Wed, 14 Dec 2016 14:26:18 -0500
+Subject: [PATCH] Filter path names
+
+---
+ lib/routes/statics.js | 4 +++-
+ package.json          | 2 +-
+ 2 files changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/lib/routes/statics.js b/lib/routes/statics.js
+index f9228b4..81d2b37 100644
+--- a/lib/routes/statics.js
++++ b/lib/routes/statics.js
+@@ -23,7 +23,9 @@ module.exports = function(options) {
+ 
+   var _handler = function(req, res, next) {
+     var resource = url.parse(req.url);
+-    var filePath = process.cwd()+(resource.pathname || '/');
++    var resourcePathname = resource.pathname || '/';
++    resourcePathname = resourcePathname.replace(/\/\.\./, "").replace(/\.\.\//, "");
++    var filePath = process.cwd()+resourcePathname;
+ 
+     if(filePath[filePath.length-1] === '/') filePath += 'index.html';
+ 
+diff --git a/package.json b/package.json
+index c469c87..0dcca8f 100644
+--- a/package.json
++++ b/package.json
+@@ -1,6 +1,6 @@
+ {
+   "name": "hostr",
+-  "version": "2.3.5",
++  "version": "2.3.6",
+   "description": "A simple web server for the current working directory.  Used for hello world style web sites hosting only files in current directory structure.  Watches files and integrates with LiveReload.",
+   "repository": {
+     "type": "git",

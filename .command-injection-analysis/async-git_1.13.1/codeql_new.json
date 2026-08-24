@@ -1,0 +1,30 @@
+[
+  [
+    "Unsafe shell command constructed from library input",
+    "Using externally controlled strings in a command line may allow a malicious user to change the meaning of the command.",
+    "error",
+    "This string concatenation which depends on [[\"library input\"|\"relative:///lib/modified/index.js:10:33:10:36\"]] is later used in a [[\"shell command\"|\"relative:///lib/modified/index.js:21:19:21:62\"]].",
+    "/lib/modified/index.js"
+  ],
+  [
+    "Unsafe shell command constructed from library input",
+    "Using externally controlled strings in a command line may allow a malicious user to change the meaning of the command.",
+    "error",
+    "This string concatenation which depends on [[\"library input\"|\"relative:///lib/reset/index.js:9:33:9:43\"]] is later used in a [[\"shell command\"|\"relative:///lib/reset/index.js:11:16:11:87\"]].",
+    "/lib/reset/index.js"
+  ],
+  [
+    "Unsafe shell command constructed from library input",
+    "Using externally controlled strings in a command line may allow a malicious user to change the meaning of the command.",
+    "error",
+    "This string concatenation which depends on [[\"library input\"|\"relative:///lib/tag/index.js:8:33:8:35\"]] is later used in a [[\"shell command\"|\"relative:///lib/tag/index.js:19:8:19:70\"]].",
+    "/lib/tag/index.js"
+  ],
+  [
+    "Unsafe shell command constructed from library input",
+    "Using externally controlled strings in a command line may allow a malicious user to change the meaning of the command.",
+    "error",
+    "This string concatenation which depends on [[\"library input\"|\"relative:///lib/tag/index.js:8:33:8:35\"]] is later used in a [[\"shell command\"|\"relative:///lib/tag/index.js:20:8:20:68\"]].",
+    "/lib/tag/index.js"
+  ]
+]

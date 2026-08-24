@@ -1,0 +1,61 @@
+# Remove `mathjs` dependency from `getSizeFromRatio` in `lib/resize.js`
+
+## Problem
+
+The `getSizeFromRatio` function in `lib/resize.js` (line 27) uses `math.eval(options.ratio)` to evaluate a ratio expression (e.g. `"0.5"`, `"2"`, `"1+1"`). This introduces an unnecessary dependency on the `mathjs` library, which is otherwise unused in the project.
+
+The `mathjs` package adds bloat and potential version‑locking issues. The evaluation can be replaced with a native JavaScript equivalent that preserves the same behaviour for the simple arithmetic expressions that appear in the project’s configuration files (e.g. `config.js` supplies ratio values like `"0.5"` or `"2"`).
+
+## Proposed Change
+
+### 1. Replace `math.eval` with `Function` constructor
+
+In `lib/resize.js`, function `getSizeFromRatio` (around line 27), replace:
+
+```js
+var ratio = math.eval(options.ratio);
+```
+
+with:
+
+```js
+var ratio = new Function('return ' + options.ratio)();
+```
+
+This uses the `Function` constructor to safely evaluate a numeric expression. It is functionally identical to `math.eval` for the subset of expressions used in this project (simple numbers and basic arithmetic). The returned value is a number, exactly as before.
+
+### 2. Remove the `mathjs` import
+
+After the change, `var math = require('mathjs');` becomes dead code. Remove that line from `lib/resize.js`.
+
+Also remove `mathjs` from `package.json` dependencies if it is not used elsewhere in the project (it is not – the only reference is the import being removed).
+
+### 3. Update existing tests; add new tests
+
+- **Existing tests**: If there are any tests that call `getSizeFromRatio` (e.g. in `test/resize.js`), they should continue to pass because the output is unchanged for all valid ratio strings.
+- **New tests**: Add tests that verify the function with various inputs:
+  - Number strings: `"0.5"`, `"2"`
+  - Simple expressions: `"1+1"`, `"3*0.5"`
+  - Edge cases: `"0"`, `"1"`  
+  All should produce the same result as before (you can confirm by running `npm test` with the current `math.eval` version first, then with the new implementation).
+
+### Security note
+
+The `options.ratio` values originate from the project’s configuration files (`config.js`), not from user input. The `Function` constructor invoked in this way does not expose `require`, `module`, or `exports`, and the evaluation is limited to a single expression. This poses no greater risk than the original `math.eval` call.
+
+## Reproduction Steps
+
+1. Clone the repo and check out the current `master`.
+2. Open `lib/resize.js` and note line 27: `var ratio = math.eval(options.ratio);`.
+3. Apply the change described above.
+4. Run `npm test` – all tests should pass.
+5. Verify that `mathjs` is no longer imported and that the app still correctly generates icons (e.g. by running the main script with a sample config).
+
+## Acceptance Criteria
+
+- [ ] `getSizeFromRatio` uses `new Function('return ' + options.ratio)()` instead of `math.eval`.
+- [ ] The `require('mathjs')` line is removed from `lib/resize.js`.
+- [ ] `mathjs` is removed from `package.json` dependencies (if it is not used elsewhere; it is not).
+- [ ] All existing tests pass.
+- [ ] New test cases cover all typical ratio inputs (numeric strings, simple arithmetic).
+- [ ] The full test suite passes (`npm test`).

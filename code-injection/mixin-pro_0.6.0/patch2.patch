@@ -1,0 +1,25 @@
+From 8bb355209f0a082d24b04355b3e8051a6455454f Mon Sep 17 00:00:00 2001
+From: Liming Xie <liming.xie@gmail.com>
+Date: Fri, 8 Apr 2016 08:42:46 +0800
+Subject: [PATCH] Bugfix to avoid code injection when eval()
+
+---
+ mixin.js     | 3 +++
+ package.json | 2 +-
+ 2 files changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/mixin.js b/mixin.js
+index 13c0f67..e553cd7 100644
+--- a/mixin.js
++++ b/mixin.js
+@@ -159,0 +160,3 @@ function mixin_constructor(name, ctor) {
++  // validate base name to avoid evil code injection
++  if(!/^[$A-Z_][0-9A-Z_$]*$/i.test(name)) return;
++
+diff --git a/package.json b/package.json
+index 9bfca77..31629e8 100644
+--- a/package.json
++++ b/package.json
+@@ -4 +4 @@
+-  "version": "0.6.6",
++  "version": "0.6.7",

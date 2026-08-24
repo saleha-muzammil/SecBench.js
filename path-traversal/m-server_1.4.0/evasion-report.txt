@@ -1,0 +1,6 @@
+=== path-traversal/m-server_1.4.0 ===
+image: built image
+installed test deps: sleep
+baseline (clean fixed tree): exploit test = PASS (NOT fixed!)
+baseline: exploit test PASSES on the FIXED tree (installed m-server@1.4.0, expected fixed >= 1.4.2) -> not truly fixed.
+  diagnosis: stubbing the package STOPS the exploit -> the image is not actually on the fixed version (BENCHMARK/setup fault).

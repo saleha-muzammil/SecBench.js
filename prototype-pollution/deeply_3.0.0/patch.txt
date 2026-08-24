@@ -1,0 +1,249 @@
+From 6eccb2f03ec8d3eefc6805053c4cc2a36aab1505 Mon Sep 17 00:00:00 2001
+From: Alex Indigo <iam@alexindigo.com>
+Date: Sun, 23 Jun 2019 16:10:33 -0700
+Subject: [PATCH] Fixed security vulnerability
+
+Thanks to Snyk.io for responsible disclosure
+---
+ .nvmrc                     |  1 +
+ README.md                  | 41 +++++++++++++++++++++++++++++++-------
+ adapters/object.js         |  3 ++-
+ flags.js                   |  3 +++
+ lib/reduce_object.js       | 20 +++++++++++++++++++
+ package.json               |  2 +-
+ test/test-compatibility.js | 31 ++++++++++++++++++++++++++++
+ 7 files changed, 92 insertions(+), 9 deletions(-)
+ create mode 100644 .nvmrc
+
+diff --git a/.nvmrc b/.nvmrc
+new file mode 100644
+index 0000000..f599e28
+--- /dev/null
++++ b/.nvmrc
+@@ -0,0 +1 @@
++10
+diff --git a/README.md b/README.md
+index 2afa3f7..4af157b 100644
+--- a/README.md
++++ b/README.md
+@@ -14,11 +14,11 @@ and exposes hooks and custom adapters for more control and greater flexibility.
+ 
+ [![Readme](https://img.shields.io/badge/readme-tested-brightgreen.svg?style=flat)](https://www.npmjs.com/package/reamde)
+ 
+-| compression      |    size |
+-| :--------------- | ------: |
+-| deeply.js        | 15.6 kB |
+-| deeply.min.js    | 5.11 kB |
+-| deeply.min.js.gz | 1.53 kB |
++| compression      |     size |
++| :--------------- | -------: |
++| deeply.js        | 16.35 kB |
++| deeply.min.js    |  5.36 kB |
++| deeply.min.js.gz |  1.63 kB |
+ 
+ 
+ ## Table of Contents
+@@ -27,6 +27,7 @@ and exposes hooks and custom adapters for more control and greater flexibility.
+ - [Install](#install)
+ - [Examples](#examples)
+   - [Merging](#merging)
++    - [Security concerns](#security-concerns)
+   - [Cloning](#cloning)
+   - [Arrays Custom Merging](#arrays-custom-merging)
+     - [Default Behavior](#default-behavior)
+@@ -37,7 +38,8 @@ and exposes hooks and custom adapters for more control and greater flexibility.
+   - [Cloning Functions](#cloning-functions)
+     - [Cloning Prototype Chain](#cloning-prototype-chain)
+     - [Extend Original Function Prototype](#extend-original-function-prototype)
+-  - [Custom hooks](#custom-hooks)
++  - [Custom flags and hooks](#custom-flags-and-hooks)
++    - [`allowDangerousObjectKeys`](#allowdangerousobjectkeys)
+     - [`useCustomAdapters`](#usecustomadapters)
+     - [`useCustomTypeOf`](#usecustomtypeof)
+   - [Mutable Operations](#mutable-operations)
+@@ -71,6 +73,22 @@ var result = merge({a: {a1: 1}}, {a: {a2: 2}}, {b: {b3: 3}});
+ assert.equal(result, {a: {a1: 1, a2: 2}, b: {b3: 3}});
+ ```
+ 
++#### Security concerns
++
++Due to Prototype Pollution security vulnerability concerns, default behavior of when merging objects is to skip unsafe keys, like `__proto__`, please refer to the [test/compatability.js](test/compatability.js) file for code examples.
++
++If there is a use case where such behavior is desired, pass `allowDangerousObjectKeys` flag to the context to skip keys safety checks.
++
++```javascript
++var merge = require('deeply');
++var result;
++
++var context = { allowDangerousObjectKeys: merge.behaviors.allowDangerousObjectKeys };
++
++result = merge.call(context, {}, JSON.parse('{"__proto__": {"a0": true}}'));
++// end of the world, cats live with dogs...
++```
++
+ ### Cloning
+ 
+ As degenerated case of merging one object on itself, it's possible to use deeply as deep clone function.
+@@ -360,7 +378,16 @@ assert.equal(s1 instanceof Subj, true);
+ assert.equal(s2 instanceof Subj, true);
+ ```
+ 
+-### Custom hooks
++### Custom flags and hooks
++
++#### `allowDangerousObjectKeys`
++
++As shown in (Security Concerns)[#security-concerns] section,
++you can skip safety checks for unsafe object keys (e.g. `__proto__`) by passing `allowDangerousObjectKeys` flag to the context.
++
++```js
++merge.call({ allowDangerousObjectKeys: merge.behaviors.allowDangerousObjectKeys }, {}, JSON.parse('{"__proto__": {"a0": true}}'));
++```
+ 
+ #### `useCustomAdapters`
+ 
+diff --git a/adapters/object.js b/adapters/object.js
+index c576e74..b011cf4 100644
+--- a/adapters/object.js
++++ b/adapters/object.js
+@@ -17,7 +17,8 @@ module.exports = objectAdapter;
+ function objectAdapter(to, from, merge)
+ {
+   // transfer source values
+-  reduceObject(to, from, merge);
++  // pass context down the line, to allow behavior overrides
++  reduceObject.call(this, to, from, merge);
+ 
+   return to;
+ }
+diff --git a/flags.js b/flags.js
+index 73f1abb..575a87d 100644
+--- a/flags.js
++++ b/flags.js
+@@ -1,6 +1,9 @@
+ // list of available flags
+ module.exports =
+ {
++  // allow (original) unsafe behavior of merge all properties, including ones like `__proto__`
++  allowDangerousObjectKeys: 'deeply:allowDangerousObjectKeys:' + Math.random(),
++
+   // to prevent (reduce chance of) accidental leaking of the global variables into runtime flags
+   useCustomAdapters: 'deeply:useCustomAdapters:' + Math.random(),
+   useCustomTypeOf: 'deeply:useCustomTypeOf:' + Math.random()
+diff --git a/lib/reduce_object.js b/lib/reduce_object.js
+index 87923cf..31e2ef5 100644
+--- a/lib/reduce_object.js
++++ b/lib/reduce_object.js
+@@ -1,3 +1,5 @@
++var behaviors = require('../flags.js');
++
+ // Public API
+ module.exports = reduceObject;
+ 
+@@ -13,9 +15,16 @@ module.exports = reduceObject;
+  */
+ function reduceObject(target, source, merge)
+ {
++  var context = this;
++
+   // clone exposed properties
+   Object.keys(source).reduce(function(acc, key)
+   {
++    if (context.allowDangerousObjectKeys !== behaviors.allowDangerousObjectKeys && isUnsafeKey(key))
++    {
++      return acc;
++    }
++
+     acc[key] = merge(acc[key], source[key]);
+ 
+     return acc;
+@@ -23,3 +32,14 @@ function reduceObject(target, source, merge)
+ 
+   return target;
+ }
++
++
++/**
++ * Checks if provide key is unsafe to use within object
++ *
++ * @param {string} key - object key to check against
++ * @returns {boolean} - `true` if key is unsafe to use (e.g. __proto__), `false` otherwise
++ */
++function isUnsafeKey(key) {
++  return ['__proto__'].indexOf(key) != -1;
++}
+diff --git a/package.json b/package.json
+index f978a9b..e6a6b93 100644
+--- a/package.json
++++ b/package.json
+@@ -4,7 +4,7 @@
+   "description": "A toolkit for deep structure manipulations, provides deep merge/clone functionality out of the box, and exposes hooks and custom adapters for more control and greater flexibility.",
+   "main": "index.js",
+   "scripts": {
+-    "clean": "rimraf coverage",
++    "clean": "rimraf .nyc_output coverage",
+     "lint": "eslint *.js adapters/*.js test/*.js",
+     "test": "nyc --reporter=json tape test/test-*.js | tap-spec",
+     "browser": "browserify -t browserify-istanbul test/test-compatibility.js | obake --coverage | tap-spec",
+diff --git a/test/test-compatibility.js b/test/test-compatibility.js
+index 674a449..947eb81 100644
+--- a/test/test-compatibility.js
++++ b/test/test-compatibility.js
+@@ -181,6 +181,27 @@ var inout = [
+   , {in: ['ABC', 25, true], out: true}
+   , {in: [{a: 13}], out: {a: 13}}
+   , {in: [now], out: now}
++
++  // security
++  , {
++    in: [{}, JSON.parse('{"a": 1, "__proto__": {"a0": true}}')],
++    out: {a: 1},
++    // don't expect to see `a0` on object prototype
++    afterTest: function() { return !('a0' in {}); }
++  }
++  , {
++    in: [{}, JSON.parse('{"a": 1, "__proto__": {"a0": true}}')],
++    out: {a: 1},
++    // expect to see `a0` on object prototype
++    // with allowed dangerous keys flag
++    allowDangerousObjectKeys: true,
++    afterTest: function() {
++      var affected = ({})['a0'] === true;
++      // clean up proto pollution
++      delete ({}).__proto__['a0'];
++      return affected;
++    }
++  }
+ ];
+ 
+ /**
+@@ -213,6 +234,7 @@ test('merge', function test_deep_merge(t)
+ 
+   // extra sub tests
+   expectedTestsNum += inout.filter(function(pair){ return pair.in.length == 1 && typeof pair.modify == 'function'; }).length;
++  expectedTestsNum += inout.filter(function(pair){ return typeof pair.afterTest == 'function'; }).length;
+ 
+   t.plan(expectedTestsNum);
+ 
+@@ -231,6 +253,11 @@ test('merge', function test_deep_merge(t)
+       context = pair.customTypeOf;
+       context['useCustomTypeOf'] = deeply.behaviors.useCustomTypeOf;
+     }
++    else if (pair.allowDangerousObjectKeys)
++    {
++      context = {};
++      context['allowDangerousObjectKeys'] = deeply.behaviors.allowDangerousObjectKeys;
++    }
+ 
+     // default - immutable
+ 
+@@ -244,5 +271,9 @@ test('merge', function test_deep_merge(t)
+       // check that object's don't equal after modification
+       t.notDeepEqual(stringify(res), stringify(pair.in[0]), 'modified '+stringify(pair.in[0])+' should not be equal to '+stringify(res));
+     }
++
++    if (typeof pair.afterTest == 'function') {
++      t.ok(pair.afterTest(res), 'afterTest run should return truthy result');
++    }
+   });
+ });

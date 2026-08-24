@@ -1,0 +1,7 @@
+=== redos/nth-check_2.0.0 (corrected retest) ===
+package        : nth-check
+fixed-tree ms  : 1
+reverted ms    : 1
+corrected label: no-repro
+detail         : reverted 1ms < threshold 250ms (fixed 1.4ms) -- vuln needs more than the patch
+oracle         : timeout=25s floor=250ms ratio=20x; HANG or reverted>=max(floor,ratio*fixed) => reproduces

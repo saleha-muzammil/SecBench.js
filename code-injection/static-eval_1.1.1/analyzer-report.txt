@@ -1,0 +1,15 @@
+Analyzer report for code-injection/static-eval_1.1.1
+Package : static-eval@1.1.1  (fixed: 2.0.2)
+CVE     : (none)
+Repo    : browserify/static-eval
+Image   : secbench-fixed/static-eval_1.1.1
+Image   : using existing image
+
+========================================================================
+ABORTED
+========================================================================
+could not reverse-apply patch.txt onto the fixed tree:
+error: patch failed: index.js:135
+Falling back to three-way merge...
+Applied patch to 'index.js' with conflicts.
+U index.js

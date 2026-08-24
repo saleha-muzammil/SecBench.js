@@ -1,0 +1,7 @@
+=== redos/method-override_2.0.0 (corrected retest) ===
+package        : method-override
+fixed-tree ms  : 1
+reverted ms    : 668
+corrected label: reproduces
+detail         : reverted 668ms >= threshold 250ms (fixed 0.7ms)
+oracle         : timeout=25s floor=250ms ratio=20x; HANG or reverted>=max(floor,ratio*fixed) => reproduces

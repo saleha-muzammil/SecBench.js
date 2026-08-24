@@ -1,0 +1,571 @@
+From c90d45f4f0e1266867be136670eddeb99b2a32a5 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?C=C3=A9dric=20Ronvel?= <cedric.ronvel@gmail.com>
+Date: Tue, 2 Mar 2021 14:40:47 +0100
+Subject: [PATCH] .path()/.dotPath(): Fix prototype pollution, drop the
+ function's subtree support (breaking)
+
+---
+ lib/dotPath.js       | 177 ++++++++++++++++++++++---------------------
+ lib/path.js          |  32 +++++---
+ package.json         |   2 +-
+ test/dotPath-test.js |  41 +++++++++-
+ test/path-test.js    |  35 +++++++++
+ 5 files changed, 184 insertions(+), 103 deletions(-)
+
+diff --git a/lib/dotPath.js b/lib/dotPath.js
+index 8e74c17..48a7534 100644
+--- a/lib/dotPath.js
++++ b/lib/dotPath.js
+@@ -34,17 +34,14 @@ module.exports = dotPath ;
+ 
+ 
+ const EMPTY_PATH = [] ;
++const PROTO_POLLUTION_MESSAGE = 'This would pollute prototype' ;
++
++
+ 
+ function toPathArray( path ) {
+-	if ( Array.isArray( path ) ) {
+-		return path ;
+-	}
+-	else if ( ! path ) {
+-		return EMPTY_PATH ;
+-	}
+-	else if ( typeof path === 'string' ) {
+-		return path.split( '.' ) ;
+-	}
++	if ( Array.isArray( path ) ) { return path ; }
++	else if ( ! path ) { return EMPTY_PATH ; }
++	else if ( typeof path === 'string' ) { return path.split( '.' ) ; }
+ 
+ 	throw new TypeError( '[tree.dotPath]: the path argument should be a string or an array' ) ;
+ }
+@@ -52,34 +49,17 @@ function toPathArray( path ) {
+ 
+ 
+ // Walk the tree using the path array.
+-function walk( object , pathArray ) {
+-	var i , iMax ,
++function walk( object , pathArray , maxOffset = 0 ) {
++	var i , iMax , key ,
+ 		pointer = object ;
+ 
+-	for ( i = 0 , iMax = pathArray.length ; i < iMax ; i ++ ) {
+-		if ( ! pointer || ( typeof pointer !== 'object' && typeof pointer !== 'function' ) ) {
+-			return undefined ;
+-		}
+-
+-		pointer = pointer[ pathArray[ i ] ] ;
+-	}
+-
+-	return pointer ;
+-}
+-
+-
+-
+-// Walk the tree, stop before the last path part.
+-function walkBeforeLast( object , pathArray ) {
+-	var i , iMax ,
+-		pointer = object ;
++	for ( i = 0 , iMax = pathArray.length + maxOffset ; i < iMax ; i ++ ) {
++		key = pathArray[ i ] ;
+ 
+-	for ( i = 0 , iMax = pathArray.length - 1 ; i < iMax ; i ++ ) {
+-		if ( ! pointer || ( typeof pointer !== 'object' && typeof pointer !== 'function' ) ) {
+-			return undefined ;
+-		}
++		if ( key === '__proto__' || typeof pointer === 'function' ) { throw new Error( PROTO_POLLUTION_MESSAGE ) ; }
++		if ( ! pointer || typeof pointer !== 'object' ) { return undefined ; }
+ 
+-		pointer = pointer[ pathArray[ i ] ] ;
++		pointer = pointer[ key ] ;
+ 	}
+ 
+ 	return pointer ;
+@@ -91,16 +71,14 @@ function walkBeforeLast( object , pathArray ) {
+ // Return that before-the-last element.
+ // Object MUST be an object! no check are performed for the first step!
+ function pave( object , pathArray ) {
+-	var i , iMax ,
+-		key ,
++	var i , iMax , key ,
+ 		pointer = object ;
+ 
+ 	for ( i = 0 , iMax = pathArray.length - 1 ; i < iMax ; i ++ ) {
+ 		key = pathArray[ i ] ;
+ 
+-		if ( ! pointer[ key ] || ( typeof pointer[ key ] !== 'object' && typeof pointer[ key ] !== 'function' ) ) {
+-			pointer[ key ] = {} ;
+-		}
++		if ( key === '__proto__' || typeof pointer[ key ] === 'function' ) { throw new Error( PROTO_POLLUTION_MESSAGE ) ; }
++		if ( ! pointer[ key ] || typeof pointer[ key ] !== 'object' ) { pointer[ key ] = {} ; }
+ 
+ 		pointer = pointer[ key ] ;
+ 	}
+@@ -110,37 +88,42 @@ function pave( object , pathArray ) {
+ 
+ 
+ 
+-dotPath.get = function( object , path ) {
+-	return walk( object , toPathArray( path ) ) ;
+-} ;
++dotPath.get = ( object , path ) => walk( object , toPathArray( path ) ) ;
+ 
+ 
+ 
+-dotPath.set = function( object , path , value ) {
+-	if ( ! object || ( typeof object !== 'object' && typeof object !== 'function' ) ) {
++dotPath.set = ( object , path , value ) => {
++	if ( ! object || typeof object !== 'object' ) {
+ 		// Throw?
+ 		return undefined ;
+ 	}
+ 
+-	var pathArray = toPathArray( path ) ;
++	var pathArray = toPathArray( path ) ,
++		key = pathArray[ pathArray.length - 1 ] ;
++
++	if ( key === '__proto__' ) { throw new Error( PROTO_POLLUTION_MESSAGE ) ; }
++
+ 	var pointer = pave( object , pathArray ) ;
+ 
+-	pointer[ pathArray[ pathArray.length - 1 ] ] = value ;
++	pointer[ key ] = value ;
+ 
+ 	return value ;
+ } ;
+ 
+ 
+ 
+-dotPath.define = function( object , path , value ) {
+-	if ( ! object || ( typeof object !== 'object' && typeof object !== 'function' ) ) {
++dotPath.define = ( object , path , value ) => {
++	if ( ! object || typeof object !== 'object' ) {
+ 		// Throw?
+ 		return undefined ;
+ 	}
+ 
+-	var pathArray = toPathArray( path ) ;
++	var pathArray = toPathArray( path ) ,
++		key = pathArray[ pathArray.length - 1 ] ;
++
++	if ( key === '__proto__' ) { throw new Error( PROTO_POLLUTION_MESSAGE ) ; }
++
+ 	var pointer = pave( object , pathArray ) ;
+-	var key = pathArray[ pathArray.length - 1 ] ;
+ 
+ 	if ( ! ( key in pointer ) ) { pointer[ key ] = value ; }
+ 
+@@ -149,15 +132,18 @@ dotPath.define = function( object , path , value ) {
+ 
+ 
+ 
+-dotPath.inc = function( object , path , value ) {
+-	if ( ! object || ( typeof object !== 'object' && typeof object !== 'function' ) ) {
++dotPath.inc = ( object , path , value ) => {
++	if ( ! object || typeof object !== 'object' ) {
+ 		// Throw?
+ 		return undefined ;
+ 	}
+ 
+-	var pathArray = toPathArray( path ) ;
++	var pathArray = toPathArray( path ) ,
++		key = pathArray[ pathArray.length - 1 ] ;
++
++	if ( key === '__proto__' ) { throw new Error( PROTO_POLLUTION_MESSAGE ) ; }
++
+ 	var pointer = pave( object , pathArray ) ;
+-	var key = pathArray[ pathArray.length - 1 ] ;
+ 
+ 	if ( typeof pointer[ key ] === 'number' ) { pointer[ key ] ++ ; }
+ 	else if ( ! pointer[ key ] || typeof pointer[ key ] !== 'object' ) { pointer[ key ] = 1 ; }
+@@ -167,15 +153,18 @@ dotPath.inc = function( object , path , value ) {
+ 
+ 
+ 
+-dotPath.dec = function( object , path , value ) {
+-	if ( ! object || ( typeof object !== 'object' && typeof object !== 'function' ) ) {
++dotPath.dec = ( object , path , value ) => {
++	if ( ! object || typeof object !== 'object' ) {
+ 		// Throw?
+ 		return undefined ;
+ 	}
+ 
+-	var pathArray = toPathArray( path ) ;
++	var pathArray = toPathArray( path ) ,
++		key = pathArray[ pathArray.length - 1 ] ;
++
++	if ( key === '__proto__' ) { throw new Error( PROTO_POLLUTION_MESSAGE ) ; }
++
+ 	var pointer = pave( object , pathArray ) ;
+-	var key = pathArray[ pathArray.length - 1 ] ;
+ 
+ 	if ( typeof pointer[ key ] === 'number' ) { pointer[ key ] -- ; }
+ 	else if ( ! pointer[ key ] || typeof pointer[ key ] !== 'object' ) { pointer[ key ] = -1 ; }
+@@ -185,15 +174,18 @@ dotPath.dec = function( object , path , value ) {
+ 
+ 
+ 
+-dotPath.concat = function( object , path , value ) {
+-	if ( ! object || ( typeof object !== 'object' && typeof object !== 'function' ) ) {
++dotPath.concat = ( object , path , value ) => {
++	if ( ! object || typeof object !== 'object' ) {
+ 		// Throw?
+ 		return undefined ;
+ 	}
+ 
+-	var pathArray = toPathArray( path ) ;
++	var pathArray = toPathArray( path ) ,
++		key = pathArray[ pathArray.length - 1 ] ;
++
++	if ( key === '__proto__' ) { throw new Error( PROTO_POLLUTION_MESSAGE ) ; }
++
+ 	var pointer = pave( object , pathArray ) ;
+-	var key = pathArray[ pathArray.length - 1 ] ;
+ 
+ 	if ( ! pointer[ key ] ) { pointer[ key ] = value ; }
+ 	else if ( Array.isArray( pointer[ key ] ) && Array.isArray( value ) ) {
+@@ -206,15 +198,18 @@ dotPath.concat = function( object , path , value ) {
+ 
+ 
+ 
+-dotPath.insert = function( object , path , value ) {
+-	if ( ! object || ( typeof object !== 'object' && typeof object !== 'function' ) ) {
++dotPath.insert = ( object , path , value ) => {
++	if ( ! object || typeof object !== 'object' ) {
+ 		// Throw?
+ 		return undefined ;
+ 	}
+ 
+-	var pathArray = toPathArray( path ) ;
++	var pathArray = toPathArray( path ) ,
++		key = pathArray[ pathArray.length - 1 ] ;
++
++	if ( key === '__proto__' ) { throw new Error( PROTO_POLLUTION_MESSAGE ) ; }
++
+ 	var pointer = pave( object , pathArray ) ;
+-	var key = pathArray[ pathArray.length - 1 ] ;
+ 
+ 	if ( ! pointer[ key ] ) { pointer[ key ] = value ; }
+ 	else if ( Array.isArray( pointer[ key ] ) && Array.isArray( value ) ) {
+@@ -227,29 +222,33 @@ dotPath.insert = function( object , path , value ) {
+ 
+ 
+ 
+-dotPath.delete = function( object , path ) {
+-	var pathArray = toPathArray( path ) ;
+-	var pointer = walkBeforeLast( object , pathArray ) ;
++dotPath.delete = ( object , path ) => {
++	var pathArray = toPathArray( path ) ,
++		key = pathArray[ pathArray.length - 1 ] ;
+ 
+-	if ( ! pointer || ( typeof pointer !== 'object' && typeof pointer !== 'function' ) ) {
+-		return false ;
+-	}
++	if ( key === '__proto__' ) { throw new Error( PROTO_POLLUTION_MESSAGE ) ; }
++
++	var pointer = walk( object , pathArray , -1 ) ;
+ 
+-	return delete pointer[ pathArray[ pathArray.length - 1 ] ] ;
++	if ( ! pointer || typeof pointer !== 'object' ) { return false ; }
++
++	return delete pointer[ key ] ;
+ } ;
+ 
+ 
+ 
+-dotPath.autoPush = function( object , path , value ) {
+-	if ( ! object || ( typeof object !== 'object' && typeof object !== 'function' ) ) {
++dotPath.autoPush = ( object , path , value ) => {
++	if ( ! object || typeof object !== 'object' ) {
+ 		// Throw?
+ 		return undefined ;
+ 	}
+ 
+-	var pathArray = toPathArray( path ) ;
+-	var pointer = pave( object , pathArray ) ;
++	var pathArray = toPathArray( path ) ,
++		key = pathArray[ pathArray.length - 1 ] ;
+ 
+-	var key = pathArray[ pathArray.length - 1 ] ;
++	if ( key === '__proto__' ) { throw new Error( PROTO_POLLUTION_MESSAGE ) ; }
++
++	var pointer = pave( object , pathArray ) ;
+ 
+ 	if ( pointer[ key ] === undefined ) { pointer[ key ] = value ; }
+ 	else if ( Array.isArray( pointer[ key ] ) ) { pointer[ key ].push( value ) ; }
+@@ -260,16 +259,18 @@ dotPath.autoPush = function( object , path , value ) {
+ 
+ 
+ 
+-dotPath.append = function( object , path , value ) {
+-	if ( ! object || ( typeof object !== 'object' && typeof object !== 'function' ) ) {
++dotPath.append = ( object , path , value ) => {
++	if ( ! object || typeof object !== 'object' ) {
+ 		// Throw?
+ 		return undefined ;
+ 	}
+ 
+-	var pathArray = toPathArray( path ) ;
+-	var pointer = pave( object , pathArray ) ;
++	var pathArray = toPathArray( path ) ,
++		key = pathArray[ pathArray.length - 1 ] ;
+ 
+-	var key = pathArray[ pathArray.length - 1 ] ;
++	if ( key === '__proto__' ) { throw new Error( PROTO_POLLUTION_MESSAGE ) ; }
++
++	var pointer = pave( object , pathArray ) ;
+ 
+ 	if ( ! pointer[ key ] ) { pointer[ key ] = [ value ] ; }
+ 	else if ( Array.isArray( pointer[ key ] ) ) { pointer[ key ].push( value ) ; }
+@@ -280,16 +281,18 @@ dotPath.append = function( object , path , value ) {
+ 
+ 
+ 
+-dotPath.prepend = function( object , path , value ) {
+-	if ( ! object || ( typeof object !== 'object' && typeof object !== 'function' ) ) {
++dotPath.prepend = ( object , path , value ) => {
++	if ( ! object || typeof object !== 'object' ) {
+ 		// Throw?
+ 		return undefined ;
+ 	}
+ 
+-	var pathArray = toPathArray( path ) ;
+-	var pointer = pave( object , pathArray ) ;
++	var pathArray = toPathArray( path ) ,
++		key = pathArray[ pathArray.length - 1 ] ;
+ 
+-	var key = pathArray[ pathArray.length - 1 ] ;
++	if ( key === '__proto__' ) { throw new Error( PROTO_POLLUTION_MESSAGE ) ; }
++
++	var pointer = pave( object , pathArray ) ;
+ 
+ 	if ( ! pointer[ key ] ) { pointer[ key ] = [ value ] ; }
+ 	else if ( Array.isArray( pointer[ key ] ) ) { pointer[ key ].unshift( value ) ; }
+diff --git a/lib/path.js b/lib/path.js
+index 9303320..9799ebc 100644
+--- a/lib/path.js
++++ b/lib/path.js
+@@ -28,17 +28,19 @@
+ 
+ 
+ 
+-var treePath = {} ;
++const treePath = {} ;
+ module.exports = treePath ;
+ 
+ 
+ 
+-treePath.op = function op( type , object , path , value ) {
++const PROTO_POLLUTION_MESSAGE = 'This would pollute prototype' ;
++
++
++
++treePath.op = function( type , object , path , value ) {
+ 	var i , parts , last , pointer , key , isArray = false , pathArrayMode = false , isGenericSet , canBeEmpty = true ;
+ 
+-	if ( ! object || ( typeof object !== 'object' && typeof object !== 'function' ) ) {
+-		return ;
+-	}
++	if ( ! object || typeof object !== 'object' ) { return ; }
+ 
+ 	if ( typeof path === 'string' ) {
+ 		// Split the path into parts
+@@ -86,17 +88,19 @@ treePath.op = function op( type , object , path , value ) {
+ 		if ( pathArrayMode ) {
+ 			if ( key === undefined ) {
+ 				key = parts[ i ] ;
++				if ( key === '__proto__' ) { throw new Error( PROTO_POLLUTION_MESSAGE ) ; }
+ 				continue ;
+ 			}
+ 
+-			if ( ! pointer[ key ] || ( typeof pointer[ key ] !== 'object' && typeof pointer[ key ] !== 'function' ) ) {
++			if ( typeof pointer[ key ] === 'function' ) { throw new Error( PROTO_POLLUTION_MESSAGE ) ; }
++			if ( ! pointer[ key ] || typeof pointer[ key ] !== 'object' ) {
+ 				if ( ! isGenericSet ) { return undefined ; }
+ 				pointer[ key ] = {} ;
+ 			}
+ 
+ 			pointer = pointer[ key ] ;
+ 			key = parts[ i ] ;
+-
++			if ( key === '__proto__' ) { throw new Error( PROTO_POLLUTION_MESSAGE ) ; }
+ 			continue ;
+ 		}
+ 		else if ( parts[ i ] === '.' ) {
+@@ -111,7 +115,8 @@ treePath.op = function op( type , object , path , value ) {
+ 				key = '' ;
+ 			}
+ 
+-			if ( ! pointer[ key ] || ( typeof pointer[ key ] !== 'object' && typeof pointer[ key ] !== 'function' ) ) {
++			if ( typeof pointer[ key ] === 'function' ) { throw new Error( PROTO_POLLUTION_MESSAGE ) ; }
++			if ( ! pointer[ key ] || typeof pointer[ key ] !== 'object' ) {
+ 				if ( ! isGenericSet ) { return undefined ; }
+ 				pointer[ key ] = {} ;
+ 			}
+@@ -131,6 +136,7 @@ treePath.op = function op( type , object , path , value ) {
+ 				continue ;
+ 			}
+ 
++			if ( typeof pointer[ key ] === 'function' ) { throw new Error( PROTO_POLLUTION_MESSAGE ) ; }
+ 			if ( ! pointer[ key ] || ! Array.isArray( pointer[ key ] ) ) {
+ 				if ( ! isGenericSet ) { return undefined ; }
+ 				pointer[ key ] = [] ;
+@@ -148,11 +154,15 @@ treePath.op = function op( type , object , path , value ) {
+ 
+ 		canBeEmpty = false ;
+ 
+-		if ( ! isArray ) { key = parts[ i ] ; continue ; }
++		if ( ! isArray ) {
++			key = parts[ i ] ;
++			if ( key === '__proto__' ) { throw new Error( PROTO_POLLUTION_MESSAGE ) ; }
++			continue ;
++		}
+ 
+ 		switch ( parts[ i ] ) {
+ 			case 'length' :
+-				key = parts[ i ] ;
++				key = 'length' ;
+ 				break ;
+ 
+ 			// Pseudo-key
+@@ -269,7 +279,7 @@ treePath.prototype = {
+ 
+ 
+ // Upgrade an object so it can support get, set and delete at its root
+-treePath.upgrade = function upgrade( object ) {
++treePath.upgrade = function( object ) {
+ 	Object.defineProperties( object , {
+ 		get: { value: treePath.op.bind( undefined , 'get' , object ) } ,
+ 		delete: { value: treePath.op.bind( undefined , 'delete' , object ) } ,
+diff --git a/package.json b/package.json
+index 83e304e..e80a297 100644
+--- a/package.json
++++ b/package.json
+@@ -49,4 +49,4 @@
+     ],
+     "owner": "Cédric Ronvel"
+   }
+-}
+\ No newline at end of file
++}
+diff --git a/test/dotPath-test.js b/test/dotPath-test.js
+index 0a27cc3..ef18c5a 100644
+--- a/test/dotPath-test.js
++++ b/test/dotPath-test.js
+@@ -34,7 +34,7 @@ const path = require( '../lib/dotPath.js' ) ;
+ 
+ 
+ 
+-describe( "Tree's path on objects" , () => {
++describe( "Tree's dot-path on objects" , () => {
+ 
+ 	it( "path.get() on object structure" , () => {
+ 		var o = {
+@@ -311,7 +311,7 @@ describe( "Tree's path on objects" , () => {
+ 
+ 
+ 
+-describe( "Tree's path on arrays" , () => {
++describe( "Tree's dot-path on arrays" , () => {
+ 
+ 	it( "path.get() on a simple array" , () => {
+ 		var a = [ 'a' , 'b' , 'c' ] ;
+@@ -374,7 +374,7 @@ describe( "Tree's path on arrays" , () => {
+ 
+ 
+ 
+-describe( "Tree's path on mixed object and arrays" , () => {
++describe( "Tree's dot-path on mixed object and arrays" , () => {
+ 
+ 	it( "path.get() on a simple array" , () => {
+ 		var a = {
+@@ -407,7 +407,7 @@ describe( "Tree's path on mixed object and arrays" , () => {
+ 
+ 
+ 
+-describe( "Tree's array path on objects" , () => {
++describe( "Tree's array dot-path on objects" , () => {
+ 
+ 	it( "path.get() on object structure" , () => {
+ 		var o = {
+@@ -581,3 +581,36 @@ describe( "Tree's array path on objects" , () => {
+ 	} ) ;
+ } ) ;
+ 
++
++
++describe( ".dotPath() security issues" , () => {
++
++	it( "Prototype pollution using .__proto__" , () => {
++		expect( () => path.set( {} , '__proto__.hack' , 'hacked' ) ).to.throw() ;
++		expect( Object.prototype.hack ).to.be.undefined() ;
++		expect( () => path.set( {} , '__proto__' , 'hacked' ) ).to.throw() ;
++		expect( () => path.set( {a:{}} , 'a.__proto__' , 'hacked' ) ).to.throw() ;
++		expect( () => path.delete( {} , '__proto__' , 'hacked' ) ).to.throw() ;
++		expect( () => path.delete( {} , '__proto__.hack' , 'hacked' ) ).to.throw() ;
++	} ) ;
++
++	it( "Prototype pollution using .constructor" , () => {
++		expect( () => path.set( {} , 'constructor.prototype' , 'hacked' ) ).to.throw() ;
++		expect( () => path.set( {} , 'constructor.prototype.hack' , 'hacked' ) ).to.throw() ;
++		expect( Object.prototype.hack ).to.be.undefined() ;
++
++		// Check that we can still return a function, but not go inside of it
++		function fn() {}
++		fn.a = 'A' ;
++		expect( path.get( { fn } , 'fn' ) ).to.be( fn ) ;
++		expect( () => path.get( { fn } , 'fn.a' ) ).to.throw() ;
++		expect( () => path.get( { fn } , 'fn.prototype' ) ).to.throw() ;
++		expect( () => path.set( { fn } , 'fn.a' , 'B' ) ).to.throw() ;
++		expect( fn.a ).to.be( 'A' ) ;
++
++		var o = { fn } ;
++		path.set( o , 'fn' , 'notfn' ) ;
++		expect( o.fn ).to.be( 'notfn' ) ;
++	} ) ;
++} ) ;
++
+diff --git a/test/path-test.js b/test/path-test.js
+index 3ce0932..f61a31e 100644
+--- a/test/path-test.js
++++ b/test/path-test.js
+@@ -935,3 +935,38 @@ describe( "Tree's array path on objects" , function() {
+ 	} ) ;
+ } ) ;
+ 
++
++
++describe( ".path() security issues" , () => {
++
++	it( "Prototype pollution using .__proto__" , () => {
++		expect( () => path.set( {} , '__proto__.hack' , 'hacked' ) ).to.throw() ;
++		expect( Object.prototype.hack ).to.be.undefined() ;
++		expect( () => path.set( {} , '__proto__' , 'hacked' ) ).to.throw() ;
++		expect( () => path.set( {a:{}} , 'a.__proto__' , 'hacked' ) ).to.throw() ;
++		expect( () => path.delete( {} , '__proto__' , 'hacked' ) ).to.throw() ;
++		expect( () => path.delete( {} , '__proto__.hack' , 'hacked' ) ).to.throw() ;
++	} ) ;
++
++	it( "Prototype pollution using .constructor" , () => {
++		expect( () => path.set( {} , 'constructor.prototype' , 'hacked' ) ).to.throw() ;
++		expect( () => path.set( {} , 'constructor.prototype.hack' , 'hacked' ) ).to.throw() ;
++		expect( Object.prototype.hack ).to.be.undefined() ;
++		expect( path.get( {} , 'constructor' ) ).to.be( Object ) ;
++		expect( () => path.get( {} , 'constructor.prototype' ) ).to.throw() ;
++		
++		// Check that we can still return a function, but not go inside of it
++		function fn() {}
++		fn.a = 'A' ;
++		expect( path.get( { fn } , 'fn' ) ).to.be( fn ) ;
++		expect( () => path.get( { fn } , 'fn.a' ) ).to.throw() ;
++		expect( () => path.get( { fn } , 'fn.prototype' ) ).to.throw() ;
++		expect( () => path.set( { fn } , 'fn.a' , 'B' ) ).to.throw() ;
++		expect( fn.a ).to.be( 'A' ) ;
++
++		var o = { fn } ;
++		path.set( o , 'fn' , 'notfn' ) ;
++		expect( o.fn ).to.be( 'notfn' ) ;
++	} ) ;
++} ) ;
++

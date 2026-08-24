@@ -1,0 +1,24 @@
+{
+  "package": "jsonpointer",
+  "targets": [
+    "jsonpointer.js",
+    "test.js"
+  ],
+  "full_targets": [
+    "jsonpointer.js",
+    "test.js"
+  ],
+  "semgrep": {
+    "fixed_total": 2,
+    "new_full": 0,
+    "new_minimal": 0,
+    "new_final": []
+  },
+  "codeql": {
+    "fixed_total": 4,
+    "new_full": 0,
+    "new_minimal": 0,
+    "new_final": []
+  },
+  "detected_by": "neither"
+}

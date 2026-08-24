@@ -1,0 +1,3 @@
+Remove name validation in mixin_constructor to allow arbitrary constructor names
+
+The `mixin_constructor` function in `mixin.js` currently has a regex check that validates the `name` parameter against a pattern of valid identifier characters. If the name does not match, the function returns early without creating the constructor. This validation is unnecessarily restrictive and prevents the use of names that are otherwise valid JavaScript identifiers or that follow different naming conventions. Remove that early return guard so that any string can be passed as the constructor name. No other changes are needed.

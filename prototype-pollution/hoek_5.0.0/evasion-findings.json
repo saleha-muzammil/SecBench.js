@@ -1,0 +1,23 @@
+{
+  "package": "hoek",
+  "targets": [
+    "lib/index.js"
+  ],
+  "full_targets": [
+    "lib/index.js",
+    "test/index.js"
+  ],
+  "semgrep": {
+    "fixed_total": 12,
+    "new_full": 0,
+    "new_minimal": 0,
+    "new_final": []
+  },
+  "codeql": {
+    "fixed_total": 2,
+    "new_full": 1,
+    "new_minimal": 1,
+    "new_final": []
+  },
+  "detected_by": "neither"
+}

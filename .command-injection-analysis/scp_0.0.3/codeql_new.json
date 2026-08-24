@@ -1,0 +1,44 @@
+[
+  [
+    "Unsafe shell command constructed from library input",
+    "Using externally controlled strings in a command line may allow a malicious user to change the meaning of the command.",
+    "error",
+    "This string concatenation which depends on [[\"library input\"|\"relative:///src/index.js:32:46:44:1\"]] is later used in a [[\"shell command\"|\"relative:///src/run.js:10:26:10:54\"]].",
+    "/src/check-out-tag.js"
+  ],
+  [
+    "Unsafe shell command constructed from library input",
+    "Using externally controlled strings in a command line may allow a malicious user to change the meaning of the command.",
+    "error",
+    "This string concatenation which depends on [[\"library input\"|\"relative:///src/index.js:32:46:44:1\"]] is later used in a [[\"shell command\"|\"relative:///src/run.js:10:26:10:54\"]].",
+    "/src/commit-and-tag.js"
+  ],
+  [
+    "Unsafe shell command constructed from library input",
+    "Using externally controlled strings in a command line may allow a malicious user to change the meaning of the command.",
+    "error",
+    "This string concatenation which depends on [[\"library input\"|\"relative:///src/index.js:32:46:44:1\"]] is later used in a [[\"shell command\"|\"relative:///src/run.js:10:26:10:54\"]].",
+    "/src/index.js"
+  ],
+  [
+    "Unsafe shell command constructed from library input",
+    "Using externally controlled strings in a command line may allow a malicious user to change the meaning of the command.",
+    "error",
+    "This string concatenation which depends on [[\"library input\"|\"relative:///src/index.js:32:46:44:1\"]] is later used in a [[\"shell command\"|\"relative:///src/run.js:10:26:10:54\"]].",
+    "/src/index.js"
+  ],
+  [
+    "Unsafe shell command constructed from library input",
+    "Using externally controlled strings in a command line may allow a malicious user to change the meaning of the command.",
+    "error",
+    "This string concatenation which depends on [[\"library input\"|\"relative:///src/index.js:32:46:44:1\"]] is later used in a [[\"shell command\"|\"relative:///src/run.js:10:26:10:54\"]].\nThis string concatenation which depends on [[\"library input\"|\"relative:///src/index.js:32:46:44:1\"]] is later used in a [[\"shell command\"|\"relative:///src/run.js:10:26:10:54\"]].",
+    "/src/index.js"
+  ],
+  [
+    "Unsafe shell command constructed from library input",
+    "Using externally controlled strings in a command line may allow a malicious user to change the meaning of the command.",
+    "error",
+    "This string concatenation which depends on [[\"library input\"|\"relative:///src/index.js:32:46:44:1\"]] is later used in a [[\"shell command\"|\"relative:///src/run.js:10:26:10:54\"]].",
+    "/src/index.js"
+  ]
+]

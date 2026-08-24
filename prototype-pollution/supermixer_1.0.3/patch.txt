@@ -1,0 +1,42 @@
+From 94dcc6fc45e0fed96187cb52aaffadf76dbbc0a3 Mon Sep 17 00:00:00 2001
+From: vasyl <vasyl@flash-fx.com.au>
+Date: Thu, 20 Aug 2020 13:40:01 +1000
+Subject: [PATCH] Avoiding prototype pollution
+
+---
+ src/mixer.js  |  3 +++
+ test/merge.js | 10 ++++++++++
+ 2 files changed, 13 insertions(+)
+
+diff --git a/src/mixer.js b/src/mixer.js
+index 896d74d..2e18e01 100644
+--- a/src/mixer.js
++++ b/src/mixer.js
+@@ -47,6 +47,9 @@ export default function mixer(opts = {}) {
+     }
+ 
+     function iteratee(sourceValue, key) {
++      if (key === 'constructor' && typeof sourceValue === 'function') return;
++      if (key == '__proto__') return;
++
+       const targetValue = target[key];
+       if (opts.filter && !opts.filter(sourceValue, targetValue, key)) {
+         return;
+diff --git a/test/merge.js b/test/merge.js
+index 30a0b48..dc581a8 100644
+--- a/test/merge.js
++++ b/test/merge.js
+@@ -61,3 +61,13 @@ test('merge', (t) => {
+   t.ok(result.func2, 'Should mix functions.');
+   t.end();
+ });
++
++test('merging should avoid prototype pollutions', (t) => {
++  let result = merge({}, JSON.parse('{"__proto__":{"poc":"evil"}}'));
++  t.notEqual(result.poc, 'evil', 'Should not merge __proto__.');
++
++  result = merge({}, { constructor: noop });
++  t.notEqual(result.constructor, noop, 'Should not merge constructor functions')
++
++  t.end();
++});

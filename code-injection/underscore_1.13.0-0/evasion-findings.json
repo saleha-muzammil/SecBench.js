@@ -1,0 +1,25 @@
+{
+  "package": "underscore",
+  "targets": [
+    "underscore.js",
+    "modules/template.js"
+  ],
+  "full_targets": [
+    "modules/template.js",
+    "underscore-esm.js",
+    "underscore.js"
+  ],
+  "semgrep": {
+    "fixed_total": 27,
+    "new_full": 0,
+    "new_minimal": 0,
+    "new_final": []
+  },
+  "codeql": {
+    "fixed_total": 0,
+    "new_full": 0,
+    "new_minimal": 0,
+    "new_final": []
+  },
+  "detected_by": "neither"
+}

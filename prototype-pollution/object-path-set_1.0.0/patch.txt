@@ -1,0 +1,113 @@
+From 55f06d75abf5885f9cba3b7760acb38d7d7d06c0 Mon Sep 17 00:00:00 2001
+From: skratchdot <git@skratchdot.com>
+Date: Sat, 25 Jul 2020 18:25:11 -0400
+Subject: [PATCH] fix prototype pollution vulnerability
+
+---
+ CHANGELOG.md |  8 +++++---
+ index.js     | 17 ++++++++++++-----
+ package.json |  2 +-
+ test.js      | 25 +++++++++++++++++++++++++
+ 4 files changed, 43 insertions(+), 9 deletions(-)
+
+diff --git a/CHANGELOG.md b/CHANGELOG.md
+index 139bd91..9df9434 100644
+--- a/CHANGELOG.md
++++ b/CHANGELOG.md
+@@ -1,11 +1,13 @@
+-<a name="Unreleased"></a>
++<a name="1.0.1"></a>
+ 
+-## Unreleased (2018-02-25)
++## <small>1.0.1 (2020-07-25)</small>
+ 
+ * add prettier and `npm run build` ([1f34461](https://github.com/skratchdot/object-path-set/commit/1f34461))
+ * adding contributors ([5bf6e83](https://github.com/skratchdot/object-path-set/commit/5bf6e83))
++* Bump eslint from 4.18.1 to 4.18.2 ([1756583](https://github.com/skratchdot/object-path-set/commit/1756583))
++* fix prototype pollution vulnerability ([e3108fe](https://github.com/skratchdot/object-path-set/commit/e3108fe))
+ * rename tonic to runkit ([9c2f1ea](https://github.com/skratchdot/object-path-set/commit/9c2f1ea))
+-* small readme tweaks ([883d400](https://github.com/skratchdot/object-path-set/commit/883d400))
++* small readme tweaks ([9750b7a](https://github.com/skratchdot/object-path-set/commit/9750b7a))
+ * travis runs node 6+ ([ac1969b](https://github.com/skratchdot/object-path-set/commit/ac1969b))
+ * update travis config ([9c5a14e](https://github.com/skratchdot/object-path-set/commit/9c5a14e))
+ * updating changelog and changelog generator ([216d2e7](https://github.com/skratchdot/object-path-set/commit/216d2e7))
+diff --git a/index.js b/index.js
+index 8c6a43e..876063d 100644
+--- a/index.js
++++ b/index.js
+@@ -1,5 +1,10 @@
+ 'use strict';
+ 
++// https://github.com/jonschlinkert/assign-deep/commit/90bf1c551d05940898168d04066bbf15060f50cc
++var isValidKey = function(key) {
++  return key !== '__proto__' && key !== 'constructor' && key !== 'prototype';
++};
++
+ var setPath = function(obj, path, value, delimiter) {
+   var arr;
+   var key;
+@@ -12,11 +17,13 @@ var setPath = function(obj, path, value, delimiter) {
+   if (Array.isArray(path) && path.length > 0) {
+     arr = path;
+     key = arr[0];
+-    if (arr.length > 1) {
+-      arr.shift();
+-      obj[key] = setPath(obj[key], arr, value, delimiter);
+-    } else {
+-      obj[key] = value;
++    if (isValidKey(key)) {
++      if (arr.length > 1) {
++        arr.shift();
++        obj[key] = setPath(obj[key], arr, value, delimiter);
++      } else {
++        obj[key] = value;
++      }
+     }
+   }
+   return obj;
+diff --git a/package.json b/package.json
+index 76e2e36..a7e2075 100644
+--- a/package.json
++++ b/package.json
+@@ -1,6 +1,6 @@
+ {
+   "name": "object-path-set",
+-  "version": "1.0.0",
++  "version": "1.0.1",
+   "description": "set values in javascript objects by specifying a path",
+   "main": "index.js",
+   "scripts": {
+diff --git a/test.js b/test.js
+index df1e33d..c490e0a 100644
+--- a/test.js
++++ b/test.js
+@@ -100,4 +100,29 @@ describe('object-path-set', function() {
+     obj2[''] = defaultValue;
+     expect(setPath(obj, '', defaultValue)).toEqual(obj2);
+   });
++  it('should not pollute __proto__', function() {
++    var obj = {};
++    expect(obj.polluted).toBeUndefined();
++    setPath(obj, '__proto__.polluted', 'yes');
++    var obj2 = {};
++    expect(obj.polluted).toBeUndefined();
++    expect(obj2.polluted).toBeUndefined();
++  });
++  it('should not pollute constructor', function() {
++    var obj = {};
++    expect(obj.polluted).toBeUndefined();
++    setPath(obj, 'constructor.polluted', 'yes');
++    var obj2 = {};
++    expect(obj.polluted).toBeUndefined();
++    expect(obj2.polluted).toBeUndefined();
++  });
++  it('should not pollute prototype', function() {
++    var obj = {};
++    expect(obj.polluted).toBeUndefined();
++    setPath(obj, 'prototype.polluted', 'yes');
++    // eslint-disable-next-line
++    var obj2 = new Object();
++    expect(obj.polluted).toBeUndefined();
++    expect(obj2.polluted).toBeUndefined();
++  });
+ });

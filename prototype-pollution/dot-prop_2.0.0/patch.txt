@@ -1,0 +1,89 @@
+From 3039c8c07f6fdaa8b595ec869ae0895686a7a0f2 Mon Sep 17 00:00:00 2001
+From: Sindre Sorhus <sindresorhus@gmail.com>
+Date: Wed, 23 Oct 2019 15:38:18 +0700
+Subject: [PATCH] Prevent setting/getting some problematic path components
+
+---
+ index.js  | 18 ++++++++++++++++++
+ readme.md |  2 ++
+ test.js   |  7 +++++++
+ 3 files changed, 27 insertions(+)
+
+diff --git a/index.js b/index.js
+index 438f4c1..6311e40 100644
+--- a/index.js
++++ b/index.js
+@@ -1,6 +1,14 @@
+ 'use strict';
+ const isObj = require('is-obj');
+ 
++const disallowedKeys = [
++	'__proto__',
++	'prototype',
++	'constructor'
++];
++
++const isValidPath = pathSegments => !pathSegments.some(segment => disallowedKeys.includes(segment));
++
+ function getPathSegments(path) {
+ 	const pathArray = path.split('.');
+ 	const parts = [];
+@@ -16,6 +24,10 @@ function getPathSegments(path) {
+ 		parts.push(p);
+ 	}
+ 
++	if (!isValidPath(parts)) {
++		return [];
++	}
++
+ 	return parts;
+ }
+ 
+@@ -26,6 +38,9 @@ module.exports = {
+ 		}
+ 
+ 		const pathArray = getPathSegments(path);
++		if (pathArray.length === 0) {
++			return;
++		}
+ 
+ 		for (let i = 0; i < pathArray.length; i++) {
+ 			if (!Object.prototype.propertyIsEnumerable.call(object, pathArray[i])) {
+@@ -105,6 +120,9 @@ module.exports = {
+ 		}
+ 
+ 		const pathArray = getPathSegments(path);
++		if (pathArray.length === 0) {
++			return false;
++		}
+ 
+ 		for (let i = 0; i < pathArray.length; i++) {
+ 			if (isObj(object)) {
+diff --git a/readme.md b/readme.md
+index 398a738..1e2246a 100644
+--- a/readme.md
++++ b/readme.md
+@@ -85,6 +85,8 @@ Path of the property in the object, using `.` to separate each nested key.
+ 
+ Use `\\.` if you have a `.` in the key.
+ 
++The following path components are invalid and results in `undefined` being returned: `__proto__`, `prototype`, `constructor`.
++
+ #### value
+ 
+ Type: `unknown`
+diff --git a/test.js b/test.js
+index f0b5084..48498ed 100644
+--- a/test.js
++++ b/test.js
+@@ -199,3 +199,10 @@ test('has', t => {
+ 	t.is(dotProp.has({'foo.baz': {bar: true}}, 'foo\\.baz.bar'), true);
+ 	t.is(dotProp.has({'fo.ob.az': {bar: true}}, 'fo\\.ob\\.az.bar'), true);
+ });
++
++test('prevent setting/getting `__proto__`', t => {
++	dotProp.set({}, '__proto__.unicorn', '🦄');
++	t.not({}.unicorn, '🦄'); // eslint-disable-line no-use-extend-native/no-use-extend-native
++
++	t.is(dotProp.get({}, '__proto__'), undefined);
++});

@@ -1,0 +1,22 @@
+{
+  "package": "node-simple-router",
+  "targets": [
+    "lib/router.js"
+  ],
+  "full_targets": [
+    "lib/router.js"
+  ],
+  "semgrep": {
+    "fixed_total": 19,
+    "new_full": 0,
+    "new_minimal": 0,
+    "new_final": []
+  },
+  "codeql": {
+    "fixed_total": 13,
+    "new_full": 0,
+    "new_minimal": 0,
+    "new_final": []
+  },
+  "detected_by": "neither"
+}

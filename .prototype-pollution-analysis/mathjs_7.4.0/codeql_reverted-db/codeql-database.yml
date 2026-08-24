@@ -1,0 +1,46 @@
+---
+sourceLocationPrefix: /Users/saleha/Desktop/cispa/SecBench.js/.prototype-pollution-analysis/mathjs_7.4.0/reverted
+baselineLinesOfCode: 74176
+unicodeNewlines: true
+columnKind: utf16
+primaryLanguage: javascript
+inProgress:
+  primaryLanguage: javascript
+  installedExtractors:
+    go:
+     - /opt/homebrew/Caskroom/codeql/2.25.6/codeql/go
+    python:
+     - /opt/homebrew/Caskroom/codeql/2.25.6/codeql/python
+    rust:
+     - /opt/homebrew/Caskroom/codeql/2.25.6/codeql/rust
+    java:
+     - /opt/homebrew/Caskroom/codeql/2.25.6/codeql/java
+    html:
+     - /opt/homebrew/Caskroom/codeql/2.25.6/codeql/html
+    xml:
+     - /opt/homebrew/Caskroom/codeql/2.25.6/codeql/xml
+    properties:
+     - /opt/homebrew/Caskroom/codeql/2.25.6/codeql/properties
+    cpp:
+     - /opt/homebrew/Caskroom/codeql/2.25.6/codeql/cpp
+    swift:
+     - /opt/homebrew/Caskroom/codeql/2.25.6/codeql/swift
+    csv:
+     - /opt/homebrew/Caskroom/codeql/2.25.6/codeql/csv
+    actions:
+     - /opt/homebrew/Caskroom/codeql/2.25.6/codeql/actions
+    yaml:
+     - /opt/homebrew/Caskroom/codeql/2.25.6/codeql/yaml
+    csharp:
+     - /opt/homebrew/Caskroom/codeql/2.25.6/codeql/csharp
+    javascript:
+     - /opt/homebrew/Caskroom/codeql/2.25.6/codeql/javascript
+    ruby:
+     - /opt/homebrew/Caskroom/codeql/2.25.6/codeql/ruby
+creationMetadata:
+  sha: 2594c69910042bb24270d1dfffbbeb71b3b6ce8f
+  cliVersion: 2.25.6
+  creationTime: 2026-08-11T11:53:50.831886Z
+overlayBaseDatabase: false
+finalised: false
+overlayDatabase: false

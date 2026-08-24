@@ -1,0 +1,27 @@
+[
+  {
+    "repository": "underscore_1.13.0-0",
+    "package": "underscore",
+    "status": "ok",
+    "fixed_findings": 186,
+    "reverted_findings": 186,
+    "new_findings": 0,
+    "new_in_patched_files": 0,
+    "new_errors": 0,
+    "new_warnings": 0,
+    "new_info": 0,
+    "detected": "no",
+    "top_rules": "",
+    "revert_status": "ok",
+    "files_reverted": 5,
+    "note": "",
+    "codeql_status": "ok",
+    "codeql_fixed": 322,
+    "codeql_reverted": 322,
+    "codeql_new": 0,
+    "codeql_detected": "no",
+    "codeql_top_rules": "",
+    "detected_by": "neither",
+    "by_rule": {}
+  }
+]

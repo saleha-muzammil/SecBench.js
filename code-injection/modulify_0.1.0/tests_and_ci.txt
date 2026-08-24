@@ -1,0 +1,32 @@
+SecBench.js — test & CI inventory
+============================================================
+Entry      : code-injection/modulify_0.1.0
+Package    : modulify@0.1.0
+Repository : https://github.com/matthewkastor/modulify
+Source     : (default branch — version tag not found)
+Generated  : 2026-06-22
+
+== package.json test scripts ==
+  test: jasmine-node specs/
+
+== test framework dependencies ==
+  (none detected)
+
+== how to run the tests ==
+  npm install
+  npm test
+
+== test directories ==
+  specs/   (2 files)
+  tests/   (1 files)
+
+== test files (2 found) ==
+  specs/modulify.spec.js
+  tests/modulify.test.js
+
+== test runner config ==
+  (none found)
+
+== CI / workflows ==
+  (no CI / workflow files found)
+

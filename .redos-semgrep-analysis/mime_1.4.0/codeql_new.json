@@ -1,0 +1,16 @@
+[
+  [
+    "Polynomial regular expression used on uncontrolled data",
+    "A regular expression that can require polynomial time to match may be vulnerable to denial-of-service attacks.",
+    "warning",
+    "This [[\"regular expression\"|\"relative:///Mime.js:50:30:50:31\"]] that depends on [[\"library input\"|\"relative:///Mime.js:48:11:48:14\"]] may run slow on strings with many repetitions of 'a'.",
+    "/Mime.js"
+  ],
+  [
+    "Polynomial regular expression used on uncontrolled data",
+    "A regular expression that can require polynomial time to match may be vulnerable to denial-of-service attacks.",
+    "warning",
+    "This [[\"regular expression\"|\"relative:///Mime.js:51:29:51:30\"]] that depends on [[\"library input\"|\"relative:///Mime.js:48:11:48:14\"]] may run slow on strings with many repetitions of 'a'.",
+    "/Mime.js"
+  ]
+]

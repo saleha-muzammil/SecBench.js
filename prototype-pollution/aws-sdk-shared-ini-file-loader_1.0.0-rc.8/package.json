@@ -8,6 +8,6 @@
     "source2": "https://github.com/advisories/GHSA-rrc9-gqf8-8rwg"
   },
   "fixedVersion": "1.0.0-rc.9",
-  "fixCommit": "https://github.com/aws/aws-sdk-js/pull/3585/commits/7d72aff2a941173733fcb6741b104cd83d3bc611",
+  "fixCommit": "https://github.com/aws/aws-sdk-js-v3/commit/a209082dff913939672bb069964b33aa4c5409a9",
   "sink": "shared-ini-file-loader/src/index.ts:108:20"
 }

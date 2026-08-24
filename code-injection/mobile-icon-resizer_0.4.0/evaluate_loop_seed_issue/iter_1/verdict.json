@@ -1,0 +1,10 @@
+{
+  "decision": "REJECT",
+  "findings": {
+    "validity": "The problem description is unclear and the proposed solution is incorrect. Replacing `math.eval` with `new Function` in the manner described does not produce equivalent behavior and introduces security vulnerabilities. The suggested code would not evaluate a simple ratio expression correctly.",
+    "reproduction_match": "No independent reproduction was performed, but even based on the issue's own clarity, the proposed change cannot be reproduced as intended because the logic is flawed.",
+    "scope_consistency": "The change targets the correct file (`lib/resize.js`) and function (`getSizeFromRatio`), but the implementation suggested is inconsistent with the described goal of maintaining identical behavior."
+  },
+  "rationale": "The issue recommends a specific code change that is fundamentally incorrect. The `Function` constructor with the given arguments would not evaluate the ratio string as an expression, and it would introduce arbitrary code execution risks. The issue lacks validity and is not actionable as stated. Therefore, it should be rejected.",
+  "confidence": 0.95
+}

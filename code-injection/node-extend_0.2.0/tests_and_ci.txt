@@ -1,0 +1,12 @@
+SecBench.js — test & CI inventory
+============================================================
+Entry      : code-injection/node-extend_0.2.0
+Package    : node-extend@0.2.0
+Repository : https://github.com/brighthas/extend
+
+The resolved upstream repository could not be cloned (it is private, was
+renamed/removed, or the metadata points at a dead fork). Tests/CI could not
+be inspected. Options:
+  * find the current repo and clone it manually, or
+  * inspect the published npm tarball instead:
+      npm pack node-extend@0.2.0 && tar -xf *.tgz

@@ -1,0 +1,7 @@
+=== prototype-pollution/objection_2.0.0 ===
+image: built image
+installed test deps: objection/lib/utils/objectUtils
+baseline (clean fixed tree): exploit test = FAIL (vuln closed, good)
+baseline: test FAILS on fixed tree (good).
+patch splits into 2 line-level change unit(s) across 1 file(s)
+exploit still fires with 'objection' STUBBED OUT -> the PoC is self-firing; its reproduction is not attributable to the package (EXPLOIT fault).

@@ -1,0 +1,69 @@
+SecBench.js — test & CI inventory
+============================================================
+Entry      : code-injection/marsdb_0.6.11
+Package    : marsdb@0.6.11
+Repository : https://github.com/c58/marsdb
+Source     : (default branch — version tag not found)
+Generated  : 2026-06-22
+
+== package.json test scripts ==
+  test_some: mocha --require babelhook --reporter spec --timeout 1000
+  test_browser: gulp build:browser:tests && mocha-phantomjs --reporter spec browser_tests.html
+  test: mocha --require babelhook --reporter spec --timeout 1000 test/both test/node
+  coverage: ./node_modules/.bin/babel-node ./node_modules/istanbul/lib/cli cover _mocha test/both test/node -- -u exports -R spec && open coverage/lcov-report/index.html
+  coveralls: ./node_modules/.bin/babel-node ./node_modules/istanbul/lib/cli cover _mocha test/both test/node --report lcovonly -- -R spec && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js ./lib && rm -rf ./coverage
+
+== test framework dependencies ==
+  mocha, chai, istanbul
+
+== how to run the tests ==
+  npm install
+  npm test
+
+== test directories ==
+  test/   (17 files)
+
+== test files (14 found) ==
+  test/both/Base64.test.js
+  test/both/Collection.test.js
+  test/both/Cursor.test.js
+  test/both/CursorObservable.test.js
+  test/both/DocumentMatcher.test.js
+  test/both/DocumentModifier.test.js
+  test/both/DocumentProjector.test.js
+  test/both/DocumentRetriver.test.js
+  test/both/DocumentSorter.test.js
+  test/both/EJSON.test.js
+  test/both/PromiseQueue.test.js
+  test/both/Random.test.js
+  test/both/StorageManager.test.js
+  test/both/debounce.test.js
+
+== test runner config ==
+  (none found)
+
+== CI / workflows ==
+  .travis.yml
+
+  --- .travis.yml ---
+  | language: node_js
+  | 
+  | sudo: false
+  | 
+  | install:
+  |   - npm install -g babel-cli
+  |   - npm install
+  | 
+  | node_js:
+  |   - "5.3"
+  |   - "4.2"
+  |   - "0.12"
+  | 
+  | cache:
+  |   directories:
+  |     - node_modules
+  | 
+  | script: npm test && npm run test_browser
+  | 
+  | after_script: npm run coveralls
+

@@ -1,0 +1,9 @@
+[
+  [
+    "Shell command built from environment values",
+    "Building a shell command string with values from the enclosing environment may cause subtle bugs or vulnerabilities.",
+    "warning",
+    "This shell command depends on an uncontrolled [[\"absolute path\"|\"relative:///lib/application.js:33:36:33:48\"]].",
+    "/lib/open-browser.js"
+  ]
+]

@@ -1,0 +1,101 @@
+SecBench.js — test & CI inventory
+============================================================
+Entry      : code-injection/mathjs_3.10.3
+Package    : mathjs@3.10.3
+Repository : https://github.com/josdejong/mathjs
+Source     : checked out: v3.10.3
+Generated  : 2026-06-22
+
+== package.json test scripts ==
+  test: mocha test --recursive
+  coverage: istanbul cover _mocha -- test --recursive; echo "
+Coverage report is available at ./coverage/lcov-report/index.html"
+
+== test framework dependencies ==
+  mocha, istanbul
+
+== how to run the tests ==
+  npm install
+  npm test
+
+== test directories ==
+  test/   (243 files)
+
+== test files (236 found) ==
+  test/approx.test.js
+  test/constants.test.js
+  test/core/config.test.js
+  test/core/import.test.js
+  test/core/index.test.js
+  test/deprecated.test.js
+  test/error/ArgumentsError.test.js
+  test/error/DimensionError.test.js
+  test/error/IndexError.test.js
+  test/error/index.test.js
+  test/expression/Help.test.js
+  test/expression/Parser.test.js
+  test/expression/function/compile.test.js
+  test/expression/function/eval.test.js
+  test/expression/function/help.test.js
+  test/expression/function/parse.test.js
+  test/expression/function/parser.test.js
+  test/expression/keywords.test.js
+  test/expression/node/AccessorNode.test.js
+  test/expression/node/ArrayNode.test.js
+  test/expression/node/AssignmentNode.test.js
+  test/expression/node/BlockNode.test.js
+  test/expression/node/ConditionalNode.test.js
+  test/expression/node/ConstantNode.test.js
+  test/expression/node/FunctionAssignmentNode.test.js
+  test/expression/node/FunctionNode.test.js
+  test/expression/node/IndexNode.test.js
+  test/expression/node/Node.test.js
+  test/expression/node/ObjectNode.test.js
+  test/expression/node/OperatorNode.test.js
+  test/expression/node/ParenthesisNode.test.js
+  test/expression/node/RangeNode.test.js
+  test/expression/node/SymbolNode.test.js
+  test/expression/node/index.test.js
+  test/expression/operators.test.js
+  test/expression/parse.test.js
+  test/function/algebra/decomposition/lup.test.js
+  test/function/algebra/decomposition/slu.test.js
+  test/function/algebra/derivative.test.js
+  test/function/algebra/simplify.test.js
+  test/function/algebra/solver/lsolve.test.js
+  test/function/algebra/solver/lusolve.test.js
+  test/function/algebra/solver/usolve.test.js
+  test/function/algebra/sparse/cs_amd.test.js
+  test/function/algebra/sparse/cs_lu.test.js
+  test/function/arithmetic/abs.test.js
+  test/function/arithmetic/add.test.js
+  test/function/arithmetic/addScalar.test.js
+  test/function/arithmetic/cbrt.test.js
+  test/function/arithmetic/ceil.test.js
+  test/function/arithmetic/cube.test.js
+  test/function/arithmetic/divide.test.js
+  test/function/arithmetic/dotDivide.test.js
+  test/function/arithmetic/dotMultiply.test.js
+  test/function/arithmetic/dotPow.test.js
+  test/function/arithmetic/exp.test.js
+  test/function/arithmetic/fix.test.js
+  test/function/arithmetic/floor.test.js
+  test/function/arithmetic/gcd.test.js
+  test/function/arithmetic/hypot.test.js
+  ... and 176 more
+
+== test runner config ==
+  (none found)
+
+== CI / workflows ==
+  .travis.yml
+
+  --- .travis.yml ---
+  | language: node_js
+  | node_js:
+  |   - 0.10
+  |   - 0.12
+  |   - 4
+  |   - 6
+  |   - 7
+

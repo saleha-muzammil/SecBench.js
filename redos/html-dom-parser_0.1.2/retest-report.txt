@@ -1,0 +1,7 @@
+=== redos/html-dom-parser_0.1.2 (corrected retest) ===
+package        : html-dom-parser
+fixed-tree ms  : 703
+reverted ms    : 714
+corrected label: no-repro
+detail         : reverted 714ms < threshold 14061ms (fixed 703.0ms) -- vuln needs more than the patch
+oracle         : timeout=25s floor=250ms ratio=20x; HANG or reverted>=max(floor,ratio*fixed) => reproduces

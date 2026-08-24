@@ -1,0 +1,22 @@
+{
+  "package": "clamscan",
+  "targets": [
+    "index.js"
+  ],
+  "full_targets": [
+    "index.js"
+  ],
+  "semgrep": {
+    "fixed_total": 34,
+    "new_full": 0,
+    "new_minimal": 0,
+    "new_final": []
+  },
+  "codeql": {
+    "fixed_total": 12,
+    "new_full": 0,
+    "new_minimal": 0,
+    "new_final": []
+  },
+  "detected_by": "neither"
+}

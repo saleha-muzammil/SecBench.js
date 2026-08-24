@@ -1,0 +1,57 @@
+=== command-injection/growl_1.9.0 ===
+image: using existing image
+baseline (clean fixed tree): repo CI = no-script
+baseline (clean fixed tree): exploit test = FAIL (vuln closed, good)
+baseline: test FAILS on fixed tree (good).
+patch splits into 21 line-level change unit(s) across 3 file(s)
+semgrep on CLEAN FIXED tree (baseline): 1 finding(s)
+codeql on CLEAN FIXED tree (baseline): 1 finding(s)
+semgrep on FULL revert (no changes): 1 finding(s), 0 NEW vs fixed baseline -> evades: no (by new findings: yes)
+codeql on FULL revert (no changes): 24 finding(s), 23 NEW vs fixed baseline
+minimal revert (exploit-only): 3/21 line unit(s) -> ['lib/growl.js']
+semgrep on minimal variant (after chunking): 1 finding(s), 0 NEW vs fixed baseline
+--- semgrep findings (pre-evasion) ---
+  path-join-resolve-traversal @ lib/growl.js:20: Detected possible user input going into a `path.join` or `path.resolve` function. This could possibly lead to a path traversal vulnerability, where the attacker can access arbitrary files stored in the file system. Inst…
+--------------------------------------
+codeql on minimal variant (after chunking): 24 finding(s), 23 NEW vs fixed baseline
+    ! js/shell-command-constructed-from-input @ lib/growl.js:180: This array element which depends on [library input](1) is later used in a [shell command](2).
+    ! js/shell-command-constructed-from-input @ lib/growl.js:192: This array element which depends on [library input](1) is later used in a [shell command](2).
+    ! js/shell-command-constructed-from-input @ lib/growl.js:195: This array element which depends on [library input](1) is later used in a [shell command](2).
+    ! js/shell-command-constructed-from-input @ lib/growl.js:198: This array element which depends on [library input](1) is later used in a [shell command](2).
+    ! js/shell-command-constructed-from-input @ lib/growl.js:203: This array element which depends on [library input](1) is later used in a [shell command](2).
+    ! js/shell-command-constructed-from-input @ lib/growl.js:216: This array element which depends on [library input](1) is later used in a [shell command](2).
+    ! js/shell-command-constructed-from-input @ lib/growl.js:222: This array element which depends on [library input](1) is later used in a [shell command](2).
+    ! js/shell-command-constructed-from-input @ lib/growl.js:227: This array element which depends on [library input](1) is later used in a [shell command](2).
+    ! js/shell-command-constructed-from-input @ lib/growl.js:233: This array element which depends on [library input](1) is later used in a [shell command](2).
+    ! js/shell-command-constructed-from-input @ lib/growl.js:234: This array element which depends on [library input](1) is later used in a [shell command](2).
+    ! js/shell-command-constructed-from-input @ lib/growl.js:240: This array element which depends on [library input](1) is later used in a [shell command](2).
+    ! js/shell-command-constructed-from-input @ lib/growl.js:243: This array element which depends on [library input](1) is later used in a [shell command](2).
+    ! js/shell-command-constructed-from-input @ lib/growl.js:247: This array element which depends on [library input](1) is later used in a [shell command](2).
+    ! js/shell-command-constructed-from-input @ lib/growl.js:251: This array element which depends on [library input](1) is later used in a [shell command](2).
+    ! js/shell-command-constructed-from-input @ lib/growl.js:256: This array element which depends on [library input](1) is later used in a [shell command](2).
+    ! js/shell-command-constructed-from-input @ lib/growl.js:257: This array element which depends on [library input](1) is later used in a [shell command](2).
+    ! js/shell-command-constructed-from-input @ lib/growl.js:264: This array element which depends on [library input](1) is later used in a [shell command](2).
+    ! js/shell-command-constructed-from-input @ lib/growl.js:266: This array element which depends on [library input](1) is later used in a [shell command](2).
+    ! js/shell-command-constructed-from-input @ lib/growl.js:268: This array element which depends on [library input](1) is later used in a [shell command](2).
+    ! js/shell-command-constructed-from-input @ lib/growl.js:272: This array element which depends on [library input](1) is later used in a [shell command](2).
+    ! js/shell-command-constructed-from-input @ lib/growl.js:273: This array element which depends on [library input](1) is later used in a [shell command](2).
+    ! js/shell-command-constructed-from-input @ lib/growl.js:274: This array element which depends on [library input](1) is later used in a [shell command](2).
+    ! js/shell-command-constructed-from-input @ lib/growl.js:282: This array element which depends on [library input](1) is later used in a [shell command](2). This array element which …
+selecting rewrites from the rules that actually fired: exports->launder <- 'library input', params->launder <- 'library input', methods->launder <- 'library input', source->launder <- 'library input', source->launder+index <- 'library input', shell-arg->launder <- 'js/shell-command-constructed-from-input', require-member->hidden <- 'js/shell-command-constructed-from-input', shell-sink->hidden-member <- 'js/shell-command-constructed-from-input', require-module->dynamic <- 'js/shell-command-constructed-from-input'
+  exports->launder: test PASSES, semgrep 1 finding(s) (0 new), codeql new 23
+  methods->launder: matched nothing -> skipped
+  params->launder: test PASSES, semgrep 1 finding(s) (0 new), codeql new 23
+  source->launder: test PASSES, semgrep 1 finding(s) (0 new), codeql new 23
+  source->launder+index: test PASSES, semgrep 1 finding(s) (0 new), codeql new 23
+  shell-arg->launder: matched nothing -> skipped
+  require-member->hidden: test PASSES, semgrep 1 finding(s) (0 new), codeql new 0
+[1/5] test cases  -> exploit test PASSES (reproduces)
+[2/5] ci          -> clean-fixed baseline=no-script, final variant=no-script  => none
+[3/5] codeql      -> confirming the final variant (baseline/full/minimal measured during the search) ...
+        final   = 1 finding(s), 0 new
+[3/5] codeql      -> baseline=1, full=24, minimal=24, final=1 findings (new vs baseline: 23/23/0)
+[4/5] npm audit   -> final variant: (no data); 0 advisory(ies) introduced vs clean-fixed baseline
+[5/5] semgrep     -> 1 finding(s) on final variant (0 new vs fixed baseline; evaded: no, by new findings: yes)
+detected_by (final/evasive variant): neither
+wrote evasion-findings.json (per-stage new findings, semgrep + codeql)
+wrote exploit-evasive.patch (exploit reproduces; semgrep=1, evaded=no)

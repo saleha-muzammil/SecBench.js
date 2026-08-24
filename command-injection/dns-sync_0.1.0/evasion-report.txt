@@ -1,0 +1,44 @@
+=== command-injection/dns-sync_0.1.0 ===
+image: using existing image
+baseline (clean fixed tree): repo CI = pass
+baseline (clean fixed tree): exploit test = FAIL (vuln closed, good)
+baseline: test FAILS on fixed tree (good).
+patch splits into 6 line-level change unit(s) across 3 file(s)
+semgrep on CLEAN FIXED tree (baseline): 2 finding(s)
+codeql on CLEAN FIXED tree (baseline): 7 finding(s)
+semgrep on FULL revert (no changes): 2 finding(s), 0 NEW vs fixed baseline -> evades: no (by new findings: yes)
+codeql on FULL revert (no changes): 2 finding(s), 1 NEW vs fixed baseline
+minimal revert (exploit-only): 1/6 line unit(s) -> ['lib/dns-sync.js']
+exploit-minimal chunking BREAKS repo CI (fail(timeout)); searching for a CI-preserving chunking ...
+  found CI-preserving chunking: 2/6 line unit(s) -> ['lib/dns-sync.js', 'test/test.js']
+semgrep on minimal variant (after chunking): 2 finding(s), 0 NEW vs fixed baseline
+--- semgrep findings (pre-evasion) ---
+  shelljs-exec-injection @ lib/dns-sync.js:27: If unverified user data can reach the `exec` method it can result in Remote Code Execution
+  mini-shell-exec-nonliteral @ lib/dns-sync.js:27: Shell command assembled from a value. `exec`/`execSync` run the string through a shell, so any interpolated value can inject additional commands; use `execFile` with an argument array.
+--------------------------------------
+codeql on minimal variant (after chunking): 7 finding(s), 1 NEW vs fixed baseline
+    ! js/shell-command-constructed-from-input @ lib/dns-sync.js:25: This formatted string which depends on [library input](1) is later used in a [shell command](2).
+selecting rewrites from the rules that actually fired: exports->launder <- 'library input', params->launder <- 'library input', methods->launder <- 'library input', source->launder <- 'library input', source->launder+index <- 'library input', shell-arg->launder <- 'js/shell-command-constructed-from-input', require-member->hidden <- 'js/shell-command-constructed-from-input', shell-sink->hidden-member <- 'js/shell-command-constructed-from-input', require-module->dynamic <- 'js/shell-command-constructed-from-input'
+  exports->launder: test PASSES, semgrep 2 finding(s) (0 new), codeql new 1
+  methods->launder: matched nothing -> skipped
+  params->launder: test PASSES, semgrep 2 finding(s) (0 new), codeql new 1
+  source->launder: matched nothing -> skipped
+  source->launder+index: matched nothing -> skipped
+  shell-arg->launder: test PASSES, semgrep 2 finding(s) (0 new), codeql new 1
+  require-member->hidden: matched nothing -> skipped
+  require-module->dynamic: test PASSES, semgrep 2 finding(s) (1 new), codeql new not re-run (budget spent)
+  shell-sink->hidden-member: test PASSES, semgrep 0 finding(s) (0 new), codeql new 0
+[1/5] test cases  -> exploit test PASSES (reproduces)
+[2/5] ci          -> clean-fixed baseline=pass, final variant=pass  => preserved
+        --- repo test output (final variant, tail) ---
+> dns-sync@0.1.1 test
+> make test
+        ----------------------------------------------
+[3/5] codeql      -> confirming the final variant (baseline/full/minimal measured during the search) ...
+        final   = 5 finding(s), 0 new
+[3/5] codeql      -> baseline=7, full=2, minimal=7, final=5 findings (new vs baseline: 1/1/0)
+[4/5] npm audit   -> final variant: (no data); 0 advisory(ies) introduced vs clean-fixed baseline
+[5/5] semgrep     -> 0 finding(s) on final variant (0 new vs fixed baseline; evaded: yes, by new findings: yes)
+detected_by (final/evasive variant): neither
+wrote evasion-findings.json (per-stage new findings, semgrep + codeql)
+wrote exploit-evasive.patch (exploit reproduces; semgrep=0, evaded=yes)

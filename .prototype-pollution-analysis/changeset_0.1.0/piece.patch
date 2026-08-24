@@ -1,0 +1,18 @@
+diff --git a/test/index.js b/test/index.js
+index df6dc9e..0bd8585 100644
+--- a/test/index.js
++++ b/test/index.js
+@@ -243,4 +243,13 @@ describe('changeset', function () {
+     ]);
+     done();
+   });
++
++  it('should not allow prototype pollution', function(done) {
++    var changeset = [
++      { type: 'put', key: ['__proto__','polluted'], value: 'Yes! Its Polluted'}
++    ];
++    diff.apply(changeset, {}, true);
++    expect({}.polluted).to.not.equal('Yes! Its Polluted');
++    done();
++  })
+ });

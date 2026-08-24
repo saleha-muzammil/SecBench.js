@@ -1,0 +1,7 @@
+=== redos/clean-css_4.1.10 (corrected retest) ===
+package        : clean-css
+fixed-tree ms  : 47
+reverted ms    : 4256
+corrected label: reproduces
+detail         : reverted 4256ms >= threshold 946ms (fixed 47.3ms)
+oracle         : timeout=25s floor=250ms ratio=20x; HANG or reverted>=max(floor,ratio*fixed) => reproduces

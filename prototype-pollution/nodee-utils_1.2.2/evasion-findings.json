@@ -1,0 +1,43 @@
+{
+  "package": "nodee-utils",
+  "targets": [
+    "lib/object.js"
+  ],
+  "full_targets": [
+    "lib/object.js"
+  ],
+  "semgrep": {
+    "fixed_total": 7,
+    "new_full": 1,
+    "new_minimal": 1,
+    "new_final": [
+      {
+        "rule": "rules-mini.mini-prototype-pollution-path-write",
+        "path": "lib/object.js",
+        "line": 200,
+        "severity": "ERROR",
+        "message": "Writes through a caller-supplied property path without rejecting the `__proto__`, `constructor` and `prototype` segments, so a crafted path reaches Object.prototype (prototype pollution)."
+      }
+    ]
+  },
+  "codeql": {
+    "fixed_total": 8,
+    "new_full": 2,
+    "new_minimal": 2,
+    "new_final": [
+      {
+        "rule": "js/prototype-polluting-assignment",
+        "message": "This assignment may alter Object.prototype if a malicious '__proto__' string is injected from [library input](1).",
+        "path": "lib/object.js",
+        "line": 212
+      },
+      {
+        "rule": "js/prototype-polluting-assignment",
+        "message": "This assignment may alter Object.prototype if a malicious '__proto__' string is injected from [library input](1).",
+        "path": "lib/object.js",
+        "line": 214
+      }
+    ]
+  },
+  "detected_by": "both"
+}

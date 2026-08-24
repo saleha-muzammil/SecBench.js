@@ -1,0 +1,22 @@
+From a43cffec84ed0e9eceecb43b534b6937a8028fc0 Mon Sep 17 00:00:00 2001
+From: Andrew Shaffer <darawk@gmail.com>
+Date: Wed, 7 Nov 2018 09:14:07 -0800
+Subject: [PATCH] fix prototype pollution vulnerability
+
+---
+ lib/index.js | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/lib/index.js b/lib/index.js
+index 724f4ff..78346c3 100644
+--- a/lib/index.js
++++ b/lib/index.js
+@@ -10,7 +10,7 @@ var path = require('path')
+ 
+ var relative = path.relative
+ var lastCwd = process.cwd()
+-var cache = {}
++var cache = Object.create(null)
+ 
+ /**
+  * Expose cachedPathRelative

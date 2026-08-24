@@ -1,0 +1,34 @@
+=== prototype-pollution/sds_3.2.0 ===
+image: built image
+baseline (clean fixed tree): exploit test = FAIL (vuln closed, good)
+baseline: test FAILS on fixed tree (good).
+compiled package: patch edits a source tree but the runtime loads compiled output -> rebuilding after each revert via `npx coffee -c -o lib coffee`.
+patch splits into 9 line-level change unit(s) across 5 file(s)
+semgrep on CLEAN FIXED tree (baseline): 3 finding(s)
+codeql on CLEAN FIXED tree (baseline): 6 finding(s)
+semgrep on FULL revert (no changes): 4 finding(s), 1 NEW vs fixed baseline -> evades: no (by new findings: no)
+codeql on FULL revert (no changes): 6 finding(s), 0 NEW vs fixed baseline
+minimal revert (exploit-only): 1/9 line unit(s) -> ['js/set.js']
+semgrep on minimal variant (after chunking): 4 finding(s), 1 NEW vs fixed baseline
+--- semgrep findings (pre-evasion) ---
+  mini-prototype-pollution-path-write @ js/set.js:13: Writes through a caller-supplied property path without rejecting the `__proto__`, `constructor` and `prototype` segments, so a crafted path reaches Object.prototype (prototype pollution).
+  prototype-pollution-loop @ js/set.js:27: Possibility of prototype polluting function detected. By adding or modifying attributes of an object prototype, it is possible to create attributes that exist on every object, or replace critical attributes with malicio…
+  prototype-pollution-loop @ js/set.js:29: Possibility of prototype polluting function detected. By adding or modifying attributes of an object prototype, it is possible to create attributes that exist on every object, or replace critical attributes with malicio…
+  prototype-pollution-loop @ js/set.js:32: Possibility of prototype polluting function detected. By adding or modifying attributes of an object prototype, it is possible to create attributes that exist on every object, or replace critical attributes with malicio…
+--------------------------------------
+codeql on minimal variant (after chunking): 6 finding(s), 0 NEW vs fixed baseline
+selecting rewrites from the rules that actually fired: pp-assign->reflect-set <- 'prototype-pollution-path-write', pp-assign->helper-set <- 'prototype-pollution-path-write', pp-key->launder <- 'prototype-pollution-path-write', pp-guard-mention(decoy) <- 'prototype-pollution-path-write'
+  pp-key->launder: test PASSES, semgrep 4 finding(s) (1 new), codeql new not re-run
+  pp-assign->helper-set: test PASSES, semgrep 2 finding(s) (1 new), codeql new not re-run
+  pp-assign->reflect-set: test PASSES, semgrep 2 finding(s) (1 new), codeql new not re-run
+  pp-guard-mention(decoy): test PASSES, semgrep 3 finding(s) (0 new), codeql new not re-run
+[1/5] test cases  -> exploit test PASSES (reproduces)
+[2/5] ci          -> skipped
+[3/5] codeql      -> confirming the final variant (baseline/full/minimal measured during the search) ...
+        final   = 6 finding(s), 0 new
+[3/5] codeql      -> baseline=6, full=6, minimal=6, final=6 findings (new vs baseline: 0/0/0)
+[4/5] npm audit   -> final variant: (no data); 0 advisory(ies) introduced vs clean-fixed baseline
+[5/5] semgrep     -> 3 finding(s) on final variant (0 new vs fixed baseline; evaded: no, by new findings: yes)
+detected_by (final/evasive variant): neither
+wrote evasion-findings.json (per-stage new findings, semgrep + codeql)
+wrote exploit-evasive.patch (exploit reproduces; semgrep=3, evaded=no)

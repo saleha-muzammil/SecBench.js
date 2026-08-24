@@ -1,0 +1,217 @@
+From 51228083550dde97701ac8e06c629a5184117562 Mon Sep 17 00:00:00 2001
+From: "David I. Lehn" <dlehn@digitalbazaar.com>
+Date: Thu, 27 May 2021 21:58:45 -0400
+Subject: [PATCH] Remove `forge.debug` API.
+
+The API has the potential for prototype pollution. This API was only
+briefly used by the maintainers for internal project debug purposes and
+was never inteneded to be used with untrusted user intputs. This API was
+not documented or advertised and is being removed rather than fixed.
+---
+ CHANGELOG.md          |  5 +++
+ README.md             | 14 --------
+ lib/debug.js          | 78 -------------------------------------------
+ lib/http.js           | 11 ------
+ lib/index.js          |  1 -
+ tests/support/task.js |  4 ---
+ 6 files changed, 5 insertions(+), 108 deletions(-)
+ delete mode 100644 lib/debug.js
+
+diff --git a/CHANGELOG.md b/CHANGELOG.md
+index cfe650070..86241ba04 100644
+--- a/CHANGELOG.md
++++ b/CHANGELOG.md
+@@ -4,6 +4,11 @@ Forge ChangeLog
+ ## 0.11.0 - 2021-xx-xx
+ 
+ ### Removed
++- **SECURITY**, **BREAKING**: Remove `forge.debug` API. The API has the
++  potential for prototype pollution. This API was only briefly used by the
++  maintainers for internal project debug purposes and was never inteneded to be
++  used with untrusted user intputs. This API was not documented or advertised
++  and is being removed rather than fixed.
+ - **BREAKING**: Remove `forge.task` API. This API was never used, documented,
+   or advertised by the maintainers. If anyone was using this API and wishes to
+   continue development it in other project, please let the maintainers know.
+diff --git a/README.md b/README.md
+index 40bf29561..bfc640fee 100644
+--- a/README.md
++++ b/README.md
+@@ -80,7 +80,6 @@ Documentation
+ * [Tasks](#task)
+ * [Utilities](#util)
+ * [Logging](#log)
+-* [Debugging](#debug)
+ * [Flash Networking Support](#flash)
+ 
+ ### Other
+@@ -1988,19 +1987,6 @@ __Examples__
+ // TODO
+ ```
+ 
+-<a name="debug" />
+-
+-### Debugging
+-
+-Provides storage of debugging information normally inaccessible in
+-closures for viewing/investigation.
+-
+-__Examples__
+-
+-```js
+-// TODO
+-```
+-
+ <a name="flash" />
+ 
+ ### Flash Networking Support
+diff --git a/lib/debug.js b/lib/debug.js
+deleted file mode 100644
+index 26756350e..000000000
+--- a/lib/debug.js
++++ /dev/null
+@@ -1,78 +0,0 @@
+-/**
+- * Debugging support for web applications.
+- *
+- * @author David I. Lehn <dlehn@digitalbazaar.com>
+- *
+- * Copyright 2008-2013 Digital Bazaar, Inc.
+- */
+-var forge = require('./forge');
+-
+-/* DEBUG API */
+-module.exports = forge.debug = forge.debug || {};
+-
+-// Private storage for debugging.
+-// Useful to expose data that is otherwise unviewable behind closures.
+-// NOTE: remember that this can hold references to data and cause leaks!
+-// format is "forge._debug.<modulename>.<dataname> = data"
+-// Example:
+-// (function() {
+-//   var cat = 'forge.test.Test'; // debugging category
+-//   var sState = {...}; // local state
+-//   forge.debug.set(cat, 'sState', sState);
+-// })();
+-forge.debug.storage = {};
+-
+-/**
+- * Gets debug data. Omit name for all cat data  Omit name and cat for
+- * all data.
+- *
+- * @param cat name of debugging category.
+- * @param name name of data to get (optional).
+- * @return object with requested debug data or undefined.
+- */
+-forge.debug.get = function(cat, name) {
+-  var rval;
+-  if(typeof(cat) === 'undefined') {
+-    rval = forge.debug.storage;
+-  } else if(cat in forge.debug.storage) {
+-    if(typeof(name) === 'undefined') {
+-      rval = forge.debug.storage[cat];
+-    } else {
+-      rval = forge.debug.storage[cat][name];
+-    }
+-  }
+-  return rval;
+-};
+-
+-/**
+- * Sets debug data.
+- *
+- * @param cat name of debugging category.
+- * @param name name of data to set.
+- * @param data data to set.
+- */
+-forge.debug.set = function(cat, name, data) {
+-  if(!(cat in forge.debug.storage)) {
+-    forge.debug.storage[cat] = {};
+-  }
+-  forge.debug.storage[cat][name] = data;
+-};
+-
+-/**
+- * Clears debug data. Omit name for all cat data. Omit name and cat for
+- * all data.
+- *
+- * @param cat name of debugging category.
+- * @param name name of data to clear or omit to clear entire category.
+- */
+-forge.debug.clear = function(cat, name) {
+-  if(typeof(cat) === 'undefined') {
+-    forge.debug.storage = {};
+-  } else if(cat in forge.debug.storage) {
+-    if(typeof(name) === 'undefined') {
+-      delete forge.debug.storage[cat];
+-    } else {
+-      delete forge.debug.storage[cat][name];
+-    }
+-  }
+-};
+diff --git a/lib/http.js b/lib/http.js
+index 1dcb0a65e..0ae863050 100644
+--- a/lib/http.js
++++ b/lib/http.js
+@@ -6,7 +6,6 @@
+  * Copyright (c) 2010-2014 Digital Bazaar, Inc. All rights reserved.
+  */
+ var forge = require('./forge');
+-require('./debug');
+ require('./tls');
+ require('./util');
+ 
+@@ -16,11 +15,6 @@ var http = module.exports = forge.http = forge.http || {};
+ // logging category
+ var cat = 'forge.http';
+ 
+-// add array of clients to debug storage
+-if(forge.debug) {
+-  forge.debug.set('forge.http', 'clients', []);
+-}
+-
+ // normalizes an http header field name
+ var _normalize = function(name) {
+   return name.toLowerCase().replace(/(^.)|(-.)/g,
+@@ -484,11 +478,6 @@ http.createClient = function(options) {
+       true : options.persistCookies
+   };
+ 
+-  // add client to debug storage
+-  if(forge.debug) {
+-    forge.debug.get('forge.http', 'clients').push(client);
+-  }
+-
+   // load cookies from disk
+   _loadCookies(client);
+ 
+diff --git a/lib/index.js b/lib/index.js
+index ffb931286..6cdd5a9cc 100644
+--- a/lib/index.js
++++ b/lib/index.js
+@@ -10,7 +10,6 @@ require('./aes');
+ require('./aesCipherSuites');
+ require('./asn1');
+ require('./cipher');
+-require('./debug');
+ require('./des');
+ require('./ed25519');
+ require('./hmac');
+diff --git a/tests/support/task.js b/tests/support/task.js
+index 5bf8e465a..4607ecb12 100644
+--- a/tests/support/task.js
++++ b/tests/support/task.js
+@@ -24,13 +24,9 @@ var sVL = 0;
+ // track tasks for debugging
+ var sTasks = {};
+ var sNextTaskId = 0;
+-// debug access
+-forge.debug.set(cat, 'tasks', sTasks);
+ 
+ // a map of task type to task queue
+ var sTaskQueues = {};
+-// debug access
+-forge.debug.set(cat, 'queues', sTaskQueues);
+ 
+ // name for unnamed tasks
+ var sNoTaskName = '?';

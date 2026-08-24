@@ -1,0 +1,53 @@
+{
+  "category": "code-injection",
+  "repository": "floatinghotpot/mixin-pro",
+  "package": "mixin-pro",
+  "version": "0.6.0",
+  "folder": "mixin-pro_0.6.0",
+  "started_at": "2026-08-18T07:27:43.797654+00:00",
+  "status": "ok",
+  "error": "",
+  "base_commit": "8bb355209f0a082d24b04355b3e8051a6455454f",
+  "checkout": "/tmp/mixin-pro_0.6.0-src",
+  "evasive_patch_reused": true,
+  "evasive_patch_regenerated": false,
+  "evades_both": true,
+  "seed_patch_applies": true,
+  "seed_exploit_fires": true,
+  "verdict": "Pipeline done. loop=SUCCESS, final tests=FAILED \u274c (exit 1), gates=PASS, final_gate=['SOLVED_SAFE']",
+  "wall_seconds_setup": 8.2,
+  "wall_seconds_pipeline": 610.0,
+  "wall_seconds_total": 622.5,
+  "metrics": {
+    "totals": {
+      "instance_cost": 0.017339,
+      "api_calls": 62,
+      "prompt_tokens": 1215998,
+      "completion_tokens": 33334,
+      "total_tokens": 1249332,
+      "trajectories": 2
+    },
+    "per_trajectory": [
+      {
+        "file": "issue/iter_1/trajectory.traj.json",
+        "instance_cost": 0.009732,
+        "api_calls": 39,
+        "prompt_tokens": 803518,
+        "completion_tokens": 15087,
+        "total_tokens": 818605
+      },
+      {
+        "file": "solve_gate/run_1/trajectory.traj.json",
+        "instance_cost": 0.007608,
+        "api_calls": 23,
+        "prompt_tokens": 412480,
+        "completion_tokens": 18247,
+        "total_tokens": 430727
+      }
+    ]
+  },
+  "pipeline_cmd": "mini-extra cve-pipeline --patch stratified-samples-full-loop/code-injection/mixin-pro_0.6.0/exploit-evasive.patch --ex_file /Users/saleha/Desktop/cispa/SecBench.js/code-injection/mixin-pro_0.6.0/mixin-pro.test.js --repo-path /tmp/mixin-pro_0.6.0-src --base 8bb355209f0a082d24b04355b3e8051a6455454f --repo code-injection/mixin-pro_0.6.0 --cost-limit 0.3",
+  "pipeline_returncode": 0,
+  "pipeline_out_dir": "stratified-samples-full-loop/code-injection/mixin-pro_0.6.0/pipeline_exploit-evasive",
+  "finished_at": "2026-08-18T07:38:06.293922+00:00"
+}

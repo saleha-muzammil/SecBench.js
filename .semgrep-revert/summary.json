@@ -1,0 +1,299 @@
+[
+  {
+    "target": "djv_2.0.0",
+    "build": "ok",
+    "extract": "ok",
+    "revert": "no-patch",
+    "fixed_total": 15,
+    "reverted_total": null,
+    "new_findings": null,
+    "new_in_patched_files": null,
+    "new_by_rule": {},
+    "new_by_severity": {},
+    "note": ""
+  },
+  {
+    "target": "hot-formula-parser_3.0.0",
+    "build": "ok",
+    "extract": "ok",
+    "revert": "partial",
+    "fixed_total": 2,
+    "reverted_total": 4,
+    "new_findings": 2,
+    "new_in_patched_files": 2,
+    "new_by_rule": {
+      "mini-dynamic-code-evaluation": 1,
+      "eval-detected": 1
+    },
+    "new_by_severity": {
+      "ERROR": 1,
+      "WARNING": 1
+    },
+    "note": ""
+  },
+  {
+    "target": "is-my-json-valid_2.20.0",
+    "build": "ok",
+    "extract": "ok",
+    "revert": "ok",
+    "fixed_total": 3,
+    "reverted_total": 3,
+    "new_findings": 0,
+    "new_in_patched_files": 0,
+    "new_by_rule": {},
+    "new_by_severity": {},
+    "note": ""
+  },
+  {
+    "target": "js-yaml_3.13.0",
+    "build": "ok",
+    "extract": "ok",
+    "revert": "ok",
+    "fixed_total": 22,
+    "reverted_total": 22,
+    "new_findings": 0,
+    "new_in_patched_files": 0,
+    "new_by_rule": {},
+    "new_by_severity": {},
+    "note": ""
+  },
+  {
+    "target": "json-ptr_2.0.0",
+    "build": "FAILED",
+    "extract": "n/a",
+    "revert": "n/a",
+    "fixed_total": null,
+    "reverted_total": null,
+    "new_findings": null,
+    "new_in_patched_files": null,
+    "new_by_rule": {},
+    "new_by_severity": {},
+    "note": "see /Users/saleha/Desktop/cispa/SecBench.js/.semgrep-revert/json-ptr_2.0.0/build.log"
+  },
+  {
+    "target": "local-devices_2.0.0",
+    "build": "ok",
+    "extract": "ok",
+    "revert": "no-patch",
+    "fixed_total": 1,
+    "reverted_total": null,
+    "new_findings": null,
+    "new_in_patched_files": null,
+    "new_by_rule": {},
+    "new_by_severity": {},
+    "note": ""
+  },
+  {
+    "target": "mathjs_3.10.3",
+    "build": "ok",
+    "extract": "ok",
+    "revert": "no-patch",
+    "fixed_total": 26,
+    "reverted_total": null,
+    "new_findings": null,
+    "new_in_patched_files": null,
+    "new_by_rule": {},
+    "new_by_severity": {},
+    "note": ""
+  },
+  {
+    "target": "mathjs_3.9.0",
+    "build": "ok",
+    "extract": "ok",
+    "revert": "no-patch",
+    "fixed_total": 26,
+    "reverted_total": null,
+    "new_findings": null,
+    "new_in_patched_files": null,
+    "new_by_rule": {},
+    "new_by_severity": {},
+    "note": ""
+  },
+  {
+    "target": "mixin-pro_0.6.0",
+    "build": "ok",
+    "extract": "ok",
+    "revert": "ok",
+    "fixed_total": 4,
+    "reverted_total": 4,
+    "new_findings": 0,
+    "new_in_patched_files": 0,
+    "new_by_rule": {},
+    "new_by_severity": {},
+    "note": ""
+  },
+  {
+    "target": "mobile-icon-resizer_0.4.0",
+    "build": "ok",
+    "extract": "ok",
+    "revert": "ok",
+    "fixed_total": 8,
+    "reverted_total": 10,
+    "new_findings": 2,
+    "new_in_patched_files": 2,
+    "new_by_rule": {
+      "mini-dynamic-code-evaluation": 1,
+      "eval-detected": 1
+    },
+    "new_by_severity": {
+      "ERROR": 1,
+      "WARNING": 1
+    },
+    "note": ""
+  },
+  {
+    "target": "mol-proto_0.1.3",
+    "build": "FAILED",
+    "extract": "n/a",
+    "revert": "n/a",
+    "fixed_total": null,
+    "reverted_total": null,
+    "new_findings": null,
+    "new_in_patched_files": null,
+    "new_by_rule": {},
+    "new_by_severity": {},
+    "note": "see /Users/saleha/Desktop/cispa/SecBench.js/.semgrep-revert/mol-proto_0.1.3/build.log"
+  },
+  {
+    "target": "node-rules_3.0.0",
+    "build": "FAILED",
+    "extract": "n/a",
+    "revert": "n/a",
+    "fixed_total": null,
+    "reverted_total": null,
+    "new_findings": null,
+    "new_in_patched_files": null,
+    "new_by_rule": {},
+    "new_by_severity": {},
+    "note": "see /Users/saleha/Desktop/cispa/SecBench.js/.semgrep-revert/node-rules_3.0.0/build.log"
+  },
+  {
+    "target": "open_0.0.5",
+    "build": "ok",
+    "extract": "ok",
+    "revert": "no-patch",
+    "fixed_total": 8,
+    "reverted_total": null,
+    "new_findings": null,
+    "new_in_patched_files": null,
+    "new_by_rule": {},
+    "new_by_severity": {},
+    "note": ""
+  },
+  {
+    "target": "pixl-class_1.0.0",
+    "build": "ok",
+    "extract": "ok",
+    "revert": "ok",
+    "fixed_total": 5,
+    "reverted_total": 7,
+    "new_findings": 2,
+    "new_in_patched_files": 2,
+    "new_by_rule": {
+      "mini-dynamic-code-evaluation": 1,
+      "eval-detected": 1
+    },
+    "new_by_severity": {
+      "ERROR": 1,
+      "WARNING": 1
+    },
+    "note": ""
+  },
+  {
+    "target": "reduce-css-calc_1.2.0",
+    "build": "ok",
+    "extract": "ok",
+    "revert": "no-patch",
+    "fixed_total": 6,
+    "reverted_total": null,
+    "new_findings": null,
+    "new_in_patched_files": null,
+    "new_by_rule": {},
+    "new_by_severity": {},
+    "note": ""
+  },
+  {
+    "target": "safer-eval_1.3.1",
+    "build": "ok",
+    "extract": "ok",
+    "revert": "no-patch",
+    "fixed_total": 7,
+    "reverted_total": null,
+    "new_findings": null,
+    "new_in_patched_files": null,
+    "new_by_rule": {},
+    "new_by_severity": {},
+    "note": ""
+  },
+  {
+    "target": "serialize-javascript_2.0.0",
+    "build": "ok",
+    "extract": "ok",
+    "revert": "ok",
+    "fixed_total": 1,
+    "reverted_total": 1,
+    "new_findings": 0,
+    "new_in_patched_files": 0,
+    "new_by_rule": {},
+    "new_by_severity": {},
+    "note": ""
+  },
+  {
+    "target": "serialize-to-js_0.5.0",
+    "build": "ok",
+    "extract": "ok",
+    "revert": "no-patch",
+    "fixed_total": 2,
+    "reverted_total": null,
+    "new_findings": null,
+    "new_in_patched_files": null,
+    "new_by_rule": {},
+    "new_by_severity": {},
+    "note": ""
+  },
+  {
+    "target": "static-eval_1.1.1",
+    "build": "ok",
+    "extract": "ok",
+    "revert": "ok",
+    "fixed_total": 1,
+    "reverted_total": 1,
+    "new_findings": 0,
+    "new_in_patched_files": 0,
+    "new_by_rule": {},
+    "new_by_severity": {},
+    "note": ""
+  },
+  {
+    "target": "thenify_3.3.0",
+    "build": "ok",
+    "extract": "ok",
+    "revert": "ok",
+    "fixed_total": 0,
+    "reverted_total": 4,
+    "new_findings": 4,
+    "new_in_patched_files": 4,
+    "new_by_rule": {
+      "mini-dynamic-code-evaluation": 2,
+      "eval-detected": 2
+    },
+    "new_by_severity": {
+      "ERROR": 2,
+      "WARNING": 2
+    },
+    "note": ""
+  },
+  {
+    "target": "underscore_1.13.0-0",
+    "build": "ok",
+    "extract": "ok",
+    "revert": "ok",
+    "fixed_total": 200,
+    "reverted_total": 200,
+    "new_findings": 0,
+    "new_in_patched_files": 0,
+    "new_by_rule": {},
+    "new_by_severity": {},
+    "note": ""
+  }
+]

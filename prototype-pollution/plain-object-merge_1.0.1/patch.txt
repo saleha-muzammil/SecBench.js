@@ -1,0 +1,23 @@
+From e2b59efa2216957815643c48797e2e2eae8ca2b2 Mon Sep 17 00:00:00 2001
+From: "huntr.dev | the place to protect open source" <admin@418sec.com>
+Date: Thu, 11 Feb 2021 10:07:25 +0000
+Subject: [PATCH] Fixed a prototype pollution issue
+
+Co-authored-by: arjunshibu <arjunshibu1999@gmail.com>
+---
+ src/index.ts | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/src/index.ts b/src/index.ts
+index fa5275c..99b51f0 100755
+--- a/src/index.ts
++++ b/src/index.ts
+@@ -24,6 +24,8 @@ function mergeObjects ( target, source ) {
+ 
+   for ( const key in source ) {
+ 
++    if ( key === 'constructor' || key === 'prototype' || key === '__proto__' ) continue;
++
+     const value = source[key];
+ 
+     if ( isPrimitive ( value ) ) {

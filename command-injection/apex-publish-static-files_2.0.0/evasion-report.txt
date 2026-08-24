@@ -1,0 +1,58 @@
+=== command-injection/apex-publish-static-files_2.0.0 ===
+image: using existing image
+baseline (clean fixed tree): repo CI = fail
+baseline (clean fixed tree): exploit test = FAIL (vuln closed, good)
+baseline: test FAILS on fixed tree (good).
+patch splits into 21 line-level change unit(s) across 3 file(s)
+semgrep on CLEAN FIXED tree (baseline): 3 finding(s)
+codeql on CLEAN FIXED tree (baseline): 0 finding(s)
+semgrep on FULL revert (no changes): 1 finding(s), 0 NEW vs fixed baseline -> evades: no (by new findings: yes)
+codeql on FULL revert (no changes): 1 finding(s), 1 NEW vs fixed baseline
+minimal revert (exploit-only): 6/21 line unit(s) -> ['index.js']
+semgrep on minimal variant (after chunking): 2 finding(s), 0 NEW vs fixed baseline
+--- semgrep findings (pre-evasion) ---
+  path-join-resolve-traversal @ index.js:59: Detected possible user input going into a `path.join` or `path.resolve` function. This could possibly lead to a path traversal vulnerability, where the attacker can access arbitrary files stored in the file system. Inst…
+  path-join-resolve-traversal @ index.js:72: Detected possible user input going into a `path.join` or `path.resolve` function. This could possibly lead to a path traversal vulnerability, where the attacker can access arbitrary files stored in the file system. Inst…
+--------------------------------------
+codeql on minimal variant (after chunking): 1 finding(s), 1 NEW vs fixed baseline
+    ! js/shell-command-constructed-from-input @ index.js:55: This string concatenation which depends on [library input](1) is later used in a [shell command](2). This string concat…
+selecting rewrites from the rules that actually fired: exports->launder <- 'library input', params->launder <- 'library input', methods->launder <- 'library input', source->launder <- 'library input', source->launder+index <- 'library input', shell-arg->launder <- 'js/shell-command-constructed-from-input', require-member->hidden <- 'js/shell-command-constructed-from-input', shell-sink->hidden-member <- 'js/shell-command-constructed-from-input', require-module->dynamic <- 'js/shell-command-constructed-from-input'
+  exports->launder: test PASSES, semgrep 2 finding(s) (0 new), codeql new 1
+  methods->launder: test PASSES, semgrep 2 finding(s) (0 new), codeql new 1
+  params->launder: matched nothing -> skipped
+  source->launder: matched nothing -> skipped
+  source->launder+index: matched nothing -> skipped
+  shell-arg->launder: matched nothing -> skipped
+  require-member->hidden: test PASSES, semgrep 2 finding(s) (0 new), codeql new 0
+[1/5] test cases  -> exploit test PASSES (reproduces)
+[2/5] ci          -> clean-fixed baseline=fail, final variant=fail  => baseline-already-broken
+        --- repo test output (final variant, tail) ---
+✖   6:1   Expected indentation of 1 tab but found 2 spaces.                                                               indent
+  ✖   6:29  Statement inside of curly braces should be on next line.                                                        brace-style
+  ✖   6:31  This line has 2 statements. Maximum allowed is 1.                                                               max-statements-per-line
+  ✖   6:76  Closing curly brace should be on the same line as opening curly brace or on the line after the previous block.  brace-style
+  ✖   7:1   Expected indentation of 1 tab but found 2 spaces.                                                               indent
+  ✖  11:55  Strings must use singlequote.                                                                                   quotes
+  ✖  61:10  childProcess is assigned a value but never used.                                                                no-unused-vars
+  ✖  75:1   Expected indentation of 3 tabs but found 4.                                                                     indent
+  ✖  75:11  spawnOpts is assigned a value but never used.                                                                   no-unused-vars
+  ✖  76:1   Expected indentation of 4 tabs but found 5.                                                                     indent
+  ✖  77:1   Expected indentation of 4 tabs but found 5.                                                                     indent
+  ✖  78:1   Expected indentation of 4 tabs but found 5.                                                                     indent
+  ✖  79:1   Expected indentation of 4 tabs but found 5.                                                                     indent
+  ✖  80:1   Expected indentation of 4 tabs but found 5.                                                                     indent
+  ✖  81:1   Expected indentation of 4 tabs but found 5.                                                                     indent
+  ✖  82:1   Expected indentation of 4 tabs but found 5.                                                                     indent
+  ✖  83:1   Expected indentation of 3 tabs but found 4.                                                                     indent
+  ✖  88:12  The catch parameter should be named error.                                                                      unicorn/catch-error-name
+
+  28 errors
+        ----------------------------------------------
+[3/5] codeql      -> confirming the final variant (baseline/full/minimal measured during the search) ...
+        final   = 0 finding(s), 0 new
+[3/5] codeql      -> baseline=0, full=1, minimal=1, final=0 findings (new vs baseline: 1/1/0)
+[4/5] npm audit   -> final variant: (no data); 0 advisory(ies) introduced vs clean-fixed baseline
+[5/5] semgrep     -> 2 finding(s) on final variant (0 new vs fixed baseline; evaded: no, by new findings: yes)
+detected_by (final/evasive variant): neither
+wrote evasion-findings.json (per-stage new findings, semgrep + codeql)
+wrote exploit-evasive.patch (exploit reproduces; semgrep=2, evaded=no)

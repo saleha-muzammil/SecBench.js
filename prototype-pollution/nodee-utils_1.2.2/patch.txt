@@ -1,0 +1,42 @@
+From 52460d936c52f03c9907bc99ac5e890970cef83c Mon Sep 17 00:00:00 2001
+From: Matus Szabo <matus.szabo@gmail.com>
+Date: Mon, 5 Oct 2020 14:47:26 +0200
+Subject: [PATCH] fixed: object deepSet
+
+---
+ lib/object.js | 4 +++-
+ package.json  | 2 +-
+ 2 files changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/lib/object.js b/lib/object.js
+index 91ecd88..9852689 100755
+--- a/lib/object.js
++++ b/lib/object.js
+@@ -205,11 +205,13 @@ function deepSet(parent, key, value, mode) {
+     }
+     else {
+         for(var i=0; i<parts.length; i++) {
++            if(parts[i] === 'prototype' || parts[i] === '__proto__') throw new Error('Cannot use deepSet to override prototype !');
++
+             if(i >= parts.length-1) {
+                 if(mode==='push') current[parts[i]].push(value);
+                 else current[parts[i]] = value;
+             }
+-            else current[parts[i]] = current[parts[i]] || {};    
++            else current[parts[i]] = current[parts[i]] || {};
+             current = current[parts[i]];
+         }
+     }
+diff --git a/package.json b/package.json
+index 4d0dc62..293aa52 100755
+--- a/package.json
++++ b/package.json
+@@ -1,7 +1,7 @@
+ {
+   "name": "nodee-utils",
+   "preferGlobal": false,
+-  "version": "1.2.2",
++  "version": "1.2.3",
+   "author": "NODEE - Matus Szabo <matus@nodee.io>",
+   "description": "set of useful helpers",
+   "main": "./index.js",

@@ -1,0 +1,72 @@
+From 76e223317d971f19e4db8191865bdad5edee40d2 Mon Sep 17 00:00:00 2001
+From: nlf <quitlahok@gmail.com>
+Date: Tue, 19 Jan 2021 13:45:32 -0800
+Subject: [PATCH] fix: simplify regex for strict mode, add tests
+
+---
+ index.js      |  5 +++--
+ test/parse.js | 28 ++++++++++++++++++++++++++++
+ 2 files changed, 31 insertions(+), 2 deletions(-)
+
+diff --git a/index.js b/index.js
+index 950548c..2b30984 100644
+--- a/index.js
++++ b/index.js
+@@ -9,7 +9,7 @@ const SPEC_ALGORITHMS = ['sha256', 'sha384', 'sha512']
+ // rather than [a-z0-9].
+ const BASE64_REGEX = /^[a-z0-9+/]+(?:=?=?)$/i
+ const SRI_REGEX = /^([a-z0-9]+)-([^?]+)([?\S*]*)$/
+-const STRICT_SRI_REGEX = /^([a-z0-9]+)-([A-Za-z0-9+/=]{44,88})(\?[\x21-\x7E]*)*$/
++const STRICT_SRI_REGEX = /^([a-z0-9]+)-([A-Za-z0-9+/=]{44,88})(\?[\x21-\x7E]*)?$/
+ const VCHAR_REGEX = /^[\x21-\x7E]+$/
+ 
+ const defaultOpts = {
+@@ -24,7 +24,8 @@ const defaultOpts = {
+ 
+ const ssriOpts = (opts = {}) => ({ ...defaultOpts, ...opts })
+ 
+-const getOptString = options => !options || !options.length ? ''
++const getOptString = options => !options || !options.length
++  ? ''
+   : `?${options.join('?')}`
+ 
+ const _onEnd = Symbol('_onEnd')
+diff --git a/test/parse.js b/test/parse.js
+index 1f49c76..0c0344d 100644
+--- a/test/parse.js
++++ b/test/parse.js
+@@ -26,6 +26,34 @@ test('parses single-entry integrity string', t => {
+   t.done()
+ })
+ 
++test('parses options from integrity string', t => {
++  const sha = hash(TEST_DATA, 'sha512')
++  const integrity = `sha512-${sha}?one?two?three`
++  t.deepEqual(ssri.parse(integrity), {
++    sha512: [{
++      source: integrity,
++      digest: sha,
++      algorithm: 'sha512',
++      options: ['one', 'two', 'three']
++    }]
++  }, 'single entry parsed into full Integrity instance')
++  t.done()
++})
++
++test('parses options from integrity string in strict mode', t => {
++  const sha = hash(TEST_DATA, 'sha512')
++  const integrity = `sha512-${sha}?one?two?three`
++  t.deepEqual(ssri.parse(integrity, { strict: true }), {
++    sha512: [{
++      source: integrity,
++      digest: sha,
++      algorithm: 'sha512',
++      options: ['one', 'two', 'three']
++    }]
++  }, 'single entry parsed into full Integrity instance')
++  t.done()
++})
++
+ test('can parse single-entry string directly into Hash', t => {
+   const sha = hash(TEST_DATA, 'sha512')
+   const integrity = `sha512-${sha}`

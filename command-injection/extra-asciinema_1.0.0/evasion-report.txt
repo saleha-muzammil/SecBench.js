@@ -1,0 +1,11 @@
+=== command-injection/extra-asciinema_1.0.0 ===
+image: using existing image
+baseline (clean fixed tree): repo CI = pass
+baseline (clean fixed tree): exploit test = FAIL (vuln closed, good)
+baseline: test FAILS on fixed tree (good).
+compiled package: patch edits a source tree but the runtime loads compiled output -> rebuilding after each revert via `sh -c 'if [ -x node_modules/.bin/tsc ]; then node_modules/.bin/tsc; elif [ -f node_modules/typescript/lib/tsc.js ]; then node node_modules/typescript/lib/tsc.js; else npm install --no-save --no-audit --no-fund --ignore-scripts typescript >/dev/null 2>&1 && node node_modules/typescript/lib/tsc.js; fi'`.
+patch splits into 10 line-level change unit(s) across 9 file(s)
+full revert applied but the rebuild (`sh -c 'if [ -x node_modules/.bin/tsc ]; then node_modules/.bin/tsc; elif [ -f node_modules/typescript/lib/tsc.js ]; then node node_modules/typescript/lib/tsc.js; else npm install --no-save --no-audit --no-fund --ignore-scripts typescript >/dev/null 2>&1 && node node_modules/typescript/lib/tsc.js; fi'`) FAILED, so the runtime tree is still the fixed one -> cannot judge reproduction. Build log tail:
+tsconfig.json(5,25): error TS5108: Option 'moduleResolution=node10' has been removed. Please remove it from your configuration.
+tsconfig.json(9,5): error TS5011: The common source directory of 'tsconfig.json' is './src'. The 'rootDir' setting must be explicitly set to this or another path to adjust your output's file layout.
+  Visit https://aka.ms/ts6 for migration information.

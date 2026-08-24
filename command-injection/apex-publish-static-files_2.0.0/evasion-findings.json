@@ -1,0 +1,23 @@
+{
+  "package": "apex-publish-static-files",
+  "targets": [
+    "index.js"
+  ],
+  "full_targets": [
+    "index.js",
+    "test.js"
+  ],
+  "semgrep": {
+    "fixed_total": 3,
+    "new_full": 0,
+    "new_minimal": 0,
+    "new_final": []
+  },
+  "codeql": {
+    "fixed_total": 0,
+    "new_full": 1,
+    "new_minimal": 1,
+    "new_final": []
+  },
+  "detected_by": "neither"
+}

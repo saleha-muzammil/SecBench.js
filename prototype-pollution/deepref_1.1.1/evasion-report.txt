@@ -1,0 +1,23 @@
+=== prototype-pollution/deepref_1.1.1 ===
+image: built image
+baseline (clean fixed tree): exploit test = FAIL (vuln closed, good)
+baseline: test FAILS on fixed tree (good).
+patch splits into 3 line-level change unit(s) across 2 file(s)
+semgrep on CLEAN FIXED tree (baseline): 0 finding(s)
+codeql on CLEAN FIXED tree (baseline): 0 finding(s)
+semgrep on FULL revert (no changes): 0 finding(s), 0 NEW vs fixed baseline -> evades: yes (by new findings: yes)
+codeql on FULL revert (no changes): 0 finding(s), 0 NEW vs fixed baseline
+minimal revert (exploit-only): 1/3 line unit(s) -> ['index.js']
+semgrep on minimal variant (after chunking): 0 finding(s), 0 NEW vs fixed baseline
+codeql on minimal variant (after chunking): 0 finding(s), 0 NEW vs fixed baseline
+already evades both detectors (no rewrite needed).
+[1/5] test cases  -> exploit test PASSES (reproduces)
+[2/5] ci          -> skipped
+[3/5] codeql      -> confirming the final variant (baseline/full/minimal measured during the search) ...
+        final   = 0 finding(s), 0 new
+[3/5] codeql      -> baseline=0, full=0, minimal=0, final=0 findings (new vs baseline: 0/0/0)
+[4/5] npm audit   -> final variant: (no data); 0 advisory(ies) introduced vs clean-fixed baseline
+[5/5] semgrep     -> 0 finding(s) on final variant (0 new vs fixed baseline; evaded: yes, by new findings: yes)
+detected_by (final/evasive variant): neither
+wrote evasion-findings.json (per-stage new findings, semgrep + codeql)
+wrote exploit-evasive.patch (exploit reproduces; semgrep=0, evaded=yes)

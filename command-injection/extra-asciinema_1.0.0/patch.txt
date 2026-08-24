@@ -1,0 +1,163 @@
+From fd1a8a38d6c72e1eb573b2ab03d5e86de8047480 Mon Sep 17 00:00:00 2001
+From: Subhajit Sahu <wolfram77@gmail.com>
+Date: Fri, 24 Jul 2020 14:23:02 +0530
+Subject: [PATCH] :octopus: mr anderson vs agent smith no more fuel injection
+ for cat, rec, upload
+
+---
+ package-lock.json |  2 +-
+ package.json      |  2 +-
+ src/_recCmd.ts    | 28 ++++++++++++++--------------
+ src/cat.ts        |  2 +-
+ src/catSync.ts    |  2 +-
+ src/rec.ts        |  2 +-
+ src/recSync.ts    |  2 +-
+ src/upload.ts     |  2 +-
+ src/uploadSync.ts |  2 +-
+ 9 files changed, 22 insertions(+), 22 deletions(-)
+
+diff --git a/package-lock.json b/package-lock.json
+index 2997c87..8aa3053 100644
+--- a/package-lock.json
++++ b/package-lock.json
+@@ -1,6 +1,6 @@
+ {
+   "name": "extra-asciinema",
+-  "version": "1.0.21",
++  "version": "1.0.22",
+   "lockfileVersion": 1,
+   "requires": true,
+   "dependencies": {
+diff --git a/package.json b/package.json
+index fa83cb4..115dad2 100644
+--- a/package.json
++++ b/package.json
+@@ -1,6 +1,6 @@
+ {
+   "name": "extra-asciinema",
+-  "version": "1.0.21",
++  "version": "1.0.22",
+   "description": "asciinema is a terminal screen recorder.",
+   "main": "index.js",
+   "module": "index.mjs",
+diff --git a/src/_recCmd.ts b/src/_recCmd.ts
+index 13faa24..0ee89cc 100644
+--- a/src/_recCmd.ts
++++ b/src/_recCmd.ts
+@@ -1,6 +1,6 @@
+ import * as path from 'path';
+ 
+-function recCmd(f: string, o: any=null): string {
++function recCmd(f: string, o: any=null): string[] {
+   var o = o||{};
+   // if input file given, execute on node.js
+   if(o.input) {
+@@ -10,18 +10,18 @@ function recCmd(f: string, o: any=null): string {
+   }
+   o.overwrite = true;
+   o.yes = true;
+-  var cmd = 'asciinema rec';
+-  if(f) cmd += ` "${f}"`;
+-  if(o.stdin) cmd += ' --stdin';
+-  if(o.append) cmd += ' --append';
+-  if(o.raw) cmd += ' --raw';
+-  if(o.overwrite) cmd += ' --overwrite';
+-  if(o.command) cmd += ` -c "${o.command}"`;
+-  if(o.env) cmd += ` -e "${o.env}"`;
+-  if(o.title) cmd += ` -t "${o.title}"`;
+-  if(o.idleTimeLimit) cmd += ` -e "${o.idleTimeLimit}"`;
+-  if(o.yes) cmd += ` -e "${o.yes}"`;
+-  if(o.quiet) cmd += ` -e "${o.quiet}"`;
+-  return cmd;
++  var args = ['rec'];
++  if(f) args.push(f);
++  if(o.stdin) args.push('--stdin');
++  if(o.append) args.push('--append');
++  if(o.raw) args.push('--raw');
++  if(o.overwrite) args.push('--overwrite');
++  if(o.command) args.push('--command', o.command);
++  if(o.env) args.push('-env', o.env);
++  if(o.title) args.push('--title', o.title);
++  if(o.idleTimeLimit) args.push('--idle-time-limit', ''+o.idleTimeLimit);
++  if(o.yes) args.push('--yes');
++  if(o.quiet) args.push('--quiet');
++  return args;
+ }
+ export default recCmd;
+diff --git a/src/cat.ts b/src/cat.ts
+index b65602e..5ee1d9e 100644
+--- a/src/cat.ts
++++ b/src/cat.ts
+@@ -9,7 +9,7 @@ import type {callbackFn} from './_types';
+  */
+ function cat(f: string, fn: callbackFn=null): Promise<any> {
+   var p = new Promise((fres, frej) => {
+-    cp.exec(`asciinema cat ${f}`, {encoding: 'utf8'}, (err, stdout) => {
++    cp.execFile('asciinema', ['cat', f], {encoding: 'utf8'}, (err, stdout) => {
+       if(err) return frej(err);
+       fres(stdout);
+     });
+diff --git a/src/catSync.ts b/src/catSync.ts
+index d446a73..a35fef9 100644
+--- a/src/catSync.ts
++++ b/src/catSync.ts
+@@ -6,6 +6,6 @@ import * as cp from 'child_process';
+  * @returns full output (including all escape sequences)
+  */
+ function catSync(f: string): string {
+-  return cp.execSync(`asciinema cat ${f}`, {encoding: 'utf8'});
++  return cp.execFileSync('asciinema', ['cat', f], {encoding: 'utf8'});
+ }
+ export default catSync;
+diff --git a/src/rec.ts b/src/rec.ts
+index 031ca8c..1211363 100644
+--- a/src/rec.ts
++++ b/src/rec.ts
+@@ -23,7 +23,7 @@ import type {RecOptions, callbackFn} from './_types';
+ function rec(f: string=null, o: RecOptions=null, fn: callbackFn=null): Promise<any> {
+   var f = f||path.join(fs.mkdtempSync(path.join(os.tmpdir(), 'asciinema-')), '0.cast');
+   var p = new Promise((fres, frej) => {
+-    cp.exec(recCmd(f, o), {encoding: 'utf8'}, (err) => {
++    cp.execFile('asciinema', recCmd(f, o), {encoding: 'utf8'}, (err) => {
+       if(err) return frej(err);
+       fres(f);
+     });
+diff --git a/src/recSync.ts b/src/recSync.ts
+index b85d435..03cbbc0 100644
+--- a/src/recSync.ts
++++ b/src/recSync.ts
+@@ -21,7 +21,7 @@ import type {RecOptions} from './_types';
+  */
+ function recSync(f: string, o: RecOptions=null): string {
+   var f = f||path.join(fs.mkdtempSync(path.join(os.tmpdir(), 'asciinema-')), '0.cast');
+-  cp.execSync(recCmd(f, o), {encoding: 'utf8'});
++  cp.execFileSync('asciinema', recCmd(f, o), {encoding: 'utf8'});
+   return f;
+ }
+ export default recSync;
+diff --git a/src/upload.ts b/src/upload.ts
+index e62f874..cc23912 100644
+--- a/src/upload.ts
++++ b/src/upload.ts
+@@ -9,7 +9,7 @@ import type {callbackFn} from './_types';
+  */
+ function upload(f: string, fn: callbackFn=null): Promise<any> {
+   var p = new Promise((fres, frej) => {
+-    cp.exec(`asciinema upload ${f}`, {encoding: 'utf8'}, (err, stdout) => {
++    cp.execFile('asciinema', ['upload', f], {encoding: 'utf8'}, (err, stdout) => {
+       if(err) return frej(err);
+       fres(stdout.replace(/.*?(https?:\S+).*/s, '$1'));      
+     });
+diff --git a/src/uploadSync.ts b/src/uploadSync.ts
+index 0b7e5bc..cac245a 100644
+--- a/src/uploadSync.ts
++++ b/src/uploadSync.ts
+@@ -6,7 +6,7 @@ import * as cp from 'child_process';
+  * @returns asciicast URL
+  */
+ function uploadSync(f: string): string {
+-  var stdout = cp.execSync(`asciinema upload ${f}`, {encoding: 'utf8'});
++  var stdout = cp.execFileSync('asciinema', ['upload', f], {encoding: 'utf8'});
+   return stdout.replace(/.*?(https?:\S+).*/s, '$1');
+ }
+ export default uploadSync;

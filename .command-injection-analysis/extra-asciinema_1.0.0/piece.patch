@@ -1,0 +1,13 @@
+diff --git a/src/uploadSync.ts b/src/uploadSync.ts
+index 0b7e5bc..cac245a 100644
+--- a/src/uploadSync.ts
++++ b/src/uploadSync.ts
+@@ -6,7 +6,7 @@ import * as cp from 'child_process';
+  * @returns asciicast URL
+  */
+ function uploadSync(f: string): string {
+-  var stdout = cp.execSync(`asciinema upload ${f}`, {encoding: 'utf8'});
++  var stdout = cp.execFileSync('asciinema', ['upload', f], {encoding: 'utf8'});
+   return stdout.replace(/.*?(https?:\S+).*/s, '$1');
+ }
+ export default uploadSync;

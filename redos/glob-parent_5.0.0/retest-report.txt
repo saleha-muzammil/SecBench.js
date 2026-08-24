@@ -1,0 +1,7 @@
+=== redos/glob-parent_5.0.0 (corrected retest) ===
+package        : glob-parent
+fixed-tree ms  : 1
+reverted ms    : 4
+corrected label: no-repro
+detail         : reverted 4ms < threshold 250ms (fixed 0.6ms) -- vuln needs more than the patch
+oracle         : timeout=25s floor=250ms ratio=20x; HANG or reverted>=max(floor,ratio*fixed) => reproduces

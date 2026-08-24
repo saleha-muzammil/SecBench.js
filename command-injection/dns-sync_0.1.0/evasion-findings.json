@@ -1,0 +1,24 @@
+{
+  "package": "dns-sync",
+  "targets": [
+    "lib/dns-sync.js",
+    "test/test.js"
+  ],
+  "full_targets": [
+    "lib/dns-sync.js",
+    "test/test.js"
+  ],
+  "semgrep": {
+    "fixed_total": 2,
+    "new_full": 0,
+    "new_minimal": 0,
+    "new_final": []
+  },
+  "codeql": {
+    "fixed_total": 7,
+    "new_full": 1,
+    "new_minimal": 1,
+    "new_final": []
+  },
+  "detected_by": "neither"
+}

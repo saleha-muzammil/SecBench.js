@@ -1,0 +1,46 @@
+From 3ab56e78250d3d5b44ac03938d3d04591b206730 Mon Sep 17 00:00:00 2001
+From: Ardalan Amini <ardalanamini22@gmail.com>
+Date: Sun, 28 Feb 2021 20:12:17 +0330
+Subject: [PATCH] fix: Prototype pollution vulnerability
+
+---
+ __tests__/object/set.test.ts | 8 ++++++++
+ src/object/set/index.ts      | 8 +++++++-
+ 2 files changed, 15 insertions(+), 1 deletion(-)
+
+diff --git a/__tests__/object/set.test.ts b/__tests__/object/set.test.ts
+index 34d84995..95b746ac 100644
+--- a/__tests__/object/set.test.ts
++++ b/__tests__/object/set.test.ts
+@@ -8,4 +8,12 @@ describe("Object.prototype.$set", () => {
+ 
+     expect(obj).toEqual({ selector: { to: { val: "new value" } } });
+   });
++
++  it("shouldn't set/overwrite prototype/constructor keys", () => {
++    expect(({} as Record<string, unknown>).foo).toBeUndefined();
++
++    ({}.$set("__proto__.foo", "bar"));
++
++    expect(({} as Record<string, unknown>).foo).toBeUndefined();
++  });
+ });
+diff --git a/src/object/set/index.ts b/src/object/set/index.ts
+index 1a4437f4..45ef2ca0 100644
+--- a/src/object/set/index.ts
++++ b/src/object/set/index.ts
+@@ -10,7 +10,13 @@ export default function set(
+   let i = 0;
+ 
+   for (; i < length - 1; i++) {
+-    obj = obj[keys[i]] as never;
++    const key = keys[i];
++
++    if (key === "__proto__" || key === "constructor" || key === "prototype") {
++      return;
++    }
++
++    obj = obj[key] as never;
+   }
+ 
+   obj[keys[i]] = value;

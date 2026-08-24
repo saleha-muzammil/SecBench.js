@@ -1,0 +1,16 @@
+{
+  "seed": 20260817,
+  "n": 3,
+  "until_success": false,
+  "generated_at": "2026-08-21T08:25:26.320048+00:00",
+  "categories": {
+    "code-injection": [
+      {
+        "folder": "mixin-pro_0.6.0",
+        "package": "mixin-pro",
+        "version": "0.6.0",
+        "repository": "floatinghotpot/mixin-pro"
+      }
+    ]
+  }
+}

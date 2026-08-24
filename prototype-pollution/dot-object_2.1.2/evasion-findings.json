@@ -1,0 +1,26 @@
+{
+  "package": "dot-object",
+  "targets": [
+    "index.js"
+  ],
+  "full_targets": [
+    "index.js",
+    "src/dot-object.js",
+    "test/array_notation.js",
+    "test/dot-json.js",
+    "test/str.js"
+  ],
+  "semgrep": {
+    "fixed_total": 4,
+    "new_full": 0,
+    "new_minimal": 0,
+    "new_final": []
+  },
+  "codeql": {
+    "fixed_total": 7,
+    "new_full": 0,
+    "new_minimal": 0,
+    "new_final": []
+  },
+  "detected_by": "neither"
+}

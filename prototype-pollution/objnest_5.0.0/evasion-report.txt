@@ -1,0 +1,6 @@
+=== prototype-pollution/objnest_5.0.0 ===
+image: built image
+baseline (clean fixed tree): exploit test = FAIL (vuln closed, good)
+baseline: test FAILS on fixed tree (good).
+patch splits into 1 line-level change unit(s) across 1 file(s)
+exploit still fires with 'objnest' STUBBED OUT -> the PoC is self-firing; its reproduction is not attributable to the package (EXPLOIT fault).

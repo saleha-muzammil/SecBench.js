@@ -1,0 +1,25 @@
+{
+  "package": "deeply",
+  "targets": [
+    "lib/reduce_object.js"
+  ],
+  "full_targets": [
+    "adapters/object.js",
+    "flags.js",
+    "lib/reduce_object.js",
+    "test/test-compatibility.js"
+  ],
+  "semgrep": {
+    "fixed_total": 0,
+    "new_full": 0,
+    "new_minimal": 0,
+    "new_final": []
+  },
+  "codeql": {
+    "fixed_total": 0,
+    "new_full": 0,
+    "new_minimal": 0,
+    "new_final": []
+  },
+  "detected_by": "neither"
+}

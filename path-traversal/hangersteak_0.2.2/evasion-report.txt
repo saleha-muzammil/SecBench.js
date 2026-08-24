@@ -1,0 +1,39 @@
+=== path-traversal/hangersteak_0.2.2 ===
+image: built image
+baseline (clean fixed tree): exploit test = FAIL (vuln closed, good)
+baseline: test FAILS on fixed tree (good).
+patch splits into 61 hunk-level change unit(s) across 5 file(s)
+semgrep on CLEAN FIXED tree (baseline): 3 finding(s)
+codeql on CLEAN FIXED tree (baseline): 1 finding(s)
+semgrep on FULL revert (no changes): 2 finding(s), 0 NEW vs fixed baseline -> evades: no (by new findings: yes)
+codeql on FULL revert (no changes): 2 finding(s), 2 NEW vs fixed baseline
+minimal revert (exploit-only): 1/61 hunk unit(s) -> ['lib/hangersteak.js']
+semgrep on minimal variant (after chunking): 2 finding(s), 0 NEW vs fixed baseline
+--- semgrep findings (pre-evasion) ---
+  path-join-resolve-traversal @ lib/hangersteak.js:114: Detected possible user input going into a `path.join` or `path.resolve` function. This could possibly lead to a path traversal vulnerability, where the attacker can access arbitrary files stored in the file system. Inst…
+  path-join-resolve-traversal @ lib/hangersteak.js:114: Detected possible user input going into a `path.join` or `path.resolve` function. This could possibly lead to a path traversal vulnerability, where the attacker can access arbitrary files stored in the file system. Inst…
+--------------------------------------
+codeql on minimal variant (after chunking): 2 finding(s), 2 NEW vs fixed baseline
+    ! js/path-injection @ lib/hangersteak.js:58: This path depends on a [user-provided value](1). This path depends on a [user-provided value](2).
+    ! js/path-injection @ lib/hangersteak.js:85: This path depends on a [user-provided value](1). This path depends on a [user-provided value](2).
+selecting rewrites from the rules that actually fired: params->launder <- 'user-provided value', methods->launder <- 'user-provided value', source->launder <- 'user-provided value', source->launder+index <- 'user-provided value', path-arg->launder <- 'js/path-injection', path-sink->hidden-member <- 'js/path-injection', path-builder->hidden-member <- 'js/path-injection'
+  methods->launder: matched nothing -> skipped
+  params->launder: test PASSES, semgrep 2 finding(s) (0 new), codeql new not re-run
+  source->launder: broke the exploit test -> rejected
+  source->launder+index: broke the exploit test -> rejected
+  path-arg->launder: test PASSES, semgrep 2 finding(s) (0 new), codeql new not re-run
+  path-sink->hidden-member: test PASSES, semgrep 2 finding(s) (0 new), codeql new not re-run
+  path-builder->hidden-member: test PASSES, semgrep 0 finding(s) (0 new), codeql new not re-run
+  path-builder->hidden-member+params->launder: test PASSES, semgrep 0 finding(s) (0 new), codeql new not re-run
+  path-builder->hidden-member+path-arg->launder: test PASSES, semgrep 0 finding(s) (0 new), codeql new not re-run
+  path-builder->hidden-member+path-sink->hidden-member: test PASSES, semgrep 0 finding(s) (0 new), codeql new not re-run
+[1/5] test cases  -> exploit test PASSES (reproduces)
+[2/5] ci          -> skipped
+[3/5] codeql      -> confirming the final variant (baseline/full/minimal measured during the search) ...
+        final   = 0 finding(s), 0 new
+[3/5] codeql      -> baseline=1, full=2, minimal=2, final=0 findings (new vs baseline: 2/2/0)
+[4/5] npm audit   -> final variant: critical=6, high=14, moderate=35, low=2, info=0, total=57; 0 advisory(ies) introduced vs clean-fixed baseline
+[5/5] semgrep     -> 0 finding(s) on final variant (0 new vs fixed baseline; evaded: yes, by new findings: yes)
+detected_by (final/evasive variant): neither
+wrote evasion-findings.json (per-stage new findings, semgrep + codeql)
+wrote exploit-evasive.patch (exploit reproduces; semgrep=0, evaded=yes)

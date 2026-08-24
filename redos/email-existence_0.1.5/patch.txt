@@ -1,0 +1,39 @@
+From 0029ba71b6ad0d8ec0baa2ecc6256d038bdd9b56 Mon Sep 17 00:00:00 2001
+From: Jamie Davis <davisjam@vt.edu>
+Date: Thu, 22 Feb 2018 09:51:52 -0500
+Subject: [PATCH] security: address REDOS by rejecting long emails
+
+The email regex /^\S+@\S+$/ is vulnerable to REDOS on very long emails.
+Emails should not be longer than 300 characters per the RFC errata.
+Reject emails longer than this.
+---
+ index.js | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
+
+diff --git a/index.js b/index.js
+index eb65f66..1b7307f 100644
+--- a/index.js
++++ b/index.js
+@@ -6,10 +6,22 @@ var dns = require('dns'),
+ module.exports = function (email, callback, timeout, from_email) {
+ 	timeout = timeout || 5000;
+ 	from_email = from_email || email;
++
++	/* Does it look like a valid email? */
++
++	/* Our email regex is vulnerable to REDOS on very large input.
++	 *  Valid emails shouldn't be more than 300 characters anyway.
++	 *  https://www.rfc-editor.org/errata_search.php?eid=1690 */
++	const MAX_EMAIL_LEN = 300;
++	if (MAX_EMAIL_LEN < email.length) {
++		callback(null, false);
++		return;
++	}
+ 	if (!/^\S+@\S+$/.test(email)) {
+ 		callback(null, false);
+ 		return;
+ 	}
++
+ 	dns.resolveMx(email.split('@')[1], function(err, addresses){
+ 		if (err || addresses.length === 0) {
+ 			callback(err, false);

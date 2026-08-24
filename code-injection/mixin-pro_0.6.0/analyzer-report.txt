@@ -1,0 +1,11 @@
+Analyzer report for code-injection/mixin-pro_0.6.0
+Package : mixin-pro@0.6.0  (fixed: 0.6.7)
+CVE     : (none)
+Repo    : floatinghotpot/mixin-pro
+Image   : secbench-fixed/mixin-pro_0.6.0
+Image   : using existing image
+
+========================================================================
+SKIPPED
+========================================================================
+source is an npm-install fallback (no git clone); the patch cannot be reverted in place.

@@ -1,0 +1,41 @@
+Analyzer report for code-injection/pixl-class_1.0.0
+Package : pixl-class@1.0.0  (fixed: 1.0.3)
+CVE     : CVE-2020-7640
+Repo    : jhuckaby/pixl-class
+Image   : secbench-fixed/pixl-class_1.0.0
+Image   : using existing image
+
+========================================================================
+PATCH REVERT
+========================================================================
+Reverted patch.txt via: git apply -R
+Files changed by the patch (2):
+  class.js
+  package.json
+
+========================================================================
+SEMGREP (sink file + changed files)
+========================================================================
+sink file scanned: class.js
+Scanned files: class.js
+semgrep configs: secbench-code-injection.yml (local), p/javascript, p/nodejs, p/security-audit
+Summary: Ran 88 rules on 1 file: 1 finding.
+
+┌────────────────┐
+│ 1 Code Finding │
+└────────────────┘
+                 
+    /src/class.js
+   ❯❯❱ rules.secbench-eval-call
+          ❰❰ Blocking ❱❱
+          eval() executes its argument as code; if attacker-controlled this is a code-injection sink.
+                                                                                                     
+           26┆ eval('constructor = function ('+args+') {'+inner_code+'};');
+
+========================================================================
+NPM AUDIT DELTA (introduced by reverting the fix)
+========================================================================
+fixed tree   : critical=0, high=0, moderate=0, low=0, info=0, total=0
+reverted tree: critical=0, high=0, moderate=0, low=0, info=0, total=0
+
+No new advisories introduced by the revert (deps unchanged or already-known to the audit DB).

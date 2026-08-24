@@ -1,0 +1,23 @@
+{
+  "package": "safe-flat",
+  "targets": [
+    "src/index.js"
+  ],
+  "full_targets": [
+    "src/index.js",
+    "test/unflatten.spec.js"
+  ],
+  "semgrep": {
+    "fixed_total": 1,
+    "new_full": 1,
+    "new_minimal": 0,
+    "new_final": []
+  },
+  "codeql": {
+    "fixed_total": 0,
+    "new_full": 0,
+    "new_minimal": 0,
+    "new_final": []
+  },
+  "detected_by": "neither"
+}

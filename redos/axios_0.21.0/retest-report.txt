@@ -1,0 +1,7 @@
+=== redos/axios_0.21.0 (corrected retest) ===
+package        : axios
+fixed-tree ms  : 1
+reverted ms    : 1474
+corrected label: reproduces
+detail         : reverted 1474ms >= threshold 250ms (fixed 1.2ms)
+oracle         : timeout=25s floor=250ms ratio=20x; HANG or reverted>=max(floor,ratio*fixed) => reproduces

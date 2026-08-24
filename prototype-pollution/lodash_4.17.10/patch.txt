@@ -1,0 +1,56 @@
+From 1f8ea07746963a535385a5befc19fa687a627d2b Mon Sep 17 00:00:00 2001
+From: Kirill <kirill89@gmail.com>
+Date: Mon, 24 Jun 2019 19:17:55 +0300
+Subject: [PATCH] fix: prototype pollution in _.defaultsDeep (#4336)
+
+---
+ lodash.js    |  6 +++++-
+ test/test.js | 11 +++++++++++
+ 2 files changed, 16 insertions(+), 1 deletion(-)
+
+diff --git a/lodash.js b/lodash.js
+index 92c566ac95..5c308f6057 100644
+--- a/lodash.js
++++ b/lodash.js
+@@ -6589,7 +6589,7 @@
+     }
+ 
+     /**
+-     * Gets the value at `key`, unless `key` is "__proto__".
++     * Gets the value at `key`, unless `key` is "__proto__" or "constructor".
+      *
+      * @private
+      * @param {Object} object The object to query.
+@@ -6597,6 +6597,10 @@
+      * @returns {*} Returns the property value.
+      */
+     function safeGet(object, key) {
++      if (key === 'constructor' && typeof object[key] === 'function') {
++        return;
++      }
++      
+       if (key == '__proto__') {
+         return;
+       }
+diff --git a/test/test.js b/test/test.js
+index 92ce499f74..fec06dda47 100644
+--- a/test/test.js
++++ b/test/test.js
+@@ -4712,6 +4712,17 @@
+       var actual = _.defaultsDeep({ 'a': ['abc'] }, { 'a': 'abc' });
+       assert.deepEqual(actual.a, ['abc']);
+     });
++
++    QUnit.test('should not indirectly merge `Object` properties', function(assert) {
++      assert.expect(1);
++
++      _.defaultsDeep({}, { 'constructor': { 'a': 1 } });
++
++      var actual = 'a' in Object;
++      delete Object.a;
++
++      assert.notOk(actual);
++    });
+   }());
+ 
+   /*--------------------------------------------------------------------------*/

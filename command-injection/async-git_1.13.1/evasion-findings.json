@@ -1,0 +1,42 @@
+{
+  "package": "async-git",
+  "targets": [
+    "index.js",
+    "lib/reset/index.js"
+  ],
+  "full_targets": [
+    "index.js",
+    "lib/index.js",
+    "lib/modified/index.js",
+    "lib/remote/index.js",
+    "lib/remote/spec.js",
+    "lib/reset/index.js",
+    "lib/reset/spec.js",
+    "lib/tag/index.js",
+    "lib/tag/spec.js",
+    "lib/unadded/index.js",
+    "lib/unadded/spec.js",
+    "spec.js",
+    "vulnerabilities/spec.js"
+  ],
+  "semgrep": {
+    "fixed_total": 1,
+    "new_full": 0,
+    "new_minimal": 0,
+    "new_final": []
+  },
+  "codeql": {
+    "fixed_total": 0,
+    "new_full": 4,
+    "new_minimal": 1,
+    "new_final": [
+      {
+        "rule": "js/shell-command-constructed-from-input",
+        "message": "This string concatenation which depends on [library input](1) is later used in a [shell command](2).",
+        "path": "lib/reset/index.js",
+        "line": 11
+      }
+    ]
+  },
+  "detected_by": "codeql"
+}

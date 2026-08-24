@@ -1,0 +1,89 @@
+From 21a0f0c2a5f447e0d40bc16be0c23fa98a7b46ec Mon Sep 17 00:00:00 2001
+From: Douglas Christopher Wilson <doug@somethingdoug.com>
+Date: Thu, 14 Sep 2017 00:24:55 -0400
+Subject: [PATCH] perf: improve If-None-Match token parsing
+
+---
+ HISTORY.md |  1 +
+ index.js   | 45 +++++++++++++++++++++++++++++++++++++--------
+ 2 files changed, 38 insertions(+), 8 deletions(-)
+
+diff --git a/HISTORY.md b/HISTORY.md
+index 6dc6703..c9ecf8f 100644
+--- a/HISTORY.md
++++ b/HISTORY.md
+@@ -2,6 +2,7 @@ unreleased
+ ==========
+ 
+   * Fix regression matching multiple ETags in `If-None-Match`
++  * perf: improve `If-None-Match` token parsing
+ 
+ 0.5.1 / 2017-09-11
+ ==================
+diff --git a/index.js b/index.js
+index ecee70e..d154f5a 100644
+--- a/index.js
++++ b/index.js
+@@ -14,13 +14,6 @@
+ 
+ var CACHE_CONTROL_NO_CACHE_REGEXP = /(?:^|,)\s*?no-cache\s*?(?:,|$)/
+ 
+-/**
+- * Simple expression to split token list.
+- * @private
+- */
+-
+-var TOKEN_LIST_REGEXP = / *, */
+-
+ /**
+  * Module exports.
+  * @public
+@@ -64,7 +57,7 @@ function fresh (reqHeaders, resHeaders) {
+     }
+ 
+     var etagStale = true
+-    var matches = noneMatch.split(TOKEN_LIST_REGEXP)
++    var matches = parseTokenList(noneMatch)
+     for (var i = 0; i < matches.length; i++) {
+       var match = matches[i]
+       if (match === etag || match === 'W/' + etag || 'W/' + match === etag) {
+@@ -106,3 +99,39 @@ function parseHttpDate (date) {
+     ? timestamp
+     : NaN
+ }
++
++/**
++ * Parse a HTTP token list.
++ *
++ * @param {string} str
++ * @private
++ */
++
++function parseTokenList (str) {
++  var end = 0
++  var list = []
++  var start = 0
++
++  // gather tokens
++  for (var i = 0, len = str.length; i < len; i++) {
++    switch (str.charCodeAt(i)) {
++      case 0x20: /*   */
++        if (start === end) {
++          start = end = i + 1
++        }
++        break
++      case 0x2c: /* , */
++        list.push(str.substring(start, end))
++        start = end = i + 1
++        break
++      default:
++        end = i + 1
++        break
++    }
++  }
++
++  // final token
++  list.push(str.substring(start, end))
++
++  return list
++}

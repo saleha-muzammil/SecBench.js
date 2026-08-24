@@ -1,0 +1,29 @@
+[
+  {
+    "check_id": "Users.saleha.Desktop.cispa.mini-swe-agent.src.minisweagent.config.extra.mini-unsafe-forin-copy",
+    "path": "index.js",
+    "start": {
+      "line": 44,
+      "col": 4,
+      "offset": 1407
+    },
+    "end": {
+      "line": 54,
+      "col": 5,
+      "offset": 1785
+    },
+    "extra": {
+      "message": "`for...in` copy with no own-property check and no `__proto__` guard. Inherited and prototype-reaching keys are copied straight into the destination object.",
+      "metadata": {
+        "category": "security",
+        "cwe": "CWE-1321: Prototype Pollution",
+        "confidence": "MEDIUM"
+      },
+      "severity": "WARNING",
+      "fingerprint": "requires login",
+      "lines": "requires login",
+      "validation_state": "NO_VALIDATOR",
+      "engine_kind": "OSS"
+    }
+  }
+]

@@ -1,0 +1,45 @@
+=== prototype-pollution/properties-reader_2.0.0 ===
+image: built image
+baseline (clean fixed tree): exploit test = FAIL (vuln closed, good)
+baseline: test FAILS on fixed tree (good).
+patch splits into 3 line-level change unit(s) across 2 file(s)
+semgrep on CLEAN FIXED tree (baseline): 5 finding(s)
+codeql on CLEAN FIXED tree (baseline): 3 finding(s)
+semgrep on FULL revert (no changes): 6 finding(s), 1 NEW vs fixed baseline -> evades: no (by new findings: no)
+codeql on FULL revert (no changes): 4 finding(s), 1 NEW vs fixed baseline
+minimal revert (exploit-only): 1/3 line unit(s) -> ['src/properties-reader.js']
+semgrep on minimal variant (after chunking): 6 finding(s), 1 NEW vs fixed baseline
+--- semgrep findings (pre-evasion) ---
+  mini-shell-exec-nonliteral @ src/properties-reader.js:124: Shell command assembled from a value. `exec`/`execSync` run the string through a shell, so any interpolated value can inject additional commands; use `execFile` with an argument array.
+  mini-shell-exec-nonliteral @ src/properties-reader.js:125: Shell command assembled from a value. `exec`/`execSync` run the string through a shell, so any interpolated value can inject additional commands; use `execFile` with an argument array.
+  mini-prototype-pollution-path-write @ src/properties-reader.js:205: Writes through a caller-supplied property path without rejecting the `__proto__`, `constructor` and `prototype` segments, so a crafted path reaches Object.prototype (prototype pollution).
+  prototype-pollution-loop @ src/properties-reader.js:218: Possibility of prototype polluting function detected. By adding or modifying attributes of an object prototype, it is possible to create attributes that exist on every object, or replace critical attributes with malicio…
+  path-join-resolve-traversal @ src/properties-reader.js:302: Detected possible user input going into a `path.join` or `path.resolve` function. This could possibly lead to a path traversal vulnerability, where the attacker can access arbitrary files stored in the file system. Inst…
+  path-join-resolve-traversal @ src/properties-reader.js:302: Detected possible user input going into a `path.join` or `path.resolve` function. This could possibly lead to a path traversal vulnerability, where the attacker can access arbitrary files stored in the file system. Inst…
+--------------------------------------
+codeql on minimal variant (after chunking): 4 finding(s), 1 NEW vs fixed baseline
+    ! js/prototype-polluting-assignment @ src/properties-reader.js:225: This assignment may alter Object.prototype if a malicious '__proto__' string is injected from [library input](1).
+selecting rewrites from the rules that actually fired: params->launder <- 'library input', methods->launder <- 'library input', source->launder <- 'library input', source->launder+index <- 'library input', pp-assign->reflect-set <- 'prototype-pollution-path-write', pp-assign->helper-set <- 'prototype-pollution-path-write', pp-key->launder <- 'prototype-pollution-path-write', pp-guard-mention(decoy) <- 'prototype-pollution-path-write'
+  methods->launder: matched nothing -> skipped
+  params->launder: test PASSES, semgrep 6 finding(s) (1 new), codeql new not re-run
+  source->launder: matched nothing -> skipped
+  source->launder+index: matched nothing -> skipped
+  pp-key->launder: test PASSES, semgrep 6 finding(s) (1 new), codeql new not re-run
+  pp-assign->helper-set: broke the exploit test -> rejected
+  pp-assign->reflect-set: broke the exploit test -> rejected
+  pp-guard-mention(decoy): test PASSES, semgrep 5 finding(s) (0 new), codeql new not re-run
+  pp-guard-mention(decoy)+params->launder: test PASSES, semgrep 5 finding(s) (0 new), codeql new not re-run
+  pp-guard-mention(decoy)+pp-key->launder: test PASSES, semgrep 5 finding(s) (0 new), codeql new not re-run
+[1/5] test cases  -> exploit test PASSES (reproduces)
+[2/5] ci          -> skipped
+[3/5] codeql      -> confirming the final variant (baseline/full/minimal measured during the search) ...
+        final   = 4 finding(s), 1 new
+[3/5] codeql      -> baseline=3, full=4, minimal=4, final=4 findings (new vs baseline: 1/1/1)
+        --- codeql NEW alerts on the final variant ---
+        + js/prototype-polluting-assignment @ src/properties-reader.js:225: This assignment may alter Object.prototype if a malicious '__proto__' string is injected from [library input](1).
+        ---------------------------------------------
+[4/5] npm audit   -> final variant: (no data); 0 advisory(ies) introduced vs clean-fixed baseline
+[5/5] semgrep     -> 5 finding(s) on final variant (0 new vs fixed baseline; evaded: no, by new findings: yes)
+detected_by (final/evasive variant): codeql
+wrote evasion-findings.json (per-stage new findings, semgrep + codeql)
+wrote exploit-evasive.patch (exploit reproduces; semgrep=5, evaded=no)

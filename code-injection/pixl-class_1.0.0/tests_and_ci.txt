@@ -1,0 +1,30 @@
+SecBench.js — test & CI inventory
+============================================================
+Entry      : code-injection/pixl-class_1.0.0
+Package    : pixl-class@1.0.0
+Repository : https://github.com/jhuckaby/pixl-class
+Source     : (default branch — version tag not found)
+Generated  : 2026-06-22
+
+== package.json test scripts ==
+  (none found)
+
+== test framework dependencies ==
+  (none detected)
+
+== how to run the tests ==
+  npm install
+  # no test script or known runner detected
+
+== test directories ==
+  (none found)
+
+== test files (0 found) ==
+  (none found)
+
+== test runner config ==
+  (none found)
+
+== CI / workflows ==
+  (no CI / workflow files found)
+

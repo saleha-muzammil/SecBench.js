@@ -1,0 +1,56 @@
+From 24935e6a1060cb09c641d3075982f0b44cfca4c2 Mon Sep 17 00:00:00 2001
+From: Mateo Williford <mateowilliford@gmail.com>
+Date: Mon, 23 Nov 2020 09:28:03 -0600
+Subject: [PATCH] Disallow __proto__ assignment
+
+Disallow assignment to the prototype using `set()`.
+
+This resolves a Prototype Pollution vulnerability. An attacker could
+have assigned a value to the target object's prototype, which can modify
+how objects behave throughout the entire application.
+---
+ index.js      |  4 ++++
+ test/index.js | 10 +++++++++-
+ 2 files changed, 13 insertions(+), 1 deletion(-)
+
+diff --git a/index.js b/index.js
+index f893843..ff2668e 100644
+--- a/index.js
++++ b/index.js
+@@ -55,6 +55,10 @@ Reference.createFromPath = function(pointer, path) {
+   var reference = new Reference(pointer);
+   path = path.split('.');
+   path.forEach(function(field) {
++    if (field === '__proto__') {
++      throw new Error('Cannot assign reference to prototype')
++    }
++
+     var isNumber = checkIfStringIsNumber(field);
+     var hasParent = reference.getParent() ? true : false;
+     if (isNumber) {
+diff --git a/test/index.js b/test/index.js
+index f854c42..f90affc 100644
+--- a/test/index.js
++++ b/test/index.js
+@@ -42,6 +42,14 @@ describe('#set', function() {
+     obj.a[1].should.equal('B');
+     obj.a[2].should.equal('C');
+   });
++
++  context('attempt to modify prototype', function() {
++    it('throws an error', function() {
++      assert.throws(
++        () => set({}, '__proto__.foo', 'hacker_attack!'),
++        Error, 'Cannot assign reference to prototype')
++    })
++  })
+ });
+ 
+ describe('#decorate', function() {
+@@ -67,4 +75,4 @@ describe('#undecorate', function() {
+     undecorate(obj);
+     expect(obj.setKey).to.not.be.a('function');
+   });
+-});
+\ No newline at end of file
++});

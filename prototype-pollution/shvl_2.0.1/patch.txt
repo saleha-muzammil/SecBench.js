@@ -1,0 +1,40 @@
+From 4ed0edfa70f7778556f7b7e9ef1ee5d6d002fce2 Mon Sep 17 00:00:00 2001
+From: Robin van der Vleuten <robin@webstronauts.co>
+Date: Mon, 12 Apr 2021 09:38:55 +0200
+Subject: [PATCH] Fix assignment to constructor and prototype. Closes #35.
+
+---
+ index.js | 2 +-
+ test.js  | 6 +++++-
+ 2 files changed, 6 insertions(+), 2 deletions(-)
+
+diff --git a/index.js b/index.js
+index b4a1906..53e25ee 100644
+--- a/index.js
++++ b/index.js
+@@ -5,7 +5,7 @@ export function get (object, path, def) {
+ };
+ 
+ export function set  (object, path, val, obj) {
+-  return !/__proto__/.test(path) && ((path = path.split ? path.split('.') : path.slice(0)).slice(0, -1).reduce(function (obj, p) {
++  return !/^(__proto__|constructor|prototype)$/.test(path) && ((path = path.split ? path.split('.') : path.slice(0)).slice(0, -1).reduce(function (obj, p) {
+     return obj[p] = obj[p] || {};
+   }, obj = object)[path.pop()] = val), object;
+ };
+diff --git a/test.js b/test.js
+index 262dcb1..f428181 100644
+--- a/test.js
++++ b/test.js
+@@ -74,7 +74,11 @@ cases('set({}, key, value)', ({ obj, key, value, expected }) => {
+   "set(obj, 'a.b', 'foo')": { key: 'a.b', value: 'foo', expected: { a: { b: 'foo' } }, obj: { a: { b: undefined } } },
+   "set(obj, 'a.b', undefined)": { key: 'a.b', value: undefined, expected: { a: { b: undefined } }, obj: { a: { b: 'foo' } } },
+   "set(obj, '__proto__', 'foo')": { key: "__proto__", value: "foo", expected: {} },
+-  "set(obj, 'a.__proto__', 'foo')": { key: "__proto__", value: "foo", expected: { a: undefined } },
++  "set(obj, 'a.__proto__', 'foo')": { key: "__proto__", value: "foo", expected: { a: undefined } },  
++  "set(obj, 'constructor', 'foo')": { key: "constructor", value: "foo", expected: {} },
++  "set(obj, 'a.constructor', 'foo')": { key: "constructor", value: "foo", expected: { a: undefined } },
++  "set(obj, 'prototype', 'foo')": { key: "prototype", value: "foo", expected: {} },
++  "set(obj, 'a.prototype', 'foo')": { key: "prototype", value: "foo", expected: { a: undefined } },
+ });
+ 
+ cases('set(undefined, key, value)', ({ obj, key, value }) => {

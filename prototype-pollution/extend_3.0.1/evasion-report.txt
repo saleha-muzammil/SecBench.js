@@ -1,0 +1,26 @@
+=== prototype-pollution/extend_3.0.1 ===
+image: docker build failed:
+g
+3.091 npm ERR! notarget a package version that doesn't exist.
+3.094 
+3.094 npm ERR! A complete log of this run can be found in:
+3.094 npm ERR!     /root/.npm/_logs/2026-08-13T13_33_25_604Z-debug-0.log
+------
+Dockerfile.fixed:27
+--------------------
+  26 |     
+  27 | >>> RUN git clone https://github.com/justmoon/node-extend.git node_modules/extend \
+  28 | >>>     && cd node_modules/extend \
+  29 | >>>     && if git checkout -q "v1.0.1" || git checkout -q "1.0.1"; then \
+  30 | >>>            npm install --no-audit --no-fund --ignore-scripts \
+  31 | >>>            && (npm run build --if-present || echo "WARNING: build step failed/partial; continuing") \
+  32 | >>>            && (npm run prepare --if-present || echo "WARNING: prepare step failed/partial; continuing"); \
+  33 | >>>        else \
+  34 | >>>            echo "WARNING: version tag v1.0.1/1.0.1 not in repo; installing extend@1.0.1 from npm instead" \
+  35 | >>>            && cd /exploit/extend_3.0.1 \
+  36 | >>>            && rm -rf node_modules/extend \
+  37 | >>>            && npm install --no-audit --no-fund --ignore-scripts extend@1.0.1; \
+  38 | >>>        fi
+  39 |     
+--------------------
+ERROR: failed to solve: process "/bin/sh -c git clone https://github.com/justmoon/node-extend.git node_modules/extend     && cd node_modules/extend     && if git checkout -q \"v1.0.1\" || git checkout -q \"1.0.1\"; then            npm install --no-audit --no-fund --ignore-scripts            && (npm run build --if-present || echo \"WARNING: build step failed/partial; continuing\")            && (npm run prepare --if-present || echo \"WARNING: prepare step failed/partial; continuing\");        else            echo \"WARNING: version tag v1.0.1/1.0.1 not in repo; installing extend@1.0.1 from npm instead\"            && cd /exploit/extend_3.0.1            && rm -rf node_modules/extend            && npm install --no-audit --no-fund --ignore-scripts extend@1.0.1;        fi" did not complete successfully: exit code: 1

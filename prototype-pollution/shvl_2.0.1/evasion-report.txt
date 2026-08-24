@@ -1,0 +1,5 @@
+=== prototype-pollution/shvl_2.0.1 ===
+image: built image
+baseline (clean fixed tree): exploit test = PASS (NOT fixed!)
+baseline: exploit test PASSES on the FIXED tree (installed shvl@2.0.2, expected fixed >= 2.0.3) -> not truly fixed.
+  diagnosis: stubbing the package STOPS the exploit -> the image is not actually on the fixed version (BENCHMARK/setup fault).

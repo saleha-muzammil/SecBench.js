@@ -1,0 +1,62 @@
+From 10adbec293e7dfdb2e9e565bfd77187cf0373cbe Mon Sep 17 00:00:00 2001
+From: Evgeny Poberezkin <e.poberezkin@me.com>
+Date: Wed, 7 Sep 2016 12:51:23 +0100
+Subject: [PATCH] replace eval with new Function
+
+---
+ lib/dot/function.jst  | 7 +++----
+ lib/dot/prototype.jst | 3 ++-
+ lib/dot/string.jst    | 4 ++--
+ 3 files changed, 7 insertions(+), 7 deletions(-)
+
+diff --git a/lib/dot/function.jst b/lib/dot/function.jst
+index 0701b8a..480f3a3 100644
+--- a/lib/dot/function.jst
++++ b/lib/dot/function.jst
+@@ -57,13 +57,12 @@ function makeFunction({{# def.arg }} arg1, arg2, funcBody) {
+     var name = {{# def.self }}
+         , count = arguments.length - 1
+         , funcBody = arguments[count]
+-        , func
+         , code = '';
+     for (var i = {{?it.mode == 'functions'}}1{{??}}0{{?}}; i < count; i++)
+         code += ', ' + arguments[i];
+-    code = ['func = function ', name, '(', code.slice(2), ') {\n'
+-                , funcBody, '\n}'].join('');
+-    eval(code);
++    code = 'return function ' + name + '(' + code.slice(2) + ') {\n' +
++                funcBody + '\n}';
++    var func = (new Function(code))();
+     {{# def.return:func }}
+ }
+ 
+diff --git a/lib/dot/prototype.jst b/lib/dot/prototype.jst
+index 8c72ca4..b67a97b 100644
+--- a/lib/dot/prototype.jst
++++ b/lib/dot/prototype.jst
+@@ -89,7 +89,8 @@ function createSubclass({{# def.arg }} name, applyConstructor) {
+             ? ''
+             : 'self.apply(this, arguments);';
+ 
+-    eval('subclass = function ' + name + '(){ ' + constructorCode + ' }');
++    var code = 'return function ' + name + '(){ ' + constructorCode + ' }';
++    var subclass = (new Function('self', code))(self);
+ 
+     // prototype chain
+     subclass.prototype = Object.create(self.prototype);
+diff --git a/lib/dot/string.jst b/lib/dot/string.jst
+index 6391b3b..d2cfc78 100644
+--- a/lib/dot/string.jst
++++ b/lib/dot/string.jst
+@@ -81,9 +81,9 @@ var regexpStringPattern = /^\/(.*)\/([gimy]*)$/;
+  */
+ function toFunction({{# def.oneArg }}) {
+     {{# def.varSelf }}
++    var code = 'return ' + self + ';';
+     var func;
+-    var code = 'func = ' + self + ';';
+-    try { eval(code); } catch(e) {}
++    try { func = (new Function(code))(); } catch(e) {}
+     {{# def.return:func }}
+ }
+ 

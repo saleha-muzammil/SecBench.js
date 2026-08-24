@@ -1,0 +1,35 @@
+=== redos/terminal-kit_2.1.0 ===
+image: built image
+baseline (clean fixed tree): exploit test = FAIL (vuln closed, good)
+baseline: test FAILS on fixed tree (good).
+patch splits into 8 line-level change unit(s) across 6 file(s)
+semgrep on CLEAN FIXED tree (baseline): 87 finding(s)
+codeql on CLEAN FIXED tree (baseline): n/a finding(s)
+        baseline codeql could not run -> codeql_new_* = n/a (cannot attribute alerts without it)
+          | codeql database analyze produced no SARIF:
+          | ascript-queries/2.4.2/Security/CWE-400/RemotePropertyInjection.qlx.
+          | [97/105] Loaded /Users/saleha/.codeql/packages/codeql/javascript-queries/2.4.2/Security/CWE-117/LogInjection.qlx.
+          | [98/105] Loaded /Users/saleha/.codeql/packages/codeql/javascript-queries/2.4.2/Security/CWE-377/InsecureTemporaryFile.qlx.
+          | [99/105] Loaded /Users/saleha/.codeql/packages/codeql/javascript-queries/2.4.2/Security/CWE-384/SessionFixation.qlx.
+          | [100/105] Loaded /Users/saleha/.codeql/packages/codeql/javascript-queries/2.4.2/Security/CWE-912/HttpToFileAccess.qlx.
+          | [101/105] Loaded /Users/saleha/.codeql/packages/codeql/javascript-queries/2.4.2/Security/CWE-078/IndirectCommandInjection.qlx.
+          | [102/105] Loaded /Users/saleha/.codeql/packages/codeql/javascript-queries/2.4.2/Diagnostics/ExtractionErrors.qlx.
+semgrep on FULL revert (no changes): 87 finding(s), 0 NEW vs fixed baseline -> evades: no (by new findings: yes)
+minimal revert (exploit-only): 1/8 line unit(s) -> ['lib/misc.js']
+semgrep on minimal variant (after chunking): 5 finding(s), 0 NEW vs fixed baseline
+--- semgrep findings (pre-evasion) ---
+  mini-shell-exec-nonliteral @ lib/misc.js:134: Shell command assembled from a value. `exec`/`execSync` run the string through a shell, so any interpolated value can inject additional commands; use `execFile` with an argument array.
+  mini-shell-exec-nonliteral @ lib/misc.js:162: Shell command assembled from a value. `exec`/`execSync` run the string through a shell, so any interpolated value can inject additional commands; use `execFile` with an argument array.
+  mini-prototype-pollution-path-write @ lib/misc.js:445: Writes through a caller-supplied property path without rejecting the `__proto__`, `constructor` and `prototype` segments, so a crafted path reaches Object.prototype (prototype pollution).
+  mini-shell-exec-nonliteral @ lib/misc.js:452: Shell command assembled from a value. `exec`/`execSync` run the string through a shell, so any interpolated value can inject additional commands; use `execFile` with an argument array.
+  mini-shell-exec-nonliteral @ lib/misc.js:546: Shell command assembled from a value. `exec`/`execSync` run the string through a shell, so any interpolated value can inject additional commands; use `execFile` with an argument array.
+--------------------------------------
+already evades both detectors (no rewrite needed).
+[1/5] test cases  -> exploit test PASSES (reproduces)
+[2/5] ci          -> skipped
+[3/5] codeql      -> skipped
+[4/5] npm audit   -> final variant: critical=0, high=0, moderate=0, low=0, info=0, total=0; 0 advisory(ies) introduced vs clean-fixed baseline
+[5/5] semgrep     -> 5 finding(s) on final variant (0 new vs fixed baseline; evaded: no, by new findings: yes)
+detected_by (final/evasive variant): neither  [codeql unavailable -- semgrep-only verdict; 'neither' here does NOT mean codeql agrees]
+wrote evasion-findings.json (per-stage new findings, semgrep + codeql)
+wrote exploit-evasive.patch (exploit reproduces; semgrep=5, evaded=no)

@@ -1,0 +1,7 @@
+=== redos/marked_0.3.6 (corrected retest) ===
+package        : marked
+fixed-tree ms  : 11
+reverted ms    : 8
+corrected label: no-repro
+detail         : reverted 8ms < threshold 250ms (fixed 10.8ms) -- vuln needs more than the patch
+oracle         : timeout=25s floor=250ms ratio=20x; HANG or reverted>=max(floor,ratio*fixed) => reproduces

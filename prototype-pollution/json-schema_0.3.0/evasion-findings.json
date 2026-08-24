@@ -1,0 +1,23 @@
+{
+  "package": "json-schema",
+  "targets": [
+    "lib/validate.js"
+  ],
+  "full_targets": [
+    "lib/validate.js",
+    "test/tests.js"
+  ],
+  "semgrep": {
+    "fixed_total": 2,
+    "new_full": 0,
+    "new_minimal": 0,
+    "new_final": []
+  },
+  "codeql": {
+    "fixed_total": 0,
+    "new_full": 0,
+    "new_minimal": 0,
+    "new_final": []
+  },
+  "detected_by": "neither"
+}

@@ -1,0 +1,8 @@
+=== redos/locutus_2.0.10 (corrected retest) ===
+package        : locutus
+fixed-tree ms  : n/a
+reverted ms    : n/a
+corrected label: image-failed
+detail         : docker build failed:
+ocutus     && cd node_modules/locutus     && if git checkout -q \"eb863321990e7e5514aa14f68b8d9978ece9e65e\" || git checkout -q \"v2.0.15\" || git checkout -q \"2.0.15\"; then            npm install --no-audit --no-fund --ignore-scripts            && (npm run build --if-present || echo \"WARNING: build step failed/partial; continuing\")            && (npm run prepare --if-present || echo \"WARNING: prepare step failed/partial; continuing\");        else            echo \"WARNING: could not check out commit eb86332199 / tag v2.0.15; installing locutus@2.0.15 from npm instead\"            && cd /exploit/locutus_2.0.10            && rm -rf node_modules/locutus            && npm install --no-audit --no-fund --ignore-scripts locutus@2.0.15;        fi" did not complete successfully: exit code: 1
+oracle         : timeout=25s floor=250ms ratio=20x; HANG or reverted>=max(floor,ratio*fixed) => reproduces

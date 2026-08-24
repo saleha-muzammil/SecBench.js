@@ -1,0 +1,23 @@
+Analyzer report for code-injection/underscore_1.13.0-0
+Package : underscore@1.13.0-0  (fixed: 1.12.1)
+CVE     : CVE-2021-23358
+Repo    : jashkenas/underscore
+Image   : secbench-fixed/underscore_1.13.0-0
+Image   : using existing image
+
+========================================================================
+ABORTED
+========================================================================
+could not reverse-apply patch.txt onto the fixed tree:
+error: patch failed: underscore.js:910
+Falling back to three-way merge...
+Applied patch to 'underscore.js' with conflicts.
+error: patch failed: underscore-esm.js:901
+Falling back to three-way merge...
+Applied patch to 'underscore-esm.js' with conflicts.
+error: patch failed: modules/template.js:66
+Falling back to three-way merge...
+Applied patch to 'modules/template.js' with conflicts.
+U modules/template.js
+U underscore-esm.js
+U underscore.js

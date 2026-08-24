@@ -1,0 +1,45 @@
+{
+  "category": "prototype-pollution",
+  "repository": "hapijs/hoek",
+  "package": "hoek",
+  "version": "5.0.0",
+  "folder": "hoek_5.0.0",
+  "started_at": "2026-08-18T05:35:05.833900+00:00",
+  "status": "ok",
+  "error": "",
+  "base_commit": "32ed5c9413321fbc37da5ca81a7cbab693786dee",
+  "checkout": "/tmp/hoek_5.0.0-src",
+  "evasive_patch_reused": true,
+  "evasive_patch_regenerated": false,
+  "evades_both": true,
+  "seed_patch_applies": true,
+  "seed_exploit_fires": true,
+  "verdict": "Pipeline done. loop=no-win, final tests=FAILED \u274c (exit 1), gates=FAIL",
+  "wall_seconds_setup": 6.5,
+  "wall_seconds_pipeline": 1296.6,
+  "wall_seconds_total": 1305.1,
+  "metrics": {
+    "totals": {
+      "instance_cost": 0.009013,
+      "api_calls": 40,
+      "prompt_tokens": 833665,
+      "completion_tokens": 10931,
+      "total_tokens": 844596,
+      "trajectories": 1
+    },
+    "per_trajectory": [
+      {
+        "file": "issue/iter_2/trajectory.traj.json",
+        "instance_cost": 0.009013,
+        "api_calls": 40,
+        "prompt_tokens": 833665,
+        "completion_tokens": 10931,
+        "total_tokens": 844596
+      }
+    ]
+  },
+  "pipeline_cmd": "mini-extra cve-pipeline --patch stratified-samples-full-loop/prototype-pollution/hoek_5.0.0/exploit-evasive.patch --ex_file /Users/saleha/Desktop/cispa/SecBench.js/prototype-pollution/hoek_5.0.0/hoek.test.js --repo-path /tmp/hoek_5.0.0-src --base 32ed5c9413321fbc37da5ca81a7cbab693786dee --repo prototype-pollution/hoek_5.0.0",
+  "pipeline_returncode": 0,
+  "pipeline_out_dir": "stratified-samples-full-loop/prototype-pollution/hoek_5.0.0/pipeline_exploit-evasive",
+  "finished_at": "2026-08-18T05:56:50.978207+00:00"
+}

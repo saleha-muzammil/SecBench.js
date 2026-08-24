@@ -1,0 +1,22 @@
+{
+  "package": "pidusage",
+  "targets": [
+    "lib/stats.js"
+  ],
+  "full_targets": [
+    "lib/stats.js"
+  ],
+  "semgrep": {
+    "fixed_total": 4,
+    "new_full": 0,
+    "new_minimal": 0,
+    "new_final": []
+  },
+  "codeql": {
+    "fixed_total": 0,
+    "new_full": 0,
+    "new_minimal": 0,
+    "new_final": []
+  },
+  "detected_by": "neither"
+}

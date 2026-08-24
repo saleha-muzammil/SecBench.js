@@ -1,0 +1,22 @@
+{
+  "package": "clean-css",
+  "targets": [
+    "lib/optimizer/validator.js"
+  ],
+  "full_targets": [
+    "lib/optimizer/level-2/can-override.js",
+    "lib/optimizer/level-2/compactable.js",
+    "lib/optimizer/level-2/remove-unused-at-rules.js",
+    "lib/optimizer/validator.js",
+    "lib/tokenizer/tokenize.js",
+    "test/module-test.js"
+  ],
+  "semgrep": {
+    "fixed_total": 2,
+    "new_full": 1,
+    "new_minimal": 1,
+    "new_final": []
+  },
+  "codeql": null,
+  "detected_by": "neither"
+}

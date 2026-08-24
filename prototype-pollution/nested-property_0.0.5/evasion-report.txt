@@ -1,0 +1,5 @@
+=== prototype-pollution/nested-property_0.0.5 ===
+image: built image
+baseline (clean fixed tree): exploit test = PASS (NOT fixed!)
+baseline: exploit test PASSES on the FIXED tree (installed nested-property@3.0.0, expected fixed >= 3.0.0) -> not truly fixed.
+  diagnosis: stubbing the package STOPS the exploit -> the image is not actually on the fixed version (BENCHMARK/setup fault).

@@ -1,0 +1,53 @@
+From 4fd57530367ea9f2570b1e57d1a1a32e7f5d644f Mon Sep 17 00:00:00 2001
+From: Janghwan Lee <cheesespy@gmail.com>
+Date: Wed, 21 Feb 2018 14:10:19 -0800
+Subject: [PATCH] regex security fix.
+
+---
+ lib/Sanitizer.js | 2 +-
+ package.json     | 7 ++-----
+ 2 files changed, 3 insertions(+), 6 deletions(-)
+
+diff --git a/lib/Sanitizer.js b/lib/Sanitizer.js
+index ee48d5f..109a16c 100644
+--- a/lib/Sanitizer.js
++++ b/lib/Sanitizer.js
+@@ -145,7 +145,7 @@ function fixUrl(url, protocol) {
+   }
+ 
+   // apply protocol to "abc.com/abc"
+-  if (/^(?:\w+\.\w{2,})+(?:\/.*|$)/.test(url)) {
++  if (/^(?:\w+)(?:\.\w{2,})+(?:\/.*)?/.test(url)) {
+     return protocol + '://' + url;
+   }
+ 
+diff --git a/package.json b/package.json
+index 2debf49..8a0b580 100644
+--- a/package.json
++++ b/package.json
+@@ -1,6 +1,6 @@
+ {
+   "name": "sanitize",
+-  "version": "2.0.1",
++  "version": "2.0.2",
+   "description": "Input sanitizing library for node.js",
+   "main": "lib/sanitize.js",
+   "scripts": {
+@@ -22,7 +22,7 @@
+   },
+   "homepage": "https://github.com/pocketly/node-sanitize",
+   "publishConfig": {
+-    "registry": "http://registry.npmjs.org"
++    "registry": "https://registry.npmjs.org"
+   },
+   "devDependencies": {
+     "mocha": "^2.1.0",
+@@ -31,8 +31,5 @@
+   "dependencies": {
+     "lodash": "^3.5.0",
+     "validator": "^3.33.0"
+-  },
+-  "publishConfig": {
+-    "registry": "https://registry.npmjs.org"
+   }
+ }

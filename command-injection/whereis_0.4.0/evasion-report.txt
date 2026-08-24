@@ -1,0 +1,35 @@
+=== command-injection/whereis_0.4.0 ===
+image: built image
+baseline (clean fixed tree): exploit test = FAIL (vuln closed, good)
+baseline: test FAILS on fixed tree (good).
+patch splits into 7 line-level change unit(s) across 2 file(s)
+semgrep on CLEAN FIXED tree (baseline): 1 finding(s)
+codeql on CLEAN FIXED tree (baseline): 0 finding(s)
+semgrep on FULL revert (no changes): 8 finding(s), 7 NEW vs fixed baseline -> evades: no (by new findings: no)
+codeql on FULL revert (no changes): 1 finding(s), 1 NEW vs fixed baseline
+minimal revert (exploit-only): 1/7 line unit(s) -> ['index.js']
+semgrep on minimal variant (after chunking): 2 finding(s), 1 NEW vs fixed baseline
+--- semgrep findings (pre-evasion) ---
+  mini-shell-exec-nonliteral @ index.js:10: Shell command assembled from a value. `exec`/`execSync` run the string through a shell, so any interpolated value can inject additional commands; use `execFile` with an argument array.
+  mini-shell-exec-nonliteral @ index.js:12: Shell command assembled from a value. `exec`/`execSync` run the string through a shell, so any interpolated value can inject additional commands; use `execFile` with an argument array.
+--------------------------------------
+codeql on minimal variant (after chunking): 2 finding(s), 2 NEW vs fixed baseline
+    ! js/shell-command-constructed-from-input @ index.js:10: This string concatenation which depends on [library input](1) is later used in a [shell command](2).
+    ! js/shell-command-constructed-from-input @ index.js:12: This string concatenation which depends on [library input](1) is later used in a [shell command](2).
+selecting rewrites from the rules that actually fired: params->launder <- 'library input', methods->launder <- 'library input', source->launder <- 'library input', source->launder+index <- 'library input', shell-arg->launder <- 'shell-exec-nonliteral', shell-sink->hidden-member <- 'shell-exec-nonliteral'
+  methods->launder: matched nothing -> skipped
+  params->launder: test PASSES, semgrep 2 finding(s) (1 new), codeql new 2
+  source->launder: matched nothing -> skipped
+  source->launder+index: matched nothing -> skipped
+  shell-arg->launder: test PASSES, semgrep 2 finding(s) (1 new), codeql new 2
+  shell-sink->hidden-member: test PASSES, semgrep 0 finding(s) (0 new), codeql new 0
+[1/5] test cases  -> exploit test PASSES (reproduces)
+[2/5] ci          -> skipped
+[3/5] codeql      -> confirming the final variant (baseline/full/minimal measured during the search) ...
+        final   = 0 finding(s), 0 new
+[3/5] codeql      -> baseline=0, full=1, minimal=2, final=0 findings (new vs baseline: 1/2/0)
+[4/5] npm audit   -> final variant: (no data); 0 advisory(ies) introduced vs clean-fixed baseline
+[5/5] semgrep     -> 0 finding(s) on final variant (0 new vs fixed baseline; evaded: yes, by new findings: yes)
+detected_by (final/evasive variant): neither
+wrote evasion-findings.json (per-stage new findings, semgrep + codeql)
+wrote exploit-evasive.patch (exploit reproduces; semgrep=0, evaded=yes)

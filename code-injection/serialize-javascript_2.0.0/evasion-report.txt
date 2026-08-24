@@ -1,0 +1,5 @@
+=== code-injection/serialize-javascript_2.0.0 ===
+image: built image
+baseline (clean fixed tree): exploit test = PASS (NOT fixed!)
+baseline: exploit test PASSES on the FIXED tree (installed serialize-javascript@3.1.0, expected fixed >= 3.1.0) -> not truly fixed.
+  diagnosis: stubbing the package STOPS the exploit -> the image is not actually on the fixed version (BENCHMARK/setup fault).

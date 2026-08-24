@@ -1,0 +1,7 @@
+=== redos/mime_1.4.0 (corrected retest) ===
+package        : mime
+fixed-tree ms  : n/a
+reverted ms    : n/a
+corrected label: test-error
+detail         : exploit test errored before measuring (setup/dep issue)
+oracle         : timeout=25s floor=250ms ratio=20x; HANG or reverted>=max(floor,ratio*fixed) => reproduces

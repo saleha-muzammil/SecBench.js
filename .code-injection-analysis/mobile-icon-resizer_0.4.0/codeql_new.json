@@ -1,0 +1,44 @@
+[
+  [
+    "Unsafe shell command constructed from library input",
+    "Using externally controlled strings in a command line may allow a malicious user to change the meaning of the command.",
+    "error",
+    "This string concatenation which depends on [[\"library input\"|\"relative:///lib/resize.js:146:24:146:30\"]] is later used in a [[\"shell command\"|\"relative:///lib/resize.js:39:11:48:4\"]].",
+    "/lib/resize.js"
+  ],
+  [
+    "Unsafe shell command constructed from library input",
+    "Using externally controlled strings in a command line may allow a malicious user to change the meaning of the command.",
+    "error",
+    "This string concatenation which depends on [[\"library input\"|\"relative:///lib/resize.js:146:24:146:30\"]] is later used in a [[\"shell command\"|\"relative:///lib/resize.js:39:11:48:4\"]].\nThis string concatenation which depends on [[\"library input\"|\"relative:///lib/resize.js:146:24:146:30\"]] is later used in a [[\"shell command\"|\"relative:///lib/resize.js:39:11:48:4\"]].\nThis string concatenation which depends on [[\"library input\"|\"relative:///lib/resize.js:146:24:146:30\"]] is later used in a [[\"shell command\"|\"relative:///lib/resize.js:39:11:48:4\"]].",
+    "/lib/resize.js"
+  ],
+  [
+    "Unsafe shell command constructed from library input",
+    "Using externally controlled strings in a command line may allow a malicious user to change the meaning of the command.",
+    "error",
+    "This path concatenation which depends on [[\"library input\"|\"relative:///lib/resize.js:146:24:146:30\"]] is later used in a [[\"shell command\"|\"relative:///lib/resize.js:39:11:48:4\"]].",
+    "/lib/resize.js"
+  ],
+  [
+    "Unsafe shell command constructed from library input",
+    "Using externally controlled strings in a command line may allow a malicious user to change the meaning of the command.",
+    "error",
+    "This path concatenation which depends on [[\"library input\"|\"relative:///lib/resize.js:146:24:146:30\"]] is later used in a [[\"shell command\"|\"relative:///lib/resize.js:39:11:48:4\"]].",
+    "/lib/resize.js"
+  ],
+  [
+    "Unsafe shell command constructed from library input",
+    "Using externally controlled strings in a command line may allow a malicious user to change the meaning of the command.",
+    "error",
+    "This path concatenation which depends on [[\"library input\"|\"relative:///lib/resize.js:146:24:146:30\"]] is later used in a [[\"shell command\"|\"relative:///lib/resize.js:39:11:48:4\"]].",
+    "/lib/resize.js"
+  ],
+  [
+    "Unsafe shell command constructed from library input",
+    "Using externally controlled strings in a command line may allow a malicious user to change the meaning of the command.",
+    "error",
+    "This path concatenation which depends on [[\"library input\"|\"relative:///lib/resize.js:146:24:146:30\"]] is later used in a [[\"shell command\"|\"relative:///lib/resize.js:39:11:48:4\"]].",
+    "/lib/resize.js"
+  ]
+]

@@ -1,0 +1,34 @@
+Analyzer report for code-injection/serialize-javascript_2.0.0
+Package : serialize-javascript@2.0.0  (fixed: 3.1.0)
+CVE     : CVE-2020-7660
+Repo    : yahoo/serialize-javascript
+Image   : secbench-fixed/serialize-javascript_2.0.0
+Image   : using existing image
+
+========================================================================
+PATCH REVERT
+========================================================================
+Reverted patch.txt via: git apply -R
+Files changed by the patch (4):
+  index.js
+  package-lock.json
+  package.json
+  test/unit/serialize.js
+
+========================================================================
+SEMGREP (sink file + changed files)
+========================================================================
+no sink declared in package.json
+Scanned files: index.js, test/unit/serialize.js
+semgrep configs: secbench-code-injection.yml (local), p/javascript, p/nodejs, p/security-audit
+Summary: Ran 88 rules on 1 file: 0 findings.
+
+No findings.
+
+========================================================================
+NPM AUDIT DELTA (introduced by reverting the fix)
+========================================================================
+fixed tree   : critical=2, high=13, moderate=7, low=3, info=0, total=25
+reverted tree: critical=2, high=13, moderate=7, low=3, info=0, total=25
+
+No new advisories introduced by the revert (deps unchanged or already-known to the audit DB).

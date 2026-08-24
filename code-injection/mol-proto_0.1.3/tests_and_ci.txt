@@ -1,0 +1,37 @@
+SecBench.js — test & CI inventory
+============================================================
+Entry      : code-injection/mol-proto_0.1.3
+Package    : mol-proto@0.1.3
+Repository : https://github.com/milojs/proto
+Source     : checked out: 0.1.3
+Generated  : 2026-06-22
+
+== package.json test scripts ==
+  test: NODE_ENV=test ./node_modules/.bin/mocha --recursive --reporter=spec
+
+== test framework dependencies ==
+  mocha
+
+== how to run the tests ==
+  npm install
+  npm test
+
+== test directories ==
+  test/   (11 files)
+
+== test files (0 found) ==
+  (none found)
+
+== test runner config ==
+  (none found)
+
+== CI / workflows ==
+  .travis.yml
+
+  --- .travis.yml ---
+  | language: node_js
+  | node_js:
+  |   - "0.10"
+  | before_script:
+  |   - npm install -g grunt-cli
+

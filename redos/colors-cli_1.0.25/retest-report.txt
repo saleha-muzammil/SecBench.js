@@ -1,0 +1,7 @@
+=== redos/colors-cli_1.0.25 (corrected retest) ===
+package        : colors-cli
+fixed-tree ms  : 1
+reverted ms    : 2423
+corrected label: reproduces
+detail         : reverted 2423ms >= threshold 250ms (fixed 0.6ms)
+oracle         : timeout=25s floor=250ms ratio=20x; HANG or reverted>=max(floor,ratio*fixed) => reproduces

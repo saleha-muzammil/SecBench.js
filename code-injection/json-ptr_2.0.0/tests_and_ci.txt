@@ -1,0 +1,12 @@
+SecBench.js — test & CI inventory
+============================================================
+Entry      : code-injection/json-ptr_2.0.0
+Package    : json-ptr@2.0.0
+Repository : https://github.com/flitbit/json-ptr
+
+The resolved upstream repository could not be cloned (it is private, was
+renamed/removed, or the metadata points at a dead fork). Tests/CI could not
+be inspected. Options:
+  * find the current repo and clone it manually, or
+  * inspect the published npm tarball instead:
+      npm pack json-ptr@2.0.0 && tar -xf *.tgz

@@ -1,0 +1,795 @@
+From d50c567067c101c6530eda80fd56285724e85b39 Mon Sep 17 00:00:00 2001
+From: vivaxy <xyxuye2007@126.com>
+Date: Thu, 28 Dec 2017 10:27:34 +0800
+Subject: [PATCH 1/2] fix: :lock:Fix an issue that users can browse outside the
+ wd
+
+Resolve #16
+---
+ lib/application.js          | 21 +++-------
+ lib/build-file-list.js      | 78 ++++++-------------------------------
+ lib/config.js               |  2 +-
+ lib/open-browser.js         |  2 -
+ lib/server.js               | 10 +----
+ lib/watcher.js              | 26 +++----------
+ middleware/error.js         |  6 ---
+ middleware/file-explorer.js | 24 ++++--------
+ middleware/live-reload.js   | 17 ++------
+ middleware/load-route.js    |  6 +--
+ middleware/log.js           |  2 -
+ test/command.js             | 32 +++------------
+ 12 files changed, 45 insertions(+), 181 deletions(-)
+
+diff --git a/lib/application.js b/lib/application.js
+index 3f0ebbe..dac3955 100644
+--- a/lib/application.js
++++ b/lib/application.js
+@@ -20,27 +20,23 @@ const EMPTY_STRING = '';
+ const USAGE_TRACKER_ID_KEY = 'usage-tracker-id';
+ 
+ const formatWatch = (value) => {
+-    let result = value;
+     if (isNaN(Number(value))) {
+-        result = 0;
++        return 0;
+     } else if (value < 0) {
+-        result = 0;
++        return 0;
+     }
+-    return result;
++    return value;
+ };
+ 
+ const formatDirectory = (value) => {
+-    let absoluteWorkingDirectory = process.cwd();
++    const absoluteWorkingDirectory = process.cwd();
+     if (path.isAbsolute(value)) {
+-        absoluteWorkingDirectory = value;
+-    } else {
+-        absoluteWorkingDirectory = path.join(absoluteWorkingDirectory, value);
++        return value;
+     }
+-    return absoluteWorkingDirectory;
++    return path.join(absoluteWorkingDirectory, value);
+ };
+ 
+ const prepare = () => {
+-
+     if (config.get(configKey.IS_DEBUG)) {
+         config.set(configKey.LOG_LEVEL, 0);
+     }
+@@ -115,13 +111,10 @@ const prepare = () => {
+ };
+ 
+ module.exports = () => {
+-
+     prepare();
+ 
+     if (!config.get(configKey.IS_DEBUG)) {
+-
+         process.on('uncaughtException', (e) => {
+-
+             new usageTracker.UsageTracker({
+                 owner: config.get(configKey.USAGE_TRACKER_OWNER),
+                 repo: config.get(configKey.USAGE_TRACKER_REPO),
+@@ -140,7 +133,6 @@ module.exports = () => {
+             log.error(e.stack);
+             // still exit as uncaught exception
+         });
+-
+     }
+ 
+     startServer((nativeServer) => {
+@@ -148,5 +140,4 @@ module.exports = () => {
+             startWatcher(nativeServer);
+         }
+     });
+-
+ };
+diff --git a/lib/build-file-list.js b/lib/build-file-list.js
+index ea848f9..29051ba 100644
+--- a/lib/build-file-list.js
++++ b/lib/build-file-list.js
+@@ -25,21 +25,12 @@ const HTML_EXTENSION = '.html';
+  * @returns {number} sort value
+  */
+ const compare = (_a, _b) => {
+-
+-    let result = STILL;
+-
+     if (_a < _b) {
+-
+-        result = AHEAD;
+-
++        return AHEAD;
+     } else if (_a > _b) {
+-
+-        result = ABACK;
+-
++        return ABACK;
+     }
+-
+-    return result;
+-
++    return STILL;
+ };
+ 
+ /**
+@@ -50,117 +41,73 @@ const compare = (_a, _b) => {
+  * @returns {String} html content
+  */
+ module.exports = (files, pathname, absoluteWorkingDirectory) => {
+-
+     const baseDir = join(absoluteWorkingDirectory, pathname);
+ 
+-    let filesFiltered = files.filter((file) => {
+-
++    const filesFiltered = files.filter((file) => {
+         if (file.indexOf('.') === 0) {
+-
+             return false;
+-
+         }
+         // #3 remove inaccessible files from file list
+         // win下access任何文件都会返回可访问
+         try {
+-
+             if (isWindows) {
+-
+                 fs.statSync(join(baseDir, file));
+-
+             } else {
+-
+                 fs.accessSync(join(baseDir, file), fs.R_OK);
+-
+             }
+-
+         } catch (e) {
+-
+             return false;
+-
+         }
+         return true;
+-
+     });
+ 
+     filesFiltered.sort((a, b) => {
+-
+-        let _isDirectoryA = fs.lstatSync(join(baseDir, a)).isDirectory();
+-        let _isDirectoryB = fs.lstatSync(join(baseDir, b)).isDirectory();
+-
++        const _isDirectoryA = fs.lstatSync(join(baseDir, a)).isDirectory();
++        const _isDirectoryB = fs.lstatSync(join(baseDir, b)).isDirectory();
+         // order by priority
+         if (_isDirectoryA && _isDirectoryB) {
+-
+             return compare(a, b);
+-
+         }
+         if (_isDirectoryA && !_isDirectoryB) {
+-
+             return AHEAD;
+-
+         }
+         if (_isDirectoryB && !_isDirectoryA) {
+-
+             return ABACK;
+-
+         }
+-
+-        let _extensionA = extname(a);
+-        let _extensionB = extname(b);
+-        let _isHtmlA = _extensionA === HTML_EXTENSION;
+-        let _isHtmlB = _extensionB === HTML_EXTENSION;
+-
++        const _extensionA = extname(a);
++        const _extensionB = extname(b);
++        const _isHtmlA = _extensionA === HTML_EXTENSION;
++        const _isHtmlB = _extensionB === HTML_EXTENSION;
+         if (_isHtmlA && _isHtmlB) {
+-
+             return compare(a, b);
+-
+         }
+         if (_isHtmlA && !_isHtmlB) {
+-
+             return AHEAD;
+-
+         }
+         if (_isHtmlB && !_isHtmlA) {
+-
+             return ABACK;
+-
+         }
+-
+         if (_extensionA === _extensionB) {
+-
+             return compare(a, b);
+-
+         }
+-
+         return compare(a, b);
+-
+     });
+ 
+     if (pathname !== '/') {
+-
+         filesFiltered.unshift('..');
+-
+     }
+ 
+-    let list = filesFiltered.map((file) => {
+-
+-        let ext = extname(file);
++    const list = filesFiltered.map((file) => {
++        const ext = extname(file);
+         let _ext = 'other';
+-
+         if (ext === HTML_EXTENSION) {
+-
+             _ext = 'html';
+-
+         }
+         if (fs.lstatSync(join(baseDir, file)).isDirectory()) {
+-
+             _ext = 'dir';
+-
+         }
+         if (file === '..') {
+-
+             _ext = 'null';
+-
+         }
+         return {
+             // remove http://ip:port to redirect to correct ip:port
+@@ -168,7 +115,6 @@ module.exports = (files, pathname, absoluteWorkingDirectory) => {
+             className: _ext,
+             fileName: file
+         };
+-
+     });
+ 
+     return pug.compileFile(join(__dirname, '../res/list.pug'), {
+diff --git a/lib/config.js b/lib/config.js
+index 3d5dfea..0ea65e7 100644
+--- a/lib/config.js
++++ b/lib/config.js
+@@ -4,7 +4,7 @@
+  */
+ 'use strict';
+ 
+-let config = {
++const config = {
+     isDebug: false,
+ 
+     port: 3000,
+diff --git a/lib/open-browser.js b/lib/open-browser.js
+index fa75bdb..f494d59 100644
+--- a/lib/open-browser.js
++++ b/lib/open-browser.js
+@@ -14,7 +14,6 @@ const logPrefix = require('../constant/log-prefix');
+ const configKey = require('../constant/config');
+ 
+ module.exports = () => {
+-
+     // always use current ip address
+ 
+     const protocol = config.get(configKey.SSL) ? 'https:' : 'http:';
+@@ -28,5 +27,4 @@ module.exports = () => {
+         // open browser succeeded
+         log.debug(logPrefix.BROWSER, execCommand, openUrl);
+     });
+-
+ };
+diff --git a/lib/server.js b/lib/server.js
+index c366749..251f8f5 100644
+--- a/lib/server.js
++++ b/lib/server.js
+@@ -18,9 +18,7 @@ const logPrefix = require('../constant/log-prefix');
+ const configKey = require('../constant/config');
+ 
+ module.exports = (callback) => {
+-
+     let nativeServer;
+-
+     const directory = config.get(configKey.DIRECTORY);
+     const watch = config.get(configKey.WATCH);
+ 
+@@ -48,16 +46,14 @@ module.exports = (callback) => {
+             openBrowserFunction();
+         }
+         // hit `space` will open page in browser
+-        let stdIn = process.stdin;
++        const stdIn = process.stdin;
+         stdIn.setEncoding('utf8');
+         stdIn.on('data', openBrowserFunction);
+         callback(nativeServer);
+     };
+ 
+     const listen = () => {
+-
+-        let port = config.get(configKey.PORT);
+-
++        const port = config.get(configKey.PORT);
+         if (config.get(configKey.SSL)) {
+             pem.createCertificate({days: 1, selfSigned: true}, (err, keys) => {
+                 if (err) {
+@@ -72,7 +68,6 @@ module.exports = (callback) => {
+             nativeServer = server.listen(port, serverSuccessCallback)
+                 .on('error', serverErrorCallback);
+         }
+-
+     };
+ 
+     const middlewareList = [];
+@@ -88,7 +83,6 @@ module.exports = (callback) => {
+ 
+     const routeFile = path.join(directory, 'here.js');
+     getFileStat(routeFile)((err, stat) => {
+-
+         if (!err) {
+             if (stat.isFile()) {
+                 middlewareList.push(require('../middleware/load-route')(server));
+diff --git a/lib/watcher.js b/lib/watcher.js
+index d781db1..5dfbc8c 100644
+--- a/lib/watcher.js
++++ b/lib/watcher.js
+@@ -20,43 +20,31 @@ const NOT_FOUNT_INDEX = -1;
+ const A_THOUSAND = 1000;
+ 
+ module.exports = (server) => {
+-
+     const absoluteWorkingDirectory = config.get(configKey.DIRECTORY);
+     const interval = config.get(configKey.WATCH);
+ 
+-    let socketList = [];
++    const socketList = [];
+ 
+-    let io = socketServer(server);
++    const io = socketServer(server);
+ 
+     io.on('connection', (socket) => {
+-
+         socketList.push(socket);
+         socket.on('disconnect', () => {
+-
+-            let index = socketList.indexOf(socket);
+-
++            const index = socketList.indexOf(socket);
+             if (index > NOT_FOUNT_INDEX) {
+-
+                 socketList.splice(index, SPLICE_COUNT);
+-
+             }
+-
+         });
+-
+     });
+ 
+-    let reload = debounce(() => {
+-
++    const reload = debounce(() => {
+         socketList.forEach((socket) => {
+-
+             log.debug(logPrefix.WATCH, 'reload');
+             socket.emit('reload');
+-
+         });
+     }, interval * A_THOUSAND);
+ 
+-    let watcher = chokidar.watch(absoluteWorkingDirectory, {
+-
++    const watcher = chokidar.watch(absoluteWorkingDirectory, {
+         ignored: [
+             '**/node_modules',
+             /[\/\\]\./,
+@@ -64,11 +52,9 @@ module.exports = (server) => {
+             '.idea',
+             '.DS_Store'
+         ]
+-
+     });
+ 
+     watcher.on('all', (action, filePath) => {
+-
+         log.debug(logPrefix.WATCH, action, path.relative(absoluteWorkingDirectory, filePath));
+         switch (action) {
+             case 'add':
+@@ -78,11 +64,9 @@ module.exports = (server) => {
+                 reload();
+                 break;
+         }
+-
+     });
+ 
+     watcher.on('ready', () => {
+         log.info(logPrefix.WATCH, 'ready,', 'reload in', interval, 'seconds');
+     });
+-
+ };
+diff --git a/middleware/error.js b/middleware/error.js
+index a83843d..a930964 100644
+--- a/middleware/error.js
++++ b/middleware/error.js
+@@ -7,17 +7,11 @@
+ const FALLBACK_CONTENT_TYPE = require('../lib/fallback-content-type');
+ 
+ module.exports = function* (next) {
+-
+     try {
+-
+         yield next;
+-
+     } catch (e) {
+-
+         this.status = 404;
+         this.body = e.stack;
+         this.type = FALLBACK_CONTENT_TYPE;
+-
+     }
+-
+ };
+diff --git a/middleware/file-explorer.js b/middleware/file-explorer.js
+index 0a31409..95b65b5 100644
+--- a/middleware/file-explorer.js
++++ b/middleware/file-explorer.js
+@@ -23,45 +23,37 @@ const NOT_FOUNT_INDEX = -1;
+ const INDEX_PAGE = 'index.html';
+ 
+ module.exports = function* (next) {
+-
+     const directory = config.get(configKey.DIRECTORY);
+ 
+     // decode for chinese character
+-    let requestPath = decodeURIComponent(this.request.path);
+-    let fullRequestPath = path.join(directory, requestPath);
+-    let stat = yield getFileStat(fullRequestPath);
++    const requestPath = decodeURIComponent(this.request.path);
++    const fullRequestPath = path.join(directory, requestPath);
++    // fix security issue
++    if (!fullRequestPath.startsWith(directory)) {
++        return yield next;
++    }
++    const stat = yield getFileStat(fullRequestPath);
+ 
+     if (stat.isDirectory()) {
+-
+-        let files = yield readFolder(fullRequestPath);
++        const files = yield readFolder(fullRequestPath);
+ 
+         if (files.indexOf(INDEX_PAGE) !== NOT_FOUNT_INDEX) {
+-
+             this.redirect(path.join(requestPath, INDEX_PAGE), '/');
+-
+         } else {
+-
+             this.body = buildFileBrowser(files, requestPath, directory);
+             this.type = mime.lookup(INDEX_PAGE);
+-
+         }
+-
+     } else if (stat.isFile()) {
+-
+         this.body = yield readFile(fullRequestPath);
+         let type = mime.lookup(fullRequestPath);
+ 
+         if (path.extname(fullRequestPath) === '') {
+-
+             type = FALLBACK_CONTENT_TYPE;
+-
+         }
+ 
+         this.type = type;
+         log.verbose(logPrefix.RESPONSE, this.request.method, requestPath, 'as', type);
+-
+     }
+ 
+     yield next;
+-
+ };
+diff --git a/middleware/live-reload.js b/middleware/live-reload.js
+index f896c8d..e72a027 100644
+--- a/middleware/live-reload.js
++++ b/middleware/live-reload.js
+@@ -11,32 +11,23 @@ const readFile = require('../lib/read-file');
+ const NOT_FOUND_INDEX = 1;
+ 
+ module.exports = function* (next) {
+-
+     yield next;
+ 
+     if (this.type === 'text/html') {
+-
+         let response = '';
+-        let body = this.body.toString('utf-8');
+-        let reloadJavascript = yield readFile(path.join(__dirname, '../res/reload.js'));
++        const body = this.body.toString('utf-8');
++        const reloadJavascriptContent = yield readFile(path.join(__dirname, '../res/reload.js'));
+ 
+-        reloadJavascript = `<script>${reloadJavascript}</script>`;
++        const reloadJavascript = `<script>${reloadJavascriptContent}</script>`;
+ 
+         if (body.indexOf('</head>') !== NOT_FOUND_INDEX) {
+-
+-            let section = body.split('</head>');
++            const section = body.split('</head>');
+ 
+             section.splice(1, 0, `${reloadJavascript}</head>`);
+             response = section.join('');
+-
+         } else {
+-
+             response = body + reloadJavascript;
+-
+         }
+-
+         this.body = response;
+-
+     }
+-
+ };
+diff --git a/middleware/load-route.js b/middleware/load-route.js
+index 601721e..403ca37 100644
+--- a/middleware/load-route.js
++++ b/middleware/load-route.js
+@@ -15,7 +15,7 @@ const config = require('../lib/config');
+ const loadRoutes = () => {
+     const directory = config.get(configKey.DIRECTORY);
+     const file = path.join(directory, 'here.js');
+-    let routeList = require(file);
++    const routeList = require(file);
+     routeList.forEach((route) => {
+         koaRoute[route.method](route.path, require('./log'), function* () {
+             this.body = route.data.apply(this, arguments);
+@@ -24,16 +24,12 @@ const loadRoutes = () => {
+ };
+ 
+ module.exports = (server) => {
+-
+     loadRoutes();
+ 
+     server.use(koaRoute.routes());
+     server.use(koaRoute.allowedMethods());
+ 
+     return function* (next) {
+-
+         yield next;
+-
+     };
+-
+ };
+diff --git a/middleware/log.js b/middleware/log.js
+index 2ca3d0c..74b99c3 100644
+--- a/middleware/log.js
++++ b/middleware/log.js
+@@ -10,7 +10,6 @@ const log = require('log-util');
+ const logPrefix = require('../constant/log-prefix');
+ 
+ module.exports = function* (next) {
+-
+     const beginTime = new Date().getTime();
+ 
+     const request = this.request;
+@@ -21,5 +20,4 @@ module.exports = function* (next) {
+     const endTime = new Date().getTime();
+ 
+     log.verbose(logPrefix.TIME, `${endTime - beginTime}ms`);
+-
+ };
+diff --git a/test/command.js b/test/command.js
+index a4a67f6..8455718 100644
+--- a/test/command.js
++++ b/test/command.js
+@@ -23,7 +23,7 @@ describe('test terminal command `here`', () => {
+     });
+     it(`\`here\` should output \`[??:??:??.???] ${logPrefix.SERVER} listen http://*.*.*.*:*/\``, (done) => {
+         here = spawn(NODE_COMMAND, [HERE_COMMAND]);
+-        here.stdout.on('data', data => {
++        here.stdout.on('data', (data) => {
+             data = data.toString();
+             let regExp = `^\\[\\d{2}:\\d{2}:\\d{2}\\.\\d{3}\\] ${logPrefix.SERVER} listen http:\\/\\/\\d+\\.\\d+\\.\\d+\\.\\d+:\\d+\\/\\n$`;
+             assert.equal(true, new RegExp(regExp, 'g').test(data));
+@@ -33,7 +33,7 @@ describe('test terminal command `here`', () => {
+     });
+     it('`here -v` should output `version`', (done) => {
+         here = spawn(NODE_COMMAND, [HERE_COMMAND, '-v']);
+-        here.stdout.on('data', data => {
++        here.stdout.on('data', (data) => {
+             data = data.toString();
+             assert.equal(packageJson.version + '\n', data);
+             done();
+@@ -41,7 +41,7 @@ describe('test terminal command `here`', () => {
+     });
+     it('`here --version` should output `version`', (done) => {
+         here = spawn(NODE_COMMAND, [HERE_COMMAND, '--version']);
+-        here.stdout.on('data', data => {
++        here.stdout.on('data', (data) => {
+             data = data.toString();
+             assert.equal(packageJson.version + '\n', data);
+             done();
+@@ -49,7 +49,7 @@ describe('test terminal command `here`', () => {
+     });
+     it('`here -h` should output help', (done) => {
+         here = spawn(NODE_COMMAND, [HERE_COMMAND, '-h']);
+-        here.stdout.on('data', data => {
++        here.stdout.on('data', (data) => {
+             data = data.toString();
+             assert.equal(true, !!~data.indexOf('Usage: index [options]') && !!~data.indexOf('Options:'));
+             done();
+@@ -58,7 +58,7 @@ describe('test terminal command `here`', () => {
+     it(`\`here -w\` should output \`[??:??:??.???] ${logPrefix.SERVER} listen http://*.*.*.*:*/\` and \`[??:??:??.???] ${logPrefix.WATCH} ready, reload in 0 seconds\``, (done) => {
+         here = spawn(NODE_COMMAND, [HERE_COMMAND, '-w']);
+         let stdoutCount = 0;
+-        here.stdout.on('data', data => {
++        here.stdout.on('data', (data) => {
+             stdoutCount++;
+             data = data.toString();
+             switch (stdoutCount) {
+@@ -82,7 +82,7 @@ describe('test terminal command `here`', () => {
+     it(`\`here --watch 3\` should output \`[??:??:??.???] ${logPrefix.SERVER} listen http://*.*.*.*:*/\` and \`[??:??:??.???] ${logPrefix.WATCH} ready, reload in 3 seconds\``, (done) => {
+         here = spawn(NODE_COMMAND, [HERE_COMMAND, '--watch', '3']);
+         let stdOutCount = 0;
+-        here.stdout.on('data', data => {
++        here.stdout.on('data', (data) => {
+             stdOutCount++;
+             data = data.toString();
+             switch (stdOutCount) {
+@@ -103,24 +103,4 @@ describe('test terminal command `here`', () => {
+             }
+         });
+     });
+-    it(`\`here -S\` should output \`[??:??:??.???] ${logPrefix.SERVER} listen https://*.*.*.*:*/\``, (done) => {
+-        here = spawn(NODE_COMMAND, [HERE_COMMAND, '-S']);
+-        here.stdout.on('data', (data) => {
+-            data = data.toString();
+-            let regExp = `^\\[\\d{2}:\\d{2}:\\d{2}\\.\\d{3}\\] ${logPrefix.SERVER} listen https:\\/\\/\\d+\\.\\d+\\.\\d+\\.\\d+:\\d+\\/\\n$`;
+-            assert.equal(true, new RegExp(regExp).test(data));
+-            here.kill();
+-            done();
+-        });
+-    });
+-    it(`\`here --ssl\` should output \`[??:??:??.???] ${logPrefix.SERVER} listen https://*.*.*.*:*/\``, (done) => {
+-        here = spawn(NODE_COMMAND, [HERE_COMMAND, '--ssl']);
+-        here.stdout.on('data', data => {
+-            data = data.toString();
+-            let regExp = `^\\[\\d{2}:\\d{2}:\\d{2}\\.\\d{3}\\] ${logPrefix.SERVER} listen https:\\/\\/\\d+\\.\\d+\\.\\d+\\.\\d+:\\d+\\/\\n$`;
+-            assert.equal(true, new RegExp(regExp).test(data));
+-            here.kill();
+-            done();
+-        });
+-    });
+ });
+
+From 68f0c70ed57bbf00b278b5ffcc69abef5ea0082f Mon Sep 17 00:00:00 2001
+From: vivaxy <xyxuye2007@126.com>
+Date: Thu, 28 Dec 2017 10:36:34 +0800
+Subject: [PATCH 2/2] build(travis): :green_heart:Drop support for nodejs<6.
+ Add support for nodejs@7 and nodejs@8
+
+---
+ .travis.yml | 21 ++-------------------
+ README.md   | 34 +++++++++++++++++-----------------
+ 2 files changed, 19 insertions(+), 36 deletions(-)
+
+diff --git a/.travis.yml b/.travis.yml
+index fc1d09a..317bd91 100644
+--- a/.travis.yml
++++ b/.travis.yml
+@@ -1,22 +1,5 @@
+ language: node_js
+ node_js:
++  - "8"
++  - "7"
+   - "6"
+-  - "6.1"
+-  - "6.0"
+-  - "5.11"
+-  - "5.10"
+-  - "5.9"
+-  - "5.8"
+-  - "5.7"
+-  - "5.6"
+-  - "5.5"
+-  - "5.4"
+-  - "5.3"
+-  - "5.2"
+-  - "5.1"
+-  - "5.0"
+-  - "4.4"
+-  - "4.3"
+-  - "4.2"
+-  - "4.1"
+-  - "4.0"
+diff --git a/README.md b/README.md
+index 24fd411..d8dda30 100644
+--- a/README.md
++++ b/README.md
+@@ -7,29 +7,29 @@
+ [![NPM Downloads][npm-downloads-image]][npm-url]
+ [![MIT License][license-image]][license-url]
+ 
+-local static server
++Local static server
+ 
+-everything start from `here`
++Everything start from `here`.
+ 
+ ## FEATURE
+ 
+-- look up available port automatically, which means multiple instances without specifying port
++- Look up available port automatically, which means multiple instances without specifying port.
+ 
+-- custom routes by scripting `here.js`
++- Custom routes by scripting `here.js`.
+ 
+-- live reload
++- Live reload.
+ 
+-- support https
++- Support https.
+ 
+-- add ip address to your server, which makes your server available to other devices
++- Add ip address to your server, which makes your server available to other devices.
+ 
+-- resolve get, post... every method into local files, for ajax
++- Resolve get, post... every method into local files, for ajax.
+ 
+-- respond files without extension as `application/json` for ajax
++- Respond files without extension as `application/json` for ajax.
+ 
+-- open default browser after server launched
++- Open default browser after server launched.
+ 
+-- when the server is on, press `enter` will open the browser
++- When the server is on, press `enter` will open the browser.
+ 
+ ## INSTALLATION
+ 
+@@ -49,7 +49,7 @@ or
+ 
+ `here --port 8888`
+ 
+-default port is 3000
++Default port is 3000.
+ 
+ #### switch protocol to https
+ 
+@@ -67,7 +67,7 @@ or
+ 
+ `here --directory test`
+ 
+-default directory is `./`
++Default directory is `./`.
+ 
+ #### watch file changes, once files changed, reload pages
+ 
+@@ -77,9 +77,9 @@ or
+ 
+ `here --watch`
+ 
+-default interval is 0 second
++Default interval is 0 second.
+ 
+-recommend to set reload interval to page reload time
++Recommend to set reload interval to page reload time.
+ 
+ #### do not open the browser
+ 
+@@ -99,7 +99,7 @@ or
+ 
+ #### middleware support
+ 
+-write `here.js` in server base directory
++Write `here.js` in server base directory.
+ 
+ ```
+ let db = {
+@@ -146,7 +146,7 @@ module.exports = [
+ ];
+ ```
+ 
+-see [koa-router document](https://github.com/alexmingoia/koa-router#module_koa-router--Router+get%7Cput%7Cpost%7Cpatch%7Cdelete) for more detail
++See [koa-router document](https://github.com/alexmingoia/koa-router#module_koa-router--Router+get%7Cput%7Cpost%7Cpatch%7Cdelete) for more detail.
+ 
+ ## Prior Art
+ 

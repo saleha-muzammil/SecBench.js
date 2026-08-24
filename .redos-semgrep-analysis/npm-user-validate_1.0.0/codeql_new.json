@@ -1,0 +1,9 @@
+[
+  [
+    "Polynomial regular expression used on uncontrolled data",
+    "A regular expression that can require polynomial time to match may be vulnerable to denial-of-service attacks.",
+    "warning",
+    "This [[\"regular expression\"|\"relative:///npm-user-validate.js:48:22:48:23\"]] that depends on [[\"library input\"|\"relative:///npm-user-validate.js:47:17:47:18\"]] may run slow on strings starting with 'a@' and with many repetitions of 'a@'.\nThis [[\"regular expression\"|\"relative:///npm-user-validate.js:48:26:48:27\"]] that depends on [[\"library input\"|\"relative:///npm-user-validate.js:47:17:47:18\"]] may run slow on strings starting with 'a@a.' and with many repetitions of 'a.'.",
+    "/npm-user-validate.js"
+  ]
+]

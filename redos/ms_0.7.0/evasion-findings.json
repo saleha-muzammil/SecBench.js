@@ -1,0 +1,29 @@
+{
+  "package": "ms",
+  "targets": [
+    "index.js"
+  ],
+  "full_targets": [
+    "index.js"
+  ],
+  "semgrep": {
+    "fixed_total": 1,
+    "new_full": 0,
+    "new_minimal": 0,
+    "new_final": []
+  },
+  "codeql": {
+    "fixed_total": 0,
+    "new_full": 1,
+    "new_minimal": 1,
+    "new_final": [
+      {
+        "rule": "js/polynomial-redos",
+        "message": "This [regular expression](1) that depends on [library input](2) may run slow on strings with many repetitions of '99'.",
+        "path": "index.js",
+        "line": 41
+      }
+    ]
+  },
+  "detected_by": "codeql"
+}

@@ -1,0 +1,67 @@
+=== command-injection/get-npm-package-version_1.0.6 ===
+image: built image
+baseline (clean fixed tree): exploit test = FAIL (vuln closed, good)
+baseline: test FAILS on fixed tree (good).
+patch splits into 1 line-level change unit(s) across 1 file(s)
+semgrep on CLEAN FIXED tree (baseline): 2 finding(s)
+codeql on CLEAN FIXED tree (baseline): 3 finding(s)
+semgrep on FULL revert (no changes): 2 finding(s), 0 NEW vs fixed baseline -> evades: no (by new findings: yes)
+codeql on FULL revert (no changes): 3 finding(s), 0 NEW vs fixed baseline
+minimal revert (exploit-only): 1/1 line unit(s) -> ['index.js']
+semgrep on minimal variant (after chunking): 2 finding(s), 0 NEW vs fixed baseline
+--- semgrep findings (pre-evasion) ---
+  mini-shell-exec-nonliteral @ index.js:14: Shell command assembled from a value. `exec`/`execSync` run the string through a shell, so any interpolated value can inject additional commands; use `execFile` with an argument array.
+  mini-shell-exec-nonliteral @ index.js:16: Shell command assembled from a value. `exec`/`execSync` run the string through a shell, so any interpolated value can inject additional commands; use `execFile` with an argument array.
+--------------------------------------
+codeql on minimal variant (after chunking): 3 finding(s), 0 NEW vs fixed baseline
+already evades both detectors (no rewrite needed).
+[1/5] test cases  -> exploit test PASSES (reproduces)
+[2/5] ci          -> skipped
+[3/5] codeql      -> confirming the final variant (baseline/full/minimal measured during the search) ...
+        final   = 3 finding(s), 0 new
+[3/5] codeql      -> baseline=3, full=3, minimal=3, final=3 findings (new vs baseline: 0/0/0)
+[4/5] npm audit   -> final variant: critical=20, high=24, moderate=9, low=1, info=0, total=54; 40 advisory(ies) introduced vs clean-fixed baseline
+        + chai :: (via get-func-name)
+        + chai :: (via pathval)
+        + coveralls :: (via js-yaml)
+        + coveralls :: (via minimist)
+        + eslint :: (via file-entry-cache)
+        + eslint :: (via js-yaml)
+        + eslint :: (via lodash)
+        + eslint :: (via minimatch)
+        + eslint :: (via mkdirp)
+        + eslint :: (via semver)
+        + eslint :: (via strip-ansi)
+        + eslint :: (via table)
+        + eslint-plugin-import :: (via minimatch)
+        + file-entry-cache :: (via flat-cache)
+        + flat-cache :: (via write)
+        + glob :: (via minimatch)
+        + hawk :: (via cryptiles)
+        + http-signature :: (via jsprim)
+        + http-signature :: (via sshpk)
+        + inquirer :: (via lodash)
+        + inquirer :: (via string-width)
+        + inquirer :: (via strip-ansi)
+        + istanbul :: (via glob)
+        + istanbul :: (via handlebars)
+        + istanbul :: (via js-yaml)
+        + istanbul :: (via mkdirp)
+        + minimatch :: (via brace-expansion)
+        + mocha :: (via glob)
+        + normalize-package-data :: (via hosted-git-info)
+        + normalize-package-data :: (via semver)
+        + request :: (via extend)
+        + request :: (via http-signature)
+        + request :: (via qs)
+        + request :: (via stringstream)
+        + resolve :: (via path-parse)
+        + string-width :: (via strip-ansi)
+        + strip-ansi :: (via ansi-regex)
+        + table :: (via lodash)
+        + table :: (via string-width)
+        + write :: (via mkdirp)
+[5/5] semgrep     -> 2 finding(s) on final variant (0 new vs fixed baseline; evaded: no, by new findings: yes)
+detected_by (final/evasive variant): neither
+wrote evasion-findings.json (per-stage new findings, semgrep + codeql)
+wrote exploit-evasive.patch (exploit reproduces; semgrep=2, evaded=no)

@@ -1,0 +1,48 @@
+=== prototype-pollution/total.js_3.4.6 ===
+image: built image
+baseline (clean fixed tree): exploit test = FAIL (vuln closed, good)
+baseline: test FAILS on fixed tree (good).
+patch splits into 1 line-level change unit(s) across 1 file(s)
+semgrep on CLEAN FIXED tree (baseline): 18 finding(s)
+codeql on CLEAN FIXED tree (baseline): n/a finding(s)
+        baseline codeql could not run -> codeql_new_* = n/a (cannot attribute alerts without it)
+          | codeql database analyze produced no SARIF:
+          | ascript-queries/2.4.2/Security/CWE-400/RemotePropertyInjection.qlx.
+          | [97/105] Loaded /Users/saleha/.codeql/packages/codeql/javascript-queries/2.4.2/Security/CWE-117/LogInjection.qlx.
+          | [98/105] Loaded /Users/saleha/.codeql/packages/codeql/javascript-queries/2.4.2/Security/CWE-377/InsecureTemporaryFile.qlx.
+          | [99/105] Loaded /Users/saleha/.codeql/packages/codeql/javascript-queries/2.4.2/Security/CWE-384/SessionFixation.qlx.
+          | [100/105] Loaded /Users/saleha/.codeql/packages/codeql/javascript-queries/2.4.2/Security/CWE-912/HttpToFileAccess.qlx.
+          | [101/105] Loaded /Users/saleha/.codeql/packages/codeql/javascript-queries/2.4.2/Security/CWE-078/IndirectCommandInjection.qlx.
+          | [102/105] Loaded /Users/saleha/.codeql/packages/codeql/javascript-queries/2.4.2/Diagnostics/ExtractionErrors.qlx.
+semgrep on FULL revert (no changes): 18 finding(s), 0 NEW vs fixed baseline -> evades: no (by new findings: yes)
+minimal revert (exploit-only): 1/1 line unit(s) -> ['utils.js']
+semgrep on minimal variant (after chunking): 18 finding(s), 0 NEW vs fixed baseline
+--- semgrep findings (pre-evasion) ---
+  using-http-server @ utils.js:40: Checks for any usage of http servers instead of https servers. Encourages the usage of https protocol instead of http, which does not have TLS and is therefore unencrypted. Using http can lead to man-in-the-middle attac…
+  mini-prototype-pollution-path-write @ utils.js:413: Writes through a caller-supplied property path without rejecting the `__proto__`, `constructor` and `prototype` segments, so a crafted path reaches Object.prototype (prototype pollution).
+  secbench-tainted-code-exec @ utils.js:880: Untrusted input reaches a dynamic code-execution sink without passing through a sanitizer.
+  mini-unsafe-forin-copy @ utils.js:1996: `for...in` copy with no own-property check and no `__proto__` guard. Inherited and prototype-reaching keys are copied straight into the destination object.
+  mini-prototype-pollution-path-write @ utils.js:2095: Writes through a caller-supplied property path without rejecting the `__proto__`, `constructor` and `prototype` segments, so a crafted path reaches Object.prototype (prototype pollution).
+  detect-non-literal-regexp @ utils.js:2448: RegExp() called with a `ext` function argument, this might allow an attacker to cause a Regular Expression Denial-of-Service (ReDoS) within your application as RegExP blocks the main thread. For this reason, it is recom…
+  mini-regexp-from-variable @ utils.js:2448: Regular expression compiled from a value. An attacker-supplied pattern gives control over matching (ReDoS, or a validator that matches everything).
+  mini-dynamic-code-evaluation @ utils.js:3307: Runtime code evaluation. Turning a value into executable code -- via eval, the Function constructor, node:vm, a string-valued timer, or an alias/computed reference to any of them -- makes every value that reaches this e…
+  secbench-function-constructor @ utils.js:3307: The Function constructor compiles a string into executable code; with attacker-controlled input this is a code-injection sink.
+  mini-prototype-pollution-path-write @ utils.js:3907: Writes through a caller-supplied property path without rejecting the `__proto__`, `constructor` and `prototype` segments, so a crafted path reaches Object.prototype (prototype pollution).
+  mini-prototype-pollution-path-write @ utils.js:4065: Writes through a caller-supplied property path without rejecting the `__proto__`, `constructor` and `prototype` segments, so a crafted path reaches Object.prototype (prototype pollution).
+  mini-dynamic-code-evaluation @ utils.js:4124: Runtime code evaluation. Turning a value into executable code -- via eval, the Function constructor, node:vm, a string-valued timer, or an alias/computed reference to any of them -- makes every value that reaches this e…
+  secbench-function-constructor @ utils.js:4124: The Function constructor compiles a string into executable code; with attacker-controlled input this is a code-injection sink.
+  mini-prototype-pollution-path-write @ utils.js:4467: Writes through a caller-supplied property path without rejecting the `__proto__`, `constructor` and `prototype` segments, so a crafted path reaches Object.prototype (prototype pollution).
+  mini-dynamic-code-evaluation @ utils.js:6624: Runtime code evaluation. Turning a value into executable code -- via eval, the Function constructor, node:vm, a string-valued timer, or an alias/computed reference to any of them -- makes every value that reaches this e…
+  secbench-function-constructor @ utils.js:6624: The Function constructor compiles a string into executable code; with attacker-controlled input this is a code-injection sink.
+  mini-dynamic-code-evaluation @ utils.js:6643: Runtime code evaluation. Turning a value into executable code -- via eval, the Function constructor, node:vm, a string-valued timer, or an alias/computed reference to any of them -- makes every value that reaches this e…
+  secbench-function-constructor @ utils.js:6643: The Function constructor compiles a string into executable code; with attacker-controlled input this is a code-injection sink.
+--------------------------------------
+already evades both detectors (no rewrite needed).
+[1/5] test cases  -> exploit test PASSES (reproduces)
+[2/5] ci          -> skipped
+[3/5] codeql      -> skipped
+[4/5] npm audit   -> final variant: (no data); 0 advisory(ies) introduced vs clean-fixed baseline
+[5/5] semgrep     -> 18 finding(s) on final variant (0 new vs fixed baseline; evaded: no, by new findings: yes)
+detected_by (final/evasive variant): neither  [codeql unavailable -- semgrep-only verdict; 'neither' here does NOT mean codeql agrees]
+wrote evasion-findings.json (per-stage new findings, semgrep + codeql)
+wrote exploit-evasive.patch (exploit reproduces; semgrep=18, evaded=no)

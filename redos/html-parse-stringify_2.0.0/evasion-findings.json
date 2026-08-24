@@ -1,0 +1,36 @@
+{
+  "package": "html-parse-stringify",
+  "targets": [
+    "src/parse.js"
+  ],
+  "full_targets": [
+    "src/parse.js",
+    "test/parse.js"
+  ],
+  "semgrep": {
+    "fixed_total": 0,
+    "new_full": 0,
+    "new_minimal": 0,
+    "new_final": []
+  },
+  "codeql": {
+    "fixed_total": 2,
+    "new_full": 2,
+    "new_minimal": 2,
+    "new_final": [
+      {
+        "rule": "js/redos",
+        "message": "This part of the regular expression may cause exponential backtracking on strings starting with '<!\"\"' and containing many repetitions of '\"\"'.",
+        "path": "src/parse.js",
+        "line": 1
+      },
+      {
+        "rule": "js/redos",
+        "message": "This part of the regular expression may cause exponential backtracking on strings starting with '<!''' and containing many repetitions of ''''.",
+        "path": "src/parse.js",
+        "line": 1
+      }
+    ]
+  },
+  "detected_by": "codeql"
+}

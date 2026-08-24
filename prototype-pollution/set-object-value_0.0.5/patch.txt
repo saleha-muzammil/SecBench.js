@@ -1,0 +1,94 @@
+From c8ec63388f7785078cb27275b56ed955ffd3db6c Mon Sep 17 00:00:00 2001
+From: Hill <hill@kimo.com>
+Date: Thu, 14 Jan 2021 17:38:41 +0800
+Subject: [PATCH] handle Prototype pollution vulnerability
+
+https://github.com/react-atomic/react-atomic-organism/issues/220
+---
+ packages/lib/set-object-value/package.json    |  2 +-
+ .../src/__tests__/IndexTest.js                | 30 +++++++++++++++++--
+ packages/lib/set-object-value/src/index.js    | 12 +++++++-
+ 3 files changed, 39 insertions(+), 5 deletions(-)
+
+diff --git a/packages/lib/set-object-value/package.json b/packages/lib/set-object-value/package.json
+index 8b3a55b9f..4c9aee405 100644
+--- a/packages/lib/set-object-value/package.json
++++ b/packages/lib/set-object-value/package.json
+@@ -1,6 +1,6 @@
+ {
+   "name": "set-object-value",
+-  "version": "0.0.5",
++  "version": "0.0.6",
+   "description": "set object nested value",
+   "repository": "react-atomic/react-atomic-organism",
+   "main": "./build/cjs/src/index.js",
+diff --git a/packages/lib/set-object-value/src/__tests__/IndexTest.js b/packages/lib/set-object-value/src/__tests__/IndexTest.js
+index 9fcbcfc0e..6a39cf545 100644
+--- a/packages/lib/set-object-value/src/__tests__/IndexTest.js
++++ b/packages/lib/set-object-value/src/__tests__/IndexTest.js
+@@ -1,6 +1,4 @@
+-"use strict";
+-
+-import set from "../index.js";
++import set, {unsafeSet} from "../index.js";
+ import { expect } from "chai";
+ 
+ describe("Test set", () => {
+@@ -11,6 +9,32 @@ describe("Test set", () => {
+   });
+ });
+ 
++describe("CVE-2020-28281", () => {
++  it("should not overwrite prototype", () => {
++    const obj = {};
++    expect(obj.isAdmin).to.be.undefined;
++    expect(()=>set(obj, ['__proto__','isAdmin'], true)).to.throw();
++    expect(()=>set(obj, ['constructor','isAdmin'], true)).to.throw();
++    expect(()=>set(obj, ['prototype','isAdmin'], true)).to.throw();
++    expect(obj.isAdmin).to.be.undefined;
++    set(obj, ["isAdmin"], true);
++    expect(obj.isAdmin).to.be.true;
++  });
++
++  it("should force overwrite prototype with unsafe mode", () => {
++    const obj = {};
++    unsafeSet(obj, ['__proto__','fake'], true);
++    expect(obj.fake).to.be.true;
++  });
++
++  it("safe way with unsafe set", ()=>{
++    const obj = Object.create(null);
++    unsafeSet(obj, ['__proto__','fake'], true);
++    expect(obj.fake).to.be.undefined;
++    expect(obj.__proto__.fake).to.be.true;
++  });
++});
++
+ describe("Test append", () => {
+   it("test simple append", () => {
+     const obj = {};
+diff --git a/packages/lib/set-object-value/src/index.js b/packages/lib/set-object-value/src/index.js
+index faa10ba51..9fe4d6678 100644
+--- a/packages/lib/set-object-value/src/index.js
++++ b/packages/lib/set-object-value/src/index.js
+@@ -1,4 +1,10 @@
+-const replaceValue = (obj, arrKey, val, isAppend) => {
++const isUnSafeKey = (key) =>
++  key === "__proto__" || key === "constructor" || key === "prototype";
++
++const replaceValue = (obj, arrKey, val, isAppend, unSafe) => {
++  if (!unSafe && arrKey.some(isUnSafeKey)) {
++    throw "Contain un-safe key.";
++  }
+   const last = arrKey.pop();
+   arrKey.forEach((k) => {
+     obj[k] = obj[k] || {};
+@@ -17,4 +23,8 @@ const replaceValue = (obj, arrKey, val, isAppend) => {
+   }
+ };
+ 
++const unsafeSet = (obj, arrKey, val, isAppend) =>
++  replaceValue(obj, arrKey, val, isAppend, true);
++
+ export default replaceValue;
++export { unsafeSet };

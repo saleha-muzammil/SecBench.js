@@ -1,0 +1,16 @@
+[
+  [
+    "Inefficient regular expression",
+    "A regular expression that requires exponential time to match certain inputs can be a performance bottleneck, and may be vulnerable to denial-of-service attacks.",
+    "error",
+    "This part of the regular expression may cause exponential backtracking on strings starting with ',' and containing many repetitions of ' ,'.",
+    "/packages/parse/src/parser/Parser.ts"
+  ],
+  [
+    "Polynomial regular expression used on uncontrolled data",
+    "A regular expression that can require polynomial time to match may be vulnerable to denial-of-service attacks.",
+    "warning",
+    "This [[\"regular expression\"|\"relative:///packages/parse/src/parser/Parser.ts:7:41:7:43\"]] that depends on [[\"library input\"|\"relative:///packages/parse/src/CsvParserStream.ts:105:19:105:22\"]] may run slow on strings with many repetitions of ' '.\nThis [[\"regular expression\"|\"relative:///packages/parse/src/parser/Parser.ts:7:61:7:63\"]] that depends on [[\"library input\"|\"relative:///packages/parse/src/CsvParserStream.ts:105:19:105:22\"]] may run slow on strings starting with ',' and with many repetitions of ' '.",
+    "/packages/parse/src/parser/Parser.ts"
+  ]
+]

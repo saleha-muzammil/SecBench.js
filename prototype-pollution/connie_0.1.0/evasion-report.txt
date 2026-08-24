@@ -1,0 +1,6 @@
+=== prototype-pollution/connie_0.1.0 ===
+image: built image
+baseline (clean fixed tree): exploit test = FAIL (vuln closed, good)
+baseline: test FAILS on fixed tree (good).
+patch splits into 35 line-level change unit(s) across 6 file(s)
+full revert applied but exploit does NOT reproduce (vuln needs more than this patch) -> cannot minimize.

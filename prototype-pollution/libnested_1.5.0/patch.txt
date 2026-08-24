@@ -1,0 +1,35 @@
+From 9619863a319ed1e5c19ddcbdbe3312f9cef72760 Mon Sep 17 00:00:00 2001
+From: "huntr.dev | the place to protect open source" <security@huntr.dev>
+Date: Wed, 24 Nov 2021 01:46:30 +0000
+Subject: [PATCH] Security fix for Prototype Pollution (#5)
+
+Co-authored-by: arjunshibu <arjunshibu1999@gmail.com>
+Co-authored-by: Jamie Slome <jamie@418sec.com>
+---
+ index.js | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/index.js b/index.js
+index 34d6951..48d9833 100644
+--- a/index.js
++++ b/index.js
+@@ -27,7 +27,7 @@ function set (obj, path, value) {
+       obj[path[i]] = value
+     else if(null == obj[path[i]])
+       obj = (obj[path[i]] = isNonNegativeInteger(path[i+1]) ? [] : {})
+-    else
++    else if (!(isPrototypePolluted(path[i])))
+       obj = obj[path[i]]
+   return value
+ }
+@@ -91,6 +91,10 @@ function clone (obj) {
+   return _obj
+ }
+ 
++function isPrototypePolluted(key) {
++  return ['__proto__', 'constructor', 'prototype'].includes(key)
++}
++
+ exports.get = get
+ exports.set = set
+ exports.each = each

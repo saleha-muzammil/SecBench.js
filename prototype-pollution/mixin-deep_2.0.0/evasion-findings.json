@@ -1,0 +1,29 @@
+{
+  "package": "mixin-deep",
+  "targets": [
+    "index.js"
+  ],
+  "full_targets": [
+    "index.js"
+  ],
+  "semgrep": {
+    "fixed_total": 0,
+    "new_full": 0,
+    "new_minimal": 0,
+    "new_final": []
+  },
+  "codeql": {
+    "fixed_total": 0,
+    "new_full": 1,
+    "new_minimal": 1,
+    "new_final": [
+      {
+        "rule": "js/prototype-pollution-utility",
+        "message": "Properties are copied from [obj](1) to [target](2) without guarding against prototype pollution.",
+        "path": "index.js",
+        "line": 21
+      }
+    ]
+  },
+  "detected_by": "codeql"
+}

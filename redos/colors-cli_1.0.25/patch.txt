@@ -1,0 +1,23 @@
+From 78ee15ba9111ddee1cc0640ccd79369525bd57b8 Mon Sep 17 00:00:00 2001
+From: ready-research <72916209+ready-research@users.noreply.github.com>
+Date: Sat, 11 Sep 2021 13:13:16 +0530
+Subject: [PATCH] [Security]Fix ReDoS (#7)
+
+Fix potential ReDoS
+---
+ lib/ansi-regex.js | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/lib/ansi-regex.js b/lib/ansi-regex.js
+index d933faa..2387189 100644
+--- a/lib/ansi-regex.js
++++ b/lib/ansi-regex.js
+@@ -2,7 +2,7 @@
+ 
+ module.exports = function () {
+   const pattern = [
+-    '[\\u001B\\u009B][[\\]()#;?]*(?:(?:(?:[a-zA-Z\\d]*(?:;[a-zA-Z\\d]*)*)?\\u0007)',
++    '[\\u001B\\u009B][[\\]()#;?]*(?:(?:(?:(?:;[-a-zA-Z\\d\\/#&.:=?%@~_]+)*|[a-zA-Z\\d]+(?:;[-a-zA-Z\\d\\/#&.:=?%@~_]*)*)?\\u0007)',
+     '(?:(?:\\d{1,4}(?:;\\d{0,4})*)?[\\dA-PRZcf-ntqry=><~]))'
+   ].join('|');
+   return new RegExp(pattern, 'g');

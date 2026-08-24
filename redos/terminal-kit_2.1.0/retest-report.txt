@@ -1,0 +1,7 @@
+=== redos/terminal-kit_2.1.0 (corrected retest) ===
+package        : terminal-kit
+fixed-tree ms  : 6
+reverted ms    : 1029
+corrected label: reproduces
+detail         : reverted 1029ms >= threshold 250ms (fixed 6.4ms)
+oracle         : timeout=25s floor=250ms ratio=20x; HANG or reverted>=max(floor,ratio*fixed) => reproduces

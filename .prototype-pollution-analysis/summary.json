@@ -1,0 +1,29 @@
+[
+  {
+    "repository": "lodash_4.17.9",
+    "package": "lodash",
+    "status": "revert_failed",
+    "fixed_findings": 33,
+    "reverted_findings": null,
+    "new_findings": null,
+    "new_in_patched_files": null,
+    "new_errors": 0,
+    "new_warnings": 0,
+    "new_info": 0,
+    "detected": "",
+    "top_rules": "",
+    "revert_status": "failed",
+    "files_reverted": 0,
+    "note": "patch would not reverse-apply; see /Users/saleha/Desktop/cispa/SecBench.js/.prototype-pollution-analysis/lodash_4.17.9/revert.log",
+    "codeql_status": "not run",
+    "codeql_fixed": null,
+    "codeql_reverted": null,
+    "codeql_new": null,
+    "codeql_detected": "",
+    "codeql_top_rules": "",
+    "detected_by": "",
+    "semgrep_messages": "",
+    "codeql_messages": "",
+    "by_rule": {}
+  }
+]

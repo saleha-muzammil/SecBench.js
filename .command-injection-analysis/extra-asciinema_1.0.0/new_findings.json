@@ -1,0 +1,596 @@
+[
+  {
+    "check_id": "Users.saleha.Desktop.cispa.mini-swe-agent.src.minisweagent.config.extra.mini-shell-exec-nonliteral",
+    "path": "src/cat.ts",
+    "start": {
+      "line": 12,
+      "col": 5,
+      "offset": 370
+    },
+    "end": {
+      "line": 15,
+      "col": 7,
+      "offset": 497
+    },
+    "extra": {
+      "message": "Shell command assembled from a value. `exec`/`execSync` run the string through a shell, so any interpolated value can inject additional commands; use `execFile` with an argument array.",
+      "metadata": {
+        "category": "security",
+        "cwe": "CWE-78: OS Command Injection",
+        "confidence": "MEDIUM"
+      },
+      "severity": "ERROR",
+      "fingerprint": "requires login",
+      "lines": "requires login",
+      "validation_state": "NO_VALIDATOR",
+      "engine_kind": "OSS"
+    }
+  },
+  {
+    "check_id": "javascript.lang.security.detect-child-process.detect-child-process",
+    "path": "src/cat.ts",
+    "start": {
+      "line": 12,
+      "col": 13,
+      "offset": 378
+    },
+    "end": {
+      "line": 12,
+      "col": 31,
+      "offset": 396
+    },
+    "extra": {
+      "message": "Detected calls to child_process from a function argument `f`. This could lead to a command injection if the input is user controllable. Try to avoid calls to child_process, and if it is needed ensure user input is correctly sanitized or sandboxed. ",
+      "metadata": {
+        "cwe": [
+          "CWE-78: Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection')"
+        ],
+        "owasp": [
+          "A01:2017 - Injection",
+          "A03:2021 - Injection",
+          "A05:2025 - Injection"
+        ],
+        "references": [
+          "https://cheatsheetseries.owasp.org/cheatsheets/Nodejs_Security_Cheat_Sheet.html#do-not-use-dangerous-functions"
+        ],
+        "source-rule-url": "https://github.com/nodesecurity/eslint-plugin-security/blob/master/rules/detect-child-process.js",
+        "category": "security",
+        "technology": [
+          "javascript"
+        ],
+        "cwe2022-top25": true,
+        "cwe2021-top25": true,
+        "subcategory": [
+          "audit"
+        ],
+        "likelihood": "LOW",
+        "impact": "HIGH",
+        "confidence": "LOW",
+        "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+        "vulnerability_class": [
+          "Command Injection"
+        ],
+        "source": "https://semgrep.dev/r/javascript.lang.security.detect-child-process.detect-child-process",
+        "shortlink": "https://sg.run/l2lo"
+      },
+      "severity": "ERROR",
+      "fingerprint": "requires login",
+      "lines": "requires login",
+      "validation_state": "NO_VALIDATOR",
+      "engine_kind": "OSS"
+    }
+  },
+  {
+    "check_id": "Users.saleha.Desktop.cispa.mini-swe-agent.src.minisweagent.config.extra.mini-shell-exec-nonliteral",
+    "path": "src/catSync.ts",
+    "start": {
+      "line": 9,
+      "col": 10,
+      "offset": 230
+    },
+    "end": {
+      "line": 9,
+      "col": 63,
+      "offset": 283
+    },
+    "extra": {
+      "message": "Shell command assembled from a value. `exec`/`execSync` run the string through a shell, so any interpolated value can inject additional commands; use `execFile` with an argument array.",
+      "metadata": {
+        "category": "security",
+        "cwe": "CWE-78: OS Command Injection",
+        "confidence": "MEDIUM"
+      },
+      "severity": "ERROR",
+      "fingerprint": "requires login",
+      "lines": "requires login",
+      "validation_state": "NO_VALIDATOR",
+      "engine_kind": "OSS"
+    }
+  },
+  {
+    "check_id": "javascript.lang.security.detect-child-process.detect-child-process",
+    "path": "src/catSync.ts",
+    "start": {
+      "line": 9,
+      "col": 22,
+      "offset": 242
+    },
+    "end": {
+      "line": 9,
+      "col": 40,
+      "offset": 260
+    },
+    "extra": {
+      "message": "Detected calls to child_process from a function argument `f`. This could lead to a command injection if the input is user controllable. Try to avoid calls to child_process, and if it is needed ensure user input is correctly sanitized or sandboxed. ",
+      "metadata": {
+        "cwe": [
+          "CWE-78: Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection')"
+        ],
+        "owasp": [
+          "A01:2017 - Injection",
+          "A03:2021 - Injection",
+          "A05:2025 - Injection"
+        ],
+        "references": [
+          "https://cheatsheetseries.owasp.org/cheatsheets/Nodejs_Security_Cheat_Sheet.html#do-not-use-dangerous-functions"
+        ],
+        "source-rule-url": "https://github.com/nodesecurity/eslint-plugin-security/blob/master/rules/detect-child-process.js",
+        "category": "security",
+        "technology": [
+          "javascript"
+        ],
+        "cwe2022-top25": true,
+        "cwe2021-top25": true,
+        "subcategory": [
+          "audit"
+        ],
+        "likelihood": "LOW",
+        "impact": "HIGH",
+        "confidence": "LOW",
+        "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+        "vulnerability_class": [
+          "Command Injection"
+        ],
+        "source": "https://semgrep.dev/r/javascript.lang.security.detect-child-process.detect-child-process",
+        "shortlink": "https://sg.run/l2lo"
+      },
+      "severity": "ERROR",
+      "fingerprint": "requires login",
+      "lines": "requires login",
+      "validation_state": "NO_VALIDATOR",
+      "engine_kind": "OSS"
+    }
+  },
+  {
+    "check_id": "Users.saleha.Desktop.cispa.mini-swe-agent.src.minisweagent.config.extra.mini-shell-exec-nonliteral",
+    "path": "src/rec.ts",
+    "start": {
+      "line": 26,
+      "col": 5,
+      "offset": 951
+    },
+    "end": {
+      "line": 29,
+      "col": 7,
+      "offset": 1057
+    },
+    "extra": {
+      "message": "Shell command assembled from a value. `exec`/`execSync` run the string through a shell, so any interpolated value can inject additional commands; use `execFile` with an argument array.",
+      "metadata": {
+        "category": "security",
+        "cwe": "CWE-78: OS Command Injection",
+        "confidence": "MEDIUM"
+      },
+      "severity": "ERROR",
+      "fingerprint": "requires login",
+      "lines": "requires login",
+      "validation_state": "NO_VALIDATOR",
+      "engine_kind": "OSS"
+    }
+  },
+  {
+    "check_id": "javascript.lang.security.detect-child-process.detect-child-process",
+    "path": "src/rec.ts",
+    "start": {
+      "line": 26,
+      "col": 13,
+      "offset": 959
+    },
+    "end": {
+      "line": 26,
+      "col": 25,
+      "offset": 971
+    },
+    "extra": {
+      "message": "Detected calls to child_process from a function argument `f`. This could lead to a command injection if the input is user controllable. Try to avoid calls to child_process, and if it is needed ensure user input is correctly sanitized or sandboxed. ",
+      "metadata": {
+        "cwe": [
+          "CWE-78: Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection')"
+        ],
+        "owasp": [
+          "A01:2017 - Injection",
+          "A03:2021 - Injection",
+          "A05:2025 - Injection"
+        ],
+        "references": [
+          "https://cheatsheetseries.owasp.org/cheatsheets/Nodejs_Security_Cheat_Sheet.html#do-not-use-dangerous-functions"
+        ],
+        "source-rule-url": "https://github.com/nodesecurity/eslint-plugin-security/blob/master/rules/detect-child-process.js",
+        "category": "security",
+        "technology": [
+          "javascript"
+        ],
+        "cwe2022-top25": true,
+        "cwe2021-top25": true,
+        "subcategory": [
+          "audit"
+        ],
+        "likelihood": "LOW",
+        "impact": "HIGH",
+        "confidence": "LOW",
+        "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+        "vulnerability_class": [
+          "Command Injection"
+        ],
+        "source": "https://semgrep.dev/r/javascript.lang.security.detect-child-process.detect-child-process",
+        "shortlink": "https://sg.run/l2lo"
+      },
+      "severity": "ERROR",
+      "fingerprint": "requires login",
+      "lines": "requires login",
+      "validation_state": "NO_VALIDATOR",
+      "engine_kind": "OSS"
+    }
+  },
+  {
+    "check_id": "javascript.lang.security.detect-child-process.detect-child-process",
+    "path": "src/rec.ts",
+    "start": {
+      "line": 26,
+      "col": 13,
+      "offset": 959
+    },
+    "end": {
+      "line": 26,
+      "col": 25,
+      "offset": 971
+    },
+    "extra": {
+      "message": "Detected calls to child_process from a function argument `o`. This could lead to a command injection if the input is user controllable. Try to avoid calls to child_process, and if it is needed ensure user input is correctly sanitized or sandboxed. ",
+      "metadata": {
+        "cwe": [
+          "CWE-78: Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection')"
+        ],
+        "owasp": [
+          "A01:2017 - Injection",
+          "A03:2021 - Injection",
+          "A05:2025 - Injection"
+        ],
+        "references": [
+          "https://cheatsheetseries.owasp.org/cheatsheets/Nodejs_Security_Cheat_Sheet.html#do-not-use-dangerous-functions"
+        ],
+        "source-rule-url": "https://github.com/nodesecurity/eslint-plugin-security/blob/master/rules/detect-child-process.js",
+        "category": "security",
+        "technology": [
+          "javascript"
+        ],
+        "cwe2022-top25": true,
+        "cwe2021-top25": true,
+        "subcategory": [
+          "audit"
+        ],
+        "likelihood": "LOW",
+        "impact": "HIGH",
+        "confidence": "LOW",
+        "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+        "vulnerability_class": [
+          "Command Injection"
+        ],
+        "source": "https://semgrep.dev/r/javascript.lang.security.detect-child-process.detect-child-process",
+        "shortlink": "https://sg.run/l2lo"
+      },
+      "severity": "ERROR",
+      "fingerprint": "requires login",
+      "lines": "requires login",
+      "validation_state": "NO_VALIDATOR",
+      "engine_kind": "OSS"
+    }
+  },
+  {
+    "check_id": "Users.saleha.Desktop.cispa.mini-swe-agent.src.minisweagent.config.extra.mini-shell-exec-nonliteral",
+    "path": "src/recSync.ts",
+    "start": {
+      "line": 24,
+      "col": 3,
+      "offset": 806
+    },
+    "end": {
+      "line": 24,
+      "col": 48,
+      "offset": 851
+    },
+    "extra": {
+      "message": "Shell command assembled from a value. `exec`/`execSync` run the string through a shell, so any interpolated value can inject additional commands; use `execFile` with an argument array.",
+      "metadata": {
+        "category": "security",
+        "cwe": "CWE-78: OS Command Injection",
+        "confidence": "MEDIUM"
+      },
+      "severity": "ERROR",
+      "fingerprint": "requires login",
+      "lines": "requires login",
+      "validation_state": "NO_VALIDATOR",
+      "engine_kind": "OSS"
+    }
+  },
+  {
+    "check_id": "javascript.lang.security.detect-child-process.detect-child-process",
+    "path": "src/recSync.ts",
+    "start": {
+      "line": 24,
+      "col": 15,
+      "offset": 818
+    },
+    "end": {
+      "line": 24,
+      "col": 27,
+      "offset": 830
+    },
+    "extra": {
+      "message": "Detected calls to child_process from a function argument `f`. This could lead to a command injection if the input is user controllable. Try to avoid calls to child_process, and if it is needed ensure user input is correctly sanitized or sandboxed. ",
+      "metadata": {
+        "cwe": [
+          "CWE-78: Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection')"
+        ],
+        "owasp": [
+          "A01:2017 - Injection",
+          "A03:2021 - Injection",
+          "A05:2025 - Injection"
+        ],
+        "references": [
+          "https://cheatsheetseries.owasp.org/cheatsheets/Nodejs_Security_Cheat_Sheet.html#do-not-use-dangerous-functions"
+        ],
+        "source-rule-url": "https://github.com/nodesecurity/eslint-plugin-security/blob/master/rules/detect-child-process.js",
+        "category": "security",
+        "technology": [
+          "javascript"
+        ],
+        "cwe2022-top25": true,
+        "cwe2021-top25": true,
+        "subcategory": [
+          "audit"
+        ],
+        "likelihood": "LOW",
+        "impact": "HIGH",
+        "confidence": "LOW",
+        "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+        "vulnerability_class": [
+          "Command Injection"
+        ],
+        "source": "https://semgrep.dev/r/javascript.lang.security.detect-child-process.detect-child-process",
+        "shortlink": "https://sg.run/l2lo"
+      },
+      "severity": "ERROR",
+      "fingerprint": "requires login",
+      "lines": "requires login",
+      "validation_state": "NO_VALIDATOR",
+      "engine_kind": "OSS"
+    }
+  },
+  {
+    "check_id": "javascript.lang.security.detect-child-process.detect-child-process",
+    "path": "src/recSync.ts",
+    "start": {
+      "line": 24,
+      "col": 15,
+      "offset": 818
+    },
+    "end": {
+      "line": 24,
+      "col": 27,
+      "offset": 830
+    },
+    "extra": {
+      "message": "Detected calls to child_process from a function argument `o`. This could lead to a command injection if the input is user controllable. Try to avoid calls to child_process, and if it is needed ensure user input is correctly sanitized or sandboxed. ",
+      "metadata": {
+        "cwe": [
+          "CWE-78: Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection')"
+        ],
+        "owasp": [
+          "A01:2017 - Injection",
+          "A03:2021 - Injection",
+          "A05:2025 - Injection"
+        ],
+        "references": [
+          "https://cheatsheetseries.owasp.org/cheatsheets/Nodejs_Security_Cheat_Sheet.html#do-not-use-dangerous-functions"
+        ],
+        "source-rule-url": "https://github.com/nodesecurity/eslint-plugin-security/blob/master/rules/detect-child-process.js",
+        "category": "security",
+        "technology": [
+          "javascript"
+        ],
+        "cwe2022-top25": true,
+        "cwe2021-top25": true,
+        "subcategory": [
+          "audit"
+        ],
+        "likelihood": "LOW",
+        "impact": "HIGH",
+        "confidence": "LOW",
+        "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+        "vulnerability_class": [
+          "Command Injection"
+        ],
+        "source": "https://semgrep.dev/r/javascript.lang.security.detect-child-process.detect-child-process",
+        "shortlink": "https://sg.run/l2lo"
+      },
+      "severity": "ERROR",
+      "fingerprint": "requires login",
+      "lines": "requires login",
+      "validation_state": "NO_VALIDATOR",
+      "engine_kind": "OSS"
+    }
+  },
+  {
+    "check_id": "Users.saleha.Desktop.cispa.mini-swe-agent.src.minisweagent.config.extra.mini-shell-exec-nonliteral",
+    "path": "src/upload.ts",
+    "start": {
+      "line": 12,
+      "col": 5,
+      "offset": 348
+    },
+    "end": {
+      "line": 15,
+      "col": 7,
+      "offset": 520
+    },
+    "extra": {
+      "message": "Shell command assembled from a value. `exec`/`execSync` run the string through a shell, so any interpolated value can inject additional commands; use `execFile` with an argument array.",
+      "metadata": {
+        "category": "security",
+        "cwe": "CWE-78: OS Command Injection",
+        "confidence": "MEDIUM"
+      },
+      "severity": "ERROR",
+      "fingerprint": "requires login",
+      "lines": "requires login",
+      "validation_state": "NO_VALIDATOR",
+      "engine_kind": "OSS"
+    }
+  },
+  {
+    "check_id": "javascript.lang.security.detect-child-process.detect-child-process",
+    "path": "src/upload.ts",
+    "start": {
+      "line": 12,
+      "col": 13,
+      "offset": 356
+    },
+    "end": {
+      "line": 12,
+      "col": 34,
+      "offset": 377
+    },
+    "extra": {
+      "message": "Detected calls to child_process from a function argument `f`. This could lead to a command injection if the input is user controllable. Try to avoid calls to child_process, and if it is needed ensure user input is correctly sanitized or sandboxed. ",
+      "metadata": {
+        "cwe": [
+          "CWE-78: Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection')"
+        ],
+        "owasp": [
+          "A01:2017 - Injection",
+          "A03:2021 - Injection",
+          "A05:2025 - Injection"
+        ],
+        "references": [
+          "https://cheatsheetseries.owasp.org/cheatsheets/Nodejs_Security_Cheat_Sheet.html#do-not-use-dangerous-functions"
+        ],
+        "source-rule-url": "https://github.com/nodesecurity/eslint-plugin-security/blob/master/rules/detect-child-process.js",
+        "category": "security",
+        "technology": [
+          "javascript"
+        ],
+        "cwe2022-top25": true,
+        "cwe2021-top25": true,
+        "subcategory": [
+          "audit"
+        ],
+        "likelihood": "LOW",
+        "impact": "HIGH",
+        "confidence": "LOW",
+        "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+        "vulnerability_class": [
+          "Command Injection"
+        ],
+        "source": "https://semgrep.dev/r/javascript.lang.security.detect-child-process.detect-child-process",
+        "shortlink": "https://sg.run/l2lo"
+      },
+      "severity": "ERROR",
+      "fingerprint": "requires login",
+      "lines": "requires login",
+      "validation_state": "NO_VALIDATOR",
+      "engine_kind": "OSS"
+    }
+  },
+  {
+    "check_id": "Users.saleha.Desktop.cispa.mini-swe-agent.src.minisweagent.config.extra.mini-shell-exec-nonliteral",
+    "path": "src/uploadSync.ts",
+    "start": {
+      "line": 9,
+      "col": 16,
+      "offset": 201
+    },
+    "end": {
+      "line": 9,
+      "col": 72,
+      "offset": 257
+    },
+    "extra": {
+      "message": "Shell command assembled from a value. `exec`/`execSync` run the string through a shell, so any interpolated value can inject additional commands; use `execFile` with an argument array.",
+      "metadata": {
+        "category": "security",
+        "cwe": "CWE-78: OS Command Injection",
+        "confidence": "MEDIUM"
+      },
+      "severity": "ERROR",
+      "fingerprint": "requires login",
+      "lines": "requires login",
+      "validation_state": "NO_VALIDATOR",
+      "engine_kind": "OSS"
+    }
+  },
+  {
+    "check_id": "javascript.lang.security.detect-child-process.detect-child-process",
+    "path": "src/uploadSync.ts",
+    "start": {
+      "line": 9,
+      "col": 28,
+      "offset": 213
+    },
+    "end": {
+      "line": 9,
+      "col": 49,
+      "offset": 234
+    },
+    "extra": {
+      "message": "Detected calls to child_process from a function argument `f`. This could lead to a command injection if the input is user controllable. Try to avoid calls to child_process, and if it is needed ensure user input is correctly sanitized or sandboxed. ",
+      "metadata": {
+        "cwe": [
+          "CWE-78: Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection')"
+        ],
+        "owasp": [
+          "A01:2017 - Injection",
+          "A03:2021 - Injection",
+          "A05:2025 - Injection"
+        ],
+        "references": [
+          "https://cheatsheetseries.owasp.org/cheatsheets/Nodejs_Security_Cheat_Sheet.html#do-not-use-dangerous-functions"
+        ],
+        "source-rule-url": "https://github.com/nodesecurity/eslint-plugin-security/blob/master/rules/detect-child-process.js",
+        "category": "security",
+        "technology": [
+          "javascript"
+        ],
+        "cwe2022-top25": true,
+        "cwe2021-top25": true,
+        "subcategory": [
+          "audit"
+        ],
+        "likelihood": "LOW",
+        "impact": "HIGH",
+        "confidence": "LOW",
+        "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+        "vulnerability_class": [
+          "Command Injection"
+        ],
+        "source": "https://semgrep.dev/r/javascript.lang.security.detect-child-process.detect-child-process",
+        "shortlink": "https://sg.run/l2lo"
+      },
+      "severity": "ERROR",
+      "fingerprint": "requires login",
+      "lines": "requires login",
+      "validation_state": "NO_VALIDATOR",
+      "engine_kind": "OSS"
+    }
+  }
+]

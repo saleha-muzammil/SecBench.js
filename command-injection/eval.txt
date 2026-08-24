@@ -1,0 +1,15 @@
+Processing 27 entries. 
+only for those which both have a fixed version and a fixedcommit url. 
+
+Summary: image-failed=2, minimized+evaded (ci:baseline-not-green)=2, minimized+evaded (ci:broken)=1, minimized+evaded (ci:preserved)=2, minimized+partial-evade (ci:none)=1, minimized+partial-evade (ci:preserved)=1, npm-fallback=6, revert-applied-no-repro=5, revert-apply-failed=7
+
+What each result means (where the problem is):
+   2  image-failed                                   SETUP    Dockerfile.fixed build failed (bad version pin / 404)
+   2  minimized+evaded (ci:baseline-not-green)       OK   success (minimized + evaded semgrep)
+   1  minimized+evaded (ci:broken)                   OK   success (minimized + evaded semgrep)
+   2  minimized+evaded (ci:preserved)                OK   success (minimized + evaded semgrep)
+   1  minimized+partial-evade (ci:none)              OK   success (minimized; semgrep only partly evaded)
+   1  minimized+partial-evade (ci:preserved)         OK   success (minimized; semgrep only partly evaded)
+   6  npm-fallback                                   SETUP    no git tree to revert (npm-installed, not cloned)
+   5  revert-applied-no-repro                        BENCHMARK revert applied but exploit doesn't reproduce (vuln needs more than the patch)
+   7  revert-apply-failed                            SETUP    patch.txt won't reverse-apply (lockfile/built/drifted hunks)

@@ -1,0 +1,29 @@
+[
+  {
+    "repository": "@vivaxy-here_3.1.0",
+    "package": "@vivaxy/here",
+    "status": "ok",
+    "fixed_findings": 24,
+    "reverted_findings": 24,
+    "new_findings": 0,
+    "new_in_patched_files": 0,
+    "new_errors": 0,
+    "new_warnings": 0,
+    "new_info": 0,
+    "detected": "no",
+    "top_rules": "",
+    "revert_status": "ok",
+    "files_reverted": 14,
+    "note": "",
+    "codeql_status": "ok",
+    "codeql_fixed": 2,
+    "codeql_reverted": 2,
+    "codeql_new": 1,
+    "codeql_detected": "yes",
+    "codeql_top_rules": "Shell command built from environment values\u00d71",
+    "detected_by": "codeql",
+    "semgrep_messages": "",
+    "codeql_messages": "Shell command built from environment values @ /lib/open-browser.js \u2014 This shell command depends on an uncontrolled [[\"absolute path\"|\"relative:///lib/application.js:33:36:33:48\"]].",
+    "by_rule": {}
+  }
+]

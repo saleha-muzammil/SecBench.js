@@ -1,0 +1,6 @@
+=== command-injection/alfred-workflow-nodejs_2.0.1 ===
+image: using existing image
+baseline (clean fixed tree): exploit test = FAIL (vuln closed, good)
+baseline: test FAILS on fixed tree (good).
+patch splits into 21 line-level change unit(s) across 3 file(s)
+full revert FAILED TO APPLY (git apply -R rejected -- patch.txt has lockfile/built/drifted hunks) -> cannot minimize.

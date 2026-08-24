@@ -1,0 +1,28 @@
+repository,package,status,fixed_findings,reverted_findings,new_findings,new_in_patched_files,new_errors,new_warnings,new_info,detected,top_rules,codeql_status,codeql_fixed,codeql_reverted,codeql_new,codeql_detected,codeql_top_rules,detected_by,revert_status,files_reverted,note
+alfred-workflow-nodejs_2.0.1,alfred-workflow-nodejs,ok,4,4,0,0,0,0,0,no,,ok,0,0,0,no,,neither,partial,1,partial revert: some patched files could not be reverted (see revert.log)
+apex-publish-static-files_2.0.0,apex-publish-static-files,ok,4,4,0,0,0,0,0,no,,ok,0,0,0,no,,neither,partial,1,partial revert: some patched files could not be reverted (see revert.log)
+async-git_1.13.1,async-git,ok,3,3,0,0,0,0,0,no,,ok,0,4,4,yes,Unsafe shell command constructed from library input×4,codeql,ok,17,
+bestzip_2.1.6,,build_failed,,,,,0,0,0,,,not run,,,,,,,,0,docker build failed; see /Users/saleha/Desktop/cispa/SecBench.js/.command-injection-analysis/bestzip_2.1.6/build.log
+blamer_0.1.13,blamer,ok,0,0,0,0,0,0,0,no,,ok,0,0,0,no,,neither,partial,17,partial revert: some patched files could not be reverted (see revert.log)
+clamscan_1.2.0,clamscan,revert_failed,36,,,,0,0,0,,,not run,,,,,,,failed,0,patch would not reverse-apply; see /Users/saleha/Desktop/cispa/SecBench.js/.command-injection-analysis/clamscan_1.2.0/revert.log
+codecov_3.6.4,codecov,ok,2,2,0,0,0,0,0,no,,ok,1,7,6,yes,Unsafe shell command constructed from library input×4; Shell command built from environment values×2,codeql,ok,3,
+command-exists_1.2.2,command-exists,ok,7,7,0,0,0,0,0,no,,ok,7,7,6,yes,Unsafe shell command constructed from library input×6,codeql,ok,1,
+diskstats_0.0.2,diskstats,ok,4,4,0,0,0,0,0,no,,ok,0,0,0,no,,neither,partial,1,partial revert: some patched files could not be reverted (see revert.log)
+diskusage-ng_0.2.6,diskusage-ng,ok,0,0,0,0,0,0,0,no,,ok,0,1,1,yes,Unsafe shell command constructed from library input×1,codeql,ok,1,
+dns-sync_0.1.0,dns-sync,revert_failed,2,,,,0,0,0,,,not run,,,,,,,failed,0,patch would not reverse-apply; see /Users/saleha/Desktop/cispa/SecBench.js/.command-injection-analysis/dns-sync_0.1.0/revert.log
+extra-asciinema_1.0.0,extra-asciinema,ok,0,14,14,14,14,0,0,yes,detect-child-process×8; mini-shell-exec-nonliteral×6,ok,1,5,4,yes,Unsafe shell command constructed from library input×4,both,partial,6,partial revert: some patched files could not be reverted (see revert.log)
+get-npm-package-version_1.0.6,get-npm-package-version,ok,8,8,0,0,0,0,0,no,,ok,3,3,2,yes,Unsafe shell command constructed from library input×2,codeql,ok,1,
+growl_1.9.0,growl,ok,2,2,0,0,0,0,0,no,,ok,0,0,0,no,,neither,partial,1,partial revert: some patched files could not be reverted (see revert.log)
+hot-formula-parser_3.0.0,hot-formula-parser,ok,2,4,2,2,1,1,0,yes,mini-dynamic-code-evaluation×1; eval-detected×1,ok,2,2,0,no,,semgrep,partial,4,partial revert: some patched files could not be reverted (see revert.log)
+kill-by-port_0.0.1,kill-by-port,ok,0,0,0,0,0,0,0,no,,ok,1,2,1,yes,Unsafe shell command constructed from library input×1,codeql,ok,1,
+killport_1.0.1,killport,ok,4,4,0,0,0,0,0,no,,ok,0,1,1,yes,Unsafe shell command constructed from library input×1,codeql,ok,1,
+libnmap_0.4.11,libnmap,ok,1,0,0,0,0,0,0,no,,ok,1,4,3,yes,Unsafe shell command constructed from library input×3,codeql,ok,2,
+macaddress_0.2.8,macaddress,ok,5,5,0,0,0,0,0,no,,ok,1,2,2,yes,Unnecessary use of `cat` process×1; Unsafe shell command constructed from library input×1,codeql,partial,4,partial revert: some patched files could not be reverted (see revert.log)
+pdf-image_1.0.5,,build_failed,,,,,0,0,0,,,not run,,,,,,,,0,docker build failed; see /Users/saleha/Desktop/cispa/SecBench.js/.command-injection-analysis/pdf-image_1.0.5/build.log
+pidusage_1.0.0,pidusage,ok,5,5,0,0,0,0,0,no,,ok,0,0,0,no,,neither,ok,1,
+portprocesses_1.0.4,portprocesses,ok,3,3,0,0,0,0,0,no,,ok,0,2,2,yes,Unsafe shell command constructed from library input×2,codeql,ok,2,
+samsung-remote_1.2.5,samsung-remote,revert_failed,1,,,,0,0,0,,,not run,,,,,,,failed,0,patch would not reverse-apply; see /Users/saleha/Desktop/cispa/SecBench.js/.command-injection-analysis/samsung-remote_1.2.5/revert.log
+scp_0.0.3,scp,ok,7,7,0,0,0,0,0,no,,ok,7,7,6,yes,Unsafe shell command constructed from library input×6,codeql,ok,1,
+thi.ng-egf_0.3.0,@thi.ng,ok,0,0,0,0,0,0,0,no,,ok,9,9,0,no,,neither,ok,1,
+total.js_3.4.6,total.js,ok,161,163,2,0,0,2,0,yes,path-join-resolve-traversal×2,ok,34,34,4,yes,Unsafe shell command constructed from library input×4,both,ok,1,
+whereis_0.4.0,whereis,ok,1,8,7,7,7,0,0,yes,detect-child-process×4; mini-shell-exec-nonliteral×3,ok,0,1,1,yes,Unsafe shell command constructed from library input×1,both,ok,2,

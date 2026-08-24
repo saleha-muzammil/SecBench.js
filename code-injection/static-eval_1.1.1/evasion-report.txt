@@ -1,0 +1,6 @@
+=== code-injection/static-eval_1.1.1 ===
+image: built image
+installed test deps: esprima
+baseline (clean fixed tree): exploit test = PASS (NOT fixed!)
+baseline: exploit test PASSES on the FIXED tree (installed static-eval@1.1.1, expected fixed >= 2.0.2) -> not truly fixed.
+  diagnosis: stubbing the package STOPS the exploit -> the image is not actually on the fixed version (BENCHMARK/setup fault).

@@ -1,0 +1,7 @@
+=== redos/is-email_1.0.0 (corrected retest) ===
+package        : is-email
+fixed-tree ms  : 0
+reverted ms    : 4158
+corrected label: reproduces
+detail         : reverted 4158ms >= threshold 250ms (fixed 0.5ms)
+oracle         : timeout=25s floor=250ms ratio=20x; HANG or reverted>=max(floor,ratio*fixed) => reproduces

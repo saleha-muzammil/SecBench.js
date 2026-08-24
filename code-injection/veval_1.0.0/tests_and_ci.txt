@@ -1,0 +1,10 @@
+SecBench.js — test & CI inventory
+============================================================
+Entry      : code-injection/veval_1.0.0
+Package    : veval@1.0.0
+Repository : (none resolved)
+
+No upstream source repository could be resolved for this package, so it is
+installed from the npm registry. There is no repo to inspect for tests/CI.
+To examine the published tarball instead:
+  npm pack veval@1.0.0 && tar -xf *.tgz

@@ -1,0 +1,12 @@
+diff --git a/.travis.yml b/.travis.yml
+index e3758de..3856fc7 100644
+--- a/.travis.yml
++++ b/.travis.yml
+@@ -1,4 +1,7 @@
+ language: node_js
++os:
++  - linux
++  - osx
+ node_js:
+   - stable
+   - "0.12"

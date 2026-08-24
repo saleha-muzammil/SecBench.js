@@ -1,0 +1,45 @@
+{
+  "category": "command-injection",
+  "repository": "soyuka/pidusage",
+  "package": "pidusage",
+  "version": "1.0.0",
+  "folder": "pidusage_1.0.0",
+  "started_at": "2026-08-19T17:57:14.684713+00:00",
+  "status": "ok",
+  "error": "",
+  "base_commit": "b70eca15f7ca7f1b82a15f8a5d4bb48737f5a89d",
+  "checkout": "/tmp/pidusage_1.0.0-src",
+  "evasive_patch_reused": true,
+  "evasive_patch_regenerated": false,
+  "evades_both": true,
+  "seed_patch_applies": true,
+  "seed_exploit_fires": true,
+  "verdict": "Pipeline done. seed=hardened, loop=SUCCESS, final tests=PASSED \u2705, gates=PASS, final_gate=['SOLVED_SAFE']",
+  "wall_seconds_setup": 1.9,
+  "wall_seconds_pipeline": 1331.9,
+  "wall_seconds_total": 1335.2,
+  "metrics": {
+    "totals": {
+      "instance_cost": 0.005492,
+      "api_calls": 19,
+      "prompt_tokens": 278216,
+      "completion_tokens": 10400,
+      "total_tokens": 288616,
+      "trajectories": 1
+    },
+    "per_trajectory": [
+      {
+        "file": "solve_gate/run_1/trajectory.traj.json",
+        "instance_cost": 0.005492,
+        "api_calls": 19,
+        "prompt_tokens": 278216,
+        "completion_tokens": 10400,
+        "total_tokens": 288616
+      }
+    ]
+  },
+  "pipeline_cmd": "mini-extra cve-pipeline --patch stratified-samples-full-loop/command-injection/pidusage_1.0.0/exploit-evasive.patch --ex_file /Users/saleha/Desktop/cispa/SecBench.js/command-injection/pidusage_1.0.0/pidusage.test.js --repo-path /tmp/pidusage_1.0.0-src --base b70eca15f7ca7f1b82a15f8a5d4bb48737f5a89d --repo command-injection/pidusage_1.0.0 --cost-limit 0.3",
+  "pipeline_returncode": 0,
+  "pipeline_out_dir": "stratified-samples-full-loop/command-injection/pidusage_1.0.0/pipeline_exploit-evasive",
+  "finished_at": "2026-08-19T18:19:29.892849+00:00"
+}

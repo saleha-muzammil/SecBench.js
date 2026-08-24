@@ -1,0 +1,48 @@
+Analyzer report for code-injection/serialize-to-js_0.5.0
+Package : serialize-to-js@0.5.0  (fixed: 1.0.0)
+CVE     : CVE-2017-5954
+Repo    : commenthol/serialize-to-js
+Image   : secbench-fixed/serialize-to-js_0.5.0
+Image   : using existing image
+
+========================================================================
+PATCH REVERT
+========================================================================
+Reverted patch.txt via: git apply -R
+Files changed by the patch (8):
+  README.md
+  lib/deserialize.js
+  lib/internal/sanitize.js
+  lib/serialize.js
+  lib/serializeToModule.js
+  package.json
+  test/index.js
+  test/sanitize.js
+
+========================================================================
+SEMGREP (sink file + changed files)
+========================================================================
+no sink declared in package.json
+Scanned files: lib/deserialize.js, lib/serialize.js, lib/serializeToModule.js
+semgrep configs: secbench-code-injection.yml (local), p/javascript, p/nodejs, p/security-audit
+Summary: Ran 88 rules on 3 files: 1 finding.
+
+┌────────────────┐
+│ 1 Code Finding │
+└────────────────┘
+                           
+    /src/lib/deserialize.js
+   ❯❯❱ rules.secbench-function-constructor
+          ❰❰ Blocking ❱❱
+          The Function constructor compiles a string into executable code; with attacker-controlled input this
+          is a code-injection sink.                                                                           
+                                                                                                              
+           28┆ return (new Function('return ' + str))()
+
+========================================================================
+NPM AUDIT DELTA (introduced by reverting the fix)
+========================================================================
+fixed tree   : critical=4, high=3, moderate=5, low=0, info=0, total=12
+reverted tree: critical=4, high=3, moderate=5, low=0, info=0, total=12
+
+No new advisories introduced by the revert (deps unchanged or already-known to the audit DB).

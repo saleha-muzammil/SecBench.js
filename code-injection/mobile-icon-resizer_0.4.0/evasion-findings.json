@@ -1,0 +1,30 @@
+{
+  "package": "mobile-icon-resizer",
+  "targets": [
+    "lib/resize.js"
+  ],
+  "full_targets": [
+    "lib/resize.js"
+  ],
+  "semgrep": {
+    "fixed_total": 8,
+    "new_full": 4,
+    "new_minimal": 4,
+    "new_final": [
+      {
+        "rule": "rules.secbench-tainted-code-exec",
+        "path": "lib/resize.js",
+        "line": 32,
+        "severity": "ERROR",
+        "message": "Untrusted input reaches a dynamic code-execution sink without passing through a sanitizer."
+      }
+    ]
+  },
+  "codeql": {
+    "fixed_total": 0,
+    "new_full": 0,
+    "new_minimal": 0,
+    "new_final": []
+  },
+  "detected_by": "semgrep"
+}

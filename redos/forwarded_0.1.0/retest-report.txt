@@ -1,0 +1,7 @@
+=== redos/forwarded_0.1.0 (corrected retest) ===
+package        : forwarded
+fixed-tree ms  : 2
+reverted ms    : 1468
+corrected label: reproduces
+detail         : reverted 1468ms >= threshold 250ms (fixed 1.6ms)
+oracle         : timeout=25s floor=250ms ratio=20x; HANG or reverted>=max(floor,ratio*fixed) => reproduces

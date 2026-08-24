@@ -1,0 +1,30 @@
+{
+  "package": "dirty-json",
+  "targets": [
+    "lexer.js"
+  ],
+  "full_targets": [
+    "lexer.js",
+    "test/lexer_test.js"
+  ],
+  "semgrep": {
+    "fixed_total": 0,
+    "new_full": 0,
+    "new_minimal": 0,
+    "new_final": []
+  },
+  "codeql": {
+    "fixed_total": 0,
+    "new_full": 2,
+    "new_minimal": 1,
+    "new_final": [
+      {
+        "rule": "js/redos",
+        "message": "This part of the regular expression may cause exponential backtracking on strings starting with '\"' and containing many repetitions of '!'.",
+        "path": "lexer.js",
+        "line": 79
+      }
+    ]
+  },
+  "detected_by": "codeql"
+}

@@ -1,0 +1,22 @@
+{
+  "package": "bestzip",
+  "targets": [
+    "lib/bestzip.js"
+  ],
+  "full_targets": [
+    "lib/bestzip.js"
+  ],
+  "semgrep": {
+    "fixed_total": 6,
+    "new_full": 2,
+    "new_minimal": 2,
+    "new_final": []
+  },
+  "codeql": {
+    "fixed_total": 4,
+    "new_full": 3,
+    "new_minimal": 3,
+    "new_final": []
+  },
+  "detected_by": "neither"
+}

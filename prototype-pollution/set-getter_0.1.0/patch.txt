@@ -1,0 +1,72 @@
+From 66eb3f0d4686a4a8c7c3d6f7ecd8e570b580edc4 Mon Sep 17 00:00:00 2001
+From: Brian Woodward <brian.woodward@gmail.com>
+Date: Fri, 18 Jun 2021 09:29:59 -0400
+Subject: [PATCH] filter out invalid keys
+
+- since this is just a patch bump, the invalid keys are only being filtered out to fix the bug
+- in a future version, throw an error on invalid keys
+---
+ index.js | 10 ++++++++--
+ test.js  |  8 ++++----
+ 2 files changed, 12 insertions(+), 6 deletions(-)
+
+diff --git a/index.js b/index.js
+index ce9a6a0..42f1d13 100644
+--- a/index.js
++++ b/index.js
+@@ -9,6 +9,10 @@
+ 
+ var toPath = require('to-object-path');
+ 
++function isValidKey(key) {
++  return key !== '__proto__' && key !== 'constructor' && key !== 'prototype';
++}
++
+ /**
+  * Defines a getter function on an object using property path notation.
+  *
+@@ -40,11 +44,13 @@ function setGetter(obj, prop, getter) {
+ 
+ function define(obj, prop, getter) {
+   if (!~prop.indexOf('.')) {
+-    defineProperty(obj, prop, getter);
++    if (isValidKey(prop)) {
++      defineProperty(obj, prop, getter);
++    }
+     return obj;
+   }
+ 
+-  var keys = prop.split('.');
++  var keys = prop.split('.').filter(isValidKey);
+   var last = keys.pop();
+   var target = obj;
+   var key;
+diff --git a/test.js b/test.js
+index 36c0b1e..0711806 100644
+--- a/test.js
++++ b/test.js
+@@ -106,10 +106,10 @@ describe('set-getter', function() {
+     });
+ 
+     assert(!('polluted' in {}));
+-    assert(!('polluted' in obj));
++    assert('polluted' in obj);
+ 
+     assert({}.polluted !== true);
+-    assert(obj.polluted !== true);
++    assert(obj.polluted === true);
+   });
+ 
+   it('should not pollute the prototype when using array notation', function() {
+@@ -123,9 +123,9 @@ describe('set-getter', function() {
+     });
+ 
+     assert(!('polluted' in {}));
+-    assert(!('polluted' in obj));
++    assert('polluted' in obj);
+ 
+     assert({}.polluted !== true);
+-    assert(obj.polluted !== true);
++    assert(obj.polluted === true);
+   });
+ });

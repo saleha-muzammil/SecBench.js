@@ -1,0 +1,7 @@
+=== redos/ramda_0.27.1 (corrected retest) ===
+package        : ramda
+fixed-tree ms  : 1
+reverted ms    : 4
+corrected label: no-repro
+detail         : reverted 4ms < threshold 250ms (fixed 0.8ms) -- vuln needs more than the patch
+oracle         : timeout=25s floor=250ms ratio=20x; HANG or reverted>=max(floor,ratio*fixed) => reproduces

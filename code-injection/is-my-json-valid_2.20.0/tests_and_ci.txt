@@ -1,0 +1,35 @@
+SecBench.js — test & CI inventory
+============================================================
+Entry      : code-injection/is-my-json-valid_2.20.0
+Package    : is-my-json-valid@2.20.0
+Repository : https://github.com/mafintosh/is-my-json-valid
+Source     : checked out: v2.20.0
+Generated  : 2026-06-22
+
+== package.json test scripts ==
+  test: tape test/*.js && tsc
+
+== test framework dependencies ==
+  tape
+
+== how to run the tests ==
+  npm install
+  npm test
+
+== test directories ==
+  test/   (38 files)
+
+== test files (0 found) ==
+  (none found)
+
+== test runner config ==
+  (none found)
+
+== CI / workflows ==
+  .travis.yml
+
+  --- .travis.yml ---
+  | language: node_js
+  | node_js:
+  |   - "0.10"
+

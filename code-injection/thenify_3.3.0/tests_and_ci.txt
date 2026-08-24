@@ -1,0 +1,40 @@
+SecBench.js — test & CI inventory
+============================================================
+Entry      : code-injection/thenify_3.3.0
+Package    : thenify@3.3.0
+Repository : https://github.com/thenables/thenify
+Source     : checked out: 3.3.0
+Generated  : 2026-06-22
+
+== package.json test scripts ==
+  test: mocha --reporter spec
+  test-cov: istanbul cover node_modules/mocha/bin/_mocha -- --reporter dot
+  test-travis: istanbul cover node_modules/mocha/bin/_mocha --report lcovonly -- --reporter dot
+
+== test framework dependencies ==
+  mocha, istanbul
+
+== how to run the tests ==
+  npm install
+  npm test
+
+== test directories ==
+  test/   (4 files)
+
+== test files (1 found) ==
+  test/test.js
+
+== test runner config ==
+  (none found)
+
+== CI / workflows ==
+  .travis.yml
+
+  --- .travis.yml ---
+  | node_js:
+  | - "4"
+  | - "6"
+  | language: node_js
+  | script: "npm run-script test-travis"
+  | after_script: "npm install coveralls@2 && cat ./coverage/lcov.info | coveralls"
+

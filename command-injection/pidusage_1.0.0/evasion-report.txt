@@ -1,0 +1,29 @@
+=== command-injection/pidusage_1.0.0 ===
+image: built image
+baseline (clean fixed tree): exploit test = FAIL (vuln closed, good)
+baseline: test FAILS on fixed tree (good).
+patch splits into 9 line-level change unit(s) across 1 file(s)
+semgrep on CLEAN FIXED tree (baseline): 4 finding(s)
+codeql on CLEAN FIXED tree (baseline): 0 finding(s)
+semgrep on FULL revert (no changes): 4 finding(s), 0 NEW vs fixed baseline -> evades: no (by new findings: yes)
+codeql on FULL revert (no changes): 0 finding(s), 0 NEW vs fixed baseline
+minimal revert (exploit-only): 7/9 line unit(s) -> ['lib/stats.js']
+semgrep on minimal variant (after chunking): 4 finding(s), 0 NEW vs fixed baseline
+--- semgrep findings (pre-evasion) ---
+  mini-prototype-pollution-path-write @ lib/stats.js:39: Writes through a caller-supplied property path without rejecting the `__proto__`, `constructor` and `prototype` segments, so a crafted path reaches Object.prototype (prototype pollution).
+  path-join-resolve-traversal @ lib/stats.js:46: Detected possible user input going into a `path.join` or `path.resolve` function. This could possibly lead to a path traversal vulnerability, where the attacker can access arbitrary files stored in the file system. Inst…
+  mini-prototype-pollution-path-write @ lib/stats.js:120: Writes through a caller-supplied property path without rejecting the `__proto__`, `constructor` and `prototype` segments, so a crafted path reaches Object.prototype (prototype pollution).
+  unsafe-formatstring @ lib/stats.js:141: Detected string concatenation with a non-literal variable in a util.format / console.log function. If an attacker injects a format specifier in the string, it will forge the log message. Try to use constant values for t…
+--------------------------------------
+codeql on minimal variant (after chunking): 0 finding(s), 0 NEW vs fixed baseline
+already evades both detectors (no rewrite needed).
+[1/5] test cases  -> exploit test PASSES (reproduces)
+[2/5] ci          -> skipped
+[3/5] codeql      -> confirming the final variant (baseline/full/minimal measured during the search) ...
+        final   = 0 finding(s), 0 new
+[3/5] codeql      -> baseline=0, full=0, minimal=0, final=0 findings (new vs baseline: 0/0/0)
+[4/5] npm audit   -> final variant: (no data); 0 advisory(ies) introduced vs clean-fixed baseline
+[5/5] semgrep     -> 4 finding(s) on final variant (0 new vs fixed baseline; evaded: no, by new findings: yes)
+detected_by (final/evasive variant): neither
+wrote evasion-findings.json (per-stage new findings, semgrep + codeql)
+wrote exploit-evasive.patch (exploit reproduces; semgrep=4, evaded=no)

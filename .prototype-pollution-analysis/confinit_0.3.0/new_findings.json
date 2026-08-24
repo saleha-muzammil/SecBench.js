@@ -1,0 +1,102 @@
+[
+  {
+    "check_id": "javascript.lang.security.audit.prototype-pollution.prototype-pollution-loop.prototype-pollution-loop",
+    "path": "index.js",
+    "start": {
+      "line": 97,
+      "col": 13,
+      "offset": 3161
+    },
+    "end": {
+      "line": 97,
+      "col": 25,
+      "offset": 3173
+    },
+    "extra": {
+      "message": "Possibility of prototype polluting function detected. By adding or modifying attributes of an object prototype, it is possible to create attributes that exist on every object, or replace critical attributes with malicious ones. This can be problematic if the software depends on existence or non-existence of certain attributes, or uses pre-defined attributes of object prototype (such as hasOwnProperty, toString or valueOf). Possible mitigations might be: freezing the object prototype, using an object without prototypes (via Object.create(null) ), blocking modifications of attributes that resolve to object prototype, using Map instead of object.",
+      "metadata": {
+        "cwe": [
+          "CWE-915: Improperly Controlled Modification of Dynamically-Determined Object Attributes"
+        ],
+        "category": "security",
+        "references": [
+          "https://github.com/HoLyVieR/prototype-pollution-nsec18/blob/master/paper/JavaScript_prototype_pollution_attack_in_NodeJS.pdf"
+        ],
+        "technology": [
+          "typescript"
+        ],
+        "owasp": [
+          "A08:2021 - Software and Data Integrity Failures",
+          "A08:2025 - Software or Data Integrity Failures"
+        ],
+        "subcategory": [
+          "audit"
+        ],
+        "likelihood": "LOW",
+        "impact": "LOW",
+        "confidence": "LOW",
+        "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+        "vulnerability_class": [
+          "Mass Assignment"
+        ],
+        "source": "https://semgrep.dev/r/javascript.lang.security.audit.prototype-pollution.prototype-pollution-loop.prototype-pollution-loop",
+        "shortlink": "https://sg.run/w1DB"
+      },
+      "severity": "WARNING",
+      "fingerprint": "requires login",
+      "lines": "requires login",
+      "validation_state": "NO_VALIDATOR",
+      "engine_kind": "OSS"
+    }
+  },
+  {
+    "check_id": "javascript.lang.security.audit.prototype-pollution.prototype-pollution-loop.prototype-pollution-loop",
+    "path": "index.ts",
+    "start": {
+      "line": 125,
+      "col": 4,
+      "offset": 2779
+    },
+    "end": {
+      "line": 125,
+      "col": 16,
+      "offset": 2791
+    },
+    "extra": {
+      "message": "Possibility of prototype polluting function detected. By adding or modifying attributes of an object prototype, it is possible to create attributes that exist on every object, or replace critical attributes with malicious ones. This can be problematic if the software depends on existence or non-existence of certain attributes, or uses pre-defined attributes of object prototype (such as hasOwnProperty, toString or valueOf). Possible mitigations might be: freezing the object prototype, using an object without prototypes (via Object.create(null) ), blocking modifications of attributes that resolve to object prototype, using Map instead of object.",
+      "metadata": {
+        "cwe": [
+          "CWE-915: Improperly Controlled Modification of Dynamically-Determined Object Attributes"
+        ],
+        "category": "security",
+        "references": [
+          "https://github.com/HoLyVieR/prototype-pollution-nsec18/blob/master/paper/JavaScript_prototype_pollution_attack_in_NodeJS.pdf"
+        ],
+        "technology": [
+          "typescript"
+        ],
+        "owasp": [
+          "A08:2021 - Software and Data Integrity Failures",
+          "A08:2025 - Software or Data Integrity Failures"
+        ],
+        "subcategory": [
+          "audit"
+        ],
+        "likelihood": "LOW",
+        "impact": "LOW",
+        "confidence": "LOW",
+        "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+        "vulnerability_class": [
+          "Mass Assignment"
+        ],
+        "source": "https://semgrep.dev/r/javascript.lang.security.audit.prototype-pollution.prototype-pollution-loop.prototype-pollution-loop",
+        "shortlink": "https://sg.run/w1DB"
+      },
+      "severity": "WARNING",
+      "fingerprint": "requires login",
+      "lines": "requires login",
+      "validation_state": "NO_VALIDATOR",
+      "engine_kind": "OSS"
+    }
+  }
+]

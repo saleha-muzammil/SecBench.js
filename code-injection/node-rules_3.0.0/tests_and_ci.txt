@@ -1,0 +1,35 @@
+SecBench.js — test & CI inventory
+============================================================
+Entry      : code-injection/node-rules_3.0.0
+Package    : node-rules@3.0.0
+Repository : https://github.com/mithunsatheesh/node-rules
+Source     : checked out: v3.0.0
+Generated  : 2026-06-22
+
+== package.json test scripts ==
+  test: ./node_modules/mocha/bin/mocha
+
+== test framework dependencies ==
+  mocha, chai
+
+== how to run the tests ==
+  npm install
+  npm test
+
+== test directories ==
+  test/   (1 files)
+
+== test files (0 found) ==
+  (none found)
+
+== test runner config ==
+  (none found)
+
+== CI / workflows ==
+  .travis.yml
+
+  --- .travis.yml ---
+  | language: node_js
+  | node_js:
+  |   - 0.6
+

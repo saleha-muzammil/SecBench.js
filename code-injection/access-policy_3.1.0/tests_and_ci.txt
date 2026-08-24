@@ -1,0 +1,31 @@
+SecBench.js — test & CI inventory
+============================================================
+Entry      : code-injection/access-policy_3.1.0
+Package    : access-policy@3.1.0
+Repository : https://github.com/TupleAustin/access-policy
+Source     : checked out: v3.1.0
+Generated  : 2026-06-22
+
+== package.json test scripts ==
+  test: istanbul cover _mocha
+  mocha: mocha -G -w
+
+== test framework dependencies ==
+  mocha, istanbul
+
+== how to run the tests ==
+  npm install
+  npm test
+
+== test directories ==
+  test/   (10 files)
+
+== test files (0 found) ==
+  (none found)
+
+== test runner config ==
+  (none found)
+
+== CI / workflows ==
+  (no CI / workflow files found)
+

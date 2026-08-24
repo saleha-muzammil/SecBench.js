@@ -1,0 +1,35 @@
+From eae8ad8017b260f8667ded5e12801bd72b877af2 Mon Sep 17 00:00:00 2001
+From: tnantoka <tnantoka@bornneet.com>
+Date: Thu, 15 Feb 2018 14:13:37 +0900
+Subject: [PATCH] Fix path traversal
+
+---
+ bin/public | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/bin/public b/bin/public
+index 8fcdabf..8e281ed 100755
+--- a/bin/public
++++ b/bin/public
+@@ -67,6 +67,7 @@ switch (args[0]) {
+       }
+     }
+ }
++var root = path.resolve(dir);
+ 
+ if (path) {
+   http.createServer(function(req, res) {
+@@ -75,6 +76,13 @@ if (path) {
+     var base = filePath.replace(dir, ''); // Base path for browser link
+     var abs = path.resolve(filePath); 
+     console.log(new Date().toString(), abs);
++
++    if (abs.indexOf(root) !== 0) {
++      res.writeHead(403, { 'Content-Type': 'text/plain' });
++      res.end('Forbidden\n');
++      return;
++    }
++
+     fs.readFile(filePath, function(err, data) {
+       if (err) {
+         res.writeHead(200, { 'Content-Type': 'text/html' });

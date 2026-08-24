@@ -1,0 +1,1 @@
+"Inclusion of functionality from an untrusted source","Including functionality from an untrusted source may allow an attacker to control the functionality and execute arbitrary code.","warning","Script loaded using unencrypted connection.","/player/player.html","7","3","7","89"

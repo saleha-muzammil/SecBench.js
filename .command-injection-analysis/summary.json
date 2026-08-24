@@ -1,0 +1,30 @@
+[
+  {
+    "repository": "whereis_0.4.0",
+    "package": "whereis",
+    "status": "ok",
+    "fixed_findings": 1,
+    "reverted_findings": 8,
+    "new_findings": 7,
+    "new_in_patched_files": 7,
+    "new_errors": 7,
+    "new_warnings": 0,
+    "new_info": 0,
+    "detected": "yes",
+    "top_rules": "detect-child-process\u00d74; mini-shell-exec-nonliteral\u00d73",
+    "revert_status": "ok",
+    "files_reverted": 2,
+    "note": "",
+    "codeql_status": "ok",
+    "codeql_fixed": 0,
+    "codeql_reverted": 1,
+    "codeql_new": 1,
+    "codeql_detected": "yes",
+    "codeql_top_rules": "Unsafe shell command constructed from library input\u00d71",
+    "detected_by": "both",
+    "by_rule": {
+      "detect-child-process": 4,
+      "mini-shell-exec-nonliteral": 3
+    }
+  }
+]

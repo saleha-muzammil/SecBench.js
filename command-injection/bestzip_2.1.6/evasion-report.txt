@@ -1,0 +1,67 @@
+=== command-injection/bestzip_2.1.6 ===
+image: built image
+baseline (clean fixed tree): repo CI = fail
+baseline (clean fixed tree): exploit test = FAIL (vuln closed, good)
+baseline: test FAILS on fixed tree (good).
+patch splits into 22 line-level change unit(s) across 2 file(s)
+semgrep on CLEAN FIXED tree (baseline): 6 finding(s)
+codeql on CLEAN FIXED tree (baseline): 4 finding(s)
+semgrep on FULL revert (no changes): 8 finding(s), 2 NEW vs fixed baseline -> evades: no (by new findings: no)
+codeql on FULL revert (no changes): 7 finding(s), 3 NEW vs fixed baseline
+minimal revert (exploit-only): 1/22 line unit(s) -> ['lib/bestzip.js']
+semgrep on minimal variant (after chunking): 8 finding(s), 2 NEW vs fixed baseline
+--- semgrep findings (pre-evasion) ---
+  path-join-resolve-traversal @ lib/bestzip.js:56: Detected possible user input going into a `path.join` or `path.resolve` function. This could possibly lead to a path traversal vulnerability, where the attacker can access arbitrary files stored in the file system. Inst…
+  path-join-resolve-traversal @ lib/bestzip.js:56: Detected possible user input going into a `path.join` or `path.resolve` function. This could possibly lead to a path traversal vulnerability, where the attacker can access arbitrary files stored in the file system. Inst…
+  mini-shell-exec-nonliteral @ lib/bestzip.js:74: Shell command assembled from a value. `exec`/`execSync` run the string through a shell, so any interpolated value can inject additional commands; use `execFile` with an argument array.
+  detect-child-process @ lib/bestzip.js:74: Detected calls to child_process from a function argument `options`. This could lead to a command injection if the input is user controllable. Try to avoid calls to child_process, and if it is needed ensure user input is…
+  path-join-resolve-traversal @ lib/bestzip.js:99: Detected possible user input going into a `path.join` or `path.resolve` function. This could possibly lead to a path traversal vulnerability, where the attacker can access arbitrary files stored in the file system. Inst…
+  path-join-resolve-traversal @ lib/bestzip.js:99: Detected possible user input going into a `path.join` or `path.resolve` function. This could possibly lead to a path traversal vulnerability, where the attacker can access arbitrary files stored in the file system. Inst…
+  path-join-resolve-traversal @ lib/bestzip.js:108: Detected possible user input going into a `path.join` or `path.resolve` function. This could possibly lead to a path traversal vulnerability, where the attacker can access arbitrary files stored in the file system. Inst…
+  path-join-resolve-traversal @ lib/bestzip.js:108: Detected possible user input going into a `path.join` or `path.resolve` function. This could possibly lead to a path traversal vulnerability, where the attacker can access arbitrary files stored in the file system. Inst…
+--------------------------------------
+codeql on minimal variant (after chunking): 7 finding(s), 3 NEW vs fixed baseline
+    ! js/shell-command-constructed-from-input @ lib/bestzip.js:71: This string concatenation which depends on [library input](1) is later used in a [shell command](2). This string concat…
+    ! js/shell-command-injection-from-environment @ lib/bestzip.js:74: This shell command depends on an uncontrolled [absolute path](1). This shell command depends on an uncontrolled [absolu…
+    ! js/indirect-command-line-injection @ lib/bestzip.js:74: This command depends on an unsanitized [command-line argument](1).
+selecting rewrites from the rules that actually fired: exports->launder <- 'library input', params->launder <- 'library input', methods->launder <- 'library input', source->launder <- 'library input', source->launder+index <- 'library input', shell-arg->launder <- 'shell-exec-nonliteral', require-member->hidden <- 'shell-exec-nonliteral', shell-sink->hidden-member <- 'shell-exec-nonliteral', require-module->dynamic <- 'shell-exec-nonliteral'
+  exports->launder: broke the exploit test -> rejected
+  methods->launder: matched nothing -> skipped
+  params->launder: test PASSES, semgrep 8 finding(s) (2 new), codeql new 3
+  source->launder: matched nothing -> skipped
+  source->launder+index: matched nothing -> skipped
+  shell-arg->launder: test PASSES, semgrep 8 finding(s) (2 new), codeql new 3
+  require-member->hidden: matched nothing -> skipped
+  require-module->dynamic: test PASSES, semgrep 8 finding(s) (2 new), codeql new 0
+  shell-sink->hidden-member: test PASSES, semgrep 6 finding(s) (0 new), codeql new 0
+[1/5] test cases  -> exploit test PASSES (reproduces)
+[2/5] ci          -> clean-fixed baseline=fail, final variant=fail  => baseline-already-broken
+        --- repo test output (final variant, tail) ---
+> bestzip@2.1.6 test
+> npm run lint && npm run unit-test
+
+
+> bestzip@2.1.6 lint
+> eslint .
+
+
+/exploit/bestzip_2.1.6/node_modules/bestzip/lib/bestzip.js
+   2:1   error  Use the global form of 'use strict'                                                                                 strict
+   2:27  error  Delete `·`                                                                                                          prettier/prettier
+   3:20  error  Replace `'string')·{·return·v;` with `"string")·{⏎····return·v;⏎·`                                                  prettier/prettier
+   4:13  error  Replace `'',` with `"",⏎···`                                                                                        prettier/prettier
+   5:30  error  Replace `·out·+=·String.fromCharCode(v.charCodeAt(i));` with `⏎····out·+=·String.fromCharCode(v.charCodeAt(i));⏎·`  prettier/prettier
+  11:1   error  Replace `"use·strict"` with `("use·strict")`                                                                        prettier/prettier
+  78:52  error  Replace `⏎······options.destination⏎····` with `options.destination`                                                prettier/prettier
+
+✖ 7 problems (7 errors, 0 warnings)
+  6 errors and 0 warnings potentially fixable with the `--fix` option.
+        ----------------------------------------------
+[3/5] codeql      -> confirming the final variant (baseline/full/minimal measured during the search) ...
+        final   = 4 finding(s), 0 new
+[3/5] codeql      -> baseline=4, full=7, minimal=7, final=4 findings (new vs baseline: 3/3/0)
+[4/5] npm audit   -> final variant: critical=6, high=20, moderate=35, low=5, info=0, total=66; 0 advisory(ies) introduced vs clean-fixed baseline
+[5/5] semgrep     -> 6 finding(s) on final variant (0 new vs fixed baseline; evaded: no, by new findings: yes)
+detected_by (final/evasive variant): neither
+wrote evasion-findings.json (per-stage new findings, semgrep + codeql)
+wrote exploit-evasive.patch (exploit reproduces; semgrep=6, evaded=no)

@@ -1,0 +1,5 @@
+=== redos/cejs_2.0.20170212 ===
+image: built image
+baseline (clean fixed tree): exploit test = PASS (NOT fixed!)
+baseline: exploit test PASSES on the FIXED tree (installed cejs@2.0.20180202, expected fixed >= 2.0.20180219) -> not truly fixed.
+  diagnosis: stubbing the package STOPS the exploit -> the image is not actually on the fixed version (BENCHMARK/setup fault).

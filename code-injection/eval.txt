@@ -1,0 +1,7 @@
+only for those which have both fixed version and a fixed commit.
+
+Processing 12 entries.
+
+
+
+Summary: baseline-already-vulnerable: image-not-fixed=3, image-failed=1, minimized+evaded (ci:broken)=2, minimized+evaded (ci:none)=2, minimized+evaded (ci:preserved)=1, minimized+partial-evade (ci:broken)=1, minimized+partial-evade (ci:none)=1, revert-applied-no-repro=1

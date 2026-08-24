@@ -1,0 +1,7 @@
+=== redos/normalize-url_6.0.0 (corrected retest) ===
+package        : normalize-url
+fixed-tree ms  : 0
+reverted ms    : 971
+corrected label: reproduces
+detail         : reverted 971ms >= threshold 250ms (fixed 0.2ms)
+oracle         : timeout=25s floor=250ms ratio=20x; HANG or reverted>=max(floor,ratio*fixed) => reproduces

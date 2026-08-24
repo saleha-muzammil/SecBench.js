@@ -1,0 +1,32 @@
+{
+  "package": "portprocesses",
+  "targets": [
+    "index.js",
+    "exec.js"
+  ],
+  "full_targets": [
+    "cli.js",
+    "index.js",
+    "exec.js"
+  ],
+  "semgrep": {
+    "fixed_total": 3,
+    "new_full": 0,
+    "new_minimal": 0,
+    "new_final": []
+  },
+  "codeql": {
+    "fixed_total": 0,
+    "new_full": 3,
+    "new_minimal": 1,
+    "new_final": [
+      {
+        "rule": "js/shell-command-constructed-from-input",
+        "message": "This string concatenation which depends on [library input](1) is later used in a [shell command](2).",
+        "path": "index.js",
+        "line": 28
+      }
+    ]
+  },
+  "detected_by": "codeql"
+}

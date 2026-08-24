@@ -1,0 +1,5 @@
+=== redos/jspdf_2.1.1 ===
+image: built image
+baseline (clean fixed tree): exploit test = PASS (NOT fixed!)
+baseline: exploit test PASSES on the FIXED tree (installed jspdf@2.3.0, expected fixed >= 2.3.1) -> not truly fixed.
+  diagnosis: stubbing the package STOPS the exploit -> the image is not actually on the fixed version (BENCHMARK/setup fault).

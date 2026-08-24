@@ -1,0 +1,9 @@
+[
+  [
+    "Prototype-polluting function",
+    "Functions recursively assigning properties on objects may be the cause of accidental modification of a built-in prototype object.",
+    "warning",
+    "The property chain [[\"here\"|\"relative:///lib/connie-lang.js:23:19:23:29\"]] is recursively assigned to [[\"o\"|\"relative:///lib/connie-lang.js:35:3:35:3\"]] without guarding against prototype pollution.",
+    "/lib/connie-lang.js"
+  ]
+]

@@ -1,0 +1,3 @@
+56 enteries
+
+Summary: baseline-already-vulnerable: exploit-self-fires=2, baseline-already-vulnerable: image-not-fixed=2, image-failed=6, minimized+evaded (ci:baseline-not-green)=5, minimized+evaded (ci:broken)=12, minimized+evaded (ci:preserved)=6, npm-fallback=24, revert-applied-no-repro=12, revert-apply-failed=16

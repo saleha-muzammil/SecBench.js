@@ -1,0 +1,7 @@
+=== redos/mobile-detect_1.3.6 (corrected retest) ===
+package        : mobile-detect
+fixed-tree ms  : 1101
+reverted ms    : 1100
+corrected label: no-repro
+detail         : reverted 1100ms < threshold 22022ms (fixed 1101.1ms) -- vuln needs more than the patch
+oracle         : timeout=25s floor=250ms ratio=20x; HANG or reverted>=max(floor,ratio*fixed) => reproduces

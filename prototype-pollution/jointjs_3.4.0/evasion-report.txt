@@ -1,0 +1,5 @@
+=== prototype-pollution/jointjs_3.4.0 ===
+image: built image
+baseline (clean fixed tree): exploit test = PASS (NOT fixed!)
+baseline: exploit test PASSES on the FIXED tree (installed jointjs@3.4.1, expected fixed >= 3.4.2) -> not truly fixed.
+  diagnosis: stubbing the package STOPS the exploit -> the image is not actually on the fixed version (BENCHMARK/setup fault).

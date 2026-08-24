@@ -1,0 +1,7 @@
+=== redos/simple-markdown_0.7.2 (corrected retest) ===
+package        : simple-markdown
+fixed-tree ms  : 1032
+reverted ms    : 1030
+corrected label: no-repro
+detail         : reverted 1030ms < threshold 20645ms (fixed 1032.3ms) -- vuln needs more than the patch
+oracle         : timeout=25s floor=250ms ratio=20x; HANG or reverted>=max(floor,ratio*fixed) => reproduces

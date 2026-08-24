@@ -1,0 +1,30 @@
+SecBench.js — test & CI inventory
+============================================================
+Entry      : code-injection/value-censorship_1.1.0
+Package    : value-censorship@1.1.0
+Repository : https://github.com/fabiosantoscode/value-censorship
+Source     : (default branch — version tag not found)
+Generated  : 2026-06-22
+
+== package.json test scripts ==
+  test: istanbul cover ./node_modules/.bin/_mocha
+
+== test framework dependencies ==
+  mocha, istanbul
+
+== how to run the tests ==
+  npm install
+  npm test
+
+== test directories ==
+  test/   (1 files)
+
+== test files (0 found) ==
+  (none found)
+
+== test runner config ==
+  (none found)
+
+== CI / workflows ==
+  (no CI / workflow files found)
+

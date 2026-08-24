@@ -1,0 +1,136 @@
+=== prototype-pollution/object-path-set_1.0.0 ===
+image: built image
+baseline (clean fixed tree): exploit test = FAIL (vuln closed, good)
+baseline: test FAILS on fixed tree (good).
+patch splits into 8 line-level change unit(s) across 4 file(s)
+semgrep on CLEAN FIXED tree (baseline): 1 finding(s)
+codeql on CLEAN FIXED tree (baseline): 0 finding(s)
+semgrep on FULL revert (no changes): 1 finding(s), 0 NEW vs fixed baseline -> evades: no (by new findings: yes)
+codeql on FULL revert (no changes): 2 finding(s), 2 NEW vs fixed baseline
+minimal revert (exploit-only): 1/8 line unit(s) -> ['index.js']
+semgrep on minimal variant (after chunking): 1 finding(s), 0 NEW vs fixed baseline
+--- semgrep findings (pre-evasion) ---
+  mini-prototype-pollution-path-write @ index.js:8: Writes through a caller-supplied property path without rejecting the `__proto__`, `constructor` and `prototype` segments, so a crafted path reaches Object.prototype (prototype pollution).
+--------------------------------------
+codeql on minimal variant (after chunking): 2 finding(s), 2 NEW vs fixed baseline
+    ! js/prototype-polluting-assignment @ index.js:22: This assignment may alter Object.prototype if a malicious '__proto__' string is injected from [library input](1).
+    ! js/prototype-polluting-assignment @ index.js:24: This assignment may alter Object.prototype if a malicious '__proto__' string is injected from [library input](1).
+selecting rewrites from the rules that actually fired: params->launder <- 'library input', methods->launder <- 'library input', source->launder <- 'library input', source->launder+index <- 'library input', pp-assign->reflect-set <- 'js/prototype-polluting-assignment', pp-assign->helper-set <- 'js/prototype-polluting-assignment', pp-key->launder <- 'js/prototype-polluting-assignment', pp-guard-mention(decoy) <- 'js/prototype-polluting-assignment'
+  methods->launder: matched nothing -> skipped
+  params->launder: test PASSES, semgrep 1 finding(s) (0 new), codeql new not re-run
+  source->launder: matched nothing -> skipped
+  source->launder+index: matched nothing -> skipped
+  pp-key->launder: test PASSES, semgrep 1 finding(s) (0 new), codeql new not re-run
+  pp-assign->helper-set: test PASSES, semgrep 0 finding(s) (0 new), codeql new not re-run
+  pp-assign->reflect-set: test PASSES, semgrep 0 finding(s) (0 new), codeql new not re-run
+  pp-guard-mention(decoy): test PASSES, semgrep 0 finding(s) (0 new), codeql new not re-run
+  pp-assign->helper-set+pp-assign->reflect-set: test PASSES, semgrep 0 finding(s) (0 new), codeql new not re-run
+  pp-assign->helper-set+pp-guard-mention(decoy): test PASSES, semgrep 0 finding(s) (0 new), codeql new not re-run
+  pp-assign->helper-set+params->launder: test PASSES, semgrep 0 finding(s) (0 new), codeql new not re-run
+  pp-assign->helper-set+pp-key->launder: test PASSES, semgrep 0 finding(s) (0 new), codeql new not re-run
+[1/5] test cases  -> exploit test PASSES (reproduces)
+[2/5] ci          -> skipped
+[3/5] codeql      -> confirming the final variant (baseline/full/minimal measured during the search) ...
+        final   = 0 finding(s), 0 new
+[3/5] codeql      -> baseline=0, full=2, minimal=2, final=0 findings (new vs baseline: 2/2/0)
+[4/5] npm audit   -> final variant: critical=42, high=64, moderate=27, low=1, info=0, total=134; 96 advisory(ies) introduced vs clean-fixed baseline
+        + all-contributors-cli :: (via async)
+        + all-contributors-cli :: (via lodash)
+        + async :: (via lodash)
+        + babel-core :: (via babel-types)
+        + babel-core :: (via lodash)
+        + babel-core :: (via minimatch)
+        + babel-generator :: (via babel-types)
+        + babel-generator :: (via lodash)
+        + babel-register :: (via lodash)
+        + babel-register :: (via mkdirp)
+        + babel-template :: (via babel-types)
+        + babel-template :: (via lodash)
+        + babel-traverse :: (via babel-types)
+        + babel-traverse :: (via lodash)
+        + babel-types :: (via lodash)
+        + cliui :: (via string-width)
+        + cliui :: (via strip-ansi)
+        + conventional-changelog-cli :: (via lodash)
+        + conventional-changelog-core :: (via git-remote-origin-url)
+        + conventional-changelog-core :: (via lodash)
+        + conventional-changelog-writer :: (via handlebars)
+        + conventional-changelog-writer :: (via lodash)
+        + conventional-changelog-writer :: (via semver)
+        + conventional-commits-parser :: (via lodash)
+        + conventional-commits-parser :: (via trim-off-newlines)
+        + coveralls :: (via js-yaml)
+        + coveralls :: (via minimist)
+        + eslint :: (via strip-ansi)
+        + exec-sh :: (via merge)
+        + expand-range :: (via fill-range)
+        + fileset :: (via minimatch)
+        + fstream :: (via mkdirp)
+        + fstream-ignore :: (via fstream)
+        + fstream-ignore :: (via minimatch)
+        + get-pkg-repo :: (via hosted-git-info)
+        + git-raw-commits :: (via lodash.template)
+        + git-remote-origin-url :: (via gitconfiglocal)
+        + git-semver-tags :: (via semver)
+        + gitconfiglocal :: (via ini)
+        + glob :: (via minimatch)
+        + http-signature :: (via jsprim)
+        + http-signature :: (via sshpk)
+        + inquirer :: (via lodash)
+        + inquirer :: (via string-width)
+        + inquirer :: (via strip-ansi)
+        + istanbul-api :: (via async)
+        + istanbul-api :: (via js-yaml)
+        + istanbul-api :: (via mkdirp)
+        + istanbul-lib-instrument :: (via semver)
+        + istanbul-lib-report :: (via mkdirp)
+        + istanbul-lib-report :: (via path-parse)
+        + istanbul-lib-source-maps :: (via mkdirp)
+        + istanbul-reports :: (via handlebars)
+        + jest-cli :: (via string-length)
+        + jest-cli :: (via strip-ansi)
+        + jest-diff :: (via diff)
+        + jest-snapshot :: (via mkdirp)
+        + jest-util :: (via mkdirp)
+        + jsdom :: (via nwmatcher)
+        + jsdom :: (via request-promise-native)
+        + makeerror :: (via tmpl)
+        + meow :: (via minimist)
+        + minimatch :: (via brace-expansion)
+        + node-notifier :: (via semver)
+        + node-pre-gyp :: (via mkdirp)
+        + node-pre-gyp :: (via rc)
+        + node-pre-gyp :: (via semver)
+        + normalize-package-data :: (via hosted-git-info)
+        + normalize-package-data :: (via semver)
+        + npm-run-all :: (via minimatch)
+        + npm-run-all :: (via shell-quote)
+        + pretty-format :: (via ansi-regex)
+        + rc :: (via ini)
+        + rc :: (via minimist)
+        + request :: (via extend)
+        + request :: (via http-signature)
+        + request :: (via qs)
+        + request :: (via stringstream)
+        + request-promise-core :: (via lodash)
+        + request-promise-native :: (via request-promise-core)
+        + request-promise-native :: (via tough-cookie)
+        + sane :: (via fsevents)
+        + sane :: (via minimatch)
+        + sane :: (via minimist)
+        + sane :: (via watch)
+        + string-length :: (via strip-ansi)
+        + string-width :: (via strip-ansi)
+        + strip-ansi :: (via ansi-regex)
+        + table :: (via string-width)
+        + tar :: (via fstream)
+        + tar-pack :: (via debug)
+        + tar-pack :: (via fstream)
+        + tar-pack :: (via fstream-ignore)
+        + watch :: (via minimist)
+        + yargs :: (via cliui)
+        + yargs :: (via y18n)
+[5/5] semgrep     -> 0 finding(s) on final variant (0 new vs fixed baseline; evaded: yes, by new findings: yes)
+detected_by (final/evasive variant): neither
+wrote evasion-findings.json (per-stage new findings, semgrep + codeql)
+wrote exploit-evasive.patch (exploit reproduces; semgrep=0, evaded=yes)

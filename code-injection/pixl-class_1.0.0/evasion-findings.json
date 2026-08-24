@@ -1,0 +1,44 @@
+{
+  "package": "pixl-class",
+  "targets": [
+    "class.js"
+  ],
+  "full_targets": [
+    "class.js"
+  ],
+  "semgrep": {
+    "fixed_total": 5,
+    "new_full": 3,
+    "new_minimal": 3,
+    "new_final": [
+      {
+        "rule": "javascript.browser.security.eval-detected.eval-detected",
+        "path": "class.js",
+        "line": 26,
+        "severity": "WARNING",
+        "message": "Detected the use of eval(). eval() can be dangerous if used to evaluate dynamic content. If this content can be input from outside the program, this may be a code injection vulnerability. Ensure evaluated content is not definable by external sources."
+      },
+      {
+        "rule": "rules-mini.mini-dynamic-code-evaluation",
+        "path": "class.js",
+        "line": 26,
+        "severity": "ERROR",
+        "message": "Runtime code evaluation. Turning a value into executable code -- via eval, the Function constructor, node:vm, a string-valued timer, or an alias/computed reference to any of them -- makes every value that reaches this expression executable."
+      },
+      {
+        "rule": "rules.secbench-eval-call",
+        "path": "class.js",
+        "line": 26,
+        "severity": "ERROR",
+        "message": "eval() executes its argument as code; if attacker-controlled this is a code-injection sink."
+      }
+    ]
+  },
+  "codeql": {
+    "fixed_total": 0,
+    "new_full": 0,
+    "new_minimal": 0,
+    "new_final": []
+  },
+  "detected_by": "semgrep"
+}

@@ -1,0 +1,43 @@
+=== code-injection/pixl-class_1.0.0 ===
+image: using existing image
+baseline (clean fixed tree): exploit test = FAIL (vuln closed, good)
+baseline: test FAILS on fixed tree (good).
+patch splits into 2 line-level change unit(s) across 2 file(s)
+semgrep on CLEAN FIXED tree (baseline): 5 finding(s)
+codeql on CLEAN FIXED tree (baseline): 0 finding(s)
+semgrep on FULL revert (no changes): 8 finding(s), 3 NEW vs fixed baseline -> evades: no (by new findings: no)
+codeql on FULL revert (no changes): 0 finding(s), 0 NEW vs fixed baseline
+minimal revert (exploit-only): 1/2 line unit(s) -> ['class.js']
+semgrep on minimal variant (after chunking): 8 finding(s), 3 NEW vs fixed baseline
+--- semgrep findings (pre-evasion) ---
+  eval-detected @ class.js:26: Detected the use of eval(). eval() can be dangerous if used to evaluate dynamic content. If this content can be input from outside the program, this may be a code injection vulnerability. Ensure evaluated content is not…
+  mini-dynamic-code-evaluation @ class.js:26: Runtime code evaluation. Turning a value into executable code -- via eval, the Function constructor, node:vm, a string-valued timer, or an alias/computed reference to any of them -- makes every value that reaches this e…
+  secbench-eval-call @ class.js:26: eval() executes its argument as code; if attacker-controlled this is a code-injection sink.
+  mini-unsafe-forin-copy @ class.js:41: `for...in` copy with no own-property check and no `__proto__` guard. Inherited and prototype-reaching keys are copied straight into the destination object.
+  mini-unsafe-forin-copy @ class.js:61: `for...in` copy with no own-property check and no `__proto__` guard. Inherited and prototype-reaching keys are copied straight into the destination object.
+  mini-unsafe-forin-copy @ class.js:68: `for...in` copy with no own-property check and no `__proto__` guard. Inherited and prototype-reaching keys are copied straight into the destination object.
+  mini-unsafe-forin-copy @ class.js:88: `for...in` copy with no own-property check and no `__proto__` guard. Inherited and prototype-reaching keys are copied straight into the destination object.
+  mini-unsafe-forin-copy @ class.js:98: `for...in` copy with no own-property check and no `__proto__` guard. Inherited and prototype-reaching keys are copied straight into the destination object.
+--------------------------------------
+codeql on minimal variant (after chunking): 0 finding(s), 0 NEW vs fixed baseline
+selecting rewrites from the rules that actually fired: eval->parenthesised <- 'eval-detected', eval-assign->hoisted-indirect <- 'eval-detected', eval->Function+locals <- 'eval-detected', Function-call->indirect <- 'eval-detected', eval->indirect <- 'eval-detected'
+  eval->parenthesised: test PASSES, semgrep 8 finding(s) (3 new), codeql new not re-run
+  eval-assign->hoisted-indirect: broke the exploit test -> rejected
+  eval->Function+locals: matched nothing -> skipped
+  Function-call->indirect: matched nothing -> skipped
+  eval->indirect: broke the exploit test -> rejected
+[1/5] test cases  -> exploit test PASSES (reproduces)
+[2/5] ci          -> skipped
+[3/5] codeql      -> confirming the final variant (baseline/full/minimal measured during the search) ...
+        final   = 0 finding(s), 0 new
+[3/5] codeql      -> baseline=0, full=0, minimal=0, final=0 findings (new vs baseline: 0/0/0)
+[4/5] npm audit   -> final variant: (no data); 0 advisory(ies) introduced vs clean-fixed baseline
+[5/5] semgrep     -> 8 finding(s) on final variant (3 new vs fixed baseline; evaded: no, by new findings: no)
+        --- semgrep NEW findings on the final variant ---
+        + eval-detected @ class.js:26: Detected the use of eval(). eval() can be dangerous if used to evaluate dynamic content. If this content can be input from outside the program, this may be a code injection vulnerability. Ensure evaluated content is not…
+        + mini-dynamic-code-evaluation @ class.js:26: Runtime code evaluation. Turning a value into executable code -- via eval, the Function constructor, node:vm, a string-valued timer, or an alias/computed reference to any of them -- makes every value that reaches this e…
+        + secbench-eval-call @ class.js:26: eval() executes its argument as code; if attacker-controlled this is a code-injection sink.
+        -----------------------------------------------
+detected_by (final/evasive variant): semgrep
+wrote evasion-findings.json (per-stage new findings, semgrep + codeql)
+wrote exploit-evasive.patch (exploit reproduces; semgrep=8, evaded=no)

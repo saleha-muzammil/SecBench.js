@@ -1,0 +1,22 @@
+{
+  "package": "papaparse",
+  "targets": [
+    "papaparse.js"
+  ],
+  "full_targets": [
+    "papaparse.js"
+  ],
+  "semgrep": {
+    "fixed_total": 6,
+    "new_full": 0,
+    "new_minimal": 0,
+    "new_final": []
+  },
+  "codeql": {
+    "fixed_total": 8,
+    "new_full": 0,
+    "new_minimal": 0,
+    "new_final": []
+  },
+  "detected_by": "neither"
+}

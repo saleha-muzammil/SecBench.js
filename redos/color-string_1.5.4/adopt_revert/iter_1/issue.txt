@@ -1,0 +1,9 @@
+Relax digit count restriction in HSL and HWB regex patterns to allow arbitrary-length integer parts
+
+The `cs.get.hsl` and `cs.get.hwb` functions in `index.js` currently use regular expressions that limit the integer portion of the hue value to at most three digits. For example, the HSL regex includes `(?:\d{0,3}\.)?` and the HWB regex includes `\d{0,3}(?:\.\d+)?`. This causes valid CSS color strings such as `hsla(1234, 50%, 50%)` or `hwb(1000deg, 20%, 30%)` to be incorrectly rejected. The CSS specification does not impose such a digit limit on hue values.
+
+Please update both regex patterns to remove the `{0,3}` restriction, allowing zero or more digits in the integer part. Specifically:
+- In the HSL regex (line ~132), change `(?:\d{0,3}\.)?` to `(?:\d*\.)?`.
+- In the HWB regex (line ~153), change `\d{0,3}(?:\.\d+)?` to `\d*[\.]?\d+` (or equivalently `\d*\.?\d+`).
+
+The rest of each regex should remain unchanged. After the change, the functions should correctly parse hue values with any number of integer digits, with or without a decimal point, and with an optional leading sign.

@@ -1,0 +1,27 @@
+"Unsafe shell command constructed from library input","Using externally controlled strings in a command line may allow a malicious user to change the meaning of the command.","error","This string concatenation which depends on [[""library input""|""relative:///src/index.js:32:46:44:1""]] is later used in a [[""shell command""|""relative:///src/run.js:10:26:10:54""]].","/src/check-out-tag.js","6","23","6","44"
+"Unsafe shell command constructed from library input","Using externally controlled strings in a command line may allow a malicious user to change the meaning of the command.","error","This string concatenation which depends on [[""library input""|""relative:///src/index.js:32:46:44:1""]] is later used in a [[""shell command""|""relative:///src/run.js:10:26:10:54""]].","/src/commit-and-tag.js","8","13","8","28"
+"Unsafe shell command constructed from library input","Using externally controlled strings in a command line may allow a malicious user to change the meaning of the command.","error","This string concatenation which depends on [[""library input""|""relative:///src/index.js:32:46:44:1""]] is later used in a [[""shell command""|""relative:///src/run.js:10:26:10:54""]].","/src/index.js","116","39","116","67"
+"Unsafe shell command constructed from library input","Using externally controlled strings in a command line may allow a malicious user to change the meaning of the command.","error","This string concatenation which depends on [[""library input""|""relative:///src/index.js:32:46:44:1""]] is later used in a [[""shell command""|""relative:///src/run.js:10:26:10:54""]].","/src/index.js","118","25","118","56"
+"Unsafe shell command constructed from library input","Using externally controlled strings in a command line may allow a malicious user to change the meaning of the command.","error","This string concatenation which depends on [[""library input""|""relative:///src/index.js:32:46:44:1""]] is later used in a [[""shell command""|""relative:///src/run.js:10:26:10:54""]].
+This string concatenation which depends on [[""library input""|""relative:///src/index.js:32:46:44:1""]] is later used in a [[""shell command""|""relative:///src/run.js:10:26:10:54""]].","/src/index.js","127","21","127","76"
+"Unsafe shell command constructed from library input","Using externally controlled strings in a command line may allow a malicious user to change the meaning of the command.","error","This string concatenation which depends on [[""library input""|""relative:///src/index.js:32:46:44:1""]] is later used in a [[""shell command""|""relative:///src/run.js:10:26:10:54""]].","/src/index.js","225","21","225","55"
+"Shell command built from environment values","Building a shell command string with values from the enclosing environment may cause subtle bugs or vulnerabilities.","warning","This shell command depends on an uncontrolled [[""absolute path""|""relative:///test/integration/index-test.js:260:15:260:78""]].
+This shell command depends on an uncontrolled [[""absolute path""|""relative:///test/integration/index-test.js:269:36:269:80""]].
+This shell command depends on an uncontrolled [[""absolute path""|""relative:///test/integration/index-test.js:270:34:270:76""]].
+This shell command depends on an uncontrolled [[""absolute path""|""relative:///test/integration/index-test.js:298:15:298:78""]].
+This shell command depends on an uncontrolled [[""absolute path""|""relative:///test/integration/index-test.js:307:36:307:80""]].
+This shell command depends on an uncontrolled [[""absolute path""|""relative:///test/integration/index-test.js:308:34:308:76""]].
+This shell command depends on an uncontrolled [[""absolute path""|""relative:///test/integration/index-test.js:516:19:516:82""]].
+This shell command depends on an uncontrolled [[""absolute path""|""relative:///test/integration/index-test.js:528:38:528:80""]].
+This shell command depends on an uncontrolled [[""absolute path""|""relative:///test/integration/index-test.js:541:19:541:82""]].
+This shell command depends on an uncontrolled [[""absolute path""|""relative:///test/integration/index-test.js:553:38:553:80""]].
+This shell command depends on an uncontrolled [[""absolute path""|""relative:///test/integration/index-test.js:567:19:567:82""]].
+This shell command depends on an uncontrolled [[""absolute path""|""relative:///test/integration/index-test.js:579:38:579:80""]].
+This shell command depends on an uncontrolled [[""absolute path""|""relative:///test/integration/index-test.js:593:19:593:82""]].
+This shell command depends on an uncontrolled [[""absolute path""|""relative:///test/integration/index-test.js:607:38:607:80""]].
+This shell command depends on an uncontrolled [[""absolute path""|""relative:///test/integration/index-test.js:744:15:744:78""]].
+This shell command depends on an uncontrolled [[""absolute path""|""relative:///test/integration/index-test.js:753:36:753:80""]].
+This shell command depends on an uncontrolled [[""absolute path""|""relative:///test/integration/index-test.js:754:34:754:76""]].
+This shell command depends on an uncontrolled [[""absolute path""|""relative:///test/integration/index-test.js:831:17:831:80""]].
+This shell command depends on an uncontrolled [[""absolute path""|""relative:///test/integration/index-test.js:838:38:838:82""]].
+This shell command depends on an uncontrolled [[""absolute path""|""relative:///test/integration/index-test.js:839:36:839:78""]].","/src/run.js","10","38","10","44"

@@ -1,0 +1,17 @@
+{
+  "package": "total.js",
+  "targets": [
+    "utils.js"
+  ],
+  "full_targets": [
+    "utils.js"
+  ],
+  "semgrep": {
+    "fixed_total": 18,
+    "new_full": 0,
+    "new_minimal": 0,
+    "new_final": []
+  },
+  "codeql": null,
+  "detected_by": "neither"
+}

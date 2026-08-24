@@ -1,5 +1,5 @@
 {
-  "id": "CVE-2019-10776",
+  "id": "",
   "dependencies": {
     "scp": "0.0.3"
   },
@@ -7,7 +7,8 @@
     "source1": "https://security.snyk.io/vuln/SNYK-JS-SCP-1009828",
     "source2": "https://github.com/advisories/GHSA-84cm-v6jp-gjmr"
   },
-  "fixedVersion": "0.22.2",
-  "fixCommit": "https://github.com/kellyselden/git-diff-apply/commit/106d61d3ae723b4257c2a13e67b95eb40a27e0b5",
-  "sink": "scp.js:21:3"
+  "fixedVersion": "n/a",
+  "fixCommit": "",
+  "sink": "scp.js:21:3",
+  "note": "No upstream fix: ecto/node-scp was abandoned in 2014 and 0.0.3 is still the latest published version. The previous fixedVersion/fixCommit belonged to git-diff-apply (CVE-2019-10776), a different package. See .quarantine-wrong-metadata/scp_0.0.3/WHY.md"
 }

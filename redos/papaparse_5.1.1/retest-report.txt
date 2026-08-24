@@ -1,0 +1,7 @@
+=== redos/papaparse_5.1.1 (corrected retest) ===
+package        : papaparse
+fixed-tree ms  : 2
+reverted ms    : 3526
+corrected label: reproduces
+detail         : reverted 3526ms >= threshold 250ms (fixed 2.5ms)
+oracle         : timeout=25s floor=250ms ratio=20x; HANG or reverted>=max(floor,ratio*fixed) => reproduces

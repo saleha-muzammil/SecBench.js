@@ -1,0 +1,7 @@
+=== redos/ansi-regex_4.1.0 (corrected retest) ===
+package        : ansi-regex
+fixed-tree ms  : 0
+reverted ms    : 1251
+corrected label: reproduces
+detail         : reverted 1251ms >= threshold 250ms (fixed 0.2ms)
+oracle         : timeout=25s floor=250ms ratio=20x; HANG or reverted>=max(floor,ratio*fixed) => reproduces

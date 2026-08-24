@@ -1,0 +1,8 @@
+=== redos/postcss_8.0.0 (corrected retest) ===
+package        : postcss
+fixed-tree ms  : n/a
+reverted ms    : n/a
+corrected label: image-failed
+detail         : docker build failed:
+postcss     && cd node_modules/postcss     && if git checkout -q \"2b1d04c867995e55124e0a165b7c6622c1735956\" || git checkout -q \"v7.0.36\" || git checkout -q \"7.0.36\"; then            npm install --no-audit --no-fund --ignore-scripts            && (npm run build --if-present || echo \"WARNING: build step failed/partial; continuing\")            && (npm run prepare --if-present || echo \"WARNING: prepare step failed/partial; continuing\");        else            echo \"WARNING: could not check out commit 2b1d04c867 / tag v7.0.36; installing postcss@7.0.36 from npm instead\"            && cd /exploit/postcss_8.0.0            && rm -rf node_modules/postcss            && npm install --no-audit --no-fund --ignore-scripts postcss@7.0.36;        fi" did not complete successfully: exit code: 1
+oracle         : timeout=25s floor=250ms ratio=20x; HANG or reverted>=max(floor,ratio*fixed) => reproduces

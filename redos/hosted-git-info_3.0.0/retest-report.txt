@@ -1,0 +1,7 @@
+=== redos/hosted-git-info_3.0.0 (corrected retest) ===
+package        : hosted-git-info
+fixed-tree ms  : 20
+reverted ms    : 1001
+corrected label: reproduces
+detail         : reverted 1001ms >= threshold 398ms (fixed 19.9ms)
+oracle         : timeout=25s floor=250ms ratio=20x; HANG or reverted>=max(floor,ratio*fixed) => reproduces

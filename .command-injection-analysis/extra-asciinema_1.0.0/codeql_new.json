@@ -1,0 +1,30 @@
+[
+  [
+    "Unsafe shell command constructed from library input",
+    "Using externally controlled strings in a command line may allow a malicious user to change the meaning of the command.",
+    "error",
+    "This string concatenation which depends on [[\"library input\"|\"relative:///src/cat.ts:10:14:10:14\"]] is later used in a [[\"shell command\"|\"relative:///src/cat.ts:12:5:15:6\"]].",
+    "/src/cat.ts"
+  ],
+  [
+    "Unsafe shell command constructed from library input",
+    "Using externally controlled strings in a command line may allow a malicious user to change the meaning of the command.",
+    "error",
+    "This string concatenation which depends on [[\"library input\"|\"relative:///src/catSync.ts:8:18:8:18\"]] is later used in a [[\"shell command\"|\"relative:///src/catSync.ts:9:10:9:62\"]].",
+    "/src/catSync.ts"
+  ],
+  [
+    "Unsafe shell command constructed from library input",
+    "Using externally controlled strings in a command line may allow a malicious user to change the meaning of the command.",
+    "error",
+    "This string concatenation which depends on [[\"library input\"|\"relative:///src/upload.ts:10:17:10:17\"]] is later used in a [[\"shell command\"|\"relative:///src/upload.ts:12:5:15:6\"]].",
+    "/src/upload.ts"
+  ],
+  [
+    "Unsafe shell command constructed from library input",
+    "Using externally controlled strings in a command line may allow a malicious user to change the meaning of the command.",
+    "error",
+    "This string concatenation which depends on [[\"library input\"|\"relative:///src/uploadSync.ts:8:21:8:21\"]] is later used in a [[\"shell command\"|\"relative:///src/uploadSync.ts:9:16:9:71\"]].",
+    "/src/uploadSync.ts"
+  ]
+]

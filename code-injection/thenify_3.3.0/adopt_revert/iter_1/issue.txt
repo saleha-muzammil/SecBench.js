@@ -1,0 +1,21 @@
+Refactor `createWrapper` to generate wrapper function via string concatenation and `eval`
+
+**Body:**
+
+Currently, `createWrapper` takes a function `fn` and returns a new function that wraps `fn`. This creates a closure for every wrapped function, which can be avoided by generating the wrapper as a string of JavaScript code and then evaluating it.
+
+Refactor `createWrapper` to accept a `name` string (the original function’s name) and an `options` object, and return a string that, when evaluated, produces the wrapper function. Update the call sites in `thenify` and `thenify.withCallback` to pass `fn.name` (the function’s name) to `createWrapper` and then use `eval()` on the returned string to obtain the wrapper.
+
+In `createWrapper`, build the function body as a string that declares `var self = this`, `var len = arguments.length`, and includes the `multiArgs` default and `withCallback` logic directly in the generated code. Move the default for `multiArgs` (previously in `createCallback`) into the generated string: default to `true` unless `options.multiArgs` is explicitly provided.
+
+In `thenify.withCallback`, set `options.multiArgs` to `true` if it is `undefined` before calling `createWrapper`, to preserve the previous default behavior (which was implicitly true because `createCallback` defaulted to `true`).
+
+In `createCallback`, remove the `multiArgs === undefined` default assignment; it will now always be passed from the generated wrapper code.
+
+Update the test file (`test/test.js`) to remove the two tests:
+- “unicode function name” – tests a function with a name containing Unicode and special characters.
+- “invalid function name” – tests a function with a name that contains characters invalid in a JavaScript identifier.
+
+These names cannot be used in a `function` declaration inside the generated code, so they are no longer supported.
+
+The result should be functionally identical for all valid function names, with no performance regression and the same behavior for `multiArgs` defaults.

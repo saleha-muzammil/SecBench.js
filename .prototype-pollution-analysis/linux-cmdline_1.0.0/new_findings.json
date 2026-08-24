@@ -1,0 +1,29 @@
+[
+  {
+    "check_id": "Users.saleha.Desktop.cispa.mini-swe-agent.src.minisweagent.config.extra.mini-prototype-pollution-path-write",
+    "path": "index.js",
+    "start": {
+      "line": 1,
+      "col": 1,
+      "offset": 0
+    },
+    "end": {
+      "line": 31,
+      "col": 2,
+      "offset": 462
+    },
+    "extra": {
+      "message": "Writes through a caller-supplied property path without rejecting the `__proto__`, `constructor` and `prototype` segments, so a crafted path reaches Object.prototype (prototype pollution).",
+      "metadata": {
+        "category": "security",
+        "cwe": "CWE-1321: Improperly Controlled Modification of Object Prototype Attributes",
+        "confidence": "MEDIUM"
+      },
+      "severity": "ERROR",
+      "fingerprint": "requires login",
+      "lines": "requires login",
+      "validation_state": "NO_VALIDATOR",
+      "engine_kind": "OSS"
+    }
+  }
+]

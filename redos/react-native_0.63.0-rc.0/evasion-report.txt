@@ -1,0 +1,28 @@
+=== redos/react-native_0.63.0-rc.0 ===
+image: docker build failed:
+#11 130.4 npm ERR! Could not resolve dependency:
+#11 130.4 npm ERR! peer babel-eslint@"^7.2.3 || ^8.0.0 || ^9.0.0" from eslint-config-fbjs@2.1.0
+#11 130.4 npm ERR! node_modules/eslint-config-fbjs
+#11 130.4 npm ERR!   dev eslint-config-fbjs@"2.1.0" from the root project
+#11 130.4 npm ERR! 
+#11 130.4 npm ERR! Fix the upstream dependency conflict, or retry
+#11 130.4 npm ERR! this command with --force, or --legacy-peer-deps
+#11 130.4 npm ERR! to accept an incorrect (and potentially broken) dependency resolution.
+#11 130.4 npm ERR! 
+#11 130.4 npm ERR! See /root/.npm/eresolve-report.txt for a full report.
+#11 130.4 npm ERR! A complete log of this run can be found in:
+#11 130.4 npm ERR!     /root/.npm/_logs/2026-08-20T14_17_30_113Z-debug-0.log
+#11 ERROR: process "/bin/sh -c git clone https://github.com/facebook/react-native.git node_modules/react-native     && cd node_modules/react-native     && if ! (git checkout -q \"ca09ae82715e33c9ac77b3fa55495cf84ba891c7\" || { git fetch -q --depth 1 origin \"ca09ae82715e33c9ac77b3fa55495cf84ba891c7\" && git checkout -q FETCH_HEAD; } || git checkout -q \"v0.64.1\" || git checkout -q \"0.64.1\"); then            echo \"ERROR: cannot check out commit ca09ae8271 / tag v0.64.1 in https://github.com/facebook/react-native.\" >&2;            echo \"       Building anyway would silently use the default branch, which is\" >&2;            echo \"       neither react-native@0.64.1 nor the pinned commit, so the exploit\" >&2;            echo \"       oracle would be measuring the wrong code.\" >&2;            echo \"       Fix the version/commit for react-native in repositories.csv, or\" >&2;            echo \"       regenerate with --allow-npm-fallback to install from npm.\" >&2;            exit 1;        fi     && npm install --no-audit --no-fund --ignore-scripts     && (npm run build --if-present || echo \"WARNING: build step failed/partial; continuing\")     && (npm run prepare --if-present || echo \"WARNING: prepare step failed/partial; continuing\")" did not complete successfully: exit code: 1
+ > [7/8] RUN git clone https://github.com/facebook/react-native.git node_modules/react-native     && cd node_modules/react-native     && if ! (git checkout -q "ca09ae82715e33c9ac77b3fa55495cf84ba891c7" || { git fetch -q --depth 1 origin "ca09ae82715e33c9ac77b3fa55495cf84ba891c7" && git checkout -q FETCH_HEAD; } || git checkout -q "v0.64.1" || git checkout -q "0.64.1"); then            echo "ERROR: cannot check out commit ca09ae8271 / tag v0.64.1 in https://github.com/facebook/react-native." >&2;            echo "       Building anyway would silently use the default branch, which is" >&2;            echo "       neither react-native@0.64.1 nor the pinned commit, so the exploit" >&2;            echo "       oracle would be measuring the wrong code." >&2;            echo "       Fix the version/commit for react-native in repositories.csv, or" >&2;            echo "       regenerate with --allow-npm-fallback to install from npm." >&2;            exit 1;        fi     && npm install --no-audit --no-fund --ignore-scripts     && (npm run build --if-present || echo "WARNING: build step failed/partial; continuing")     && (npm run prepare --if-present || echo "WARNING: prepare step failed/partial; continuing"):
+130.4 npm ERR!   dev eslint-config-fbjs@"2.1.0" from the root project
+130.4 npm ERR! 
+130.4 npm ERR! Fix the upstream dependency conflict, or retry
+130.4 npm ERR! this command with --force, or --legacy-peer-deps
+130.4 npm ERR! to accept an incorrect (and potentially broken) dependency resolution.
+130.4 npm ERR! 
+130.4 npm ERR! See /root/.npm/eresolve-report.txt for a full report.
+130.4 npm ERR! A complete log of this run can be found in:
+130.4 npm ERR!     /root/.npm/_logs/2026-08-20T14_17_30_113Z-debug-0.log
+  56 | >>>            echo "ERROR: cannot check out commit ca09ae8271 / tag v0.64.1 in https://github.com/facebook/react-native." >&2; \
+ERROR: failed to solve: process "/bin/sh -c git clone https://github.com/facebook/react-native.git node_modules/react-native     && cd node_modules/react-native     && if ! (git checkout -q \"ca09ae82715e33c9ac77b3fa55495cf84ba891c7\" || { git fetch -q --depth 1 origin \"ca09ae82715e33c9ac77b3fa55495cf84ba891c7\" && git checkout -q FETCH_HEAD; } || git checkout -q \"v0.64.1\" || git checkout -q \"0.64.1\"); then            echo \"ERROR: cannot check out commit ca09ae8271 / tag v0.64.1 in https://github.com/facebook/react-native.\" >&2;            echo \"       Building anyway would silently use the default branch, which is\" >&2;            echo \"       neither react-native@0.64.1 nor the pinned commit, so the exploit\" >&2;            echo \"       oracle would be measuring the wrong code.\" >&2;            echo \"       Fix the version/commit for react-native in repositories.csv, or\" >&2;            echo \"       regenerate with --allow-npm-fallback to install from npm.\" >&2;            exit 1;        fi     && npm install --no-audit --no-fund --ignore-scripts     && (npm run build --if-present || echo \"WARNING: build step failed/partial; continuing\")     && (npm run prepare --if-present || echo \"WARNING: prepare step failed/partial; continuing\")" did not complete successfully: exit code: 1
+full log: /Users/saleha/Desktop/cispa/SecBench.js/redos/react-native_0.63.0-rc.0/docker-build.log

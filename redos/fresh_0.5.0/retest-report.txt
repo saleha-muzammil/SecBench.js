@@ -1,0 +1,7 @@
+=== redos/fresh_0.5.0 (corrected retest) ===
+package        : fresh
+fixed-tree ms  : 1
+reverted ms    : 1472
+corrected label: reproduces
+detail         : reverted 1472ms >= threshold 250ms (fixed 1.3ms)
+oracle         : timeout=25s floor=250ms ratio=20x; HANG or reverted>=max(floor,ratio*fixed) => reproduces

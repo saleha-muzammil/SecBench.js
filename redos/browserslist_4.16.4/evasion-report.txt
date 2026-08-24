@@ -1,0 +1,5 @@
+=== redos/browserslist_4.16.4 ===
+image: built image
+baseline (clean fixed tree): exploit test = PASS (NOT fixed!)
+baseline: exploit test PASSES on the FIXED tree (installed browserslist@4.16.3, expected fixed >= 4.16.5) -> not truly fixed.
+  diagnosis: stubbing the package STOPS the exploit -> the image is not actually on the fixed version (BENCHMARK/setup fault).

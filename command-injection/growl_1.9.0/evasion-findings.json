@@ -1,0 +1,22 @@
+{
+  "package": "growl",
+  "targets": [
+    "lib/growl.js"
+  ],
+  "full_targets": [
+    "lib/growl.js"
+  ],
+  "semgrep": {
+    "fixed_total": 1,
+    "new_full": 0,
+    "new_minimal": 0,
+    "new_final": []
+  },
+  "codeql": {
+    "fixed_total": 1,
+    "new_full": 23,
+    "new_minimal": 23,
+    "new_final": []
+  },
+  "detected_by": "neither"
+}

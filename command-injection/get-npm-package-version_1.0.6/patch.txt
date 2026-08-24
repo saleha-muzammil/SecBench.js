@@ -1,0 +1,23 @@
+From 40b1cf31a0607ea66f9e30a0c3af1383b52b2dec Mon Sep 17 00:00:00 2001
+From: DuLinRain <dulinrain@mail.hfut.edu.cn>
+Date: Tue, 26 Jan 2021 11:48:05 +0800
+Subject: [PATCH] feat: add defence to Command Injection
+
+add defence to Command Injection
+---
+ index.js | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/index.js b/index.js
+index a207f28..2e4b490 100644
+--- a/index.js
++++ b/index.js
+@@ -1,5 +1,8 @@
+ module.exports = function (packageName, { registry = '', timeout = null } = {}) {
+     try {
++        if (/[`$&{}[;|]/g.test(packageName) || /[`$&{}[;|]/g.test(registry)) {
++            return null
++        }
+         let version;
+ 
+         const config = {

@@ -1,0 +1,54 @@
+[
+  {
+    "check_id": "javascript.lang.security.audit.detect-non-literal-regexp.detect-non-literal-regexp",
+    "path": "src/utils/pattern.ts",
+    "start": {
+      "line": 4,
+      "col": 12,
+      "offset": 160
+    },
+    "end": {
+      "line": 4,
+      "col": 38,
+      "offset": 186
+    },
+    "extra": {
+      "message": "RegExp() called with a `regExp` function argument, this might allow an attacker to cause a Regular Expression Denial-of-Service (ReDoS) within your application as RegExP blocks the main thread. For this reason, it is recommended to use hardcoded regexes instead. If your regex is run on user-controlled input, consider performing input validation or use a regex checking/sanitization library such as https://www.npmjs.com/package/recheck to verify that the regex does not appear vulnerable to ReDoS.",
+      "metadata": {
+        "owasp": [
+          "A05:2021 - Security Misconfiguration",
+          "A06:2017 - Security Misconfiguration",
+          "A02:2025 - Security Misconfiguration"
+        ],
+        "cwe": [
+          "CWE-1333: Inefficient Regular Expression Complexity"
+        ],
+        "references": [
+          "https://owasp.org/www-community/attacks/Regular_expression_Denial_of_Service_-_ReDoS"
+        ],
+        "source-rule-url": "https://github.com/nodesecurity/eslint-plugin-security/blob/master/rules/detect-non-literal-regexp.js",
+        "category": "security",
+        "technology": [
+          "javascript"
+        ],
+        "subcategory": [
+          "vuln"
+        ],
+        "likelihood": "MEDIUM",
+        "impact": "MEDIUM",
+        "confidence": "LOW",
+        "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+        "vulnerability_class": [
+          "Denial-of-Service (DoS)"
+        ],
+        "source": "https://semgrep.dev/r/javascript.lang.security.audit.detect-non-literal-regexp.detect-non-literal-regexp",
+        "shortlink": "https://sg.run/gr65"
+      },
+      "severity": "WARNING",
+      "fingerprint": "requires login",
+      "lines": "requires login",
+      "validation_state": "NO_VALIDATOR",
+      "engine_kind": "OSS"
+    }
+  }
+]

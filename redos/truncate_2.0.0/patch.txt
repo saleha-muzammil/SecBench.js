@@ -1,0 +1,75 @@
+From e6f3e85f8cd36d02f877c014e8f5cfa87c3f3b57 Mon Sep 17 00:00:00 2001
+From: Jamie Davis <davisjam@vt.edu>
+Date: Sat, 24 Feb 2018 14:38:10 -0500
+Subject: [PATCH 1/2] security: add test demonstrating REDOS
+
+---
+ test.js | 29 +++++++++++++++++++++++++++++
+ 1 file changed, 29 insertions(+)
+
+diff --git a/test.js b/test.js
+index df560dd..b6fcbf4 100644
+--- a/test.js
++++ b/test.js
+@@ -73,3 +73,32 @@ exports['should keep url safe'] = function (t) {
+ 
+   t.done();
+ };
++
++exports['Not vulnerable to REDOS'] = function (t) {
++
++  var prefix, pump, suffix, nPumps, attackString; // for evil input
++  var input, actual, expect; // input to truncate()
++  var before, elapsed; // timing
++
++  /* URL_REGEX */
++  prefix = '-@w--w--';
++  pump = 'ww--';
++  suffix = '';
++  nPumps = 20000;
++
++  attackString = prefix;
++  for (var i = 0; i < nPumps; i++) {
++    attackString += pump;
++  }
++  attackString += suffix;
++
++  before = process.hrtime();
++  input = 'Hey ' + attackString;
++  actual = truncate(input, 4);
++  expect = 'Hey …';
++  t.strictEqual(expect, actual);
++  elapsed = process.hrtime(before);
++
++  t.equals(elapsed[0], 0); // Should take < 1 second
++  t.done();
++};
+
+From a940e5bec7d3b9a65e7198867a4df5c0b2cd185d Mon Sep 17 00:00:00 2001
+From: Jamie Davis <davisjam@vt.edu>
+Date: Sat, 24 Feb 2018 14:51:07 -0500
+Subject: [PATCH 2/2] security: address redos
+
+Modify the URL_REGEX so it is no longer vulnerable.
+I restricted the maximum length of emails to 600 chars, well over
+the limit specified in the RFC.
+A slightly wider variety of emails are now accepted.
+---
+ truncate.js | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/truncate.js b/truncate.js
+index 677f9ad..07fb83f 100644
+--- a/truncate.js
++++ b/truncate.js
+@@ -7,7 +7,9 @@
+     'use strict';
+ 
+     var DEFAULT_TRUNCATE_SYMBOL = '…',
+-        URL_REGEX = /(((ftp|https?):\/\/)[\-\w@:%_\+.~#?,&\/\/=]+)|((mailto:)?[_.\w-]+@([\w][\w\-]+\.)+[a-zA-Z]{2,3})/g; // Simple regexp
++        // Limit emails to no more than about 600 chars, well over the max of ~300.
++        // cf. RFC: https://www.rfc-editor.org/errata_search.php?eid=1690
++        URL_REGEX = /(((ftp|https?):\/\/)[\-\w@:%_\+.~#?,&\/\/=]+)|((mailto:)?[_.\w-]{1,300}@(.{1,300}\.)[a-zA-Z]{2,3})/g;
+ 
+     function __appendEllipsis(string, options, content) {
+         if (content.length === string.length || !options.ellipsis) {

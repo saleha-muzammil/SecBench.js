@@ -1,0 +1,9 @@
+[
+  [
+    "Polynomial regular expression used on uncontrolled data",
+    "A regular expression that can require polynomial time to match may be vulnerable to denial-of-service attacks.",
+    "warning",
+    "This [[\"regular expression\"|\"relative:///index.js:153:36:153:38\"]] that depends on [[\"library input\"|\"relative:///index.js:19:20:19:25\"]] may run slow on strings starting with 'hwb(' and with many repetitions of '9'.\nThis [[\"regular expression\"|\"relative:///index.js:153:36:153:38\"]] that depends on [[\"library input\"|\"relative:///index.js:148:24:148:29\"]] may run slow on strings starting with 'hwb(' and with many repetitions of '9'.",
+    "/index.js"
+  ]
+]

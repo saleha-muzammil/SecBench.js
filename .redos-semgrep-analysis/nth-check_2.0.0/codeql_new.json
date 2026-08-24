@@ -1,0 +1,9 @@
+[
+  [
+    "Polynomial regular expression used on uncontrolled data",
+    "A regular expression that can require polynomial time to match may be vulnerable to denial-of-service attacks.",
+    "warning",
+    "This [[\"regular expression\"|\"relative:///src/parse.ts:4:51:4:53\"]] that depends on [[\"library input\"|\"relative:///src/index.ts:29:34:29:40\"]] may run slow on strings with many repetitions of ' '.\nThis [[\"regular expression\"|\"relative:///src/parse.ts:4:51:4:53\"]] that depends on [[\"library input\"|\"relative:///src/parse.ts:13:23:13:29\"]] may run slow on strings with many repetitions of ' '.",
+    "/src/parse.ts"
+  ]
+]

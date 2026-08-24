@@ -1,0 +1,38 @@
+{
+  "package": "pathval",
+  "targets": [
+    "index.js",
+    "test/index.js"
+  ],
+  "full_targets": [
+    "index.js",
+    "karma.conf.js",
+    "test/index.js"
+  ],
+  "semgrep": {
+    "fixed_total": 6,
+    "new_full": 0,
+    "new_minimal": 0,
+    "new_final": []
+  },
+  "codeql": {
+    "fixed_total": 0,
+    "new_full": 2,
+    "new_minimal": 2,
+    "new_final": [
+      {
+        "rule": "js/prototype-polluting-assignment",
+        "message": "This assignment may alter Object.prototype if a malicious '__proto__' string is injected from [library input](1).",
+        "path": "index.js",
+        "line": 158
+      },
+      {
+        "rule": "js/prototype-polluting-assignment",
+        "message": "This assignment may alter Object.prototype if a malicious '__proto__' string is injected from [library input](1).",
+        "path": "index.js",
+        "line": 170
+      }
+    ]
+  },
+  "detected_by": "codeql"
+}

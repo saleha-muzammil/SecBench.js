@@ -1,0 +1,6 @@
+=== redos/three_0.122.0 ===
+image: built image
+baseline (clean fixed tree): repo CI = fail
+baseline (clean fixed tree): exploit test = PASS (NOT fixed!)
+baseline: exploit test PASSES on the FIXED tree (installed three@0.124.0, expected fixed >= 0.125.0) -> not truly fixed.
+  diagnosis: stubbing the package STOPS the exploit -> the image is not actually on the fixed version (BENCHMARK/setup fault).

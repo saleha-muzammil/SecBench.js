@@ -1,0 +1,3 @@
+=== prototype-pollution/prototyped.js_2.0.0 ===
+image: built image
+prototyped.test.js contains NO assertions -> jest passes it unconditionally, so it reports every version as vulnerable.

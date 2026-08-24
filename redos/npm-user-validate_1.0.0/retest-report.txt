@@ -1,0 +1,7 @@
+=== redos/npm-user-validate_1.0.0 (corrected retest) ===
+package        : npm-user-validate
+fixed-tree ms  : 0
+reverted ms    : 666
+corrected label: reproduces
+detail         : reverted 666ms >= threshold 250ms (fixed 0.0ms)
+oracle         : timeout=25s floor=250ms ratio=20x; HANG or reverted>=max(floor,ratio*fixed) => reproduces

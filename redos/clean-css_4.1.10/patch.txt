@@ -1,0 +1,286 @@
+From 2929bafbf8cdf7dccb24e0949c70833764fa87e3 Mon Sep 17 00:00:00 2001
+From: Jakub Pawlowicz <contact@jakubpawlowicz.com>
+Date: Tue, 6 Mar 2018 11:10:05 +0100
+Subject: [PATCH] Fixes ReDOS vulnerabilities.
+
+Jamie Davis (@davisjam) from Virginia Tech reported that clean-css
+suffers from ReDOS vulnerability [0] when fed with crafted input.
+
+Since not so many people use clean-css allowing untrusted input such
+cases may be rare, but this commit reworks vulnerable code to prevent
+such attacks.
+
+It also limits certain whitespace blocks to sane length of 31 characters
+in validation regexes to prevent similar issues.
+
+[0] https://snyk.io/blog/redos-and-catastrophic-backtracking
+---
+ History.md                                    |  1 +
+ README.md                                     |  1 +
+ lib/optimizer/level-2/can-override.js         | 21 ++++++-
+ lib/optimizer/level-2/compactable.js          |  2 +-
+ .../level-2/remove-unused-at-rules.js         |  2 +-
+ lib/optimizer/validator.js                    | 59 +++++++++++++++----
+ lib/tokenizer/tokenize.js                     |  2 +-
+ test/module-test.js                           | 22 +++++++
+ 8 files changed, 96 insertions(+), 14 deletions(-)
+
+diff --git a/History.md b/History.md
+index 98596bb45..52ac33a77 100644
+--- a/History.md
++++ b/History.md
+@@ -5,6 +5,7 @@
+ * Fixed issue [#861](https://github.com/jakubpawlowicz/clean-css/issues/861) - new `transition` property optimizer.
+ * Fixed issue [#895](https://github.com/jakubpawlowicz/clean-css/issues/895) - ignoring specific styles.
+ * Fixed issue [#947](https://github.com/jakubpawlowicz/clean-css/issues/947) - selector based filtering.
++* Fixes ReDOS vulnerabilities in validator code.
+ 
+ [4.1.10 / 2018-03-05](https://github.com/jakubpawlowicz/clean-css/compare/v4.1.9...v4.1.10)
+ ==================
+diff --git a/README.md b/README.md
+index 83b91fae8..43e48c353 100644
+--- a/README.md
++++ b/README.md
+@@ -743,6 +743,7 @@ Sorted alphabetically by GitHub handle:
+ * [@alexlamsl](https://github.com/alexlamsl) (Alex Lam S.L.) for testing early clean-css 4 versions, reporting bugs, and suggesting numerous improvements.
+ * [@altschuler](https://github.com/altschuler) (Simon Altschuler) for fixing `@import` processing inside comments;
+ * [@ben-eb](https://github.com/ben-eb) (Ben Briggs) for sharing ideas about CSS optimizations;
++* [@davisjam](https://github.com/davisjam) (Jamie Davis) for disclosing ReDOS vulnerabilities;
+ * [@facelessuser](https://github.com/facelessuser) (Isaac) for pointing out a flaw in clean-css' stateless mode;
+ * [@grandrath](https://github.com/grandrath) (Martin Grandrath) for improving `minify` method source traversal in ES6;
+ * [@jmalonzo](https://github.com/jmalonzo) (Jan Michael Alonzo) for a patch removing node.js' old `sys` package;
+diff --git a/lib/optimizer/level-2/can-override.js b/lib/optimizer/level-2/can-override.js
+index ceac48217..3dae08f0e 100644
+--- a/lib/optimizer/level-2/can-override.js
++++ b/lib/optimizer/level-2/can-override.js
+@@ -199,6 +199,24 @@ function unitOrKeywordWithGlobal(propertyName) {
+   };
+ }
+ 
++function unitOrNumber(validator, value1, value2) {
++  if (!understandable(validator, value1, value2, 0, true) && !(validator.isUnit(value2) || validator.isNumber(value2))) {
++    return false;
++  } else if (validator.isVariable(value1) && validator.isVariable(value2)) {
++    return true;
++  } else if ((validator.isUnit(value1) || validator.isNumber(value1)) && !(validator.isUnit(value2) || validator.isNumber(value2))) {
++    return false;
++  } else if (validator.isUnit(value2) || validator.isNumber(value2)) {
++    return true;
++  } else if (validator.isUnit(value1) || validator.isNumber(value1)) {
++    return false;
++  } else if (validator.isFunction(value1) && !validator.isPrefixed(value1) && validator.isFunction(value2) && !validator.isPrefixed(value2)) {
++    return true;
++  }
++
++  return sameFunctionOrValue(validator, value1, value2);
++}
++
+ function zIndex(validator, value1, value2) {
+   if (!understandable(validator, value1, value2, 0, true) && !validator.isZIndex(value2)) {
+     return false;
+@@ -217,7 +235,8 @@ module.exports = {
+     propertyName: propertyName,
+     time: time,
+     timingFunction: timingFunction,
+-    unit: unit
++    unit: unit,
++    unitOrNumber: unitOrNumber
+   },
+   property: {
+     animationDirection: keywordWithGlobal('animation-direction'),
+diff --git a/lib/optimizer/level-2/compactable.js b/lib/optimizer/level-2/compactable.js
+index 57a58635b..73f42a10e 100644
+--- a/lib/optimizer/level-2/compactable.js
++++ b/lib/optimizer/level-2/compactable.js
+@@ -681,7 +681,7 @@ var compactable = {
+     defaultValue: 'auto'
+   },
+   'line-height': {
+-    canOverride: canOverride.generic.unit,
++    canOverride: canOverride.generic.unitOrNumber,
+     defaultValue: 'normal',
+     shortestValue: '0'
+   },
+diff --git a/lib/optimizer/level-2/remove-unused-at-rules.js b/lib/optimizer/level-2/remove-unused-at-rules.js
+index 23d4d7cb9..798d3939f 100644
+--- a/lib/optimizer/level-2/remove-unused-at-rules.js
++++ b/lib/optimizer/level-2/remove-unused-at-rules.js
+@@ -8,7 +8,7 @@ var Token = require('../../tokenizer/token');
+ var animationNameRegex = /^(\-moz\-|\-o\-|\-webkit\-)?animation-name$/;
+ var animationRegex = /^(\-moz\-|\-o\-|\-webkit\-)?animation$/;
+ var keyframeRegex = /^@(\-moz\-|\-o\-|\-webkit\-)?keyframes /;
+-var importantRegex = /\s*!important$/;
++var importantRegex = /\s{0,31}!important$/;
+ var optionalMatchingQuotesRegex = /^(['"]?)(.*)\1$/;
+ 
+ function normalize(value) {
+diff --git a/lib/optimizer/validator.js b/lib/optimizer/validator.js
+index b3937075c..48c8afcbe 100644
+--- a/lib/optimizer/validator.js
++++ b/lib/optimizer/validator.js
+@@ -4,19 +4,24 @@ var variableRegexStr = 'var\\(\\-\\-[^\\)]+\\)';
+ var functionAnyRegexStr = '(' + variableRegexStr + '|' + functionNoVendorRegexStr + '|' + functionVendorRegexStr + ')';
+ 
+ var calcRegex = new RegExp('^(\\-moz\\-|\\-webkit\\-)?calc\\([^\\)]+\\)$', 'i');
++var decimalRegex = /[0-9]/;
+ var functionAnyRegex = new RegExp('^' + functionAnyRegexStr + '$', 'i');
+-var hslColorRegex = /^hsl\(\s*[\-\.\d]+\s*,\s*[\.\d]+%\s*,\s*[\.\d]+%\s*\)|hsla\(\s*[\-\.\d]+\s*,\s*[\.\d]+%\s*,\s*[\.\d]+%\s*,\s*[\.\d]+\s*\)$/;
++var hslColorRegex = /^hsl\(\s{0,31}[\-\.]?\d+\s{0,31},\s{0,31}\.?\d+%\s{0,31},\s{0,31}\.?\d+%\s{0,31}\)|hsla\(\s{0,31}[\-\.]?\d+\s{0,31},\s{0,31}\.?\d+%\s{0,31},\s{0,31}\.?\d+%\s{0,31},\s{0,31}\.?\d+\s{0,31}\)$/;
+ var identifierRegex = /^(\-[a-z0-9_][a-z0-9\-_]*|[a-z][a-z0-9\-_]*)$/i;
+ var longHexColorRegex = /^#[0-9a-f]{6}$/i;
+ var namedEntityRegex = /^[a-z]+$/i;
+ var prefixRegex = /^-([a-z0-9]|-)*$/i;
+-var rgbColorRegex = /^rgb\(\s*[\d]{1,3}\s*,\s*[\d]{1,3}\s*,\s*[\d]{1,3}\s*\)|rgba\(\s*[\d]{1,3}\s*,\s*[\d]{1,3}\s*,\s*[\d]{1,3}\s*,\s*[\.\d]+\s*\)$/;
++var rgbColorRegex = /^rgb\(\s{0,31}[\d]{1,3}\s{0,31},\s{0,31}[\d]{1,3}\s{0,31},\s{0,31}[\d]{1,3}\s{0,31}\)|rgba\(\s{0,31}[\d]{1,3}\s{0,31},\s{0,31}[\d]{1,3}\s{0,31},\s{0,31}[\d]{1,3}\s{0,31},\s{0,31}[\.\d]+\s{0,31}\)$/;
+ var shortHexColorRegex = /^#[0-9a-f]{3}$/i;
+-var timeRegex = new RegExp('^(\\-?\\+?\\.?\\d+\\.?\\d*(s|ms))$');
+ var timingFunctionRegex = /^(cubic\-bezier|steps)\([^\)]+\)$/;
++var validTimeUnits = ['ms', 's'];
+ var urlRegex = /^url\([\s\S]+\)$/i;
+ var variableRegex = new RegExp('^' + variableRegexStr + '$', 'i');
+ 
++var DECIMAL_DOT = '.';
++var MINUS_SIGN = '-';
++var PLUS_SIGN = '+';
++
+ var Keywords = {
+   '^': [
+     'inherit',
+@@ -386,7 +391,7 @@ function isNamedEntity(value) {
+ }
+ 
+ function isNumber(value) {
+-  return value.length > 0 && ('' + parseFloat(value)) === value;
++  return scanForNumber(value) == value.length;
+ }
+ 
+ function isRgbColor(value) {
+@@ -407,7 +412,10 @@ function isVariable(value) {
+ }
+ 
+ function isTime(value) {
+-  return timeRegex.test(value);
++  var numberUpTo = scanForNumber(value);
++
++  return numberUpTo == value.length && parseInt(value) === 0 ||
++    numberUpTo > -1 && validTimeUnits.indexOf(value.slice(numberUpTo + 1)) > -1;
+ }
+ 
+ function isTimingFunction() {
+@@ -418,8 +426,13 @@ function isTimingFunction() {
+   };
+ }
+ 
+-function isUnit(compatibleCssUnitRegex, value) {
+-  return compatibleCssUnitRegex.test(value);
++function isUnit(validUnits, value) {
++  var numberUpTo = scanForNumber(value);
++
++  return numberUpTo == value.length && parseInt(value) === 0 ||
++    numberUpTo > -1 && validUnits.indexOf(value.slice(numberUpTo + 1)) > -1 ||
++    value == 'auto' ||
++    value == 'inherit';
+ }
+ 
+ function isUrl(value) {
+@@ -432,13 +445,38 @@ function isZIndex(value) {
+     isKeyword('^')(value);
+ }
+ 
++function scanForNumber(value) {
++  var hasDot = false;
++  var hasSign = false;
++  var character;
++  var i, l;
++
++  for (i = 0, l = value.length; i < l; i++) {
++    character = value[i];
++
++    if (i === 0 && (character == PLUS_SIGN || character == MINUS_SIGN)) {
++      hasSign = true;
++    } else if (i > 0 && hasSign && (character == PLUS_SIGN || character == MINUS_SIGN)) {
++      return i - 1;
++    } else if (character == DECIMAL_DOT && !hasDot) {
++      hasDot = true;
++    } else if (character == DECIMAL_DOT && hasDot) {
++      return i - 1;
++    } else if (decimalRegex.test(character)) {
++      continue;
++    } else {
++      return i - 1;
++    }
++  }
++
++  return i;
++}
++
+ function validator(compatibility) {
+   var validUnits = Units.slice(0).filter(function (value) {
+     return !(value in compatibility.units) || compatibility.units[value] === true;
+   });
+ 
+-  var compatibleCssUnitRegex = new RegExp('^(\\-?\\.?\\d+\\.?\\d*(' + validUnits.join('|') + '|)|auto|inherit)$', 'i');
+-
+   return {
+     colorOpacity: compatibility.colors.opacity,
+     isAnimationDirectionKeyword: isKeyword('animation-direction'),
+@@ -471,12 +509,13 @@ function validator(compatibility) {
+     isLineHeightKeyword: isKeyword('line-height'),
+     isListStylePositionKeyword: isKeyword('list-style-position'),
+     isListStyleTypeKeyword: isKeyword('list-style-type'),
++    isNumber: isNumber,
+     isPrefixed: isPrefixed,
+     isPositiveNumber: isPositiveNumber,
+     isRgbColor: isRgbColor,
+     isStyleKeyword: isKeyword('*-style'),
+     isTime: isTime,
+-    isUnit: isUnit.bind(null, compatibleCssUnitRegex),
++    isUnit: isUnit.bind(null, validUnits),
+     isUrl: isUrl,
+     isVariable: isVariable,
+     isWidth: isKeyword('width'),
+diff --git a/lib/tokenizer/tokenize.js b/lib/tokenizer/tokenize.js
+index 2d34e4d6f..8d8c63c79 100644
+--- a/lib/tokenizer/tokenize.js
++++ b/lib/tokenizer/tokenize.js
+@@ -59,7 +59,7 @@ var EXTRA_PAGE_BOXES = [
+   '@right'
+ ];
+ 
+-var REPEAT_PATTERN = /^\[\s*\d+\s*\]$/;
++var REPEAT_PATTERN = /^\[\s{0,31}\d+\s{0,31}\]$/;
+ var RULE_WORD_SEPARATOR_PATTERN = /[\s\(]/;
+ var TAIL_BROKEN_VALUE_PATTERN = /[\s|\}]*$/;
+ 
+diff --git a/test/module-test.js b/test/module-test.js
+index 8aede41fc..bca1159ce 100644
+--- a/test/module-test.js
++++ b/test/module-test.js
+@@ -869,5 +869,27 @@ vows.describe('module tests').addBatch({
+     'should raise no errors': function (error, minified) {
+       assert.isEmpty(minified.errors);
+     }
++  },
++  'vulnerabilities': {
++    'ReDOS in time units': {
++      'topic': function () {
++        var prefix = '-+.0';
++        var pump = [];
++        var suffix = '-0';
++        var input;
++        var i;
++
++        for (i = 0; i < 10000; i++) {
++          pump.push('0000000000');
++        }
++
++        input = '.block{animation:1s test;animation-duration:' + prefix + pump.join('') + suffix + 's}';
++
++        return new CleanCSS({ level: { 1: { replaceZeroUnits: false }, 2: true } }).minify(input);
++      },
++      'finishes in less than a second': function (error, minified) {
++        assert.isTrue(minified.stats.timeSpent < 1000);
++      }
++    }
+   }
+ }).export(module);

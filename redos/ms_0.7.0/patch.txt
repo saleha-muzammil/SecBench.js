@@ -1,0 +1,22 @@
+From 48701f029417faf65e6f5e0b61a3cebe5436b07b Mon Sep 17 00:00:00 2001
+From: Guillermo Rauch <rauchg@gmail.com>
+Date: Mon, 20 Apr 2015 16:36:11 -0700
+Subject: [PATCH] prevent extraordinary long inputs (@evilpacket)
+
+---
+ index.js | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/index.js b/index.js
+index e79bfa1..4f92771 100644
+--- a/index.js
++++ b/index.js
+@@ -38,6 +38,8 @@ module.exports = function(val, options){
+  */
+ 
+ function parse(str) {
++  str = '' + str;
++  if (str.length > 10000) return;
+   var match = /^((?:\d+)?\.?\d+) *(milliseconds?|msecs?|ms|seconds?|secs?|s|minutes?|mins?|m|hours?|hrs?|h|days?|d|years?|yrs?|y)?$/i.exec(str);
+   if (!match) return;
+   var n = parseFloat(match[1]);

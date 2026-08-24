@@ -1,0 +1,17 @@
+56 enteries
+
+Summary: image-failed=3, npm-fallback=1, revert-applied-no-repro=51, revert-apply-failed=1
+
+What each result means (where the problem is):
+   3  image-failed                                   SETUP    Dockerfile.fixed build failed (bad version pin / 404)
+   1  npm-fallback                                   SETUP    no git tree to revert (npm-installed, not cloned)
+  51  revert-applied-no-repro                        BENCHMARK revert applied but exploit doesn't reproduce (vuln needs more than the patch)
+   1  revert-apply-failed                            SETUP    patch.txt won't reverse-apply (lockfile/built/drifted hunks)
+
+  ci: preserved = patch keeps repo tests green (stealthy) | broken = patch fails repo CI | none = no test script | baseline-not-green = can't compare | skipped
+
+  wrote evasion-results-redos.csv  (56 entries)
+    evade semgrep -- no changes (full revert): 0/0
+    evade semgrep -- after chunking (minimal): 0/0
+    evade semgrep -- after syntax rewrite     : 0/0
+(myenv) saleha@Salehas-MacBook-Pro secbench.js % 

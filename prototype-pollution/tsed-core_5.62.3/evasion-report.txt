@@ -1,0 +1,14 @@
+=== prototype-pollution/tsed-core_5.62.3 ===
+image: docker build failed:
+d commit, so the exploit" >&2; \
+  33 | >>>            echo "       oracle would be measuring the wrong code." >&2; \
+  34 | >>>            echo "       Fix the version/commit for @tsed/core in repositories.csv, or" >&2; \
+  35 | >>>            echo "       regenerate with --allow-npm-fallback to install from npm." >&2; \
+  36 | >>>            exit 1; \
+  37 | >>>        fi \
+  38 | >>>     && npm install --no-audit --no-fund --ignore-scripts \
+  39 | >>>     && (npm run build --if-present || echo "WARNING: build step failed/partial; continuing") \
+  40 | >>>     && (npm run prepare --if-present || echo "WARNING: prepare step failed/partial; continuing")
+  41 |     
+--------------------
+ERROR: failed to solve: process "/bin/sh -c git clone https://github.com/TypedProject/tsed.git node_modules/@tsed/core     && cd node_modules/@tsed/core     && if ! (git checkout -q \"1395773ddac35926cf058fc6da9fb8e82266761b\" || { git fetch -q --depth 1 origin \"1395773ddac35926cf058fc6da9fb8e82266761b\" && git checkout -q FETCH_HEAD; } || git checkout -q \"v5.65.7\" || git checkout -q \"5.65.7\"); then            echo \"ERROR: cannot check out commit 1395773dda / tag v5.65.7 in https://github.com/TypedProject/tsed.\" >&2;            echo \"       Building anyway would silently use the default branch, which is\" >&2;            echo \"       neither @tsed/core@5.65.7 nor the pinned commit, so the exploit\" >&2;            echo \"       oracle would be measuring the wrong code.\" >&2;            echo \"       Fix the version/commit for @tsed/core in repositories.csv, or\" >&2;            echo \"       regenerate with --allow-npm-fallback to install from npm.\" >&2;            exit 1;        fi     && npm install --no-audit --no-fund --ignore-scripts     && (npm run build --if-present || echo \"WARNING: build step failed/partial; continuing\")     && (npm run prepare --if-present || echo \"WARNING: prepare step failed/partial; continuing\")" did not complete successfully: exit code: 1

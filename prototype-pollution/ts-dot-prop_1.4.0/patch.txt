@@ -1,0 +1,119 @@
+From 816b887a669ab959c3c2f85c6563d33928f00f14 Mon Sep 17 00:00:00 2001
+From: Justin Lettau <justin.b.lettau@gmail.com>
+Date: Sun, 13 Sep 2020 08:03:52 -0700
+Subject: [PATCH] fix: prevent get/set problematic paths
+
+---
+ src/index.spec.ts | 14 +++++++++++++-
+ src/index.ts      | 31 ++++++++++++++++++++++++++++++-
+ 2 files changed, 43 insertions(+), 2 deletions(-)
+
+diff --git a/src/index.spec.ts b/src/index.spec.ts
+index e4d88b5..d6400fc 100644
+--- a/src/index.spec.ts
++++ b/src/index.spec.ts
+@@ -17,7 +17,7 @@ describe('ts-dot-prop methods', () => {
+         color: 'orange'
+       }]
+     };
+-  })
++  });
+ 
+   /**
+    * Get
+@@ -52,6 +52,11 @@ describe('ts-dot-prop methods', () => {
+     expect(value).toEqual('not found');
+   });
+ 
++  it('should prevent getting prototype', () => {
++    const value: any = dot.get(obj, '__proto__');
++    expect(value).toBeUndefined();
++  });
++
+   /**
+    * Set
+    */
+@@ -76,6 +81,13 @@ describe('ts-dot-prop methods', () => {
+     expect(obj.fruit[1].color).toEqual('Yellow');
+   });
+ 
++  it('should prevent setting prototype', () => {
++    dot.set({}, '__proto__.danger', 'fire');
++
++    const value: any = {};
++    expect(value.danger).not.toBe('fire');
++  });
++
+   /**
+    * Has
+    */
+diff --git a/src/index.ts b/src/index.ts
+index 2df2f5c..49ca591 100644
+--- a/src/index.ts
++++ b/src/index.ts
+@@ -13,6 +13,15 @@ import {
+  */
+ const indexer: RegExp = /[0-9]+/;
+ 
++/**
++ * Disallowed keys.
++ */
++const disallowed: string[] = [
++  '__proto__',
++  'prototype',
++  'constructor'
++];
++
+ /**
+  * Get object property value.
+  *
+@@ -29,6 +38,10 @@ export function get(obj: object, path: string, value?: any): any {
+ 
+   const parts: string[] = getParts(path);
+ 
++  if (parts.length === 0) {
++    return;
++  }
++
+   for (const key of parts) {
+     if (key === '*') {
+       // do nothing
+@@ -62,6 +75,11 @@ export function set(obj: object, path: string, value: any): void {
+   }
+ 
+   const parts: string[] = getParts(path);
++
++  if (parts.length === 0) {
++    return;
++  }
++
+   const len: number = parts.length;
+ 
+   for (let i: number = 0; i < len; i++) {
+@@ -115,6 +133,11 @@ export function remove(obj: object, path: string): boolean {
+   }
+ 
+   const parts: string[] = getParts(path);
++
++  if (parts.length === 0) {
++    return;
++  }
++
+   const len: number = parts.length;
+ 
+   for (let i: number = 0; i < len; i++) {
+@@ -155,7 +178,13 @@ export function paths(obj: object): string[] {
+  * @param path Dot notation string.
+  */
+ function getParts(path: string): string[] {
+-  return path.split(/[\.]|(?:\[(\d|\*)\])/).filter(item => !!item);
++  const parts: string[] = path.split(/[\.]|(?:\[(\d|\*)\])/).filter(item => !!item);
++
++  if (parts.some(x => disallowed.indexOf(x) !== -1)) {
++    return [];
++  }
++
++  return parts;
+ }
+ 
+ /**

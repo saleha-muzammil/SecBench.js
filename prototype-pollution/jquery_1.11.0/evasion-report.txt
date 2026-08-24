@@ -1,0 +1,28 @@
+=== prototype-pollution/jquery_1.11.0 ===
+image: docker build failed:
+#10 6.377 npm ERR! Could not resolve dependency:
+#10 6.377 npm ERR! peer karma@"^3.0.0" from grunt-karma@3.0.1
+#10 6.377 npm ERR! node_modules/grunt-karma
+#10 6.377 npm ERR!   dev grunt-karma@"3.0.1" from the root project
+#10 6.377 npm ERR! 
+#10 6.377 npm ERR! Fix the upstream dependency conflict, or retry
+#10 6.377 npm ERR! this command with --force, or --legacy-peer-deps
+#10 6.378 npm ERR! to accept an incorrect (and potentially broken) dependency resolution.
+#10 6.378 npm ERR! 
+#10 6.378 npm ERR! See /root/.npm/eresolve-report.txt for a full report.
+#10 6.379 npm ERR! A complete log of this run can be found in:
+#10 6.379 npm ERR!     /root/.npm/_logs/2026-08-20T10_56_58_944Z-debug-0.log
+#10 ERROR: process "/bin/sh -c git clone https://github.com/jquery/jquery.git node_modules/jquery     && cd node_modules/jquery     && if ! (git checkout -q \"753d591aea698e57d6db58c9f722cd0808619b1b\" || { git fetch -q --depth 1 origin \"753d591aea698e57d6db58c9f722cd0808619b1b\" && git checkout -q FETCH_HEAD; } || git checkout -q \"v3.4.0\" || git checkout -q \"3.4.0\"); then            echo \"ERROR: cannot check out commit 753d591aea / tag v3.4.0 in https://github.com/jquery/jquery.\" >&2;            echo \"       Building anyway would silently use the default branch, which is\" >&2;            echo \"       neither jquery@3.4.0 nor the pinned commit, so the exploit\" >&2;            echo \"       oracle would be measuring the wrong code.\" >&2;            echo \"       Fix the version/commit for jquery in repositories.csv, or\" >&2;            echo \"       regenerate with --allow-npm-fallback to install from npm.\" >&2;            exit 1;        fi     && npm install --no-audit --no-fund --ignore-scripts     && (npm run build --if-present || echo \"WARNING: build step failed/partial; continuing\")     && (npm run prepare --if-present || echo \"WARNING: prepare step failed/partial; continuing\")" did not complete successfully: exit code: 1
+ > [6/7] RUN git clone https://github.com/jquery/jquery.git node_modules/jquery     && cd node_modules/jquery     && if ! (git checkout -q "753d591aea698e57d6db58c9f722cd0808619b1b" || { git fetch -q --depth 1 origin "753d591aea698e57d6db58c9f722cd0808619b1b" && git checkout -q FETCH_HEAD; } || git checkout -q "v3.4.0" || git checkout -q "3.4.0"); then            echo "ERROR: cannot check out commit 753d591aea / tag v3.4.0 in https://github.com/jquery/jquery." >&2;            echo "       Building anyway would silently use the default branch, which is" >&2;            echo "       neither jquery@3.4.0 nor the pinned commit, so the exploit" >&2;            echo "       oracle would be measuring the wrong code." >&2;            echo "       Fix the version/commit for jquery in repositories.csv, or" >&2;            echo "       regenerate with --allow-npm-fallback to install from npm." >&2;            exit 1;        fi     && npm install --no-audit --no-fund --ignore-scripts     && (npm run build --if-present || echo "WARNING: build step failed/partial; continuing")     && (npm run prepare --if-present || echo "WARNING: prepare step failed/partial; continuing"):
+6.377 npm ERR!   dev grunt-karma@"3.0.1" from the root project
+6.377 npm ERR! 
+6.377 npm ERR! Fix the upstream dependency conflict, or retry
+6.377 npm ERR! this command with --force, or --legacy-peer-deps
+6.378 npm ERR! to accept an incorrect (and potentially broken) dependency resolution.
+6.378 npm ERR! 
+6.378 npm ERR! See /root/.npm/eresolve-report.txt for a full report.
+6.379 npm ERR! A complete log of this run can be found in:
+6.379 npm ERR!     /root/.npm/_logs/2026-08-20T10_56_58_944Z-debug-0.log
+  30 | >>>            echo "ERROR: cannot check out commit 753d591aea / tag v3.4.0 in https://github.com/jquery/jquery." >&2; \
+ERROR: failed to solve: process "/bin/sh -c git clone https://github.com/jquery/jquery.git node_modules/jquery     && cd node_modules/jquery     && if ! (git checkout -q \"753d591aea698e57d6db58c9f722cd0808619b1b\" || { git fetch -q --depth 1 origin \"753d591aea698e57d6db58c9f722cd0808619b1b\" && git checkout -q FETCH_HEAD; } || git checkout -q \"v3.4.0\" || git checkout -q \"3.4.0\"); then            echo \"ERROR: cannot check out commit 753d591aea / tag v3.4.0 in https://github.com/jquery/jquery.\" >&2;            echo \"       Building anyway would silently use the default branch, which is\" >&2;            echo \"       neither jquery@3.4.0 nor the pinned commit, so the exploit\" >&2;            echo \"       oracle would be measuring the wrong code.\" >&2;            echo \"       Fix the version/commit for jquery in repositories.csv, or\" >&2;            echo \"       regenerate with --allow-npm-fallback to install from npm.\" >&2;            exit 1;        fi     && npm install --no-audit --no-fund --ignore-scripts     && (npm run build --if-present || echo \"WARNING: build step failed/partial; continuing\")     && (npm run prepare --if-present || echo \"WARNING: prepare step failed/partial; continuing\")" did not complete successfully: exit code: 1
+full log: /Users/saleha/Desktop/cispa/SecBench.js/prototype-pollution/jquery_1.11.0/docker-build.log

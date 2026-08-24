@@ -1,0 +1,36 @@
+SecBench.js — test & CI inventory
+============================================================
+Entry      : code-injection/serialize-javascript_2.0.0
+Package    : serialize-javascript@2.0.0
+Repository : https://github.com/yahoo/serialize-javascript
+Source     : checked out: v2.0.0
+Generated  : 2026-06-22
+
+== package.json test scripts ==
+  test: istanbul cover -- ./node_modules/mocha/bin/_mocha test/unit/ --reporter spec
+
+== test framework dependencies ==
+  mocha, chai, istanbul
+
+== how to run the tests ==
+  npm install
+  npm test
+
+== test directories ==
+  test/   (2 files)
+
+== test files (0 found) ==
+  (none found)
+
+== test runner config ==
+  (none found)
+
+== CI / workflows ==
+  .travis.yml
+
+  --- .travis.yml ---
+  | language: node_js
+  | node_js:
+  |     - "8"
+  |     - "10"
+

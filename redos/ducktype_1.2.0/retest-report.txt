@@ -1,0 +1,7 @@
+=== redos/ducktype_1.2.0 (corrected retest) ===
+package        : ducktype
+fixed-tree ms  : 373
+reverted ms    : 1023
+corrected label: no-repro
+detail         : reverted 1023ms < threshold 7451ms (fixed 372.6ms) -- vuln needs more than the patch
+oracle         : timeout=25s floor=250ms ratio=20x; HANG or reverted>=max(floor,ratio*fixed) => reproduces

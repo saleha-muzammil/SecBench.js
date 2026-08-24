@@ -1,0 +1,85 @@
+diff --git a/index.js b/index.js
+index d633174..067aae9 100644
+--- a/index.js
++++ b/index.js
+@@ -1,4 +1,3 @@
+-
+ var Promise = require('any-promise')
+ var assert = require('assert')
+ 
+@@ -14,7 +13,12 @@ module.exports = thenify
+ 
+ function thenify(fn, options) {
+   assert(typeof fn === 'function')
+-  return createWrapper(fn, options)
++  options = options || {}
++  var name = fn.name
++  name = (name || '').replace(/\s|bound(?!$)/g, '')
++  var wrapper = eval(createWrapper(name, options))
++  Object.defineProperty(wrapper, 'name', { value: name })
++  return wrapper
+ }
+ 
+ /**
+@@ -29,12 +33,15 @@ thenify.withCallback = function (fn, options) {
+   assert(typeof fn === 'function')
+   options = options || {}
+   options.withCallback = true
+-  return createWrapper(fn, options)
++  if (options.multiArgs === undefined) options.multiArgs = true
++  var name = fn.name
++  name = (name || '').replace(/\s|bound(?!$)/g, '')
++  var wrapper = eval(createWrapper(name, options))
++  Object.defineProperty(wrapper, 'name', { value: name })
++  return wrapper
+ }
+ 
+ function createCallback(resolve, reject, multiArgs) {
+-  // default to true
+-  if (multiArgs === undefined) multiArgs = true
+   return function(err, value) {
+     if (err) return reject(err)
+     var length = arguments.length
+@@ -53,25 +60,22 @@ function createCallback(resolve, reject, multiArgs) {
+   }
+ }
+ 
+-function createWrapper(fn, options) {
++function createWrapper(name, options) {
+   options = options || {}
+-  var name = fn.name;
+-  name = (name || '').replace(/\s|bound(?!$)/g, '')
+-  var newFn = function () {
+-    var self = this
+-    var len = arguments.length
+-    if (options.withCallback) {
+-      var lastType = typeof arguments[len - 1]
+-      if (lastType === 'function') return fn.apply(self, arguments)
+-    }
+-    var args = new Array(len + 1)
+-    for (var i = 0; i < len; ++i) args[i] = arguments[i]
+-    var lastIndex = i
+-    return new Promise(function (resolve, reject) {
+-      args[lastIndex] = createCallback(resolve, reject, options.multiArgs)
+-      fn.apply(self, args)
+-    })
+-  }
+-  Object.defineProperty(newFn, 'name', { value: name })
+-  return newFn
++  return '(function () {\n' +
++    'var self = this\n' +
++    'var len = arguments.length\n' +
++    'if (options.withCallback) {\n' +
++    '  var lastType = typeof arguments[len - 1]\n' +
++    '  if (lastType === "function") return fn.apply(self, arguments)\n' +
++    '}\n' +
++    'var args = new Array(len + 1)\n' +
++    'for (var i = 0; i < len; ++i) args[i] = arguments[i]\n' +
++    'var lastIndex = i\n' +
++    'return new Promise(function (resolve, reject) {\n' +
++    '  var multiArgs = options.multiArgs === undefined ? true : options.multiArgs\n' +
++    '  args[lastIndex] = createCallback(resolve, reject, multiArgs)\n' +
++    '  fn.apply(self, args)\n' +
++    '})\n' +
++    '})'
+ }

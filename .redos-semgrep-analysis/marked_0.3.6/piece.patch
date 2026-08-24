@@ -1,0 +1,10 @@
+diff --git a/test/specs/redos/quadratic_underscores.js b/test/specs/redos/quadratic_underscores.js
+new file mode 100644
+index 0000000000..a695488e09
+--- /dev/null
++++ b/test/specs/redos/quadratic_underscores.js
+@@ -0,0 +1,4 @@
++module.exports = {
++  markdown: `${'_'.repeat(101)} a`,
++  html: `<p>${'_'.repeat(101)} a</p>`
++};

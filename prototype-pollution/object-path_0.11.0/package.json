@@ -9,6 +9,6 @@
     "source3": "https://hackerone.com/reports/878332"
   },
   "fixedVersion": "0.11.5",
-  "fixCommit": "https://github.com/skratchdot/object-path-set/commit/55f06d75abf5885f9cba3b7760acb38d7d7d06c0",
+  "fixCommit": "https://github.com/mariocasciaro/object-path/commit/2be3354c6c46215c7635eb1b76d80f1319403c68",
   "sink": "index.js:19:13"
 }

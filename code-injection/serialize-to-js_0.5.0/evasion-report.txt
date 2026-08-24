@@ -1,0 +1,6 @@
+=== code-injection/serialize-to-js_0.5.0 ===
+image: built image
+baseline (clean fixed tree): exploit test = FAIL (vuln closed, good)
+baseline: test FAILS on fixed tree (good).
+patch splits into 21 line-level change unit(s) across 8 file(s)
+exploit still fires with 'serialize-to-js' STUBBED OUT -> the PoC is self-firing; its reproduction is not attributable to the package (EXPLOIT fault).

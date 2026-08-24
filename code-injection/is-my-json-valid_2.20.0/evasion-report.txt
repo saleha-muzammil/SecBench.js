@@ -1,0 +1,6 @@
+=== code-injection/is-my-json-valid_2.20.0 ===
+image: built image
+installed test deps: sleep
+baseline (clean fixed tree): exploit test = PASS (NOT fixed!)
+baseline: exploit test PASSES on the FIXED tree (installed is-my-json-valid@2.20.0, expected fixed >= 2.20.3) -> not truly fixed.
+  diagnosis: stubbing the package STOPS the exploit -> the image is not actually on the fixed version (BENCHMARK/setup fault).

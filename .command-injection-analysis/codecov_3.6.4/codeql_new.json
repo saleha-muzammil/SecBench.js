@@ -1,0 +1,44 @@
+[
+  [
+    "Unsafe shell command constructed from library input",
+    "Using externally controlled strings in a command line may allow a malicious user to change the meaning of the command.",
+    "error",
+    "This path concatenation which depends on [[\"library input\"|\"relative:///lib/codecov.js:237:23:237:26\"]] is later used in a [[\"shell command\"|\"relative:///lib/codecov.js:417:7:417:20\"]].\nThis path concatenation which depends on [[\"library input\"|\"relative:///lib/codecov.js:237:23:237:26\"]] is later used in a [[\"shell command\"|\"relative:///lib/codecov.js:478:16:478:72\"]].",
+    "/lib/codecov.js"
+  ],
+  [
+    "Unsafe shell command constructed from library input",
+    "Using externally controlled strings in a command line may allow a malicious user to change the meaning of the command.",
+    "error",
+    "This string concatenation which depends on [[\"library input\"|\"relative:///lib/codecov.js:237:23:237:26\"]] is later used in a [[\"shell command\"|\"relative:///lib/codecov.js:417:7:417:20\"]].\nThis string concatenation which depends on [[\"library input\"|\"relative:///lib/codecov.js:237:23:237:26\"]] is later used in a [[\"shell command\"|\"relative:///lib/codecov.js:417:7:417:20\"]].\nThis string concatenation which depends on [[\"library input\"|\"relative:///lib/codecov.js:237:23:237:26\"]] is later used in a [[\"shell command\"|\"relative:///lib/codecov.js:417:7:417:20\"]].\nThis string concatenation which depends on [[\"library input\"|\"relative:///lib/codecov.js:237:23:237:26\"]] is later used in a [[\"shell command\"|\"relative:///lib/codecov.js:417:7:417:20\"]].",
+    "/lib/codecov.js"
+  ],
+  [
+    "Unsafe shell command constructed from library input",
+    "Using externally controlled strings in a command line may allow a malicious user to change the meaning of the command.",
+    "error",
+    "This string concatenation which depends on [[\"library input\"|\"relative:///lib/codecov.js:237:23:237:26\"]] is later used in a [[\"shell command\"|\"relative:///lib/codecov.js:417:7:417:20\"]].\nThis string concatenation which depends on [[\"library input\"|\"relative:///lib/codecov.js:237:23:237:26\"]] is later used in a [[\"shell command\"|\"relative:///lib/codecov.js:417:7:417:20\"]].\nThis string concatenation which depends on [[\"library input\"|\"relative:///lib/codecov.js:237:23:237:26\"]] is later used in a [[\"shell command\"|\"relative:///lib/codecov.js:417:7:417:20\"]].",
+    "/lib/codecov.js"
+  ],
+  [
+    "Unsafe shell command constructed from library input",
+    "Using externally controlled strings in a command line may allow a malicious user to change the meaning of the command.",
+    "error",
+    "This string concatenation which depends on [[\"library input\"|\"relative:///lib/codecov.js:237:23:237:26\"]] is later used in a [[\"shell command\"|\"relative:///lib/codecov.js:478:16:478:72\"]].",
+    "/lib/codecov.js"
+  ],
+  [
+    "Shell command built from environment values",
+    "Building a shell command string with values from the enclosing environment may cause subtle bugs or vulnerabilities.",
+    "warning",
+    "This shell command depends on an uncontrolled [[\"absolute path\"|\"relative:///lib/codecov.js:354:14:354:65\"]].",
+    "/lib/codecov.js"
+  ],
+  [
+    "Shell command built from environment values",
+    "Building a shell command string with values from the enclosing environment may cause subtle bugs or vulnerabilities.",
+    "warning",
+    "This shell command depends on an uncontrolled [[\"absolute path\"|\"relative:///lib/codecov.js:354:14:354:65\"]].",
+    "/lib/codecov.js"
+  ]
+]

@@ -1,0 +1,10 @@
+SecBench.js — test & CI inventory
+============================================================
+Entry      : code-injection/wifiscanner_1.0.1
+Package    : wifiscanner@1.0.1
+Repository : (none resolved)
+
+No upstream source repository could be resolved for this package, so it is
+installed from the npm registry. There is no repo to inspect for tests/CI.
+To examine the published tarball instead:
+  npm pack wifiscanner@1.0.1 && tar -xf *.tgz

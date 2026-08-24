@@ -1,0 +1,11 @@
+Analyzer report for command-injection/async-git_1.13.1
+Package : async-git@1.13.1  (fixed: 1.13.2)
+CVE     : CVE-2020-28490
+Repo    : omrilotan/async-git
+Image   : secbench-fixed/async-git_1.13.1
+Image   : built image
+
+========================================================================
+SKIPPED
+========================================================================
+source is an npm-install fallback (no git clone); the patch cannot be reverted in place.

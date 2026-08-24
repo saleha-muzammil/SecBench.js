@@ -1,0 +1,6 @@
+=== path-traversal/angular-http-server_1.0.0 ===
+image: built image
+installed test deps: sleep
+baseline (clean fixed tree): exploit test = PASS (NOT fixed!)
+baseline: exploit test PASSES on the FIXED tree (installed angular-http-server@1.0.0, expected fixed >= 1.4.4) -> not truly fixed.
+  diagnosis: stubbing the package STOPS the exploit -> the image is not actually on the fixed version (BENCHMARK/setup fault).

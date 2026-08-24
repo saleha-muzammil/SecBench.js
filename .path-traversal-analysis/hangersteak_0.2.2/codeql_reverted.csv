@@ -1,0 +1,4 @@
+"Uncontrolled data used in path expression","Accessing paths influenced by users can allow an attacker to access unexpected resources.","error","This path depends on a [[""user-provided value""|""relative:///lib/hangersteak.js:112:7:112:13""]].
+This path depends on a [[""user-provided value""|""relative:///lib/hangersteak.js:113:26:113:32""]].","/lib/hangersteak.js","58","40","58","47"
+"Uncontrolled data used in path expression","Accessing paths influenced by users can allow an attacker to access unexpected resources.","error","This path depends on a [[""user-provided value""|""relative:///lib/hangersteak.js:112:7:112:13""]].
+This path depends on a [[""user-provided value""|""relative:///lib/hangersteak.js:113:26:113:32""]].","/lib/hangersteak.js","85","15","85","22"

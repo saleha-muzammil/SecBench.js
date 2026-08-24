@@ -1,0 +1,17 @@
+diff --git a/tests/testVulnerability.js b/tests/testVulnerability.js
+new file mode 100644
+index 0000000..0bc2f90
+--- /dev/null
++++ b/tests/testVulnerability.js
+@@ -0,0 +1,10 @@
++var dh = require("../deepHas"),
++    should = require("should"),
++    obj;
++
++obj = {};
++
++dh.set(obj,'__proto__.isAdmin',true);
++
++should.not.exist(obj.isAdmin);
++obj.hasOwnProperty('isAdmin').should.equal(false);
+\ No newline at end of file

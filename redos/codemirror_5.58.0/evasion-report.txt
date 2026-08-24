@@ -1,0 +1,3 @@
+=== redos/codemirror_5.58.0 ===
+image: built image
+codemirror.test.js never require()s 'codemirror' (outside comments) -> the PoC is package-independent and cannot distinguish the fixed tree from the reverted one.

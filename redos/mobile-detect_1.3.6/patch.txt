@@ -1,0 +1,33 @@
+From 7222f6e75cf8cd90e1dc53e445716203eaf79d8a Mon Sep 17 00:00:00 2001
+From: Heinrich Goebl <hgoebl@goebl.com>
+Date: Sat, 9 Dec 2017 18:31:08 +0100
+Subject: [PATCH] fix #67 (vulnerable to ReDoS)
+
+---
+ generate/mobile-detect.template.js | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/generate/mobile-detect.template.js b/generate/mobile-detect.template.js
+index dada4d0..c33d4be 100755
+--- a/generate/mobile-detect.template.js
++++ b/generate/mobile-detect.template.js
+@@ -52,6 +52,10 @@ define(function () {
+         }
+     }
+ 
++    function prepareUserAgent(userAgent) {
++        return (userAgent || '').substr(0, 500); // mitigate vulnerable to ReDoS
++    }
++
+     (function init() {
+         var key, values, value, i, len, verPos, mobileDetectRules = impl.mobileDetectRules;
+         for (key in mobileDetectRules.props) {
+@@ -398,7 +402,7 @@ define(function () {
+      * @global
+      */
+     function MobileDetect(userAgent, maxPhoneWidth) {
+-        this.ua = userAgent || '';
++        this.ua = prepareUserAgent(userAgent);
+         this._cache = {};
+         //600dp is typical 7" tablet minimum width
+         this.maxPhoneWidth = maxPhoneWidth || 600;

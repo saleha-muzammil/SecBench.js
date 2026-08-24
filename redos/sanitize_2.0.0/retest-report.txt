@@ -1,0 +1,7 @@
+=== redos/sanitize_2.0.0 (corrected retest) ===
+package        : sanitize
+fixed-tree ms  : 1
+reverted ms    : 2635
+corrected label: reproduces
+detail         : reverted 2635ms >= threshold 250ms (fixed 1.5ms)
+oracle         : timeout=25s floor=250ms ratio=20x; HANG or reverted>=max(floor,ratio*fixed) => reproduces

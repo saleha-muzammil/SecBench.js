@@ -1,0 +1,27 @@
+[
+  {
+    "repository": "ws_7.0.0",
+    "package": "ws",
+    "status": "ok",
+    "fixed_findings": 22,
+    "reverted_findings": 22,
+    "new_findings": 0,
+    "new_in_patched_files": 0,
+    "new_errors": 0,
+    "new_warnings": 0,
+    "new_info": 0,
+    "detected": "no",
+    "top_rules": "",
+    "revert_status": "ok",
+    "files_reverted": 1,
+    "note": "",
+    "codeql_status": "ok",
+    "codeql_fixed": 10,
+    "codeql_reverted": 11,
+    "codeql_new": 1,
+    "codeql_detected": "yes",
+    "codeql_top_rules": "Polynomial regular expression used on uncontrolled data\u00d71",
+    "detected_by": "codeql",
+    "by_rule": {}
+  }
+]

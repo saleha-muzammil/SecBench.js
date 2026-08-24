@@ -1,0 +1,8 @@
+=== prototype-pollution/swiper_6.5.0 ===
+image: built image
+baseline (clean fixed tree): exploit test = FAIL (vuln closed, good)
+baseline: test FAILS on fixed tree (good).
+compiled package: patch edits a source tree but the runtime loads compiled output -> rebuilding after each revert via `BABEL_ENV=commonjs npx babel src --out-dir cjs`.
+patch splits into 1 line-level change unit(s) across 1 file(s)
+full revert applied but the rebuild (`BABEL_ENV=commonjs npx babel src --out-dir cjs`) FAILED, so the runtime tree is still the fixed one -> cannot judge reproduction. Build log tail:
+/tmp/sb_rebuild.sh: 8: exec: BABEL_ENV=commonjs: not found

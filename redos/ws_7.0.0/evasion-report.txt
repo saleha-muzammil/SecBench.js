@@ -1,0 +1,3 @@
+=== redos/ws_7.0.0 ===
+image: using existing image
+ws.test.js never require()s 'ws' (outside comments) -> the PoC is package-independent and cannot distinguish the fixed tree from the reverted one.

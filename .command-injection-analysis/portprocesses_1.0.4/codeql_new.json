@@ -1,0 +1,16 @@
+[
+  [
+    "Unsafe shell command constructed from library input",
+    "Using externally controlled strings in a command line may allow a malicious user to change the meaning of the command.",
+    "error",
+    "This string concatenation which depends on [[\"library input\"|\"relative:///index.js:2:72:2:75\"]] is later used in a [[\"shell command\"|\"relative:///exec.js:5:3:11:4\"]].\nThis string concatenation which depends on [[\"library input\"|\"relative:///index.js:29:78:29:81\"]] is later used in a [[\"shell command\"|\"relative:///exec.js:5:3:11:4\"]].",
+    "/index.js"
+  ],
+  [
+    "Unsafe shell command constructed from library input",
+    "Using externally controlled strings in a command line may allow a malicious user to change the meaning of the command.",
+    "error",
+    "This string concatenation which depends on [[\"library input\"|\"relative:///index.js:21:56:21:58\"]] is later used in a [[\"shell command\"|\"relative:///exec.js:5:3:11:4\"]].",
+    "/index.js"
+  ]
+]

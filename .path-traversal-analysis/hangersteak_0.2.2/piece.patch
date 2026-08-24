@@ -1,0 +1,22 @@
+diff --git a/test/Files.test.js b/test/Files.test.js
+index 157d181..c8c9036 100644
+--- a/test/Files.test.js
++++ b/test/Files.test.js
+@@ -140,4 +140,17 @@ describe('Files', () => {
+       done()
+     })
+   })
++
++  it('should not traverse below root directory', (done) => {
++    request({
++      method: 'GET',
++      url: `${base}/../index.js`
++    },
++    (err, res, body) => {
++      expect(res.statusCode).toEqual(404)
++      expect(typeof body).toEqual('string')
++      expect(body).toEqual('')
++      done()
++    })
++  })
+ })

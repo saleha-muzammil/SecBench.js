@@ -1,0 +1,30 @@
+SecBench.js — test & CI inventory
+============================================================
+Entry      : code-injection/mixin-pro_0.6.0
+Package    : mixin-pro@0.6.0
+Repository : https://github.com/floatinghotpot/mixin-pro
+Source     : (default branch — version tag not found)
+Generated  : 2026-06-22
+
+== package.json test scripts ==
+  (none found)
+
+== test framework dependencies ==
+  (none detected)
+
+== how to run the tests ==
+  npm install
+  # no test script or known runner detected
+
+== test directories ==
+  test/   (3 files)
+
+== test files (0 found) ==
+  (none found)
+
+== test runner config ==
+  (none found)
+
+== CI / workflows ==
+  (no CI / workflow files found)
+

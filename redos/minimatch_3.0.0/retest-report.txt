@@ -1,0 +1,7 @@
+=== redos/minimatch_3.0.0 (corrected retest) ===
+package        : minimatch
+fixed-tree ms  : n/a
+reverted ms    : 2932
+corrected label: reproduces
+detail         : reverted 2932ms >= threshold 250ms (fixed 0.0ms)
+oracle         : timeout=25s floor=250ms ratio=20x; HANG or reverted>=max(floor,ratio*fixed) => reproduces

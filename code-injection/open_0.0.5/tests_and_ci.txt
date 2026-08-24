@@ -1,0 +1,53 @@
+SecBench.js — test & CI inventory
+============================================================
+Entry      : code-injection/open_0.0.5
+Package    : open@0.0.5
+Repository : https://github.com/sindresorhus/open
+Source     : (default branch — version tag not found)
+Generated  : 2026-06-22
+
+== package.json test scripts ==
+  test: xo && tsd
+
+== test framework dependencies ==
+  ava
+
+== how to run the tests ==
+  npm install
+  npm test
+
+== test directories ==
+  (none found)
+
+== test files (1 found) ==
+  test.js
+
+== test runner config ==
+  (none found)
+
+== CI / workflows ==
+  .github/workflows/main.yml
+
+  --- .github/workflows/main.yml ---
+  | name: CI
+  | on:
+  |   - push
+  |   - pull_request
+  | jobs:
+  |   test:
+  |     name: Node.js ${{ matrix.node-version }}
+  |     runs-on: ubuntu-latest
+  |     strategy:
+  |       fail-fast: false
+  |       matrix:
+  |         node-version:
+  |           - 24
+  |           - 20
+  |     steps:
+  |       - uses: actions/checkout@v5
+  |       - uses: actions/setup-node@v6
+  |         with:
+  |           node-version: ${{ matrix.node-version }}
+  |       - run: npm install
+  |       - run: npm test
+

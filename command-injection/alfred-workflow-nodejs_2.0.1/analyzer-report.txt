@@ -1,0 +1,19 @@
+Analyzer report for command-injection/alfred-workflow-nodejs_2.0.1
+Package : alfred-workflow-nodejs@2.0.1  (fixed: 2.0.1)
+CVE     : CVE-2018-16462
+Repo    : vincentmorneau/apex-publish-static-files
+Image   : secbench-fixed/alfred-workflow-nodejs_2.0.1
+Image   : built image
+
+========================================================================
+ABORTED
+========================================================================
+could not reverse-apply patch.txt onto the fixed tree:
+error: patch failed: test.js:61
+Falling back to three-way merge...
+Applied patch to 'test.js' with conflicts.
+error: patch failed: index.js:1
+Falling back to three-way merge...
+Applied patch to 'index.js' with conflicts.
+U index.js
+U test.js

@@ -1,0 +1,8 @@
+=== redos/react-native_0.63.0-rc.0 (corrected retest) ===
+package        : react-native
+fixed-tree ms  : n/a
+reverted ms    : n/a
+corrected label: image-failed
+detail         : docker build failed:
+react-native     && if git checkout -q \"ca09ae82715e33c9ac77b3fa55495cf84ba891c7\" || git checkout -q \"v0.64.1\" || git checkout -q \"0.64.1\"; then            npm install --no-audit --no-fund --ignore-scripts            && (npm run build --if-present || echo \"WARNING: build step failed/partial; continuing\")            && (npm run prepare --if-present || echo \"WARNING: prepare step failed/partial; continuing\");        else            echo \"WARNING: could not check out commit ca09ae8271 / tag v0.64.1; installing react-native@0.64.1 from npm instead\"            && cd /exploit/react-native_0.63.0-rc.0            && rm -rf node_modules/react-native            && npm install --no-audit --no-fund --ignore-scripts react-native@0.64.1;        fi" did not complete successfully: exit code: 1
+oracle         : timeout=25s floor=250ms ratio=20x; HANG or reverted>=max(floor,ratio*fixed) => reproduces

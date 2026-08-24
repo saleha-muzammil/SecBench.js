@@ -1,0 +1,15 @@
+Simplify regex pattern for ANSI escape sequence in index.js
+
+The exported function in `index.js` builds a regex pattern to match ANSI escape sequences. Currently, the first alternative in the pattern contains an unnecessary complexity:
+
+```
+'[\\u001B\\u009B][[\\]()#;?]*(?:(?:(?:(?:;[-a-zA-Z\\d\\/#&.:=?%@~_]+)*|[a-zA-Z\\d]+(?:;[a-zA-Z\\d]*)*)?\\u0007)'
+```
+
+This alternation between `(?:;[-a-zA-Z\\d\\/#&.:=?%@~_]+)*` and `[a-zA-Z\\d]+(?:;[a-zA-Z\\d]*)*` can be simplified. The first branch (semicolon-prefixed sequences with extra characters) is redundant because the second branch already covers sequences of alphanumeric characters optionally separated by semicolons. Please replace that part with the simpler version that only matches an optional sequence of alphanumeric characters followed by optional semicolon-separated alphanumeric groups, all terminated by `\\u0007`:
+
+```
+'[\\u001B\\u009B][[\\]()#;?]*(?:(?:(?:[a-zA-Z\\d]*(?:;[a-zA-Z\\d]*)*)?\\u0007)'
+```
+
+The rest of the regex should remain unchanged. This refactoring improves maintainability without affecting the matching behavior.

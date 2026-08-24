@@ -1,0 +1,38 @@
+SecBench.js — test & CI inventory
+============================================================
+Entry      : code-injection/djv_2.0.0
+Package    : djv@2.0.0
+Repository : https://github.com/korzio/djv
+Source     : checked out: 2.0.0
+Generated  : 2026-06-22
+
+== package.json test scripts ==
+  test: npm run test:jasmine && npm run lint
+  test:jasmine: jasmine JASMINE_CONFIG_PATH=package.json
+
+== test framework dependencies ==
+  jasmine
+
+== how to run the tests ==
+  npm install
+  npm test
+
+== test directories ==
+  test/   (13 files)
+
+== test files (0 found) ==
+  (none found)
+
+== test runner config ==
+  (none found)
+
+== CI / workflows ==
+  .travis.yml
+
+  --- .travis.yml ---
+  | language: node_js
+  | node_js:
+  |   - stable
+  | notifications:
+  |   email: false
+

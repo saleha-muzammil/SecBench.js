@@ -1,0 +1,31 @@
+Analyzer report for code-injection/is-my-json-valid_2.20.0
+Package : is-my-json-valid@2.20.0  (fixed: 2.20.3)
+CVE     : (none)
+Repo    : mafintosh/is-my-json-valid
+Image   : secbench-fixed/is-my-json-valid_2.20.0
+Image   : using existing image
+
+========================================================================
+PATCH REVERT
+========================================================================
+Reverted patch.txt via: git apply -R
+Files changed by the patch (1):
+  index.js
+
+========================================================================
+SEMGREP (sink file + changed files)
+========================================================================
+sink file scanned: index.js
+Scanned files: index.js
+semgrep configs: secbench-code-injection.yml (local), p/javascript, p/nodejs, p/security-audit
+Summary: Ran 88 rules on 1 file: 0 findings.
+
+No findings.
+
+========================================================================
+NPM AUDIT DELTA (introduced by reverting the fix)
+========================================================================
+fixed tree   : critical=0, high=3, moderate=1, low=0, info=0, total=4
+reverted tree: critical=0, high=3, moderate=1, low=0, info=0, total=4
+
+No new advisories introduced by the revert (deps unchanged or already-known to the audit DB).

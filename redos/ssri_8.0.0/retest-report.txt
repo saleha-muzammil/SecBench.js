@@ -1,0 +1,7 @@
+=== redos/ssri_8.0.0 (corrected retest) ===
+package        : ssri
+fixed-tree ms  : 0
+reverted ms    : 762
+corrected label: reproduces
+detail         : reverted 762ms >= threshold 250ms (fixed 0.1ms)
+oracle         : timeout=25s floor=250ms ratio=20x; HANG or reverted>=max(floor,ratio*fixed) => reproduces

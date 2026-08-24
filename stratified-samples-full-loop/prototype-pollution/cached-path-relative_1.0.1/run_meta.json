@@ -1,0 +1,53 @@
+{
+  "category": "prototype-pollution",
+  "repository": "ashaffer/cached-path-relative",
+  "package": "cached-path-relative",
+  "version": "1.0.1",
+  "folder": "cached-path-relative_1.0.1",
+  "started_at": "2026-08-18T07:28:53.347907+00:00",
+  "status": "ok",
+  "error": "",
+  "base_commit": "a43cffec84ed0e9eceecb43b534b6937a8028fc0",
+  "checkout": "/tmp/cached-path-relative_1.0.1-src",
+  "evasive_patch_reused": true,
+  "evasive_patch_regenerated": false,
+  "evades_both": true,
+  "seed_patch_applies": true,
+  "seed_exploit_fires": true,
+  "verdict": "Pipeline done. loop=SUCCESS, final tests=FAILED \u274c (exit 1), gates=PASS, final_gate=['SOLVED']",
+  "wall_seconds_setup": 62.2,
+  "wall_seconds_pipeline": 644.7,
+  "wall_seconds_total": 711.7,
+  "metrics": {
+    "totals": {
+      "instance_cost": 0.007637,
+      "api_calls": 36,
+      "prompt_tokens": 369566,
+      "completion_tokens": 16790,
+      "total_tokens": 386356,
+      "trajectories": 2
+    },
+    "per_trajectory": [
+      {
+        "file": "issue/iter_1/trajectory.traj.json",
+        "instance_cost": 0.006229,
+        "api_calls": 27,
+        "prompt_tokens": 327973,
+        "completion_tokens": 14621,
+        "total_tokens": 342594
+      },
+      {
+        "file": "solve_gate/run_1/trajectory.traj.json",
+        "instance_cost": 0.001408,
+        "api_calls": 9,
+        "prompt_tokens": 41593,
+        "completion_tokens": 2169,
+        "total_tokens": 43762
+      }
+    ]
+  },
+  "pipeline_cmd": "mini-extra cve-pipeline --patch stratified-samples-full-loop/prototype-pollution/cached-path-relative_1.0.1/exploit-evasive.patch --ex_file /Users/saleha/Desktop/cispa/SecBench.js/prototype-pollution/cached-path-relative_1.0.1/cached-path-relative.test.js --repo-path /tmp/cached-path-relative_1.0.1-src --base a43cffec84ed0e9eceecb43b534b6937a8028fc0 --repo prototype-pollution/cached-path-relative_1.0.1 --cost-limit 0.3",
+  "pipeline_returncode": 0,
+  "pipeline_out_dir": "stratified-samples-full-loop/prototype-pollution/cached-path-relative_1.0.1/pipeline_exploit-evasive",
+  "finished_at": "2026-08-18T07:40:45.041619+00:00"
+}

@@ -1,0 +1,12 @@
+category,repository,package,version,outcome,evaded_both,status,baseline_test,exploit_reproduces,granularity,units_total,units_kept,winning_transform,transform_layers,semgrep_fixed,semgrep_new_full,semgrep_new_minimal,semgrep_new_final,codeql_fixed,codeql_new_full,codeql_new_minimal,codeql_new_final,detected_by,semgrep_top_rules,codeql_top_rules,ci_strategy,ci_verdict,audit_new,repo_suspect,semgrep_messages,codeql_messages
+path-traversal,vivaxy/here,@vivaxy/here,3.1.0,setup-fail,,image-failed,,,,,,,,,,,,,,,,,,,,,,,,
+path-traversal,simonh1000/angular-http-server,angular-http-server,1.0.0,benchmark-fail,,baseline-already-vulnerable: image-not-fixed,pass,,line,5,,,,,,,,,,,,,,,,,,,,
+path-traversal,omphalos/crud-file-server,crud-file-server,0.7.0,benchmark-fail,,baseline-already-vulnerable: image-not-fixed,pass,,line,2,,,,,,,,,,,,,,,,,,,,
+path-traversal,jarofghosts/glance,glance,3.0.0,benchmark-fail,,baseline-already-vulnerable: image-not-fixed,pass,,line,6,,,,,,,,,,,,,,,,,,,,
+path-traversal,eldoy/hangersteak,hangersteak,0.2.2,ok,yes,minimized+partial-evade (ci:skipped),fail,yes,hunk,61,1,path-builder->hidden-member,sink,3,0,0,0,1,2,2,0,neither,,,exploit-minimal,skipped,0,,,
+path-traversal,henrytseng/hostr,hostr,2.0.0,benchmark-fail,,baseline-already-vulnerable: image-not-fixed,pass,,line,2,,,,,,,,,,,,,,,,,,,,
+path-traversal,nunnly/m-server,m-server,1.4.0,benchmark-fail,,baseline-already-vulnerable: image-not-fixed,pass,,line,20,,,,,,,,,,,,,,,,,,,,
+path-traversal,sandy98/node-simple-router,node-simple-router,0.10.0,ok,yes,minimized+evaded (ci:skipped),fail,yes,line,8,1,,,19,0,0,0,13,0,0,0,neither,,,exploit-minimal,skipped,0,,,
+path-traversal,nim579/node-srv,node-srv,2.0.0,setup-fail,,rebuild-failed,fail,,line,5,,,,,,,,,,,,,,,,,,,,
+path-traversal,tnantoka/public,public,0.1.2,exploit-fail,,baseline-already-vulnerable: exploit-self-fires,pass,,line,2,,,,,,,,,,,,,,,,,,,,
+path-traversal,ChristoPy/serve-here.js,serve-here.js,1.1.0,exploit-fail,,baseline-already-vulnerable: exploit-self-fires,pass,,line,5,,,,,,,,,,,,,,,,,,,,

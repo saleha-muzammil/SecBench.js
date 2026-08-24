@@ -1,0 +1,9 @@
+processing 10 enteries 
+
+Summary: image-failed=1, npm-fallback=8, revert-applied-no-repro=1
+
+What each result means (where the problem is):
+   1  image-failed                                   SETUP    Dockerfile.fixed build failed (bad version pin / 404)
+   8  npm-fallback                                   SETUP    no git tree to revert (npm-installed, not cloned)
+   1  revert-applied-no-repro                        BENCHMARK revert applied but exploit doesn't reproduce (vuln needs more than the patch)
+

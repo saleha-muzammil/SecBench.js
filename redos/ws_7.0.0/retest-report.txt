@@ -1,0 +1,7 @@
+=== redos/ws_7.0.0 (corrected retest) ===
+package        : ws
+fixed-tree ms  : 728
+reverted ms    : 727
+corrected label: no-repro
+detail         : reverted 727ms < threshold 14565ms (fixed 728.3ms) -- vuln needs more than the patch
+oracle         : timeout=25s floor=250ms ratio=20x; HANG or reverted>=max(floor,ratio*fixed) => reproduces

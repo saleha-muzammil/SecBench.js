@@ -1,0 +1,48 @@
+Analyzer report for code-injection/js-yaml_3.13.0
+Package : js-yaml@3.13.0  (fixed: 3.13.1)
+CVE     : (none)
+Repo    : nodeca/js-yaml
+Image   : secbench-fixed/js-yaml_3.13.0
+Image   : using existing image
+
+========================================================================
+PATCH REVERT
+========================================================================
+Reverted patch.txt via: git apply -R
+Files changed by the patch (6):
+  lib/js-yaml/loader.js
+  test/issues/0480-date.yml
+  test/issues/0480-fn-array.yml
+  test/issues/0480-fn.yml
+  test/issues/0480-fn2.yml
+  test/issues/0480.js
+
+========================================================================
+SEMGREP (sink file + changed files)
+========================================================================
+sink file scanned: lib/js-yaml/type/js/function.js
+Scanned files: lib/js-yaml/loader.js, lib/js-yaml/type/js/function.js
+semgrep configs: secbench-code-injection.yml (local), p/javascript, p/nodejs, p/security-audit
+Summary: Ran 88 rules on 2 files: 2 findings.
+
+┌─────────────────┐
+│ 2 Code Findings │
+└─────────────────┘
+                                        
+    /src/lib/js-yaml/type/js/function.js
+   ❯❯❱ rules.secbench-function-constructor
+          ❰❰ Blocking ❱❱
+          The Function constructor compiles a string into executable code; with attacker-controlled input this
+          is a code-injection sink.                                                                           
+                                                                                                              
+           70┆ return new Function(params, source.slice(body[0] + 1, body[1] - 1));
+            ⋮┆----------------------------------------
+           75┆ return new Function(params, 'return ' + source.slice(body[0], body[1]));
+
+========================================================================
+NPM AUDIT DELTA (introduced by reverting the fix)
+========================================================================
+fixed tree   : critical=3, high=4, moderate=5, low=7, info=0, total=19
+reverted tree: critical=3, high=4, moderate=5, low=7, info=0, total=19
+
+No new advisories introduced by the revert (deps unchanged or already-known to the audit DB).

@@ -1,0 +1,41 @@
+# Taint-only ruleset for isolated robustness testing of transformed diffs.
+# Run with:  semgrep --config semgrep-rules/secbench-taint.yml <files>
+# NOTE: taint mode needs BOTH the source and the sink in the scanned fileset
+# and is intra-procedural by default -- scan whole files (source + sink file
+# together), not just changed lines, or it will silently report 0 findings.
+rules:
+  - id: secbench-tainted-code-exec
+    mode: taint
+    languages: [javascript, typescript]
+    severity: ERROR
+    message: >-
+      Untrusted input reaches a dynamic code-execution sink without passing
+      through a sanitizer.
+    metadata:
+      category: security
+      sink: taint-code-exec
+    pattern-sources:
+      - patterns:
+          - pattern: function $F($SRC, ...) { ... }
+          - focus-metavariable: $SRC
+      - pattern: req.body
+      - pattern: req.query
+      - pattern: req.params
+      - pattern: process.argv
+    pattern-sanitizers:
+      - pattern: sanitize(...)
+      - pattern: JSON.parse(...)
+    pattern-sinks:
+      - pattern: eval(...)
+      - pattern: new Function(...)
+      - pattern: Function(...)
+      # comma-operator / sequence-expression indirection: new (0, Function)(...)
+      - pattern: new (..., Function)(...)
+      - pattern: (..., Function)(...)
+      - pattern: new (..., eval)(...)
+      - pattern: (..., eval)(...)
+      - pattern: vm.runInThisContext(...)
+      - pattern: vm.runInNewContext(...)
+      - pattern: vm.runInContext(...)
+      - pattern: setTimeout(...)
+      - pattern: setInterval(...)

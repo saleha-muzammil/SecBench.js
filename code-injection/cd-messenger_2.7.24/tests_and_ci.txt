@@ -1,0 +1,36 @@
+SecBench.js — test & CI inventory
+============================================================
+Entry      : code-injection/cd-messenger_2.7.24
+Package    : cd-messenger@2.7.24
+Repository : https://github.com/mikeerickson/cd-messenger
+Source     : checked out: v2.7.24
+Generated  : 2026-06-22
+
+== package.json test scripts ==
+  test:node: node examples/node-test
+  test:watch: mocha --compilers js:babel-core/register -w
+  test: node ./scripts/pre-test && mocha --compilers js:babel-core/register
+  test:coverage: nyc --report-dir ./test/coverage -r html mocha --require babel-register && open ./test/coverage/index.html
+
+== test framework dependencies ==
+  mocha, chai
+
+== how to run the tests ==
+  npm install
+  npm test
+
+== test directories ==
+  test/   (12 files)
+
+== test files (4 found) ==
+  examples/node-test.js
+  scripts/pre-test.js
+  test/library.spec.js
+  test/node.spec.js
+
+== test runner config ==
+  (none found)
+
+== CI / workflows ==
+  (no CI / workflow files found)
+

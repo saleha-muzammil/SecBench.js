@@ -1,0 +1,87 @@
+From 90e6199a161b6445b01454517b40ef65ebecd2ad Mon Sep 17 00:00:00 2001
+From: John-David Dalton <john.david.dalton@gmail.com>
+Date: Thu, 30 Aug 2018 22:06:15 -0700
+Subject: [PATCH] Ensure Object.prototype is not augmented by _.merge.
+
+---
+ lodash.js    | 37 +++++++++++++++++++++++--------------
+ test/test.js | 11 +++++++++++
+ 2 files changed, 34 insertions(+), 14 deletions(-)
+
+diff --git a/lodash.js b/lodash.js
+index cd8df6fe67..c7081ddefb 100644
+--- a/lodash.js
++++ b/lodash.js
+@@ -1224,20 +1224,6 @@
+     return result;
+   }
+ 
+-  /**
+-   * Gets the value at `key`, unless `key` is "__proto__".
+-   *
+-   * @private
+-   * @param {Object} object The object to query.
+-   * @param {string} key The key of the property to get.
+-   * @returns {*} Returns the property value.
+-   */
+-  function safeGet(object, key) {
+-    return key == '__proto__'
+-      ? undefined
+-      : object[key];
+-  }
+-
+   /**
+    * Converts `set` to an array of its values.
+    *
+@@ -6618,6 +6604,29 @@
+       return array;
+     }
+ 
++    /**
++     * Gets the value at `key`, unless `key` is "__proto__" or "prototype".
++     *
++     * @private
++     * @param {Object} object The object to query.
++     * @param {string} key The key of the property to get.
++     * @returns {*} Returns the property value.
++     */
++    function safeGet(object, key) {
++      if (key == '__proto__') {
++        return;
++      }
++
++      var value = object[key];
++
++      if (key == 'prototype' &&
++          value === objectProto) {
++        return;
++      }
++
++      return value;
++    }
++
+     /**
+      * Sets metadata for `func`.
+      *
+diff --git a/test/test.js b/test/test.js
+index c88e0fda96..822d229e07 100644
+--- a/test/test.js
++++ b/test/test.js
+@@ -7554,6 +7554,17 @@
+         skipAssert(assert);
+       }
+     });
++
++    QUnit.test('should not merge `Object.prototype` properties', function(assert) {
++      assert.expect(1);
++
++      _.merge({}, { 'constructor': { 'prototype': { 'a': 1 } } });
++
++      var actual = 'a' in objectProto;
++      delete objectProto.a;
++
++      assert.notOk(actual);
++    });
+   }());
+ 
+   /*--------------------------------------------------------------------------*/
