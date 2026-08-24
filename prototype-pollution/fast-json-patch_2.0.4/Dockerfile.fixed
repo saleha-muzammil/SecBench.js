@@ -16,6 +16,47 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         git curl zip psmisc g++ make python3 \
     && rm -rf /var/lib/apt/lists/*
 
+# --- static analysis toolchain ----------------------------------------------
+# curl_issue.py runs semgrep and CodeQL INSIDE this image whenever the pipeline is
+# driven with --docker-image. Without them both gates are vacuous, and vacuous is
+# worse than absent here: "0 new findings" and "the tool never ran" are
+# indistinguishable to every caller downstream, so a patch that was never scanned
+# is scored as a patch that evaded the scanners.
+#
+# semgrep 1.157.0 needs Python >= 3.10 and bullseye ships 3.9, so it gets its own
+# uv-managed interpreter under /opt/uv. The image's python3 -- what node-gyp builds
+# native addons with -- is deliberately left exactly as the base image had it.
+# (1.157.0 is also the newest wheel that links against this image's glibc; see
+# SEMGREP_VERSION in generate_dockerfile.py before bumping it.)
+ENV UV_INSTALL_DIR=/usr/local/bin \
+    UV_TOOL_BIN_DIR=/usr/local/bin \
+    UV_TOOL_DIR=/opt/uv/tools \
+    UV_PYTHON_INSTALL_DIR=/opt/uv/python
+RUN curl -LsSf https://astral.sh/uv/install.sh | sh \
+    && uv tool install --python 3.12 semgrep==1.157.0 \
+    && semgrep --version
+
+# CodeQL publishes x86-64 binaries only -- there is no linux-arm64 CLI at all -- and
+# the amd64 build is not usable under emulation: `database analyze` gets OOM-killed
+# or never finishes (the same finding that put minimize_and_evade.py's CodeQL on the
+# host CLI). So install it when this image is amd64, and fail loudly-in-comment
+# rather than baking in a binary that cannot execute when it is not. On arm64,
+# curl_issue._run_codeql falls back to the host CodeQL CLI over the bind-mounted
+# checkout -- the same tree, the same queries.
+RUN arch="$(dpkg --print-architecture)"; \
+    if [ "$arch" = "amd64" ]; then \
+        curl -fsSL -o /tmp/codeql.tar.gz \
+            "https://github.com/github/codeql-action/releases/download/codeql-bundle-v2.25.6/codeql-bundle-linux64.tar.gz" \
+        && tar -xzf /tmp/codeql.tar.gz -C /opt \
+        && rm -f /tmp/codeql.tar.gz \
+        && ln -sf /opt/codeql/codeql /usr/local/bin/codeql \
+        && codeql version --format=terse; \
+    else \
+        echo "WARNING: no CodeQL CLI exists for $arch (GitHub ships linux64/x86-64 only);" >&2; \
+        echo "         this image has semgrep but no codeql, and the harness falls" >&2; \
+        echo "         back to the host CLI on the bind-mounted checkout." >&2; \
+    fi
+
 WORKDIR /exploit/fast-json-patch_2.0.4
 
 # Recreate the flag file the path-traversal exploits read as ../flag.html
@@ -40,6 +81,8 @@ RUN git clone https://github.com/Starcounter-Jack/JSON-Patch.git node_modules/fa
     && (npm run prepare --if-present || echo "WARNING: prepare step failed/partial; continuing")
 
 # jest installed globally so it does not disturb the package tree
-RUN npm install -g --no-audit --no-fund jest
+# jest pinned to 29: jest 30 calls os.availableParallelism(), which the node:16 base
+# image does not have, so the exploit oracle died at config load instead of running.
+RUN npm install -g --no-audit --no-fund jest@29
 
 CMD ["jest", "--runInBand"]

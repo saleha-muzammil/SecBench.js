@@ -24,6 +24,32 @@ RUN printf '<!DOCTYPE html>\n<html>\n<body>\n\n<h1>CISPA</h1>\n<p>vulns4js! is h
 # Benchmark metadata (package.json) + jest test case
 COPY . .
 
+# The redos exploit tests require("../utils") == /exploit/utils.js, which sits
+# one level above the build context and so cannot be COPYed. Embedded here
+# (gzip+base64) from redos/utils.js -- edit that file and regenerate, never this.
+RUN echo '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\
+9Z03ODTqrD62bN91yLJdjXv/APIpkjCVEwAA' \
+    | base64 -d | gzip -dc > /exploit/utils.js
+
 RUN git clone https://github.com/chalk/ansi-regex.git node_modules/ansi-regex \
     && cd node_modules/ansi-regex \
     && if ! (git checkout -q "v4.1.0" || git checkout -q "4.1.0"); then \
@@ -40,6 +66,8 @@ RUN git clone https://github.com/chalk/ansi-regex.git node_modules/ansi-regex \
     && (npm run prepare --if-present || echo "WARNING: prepare step failed/partial; continuing")
 
 # jest installed globally so it does not disturb the package tree
-RUN npm install -g --no-audit --no-fund jest
+# jest pinned to 29: jest 30 calls os.availableParallelism(), which the node:16 base
+# image does not have, so the exploit oracle died at config load instead of running.
+RUN npm install -g --no-audit --no-fund jest@29
 
 CMD ["jest", "--runInBand"]

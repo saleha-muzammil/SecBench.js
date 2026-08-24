@@ -40,6 +40,8 @@ RUN git clone https://github.com/indatawetrust/portkiller.git node_modules/portk
     && (npm run prepare --if-present || echo "WARNING: prepare step failed/partial; continuing")
 
 # jest installed globally so it does not disturb the package tree
-RUN npm install -g --no-audit --no-fund jest
+# jest pinned to 29: jest 30 calls os.availableParallelism(), which the node:16 base
+# image does not have, so the exploit oracle died at config load instead of running.
+RUN npm install -g --no-audit --no-fund jest@29
 
 CMD ["jest", "--runInBand"]

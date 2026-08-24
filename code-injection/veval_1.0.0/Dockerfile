@@ -31,6 +31,8 @@ RUN npm install --no-audit --no-fund --ignore-scripts veval@1.0.0 \
         if(v!=='1.0.0'){console.error('ERROR: asked npm for veval@1.0.0 but got '+v+'.');process.exit(1);}"
 
 # jest installed globally so it does not disturb the package tree
-RUN npm install -g --no-audit --no-fund jest
+# jest pinned to 29: jest 30 calls os.availableParallelism(), which the node:16 base
+# image does not have, so the exploit oracle died at config load instead of running.
+RUN npm install -g --no-audit --no-fund jest@29
 
 CMD ["jest", "--runInBand"]
