@@ -1,0 +1,16 @@
+{
+  "seed": 20260817,
+  "n": 3,
+  "until_success": false,
+  "generated_at": "2026-09-22T03:27:47.120204+00:00",
+  "categories": {
+    "command-injection": [
+      {
+        "folder": "pdf-image_1.0.5",
+        "package": "pdf-image",
+        "version": "1.0.5",
+        "repository": "roest01/node-pdf-image"
+      }
+    ]
+  }
+}

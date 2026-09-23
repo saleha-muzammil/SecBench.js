@@ -1,0 +1,2 @@
+category,folder,package,version,status,verdict,seed_exploit_fires,evades_both,evasive_patch_regenerated,base_commit,instance_cost,api_calls,prompt_tokens,completion_tokens,total_tokens,trajectories,wall_seconds_setup,wall_seconds_pipeline,wall_seconds_total,error
+redos,is-email_1.0.0,is-email,1.0.0,error,,,False,False,060ecedf3457,,,,,,,12.9,0.0,14.7,evasive patch is flagged by the recorded findings (evasion-findings.json detected_by != 'neither'); re-run the evasion campaign for this repo or pass --allow-detected-seed to run it anyway

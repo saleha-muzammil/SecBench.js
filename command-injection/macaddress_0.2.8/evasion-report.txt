@@ -4,44 +4,60 @@ baseline (clean fixed tree): repo CI = pass
 baseline (clean fixed tree): exploit test = FAIL (vuln closed, good)
 baseline: test FAILS on fixed tree (good).
 patch splits into 17 line-level change unit(s) across 7 file(s)
+reach layer: relocation candidates reach:index.js->lib/linux.js(const) (hops=1), reach:index.js->lib/linux.js(inline) (hops=1), reach:index.js->lib/unix.js(const) (hops=1), reach:index.js->lib/unix.js(inline) (hops=1)
 semgrep on CLEAN FIXED tree (baseline): 5 finding(s)
 codeql on CLEAN FIXED tree (baseline): 1 finding(s)
 semgrep on FULL revert (no changes): 5 finding(s), 0 NEW vs fixed baseline -> evades: no (by new findings: yes)
 codeql on FULL revert (no changes): 3 finding(s), 2 NEW vs fixed baseline
-minimal revert (exploit-only): 5/17 line unit(s) -> ['?', 'lib/linux.js']
+minimal revert (exploit-only): 4/17 line unit(s) -> ['?', 'lib/linux.js']
 exploit-minimal chunking already keeps repo CI green.
+minimal revert: 4 reviewer-salient token(s) on the added lines of ['lib/linux.js', 'lib/unix.js'] (4 across the whole diff)
 semgrep on minimal variant (after chunking): 1 finding(s), 0 NEW vs fixed baseline
 --- semgrep findings (pre-evasion) ---
   mini-shell-exec-nonliteral @ lib/unix.js:9: Shell command assembled from a value. `exec`/`execSync` run the string through a shell, so any interpolated value can inject additional commands; use `execFile` with an argument array.
 --------------------------------------
 codeql on minimal variant (after chunking): 2 finding(s), 1 NEW vs fixed baseline
     ! js/shell-command-constructed-from-input @ lib/linux.js:4: This string concatenation which depends on [library input](1) is later used in a [shell command](2).
-selecting rewrites from the rules that actually fired: exports->launder <- 'library input', params->launder <- 'library input', methods->launder <- 'library input', source->launder <- 'library input', source->launder+index <- 'library input', shell-arg->launder <- 'js/shell-command-constructed-from-input', require-member->hidden <- 'js/shell-command-constructed-from-input', shell-sink->hidden-member <- 'js/shell-command-constructed-from-input', require-module->dynamic <- 'js/shell-command-constructed-from-input'
-  exports->launder: test PASSES, semgrep 1 finding(s) (0 new), codeql new 1
+selecting rewrites from the rules that actually fired: exports->launder <- 'library input', params->launder <- 'library input', methods->launder <- 'library input', source->launder <- 'library input', source->launder+index <- 'library input', params->arg-guard <- 'js/shell-command-constructed-from-input', shell-arg->launder <- 'js/shell-command-constructed-from-input', require-member->hidden <- 'js/shell-command-constructed-from-input', shell-sink->hidden-member <- 'js/shell-command-constructed-from-input', require-module->dynamic <- 'js/shell-command-constructed-from-input'
+  reach:index.js->lib/linux.js(inline): test PASSES, semgrep 1 finding(s) (0 new), codeql new 1 [js/shell-command-constructed-from-input], sink diff tokens 0 (all 1), distance from sink 1
+  reach:index.js->lib/unix.js(inline): broke the exploit test -> rejected
+  reach:index.js->lib/linux.js(const): test PASSES, semgrep 1 finding(s) (0 new), codeql new 1 [js/shell-command-constructed-from-input], sink diff tokens 0 (all 1), distance from sink 1
+  reach:index.js->lib/unix.js(const): broke the exploit test -> rejected
+  exports->launder: test PASSES, semgrep 1 finding(s) (0 new), codeql new 1 [js/shell-command-constructed-from-input], sink diff tokens 4 (all 4), distance from sink 0
   methods->launder: matched nothing -> skipped
-  params->launder: test PASSES, semgrep 1 finding(s) (0 new), codeql new 1
+  params->arg-guard: broke the exploit test -> rejected
+  params->launder: test PASSES, semgrep 1 finding(s) (0 new), codeql new 1 [js/shell-command-constructed-from-input], sink diff tokens 4 (all 4), distance from sink 0
   source->launder: matched nothing -> skipped
   source->launder+index: matched nothing -> skipped
   shell-arg->launder: matched nothing -> skipped
-  require-member->hidden: test PASSES, semgrep 1 finding(s) (0 new), codeql new 0
+  require-member->hidden: test PASSES, semgrep 1 finding(s) (0 new), codeql new 0, sink diff tokens 5 (all 5), distance from sink 0
+  require-module->dynamic: test PASSES, semgrep 3 finding(s) (2 new), codeql new not re-run (budget spent), sink diff tokens 5 (all 5), distance from sink 0
+  shell-sink->hidden-member: test PASSES, semgrep 0 finding(s) (0 new), codeql new 1 [js/shell-command-constructed-from-input], sink diff tokens 5 (all 5), distance from sink 0
+  require-member->hidden+reach:index.js->lib/linux.js(inline): test PASSES, semgrep 1 finding(s) (0 new), codeql new 0, sink diff tokens 2 (all 3), distance from sink 1
+  require-member->hidden+reach:index.js->lib/linux.js(inline)+reach:index.js->lib/linux.js(const): broke the exploit test -> rejected
+  require-member->hidden+reach:index.js->lib/linux.js(inline)+exports->launder: test PASSES, semgrep 1 finding(s) (0 new), codeql new 0, sink diff tokens 2 (all 3), distance from sink 1
+  require-member->hidden+reach:index.js->lib/linux.js(inline)+params->launder: test PASSES, semgrep 1 finding(s) (0 new), codeql new 0, sink diff tokens 2 (all 3), distance from sink 1
+  require-member->hidden+reach:index.js->lib/linux.js(inline)+shell-sink->hidden-member: test PASSES, semgrep 0 finding(s) (0 new), codeql new 0, sink diff tokens 3 (all 4), distance from sink 1
+  require-member->hidden+reach:index.js->lib/linux.js(inline)+require-module->dynamic: test PASSES, semgrep 3 finding(s) (2 new), codeql new not re-run (budget spent), sink diff tokens 2 (all 3), distance from sink 1
+reach: the vulnerability now lives 1 require() hop(s) from the sink; the fix at the sink is UNREVERTED and the sink files' added lines carry 2 reviewer-salient token(s)
 [1/5] test cases  -> exploit test PASSES (reproduces)
 [2/5] ci          -> clean-fixed baseline=pass, final variant=pass  => preserved
         --- repo test output (final variant, tail) ---
 > macaddress@0.2.10 test
 > node test.js
 
-Mac address obtained synchronously: 02:42:ac:11:00:02
+Mac address obtained synchronously: 02:42:ac:11:00:04
 {
   "eth0": {
-    "ipv4": "172.17.0.2",
-    "mac": "02:42:ac:11:00:02"
+    "ipv4": "172.17.0.4",
+    "mac": "02:42:ac:11:00:04"
   }
 }
-Mac address for this host: 02:42:ac:11:00:02
+Mac address for this host: 02:42:ac:11:00:04
 {
   "eth0": {
-    "ipv4": "172.17.0.2",
-    "mac": "02:42:ac:11:00:02"
+    "ipv4": "172.17.0.4",
+    "mac": "02:42:ac:11:00:04"
   }
 }
         ----------------------------------------------

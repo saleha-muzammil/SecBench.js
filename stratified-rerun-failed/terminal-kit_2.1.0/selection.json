@@ -1,0 +1,16 @@
+{
+  "seed": 20260817,
+  "n": 3,
+  "until_success": false,
+  "generated_at": "2026-09-22T05:02:52.864833+00:00",
+  "categories": {
+    "redos": [
+      {
+        "folder": "terminal-kit_2.1.0",
+        "package": "terminal-kit",
+        "version": "2.1.0",
+        "repository": "cronvel/terminal-kit"
+      }
+    ]
+  }
+}

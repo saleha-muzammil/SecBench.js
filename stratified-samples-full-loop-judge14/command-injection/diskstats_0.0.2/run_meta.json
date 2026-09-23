@@ -1,0 +1,38 @@
+{
+  "category": "command-injection",
+  "repository": "PhilipSkinner/diskstats",
+  "package": "diskstats",
+  "version": "0.0.2",
+  "folder": "diskstats_0.0.2",
+  "started_at": "2026-09-21T07:04:14.313908+00:00",
+  "status": "ok",
+  "error": "",
+  "base_commit": "a6b2dc82206891bb17c53a7610a59b6dc7b78a50",
+  "checkout": "/tmp/diskstats_0.0.2-src",
+  "image_tag": "secbench-fullloop/diskstats_0.0.2",
+  "docker_loop": true,
+  "evasive_patch_reused": true,
+  "evasive_patch_regenerated": false,
+  "evades_both": true,
+  "seed_patch_applies": null,
+  "seed_exploit_fires": null,
+  "verdict": "Pipeline done. seed=unhardened, loop=no-win, final tests=FAILED \u274c (exit 1), gates=FAIL",
+  "wall_seconds_setup": 7.7,
+  "wall_seconds_pipeline": 1096.0,
+  "wall_seconds_total": 1104.9,
+  "metrics": {
+    "totals": {
+      "instance_cost": 0.0,
+      "api_calls": 0,
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "trajectories": 0
+    },
+    "per_trajectory": []
+  },
+  "pipeline_cmd": "mini-extra cve-pipeline --patch stratified-samples-full-loop-judge14/command-injection/diskstats_0.0.2/exploit-evasive.patch --ex_file /Users/saleha/Desktop/cispa/SecBench.js/command-injection/diskstats_0.0.2/diskstats.test.js --repo-path /tmp/diskstats_0.0.2-src --base a6b2dc82206891bb17c53a7610a59b6dc7b78a50 --repo command-injection/diskstats_0.0.2 --docker-image secbench-fullloop/diskstats_0.0.2 --max-iterations 5 --cost-limit 0.3 --no-run-codegen --gate-in-loop --gate-runs 1 --revise-iterations 2",
+  "pipeline_returncode": 0,
+  "pipeline_out_dir": "stratified-samples-full-loop-judge14/command-injection/diskstats_0.0.2/pipeline_exploit-evasive",
+  "finished_at": "2026-09-21T07:22:39.197856+00:00"
+}

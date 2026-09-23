@@ -1,0 +1,38 @@
+{
+  "category": "command-injection",
+  "repository": "natalan/samsung-remote",
+  "package": "samsung-remote",
+  "version": "1.2.5",
+  "folder": "samsung-remote_1.2.5",
+  "started_at": "2026-09-21T08:48:39.339758+00:00",
+  "status": "ok",
+  "error": "",
+  "base_commit": "8dff35f6fc45d17acd534417569efd17b0305539",
+  "checkout": "/tmp/samsung-remote_1.2.5-src",
+  "image_tag": "secbench-fullloop/samsung-remote_1.2.5",
+  "docker_loop": true,
+  "evasive_patch_reused": true,
+  "evasive_patch_regenerated": false,
+  "evades_both": true,
+  "seed_patch_applies": null,
+  "seed_exploit_fires": null,
+  "verdict": "Pipeline done. seed=unhardened, loop=no-win, final tests=FAILED \u274c (exit 1), gates=FAIL",
+  "wall_seconds_setup": 5.7,
+  "wall_seconds_pipeline": 943.8,
+  "wall_seconds_total": 951.0,
+  "metrics": {
+    "totals": {
+      "instance_cost": 0.0,
+      "api_calls": 0,
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "trajectories": 0
+    },
+    "per_trajectory": []
+  },
+  "pipeline_cmd": "mini-extra cve-pipeline --patch stratified-samples-full-loop-judge14/command-injection/samsung-remote_1.2.5/exploit-evasive.patch --ex_file /Users/saleha/Desktop/cispa/SecBench.js/command-injection/samsung-remote_1.2.5/samsung-remote.test.js --repo-path /tmp/samsung-remote_1.2.5-src --base 8dff35f6fc45d17acd534417569efd17b0305539 --repo command-injection/samsung-remote_1.2.5 --docker-image secbench-fullloop/samsung-remote_1.2.5 --max-iterations 5 --cost-limit 0.3 --no-run-codegen --gate-in-loop --gate-runs 1 --revise-iterations 2",
+  "pipeline_returncode": 0,
+  "pipeline_out_dir": "stratified-samples-full-loop-judge14/command-injection/samsung-remote_1.2.5/pipeline_exploit-evasive",
+  "finished_at": "2026-09-21T09:04:30.295542+00:00"
+}

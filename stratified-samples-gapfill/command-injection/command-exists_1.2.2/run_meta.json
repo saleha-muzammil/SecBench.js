@@ -1,0 +1,38 @@
+{
+  "category": "command-injection",
+  "repository": "kellyselden/git-diff-apply",
+  "package": "command-exists",
+  "version": "1.2.2",
+  "folder": "command-exists_1.2.2",
+  "started_at": "2026-09-22T03:57:55.852003+00:00",
+  "status": "pipeline-rc-1",
+  "error": "",
+  "base_commit": "8ead248efc8a1cb8acef0154b0f5b026f90dde78",
+  "checkout": "/tmp/gapfill-src/command-exists_1.2.2-src",
+  "image_tag": "secbench-fullloop/command-exists_1.2.2",
+  "docker_loop": true,
+  "evasive_patch_reused": true,
+  "evasive_patch_regenerated": false,
+  "evades_both": false,
+  "seed_patch_applies": null,
+  "seed_exploit_fires": null,
+  "verdict": "",
+  "wall_seconds_setup": 14.9,
+  "wall_seconds_pipeline": 10.9,
+  "wall_seconds_total": 26.2,
+  "metrics": {
+    "totals": {
+      "instance_cost": 0.0,
+      "api_calls": 0,
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "trajectories": 0
+    },
+    "per_trajectory": []
+  },
+  "pipeline_cmd": "mini-extra cve-pipeline --patch stratified-samples-gapfill/command-injection/command-exists_1.2.2/exploit-evasive.patch --ex_file /Users/saleha/Desktop/cispa/SecBench.js/command-injection/command-exists_1.2.2/command-exists.test.js --repo-path /tmp/gapfill-src/command-exists_1.2.2-src --base 8ead248efc8a1cb8acef0154b0f5b026f90dde78 --repo kellyselden/git-diff-apply --docker-image secbench-fullloop/command-exists_1.2.2 --cost-limit 0.3",
+  "pipeline_returncode": 1,
+  "pipeline_out_dir": "stratified-samples-gapfill/command-injection/command-exists_1.2.2/pipeline_exploit-evasive",
+  "finished_at": "2026-09-22T03:58:22.072096+00:00"
+}

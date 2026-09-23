@@ -1,0 +1,143 @@
+From 732fc72779840c45a30817d3fe28e12058592b02 Mon Sep 17 00:00:00 2001
+From: Sindre Sorhus <sindresorhus@gmail.com>
+Date: Tue, 16 Mar 2021 21:28:40 +0700
+Subject: [PATCH] Improve performance and accuracy
+
+---
+ index.js     | 51 +++++++++++++++++++++++++++------------------------
+ package.json |  2 +-
+ readme.md    |  8 --------
+ test.js      | 15 +++++++++------
+ 4 files changed, 37 insertions(+), 39 deletions(-)
+
+diff --git a/index.js b/index.js
+index 0f19a11..b94ab33 100644
+--- a/index.js
++++ b/index.js
+@@ -1,37 +1,40 @@
+ 'use strict';
+-const htmlCommentRegex = require('html-comment-regex');
++const parser = require('fast-xml-parser');
+ 
+-const isBinary = buffer => {
+-	const isBuffer = Buffer.isBuffer(buffer);
++const isSvg = input => {
++	if (input === undefined || input === null) {
++		return false;
++	}
+ 
+-	for (let i = 0; i < 24; i++) {
+-		const characterCode = isBuffer ? buffer[i] : buffer.charCodeAt(i);
++	input = input.toString().trim();
+ 
+-		if (characterCode === 65533 || characterCode <= 8) {
+-			return true;
+-		}
++	if (input.length === 0) {
++		return false;
+ 	}
+ 
+-	return false;
+-};
+-
+-const cleanEntities = svg => {
+-	const entityRegex = /\s*<!Entity\s+\S*\s*(?:"|')[^"]+(?:"|')\s*>/img;
+-	// Remove entities
+-	return svg.replace(entityRegex, '');
+-};
++	// Has to be `!==` as it can also return an object with error info.
++	console.log('a', parser.validate(input));
++	if (parser.validate(input) !== true) {
++		return false;
++	}
+ 
+-const removeDtdMarkupDeclarations = svg => svg.replace(/\[?(?:\s*<![A-Z]+[^>]*>\s*)*\]?/g, '');
++	let jsonObject;
++	try {
++		jsonObject = parser.parse(input);
++	} catch (_) {
++		return false;
++	}
+ 
+-const clean = svg => {
+-	svg = cleanEntities(svg);
+-	svg = removeDtdMarkupDeclarations(svg);
+-	return svg;
+-};
++	if (!jsonObject) {
++		return false;
++	}
+ 
+-const regex = /^\s*(?:<\?xml[^>]*>\s*)?(?:<!doctype svg[^>]*>\s*)?(?:<svg[^>]*>[^]*<\/svg>|<svg[^/>]*\/\s*>)\s*$/i;
++	if (!('svg' in jsonObject)) {
++		return false;
++	}
+ 
+-const isSvg = input => Boolean(input) && !isBinary(input) && regex.test(clean(input.toString()).replace(htmlCommentRegex, ''));
++	return true;
++};
+ 
+ module.exports = isSvg;
+ // TODO: Remove this for the next major release
+diff --git a/package.json b/package.json
+index fae3843..c593149 100644
+--- a/package.json
++++ b/package.json
+@@ -37,7 +37,7 @@
+ 		"buffer"
+ 	],
+ 	"dependencies": {
+-		"html-comment-regex": "^1.1.2"
++		"fast-xml-parser": "^3.19.0"
+ 	},
+ 	"devDependencies": {
+ 		"@types/node": "^11.13.0",
+diff --git a/readme.md b/readme.md
+index 1e33088..00a3519 100644
+--- a/readme.md
++++ b/readme.md
+@@ -17,14 +17,6 @@ isSvg('<svg xmlns="http://www.w3.org/2000/svg"><path fill="#00CD9F"/></svg>');
+ //=> true
+ ```
+ 
+-## Edge cases
+-
+-This module performs a quick-and-dirty check. It's fast, but in certain cases it will give incorrect results.
+-
+-- Returns `true` for an SVG-like string that isn't well-formed or valid: `<svg><div></svg>`
+-
+-If you want to make certain that your SVG is *valid*, try parsing it with [libxmljs](https://github.com/polotek/libxmljs).
+-
+ ---
+ 
+ <div align="center">
+diff --git a/test.js b/test.js
+index b72f108..7a53d27 100644
+--- a/test.js
++++ b/test.js
+@@ -24,16 +24,19 @@ test('valid SVGs', t => {
+ 
+ test('invalid SVGs', t => {
+ 	t.false(isSvg(fs.readFileSync('fixtures/fixture.jpg')));
+-	t.false(isSvg('this is not svg, but it mentions <svg> tags'));
+-	t.false(isSvg('<svg> hello I am an svg oops maybe not'));
+-	t.false(isSvg('<svg></svg> this string starts with an svg'));
+-	t.false(isSvg('this string ends with an svg <svg></svg>'));
+ 	t.false(isSvg('<div><svg></svg>'));
+ 	t.false(isSvg('<div><svg></svg></div>'));
+-	t.false(isSvg('this string contains an svg <svg></svg> in the middle'));
+-	t.false(isSvg(fs.readFileSync('readme.md')));
+ 	t.false(isSvg(fs.readFileSync('index.js')));
+ 	t.false(isSvg());
++	t.false(isSvg('this string contains an svg <svg></svg> in the middle'));
++	t.false(isSvg('<svg><div></svg>'));
++	t.false(isSvg('this string ends with an svg <svg></svg>'));
++	t.false(isSvg('<svg> hello I am an svg oops maybe not'));
++	t.false(isSvg('this is not svg, but it mentions <svg> tags'));
++	t.false(isSvg(fs.readFileSync('readme.md')));
++
++	// https://github.com/NaturalIntelligence/fast-xml-parser/issues/327
++	// t.false(isSvg('<svg></svg> this string starts with an svg'));
+ });
+ 
+ test('supports non-english characters', t => {

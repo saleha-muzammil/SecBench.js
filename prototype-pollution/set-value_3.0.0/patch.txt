@@ -1,29 +1,319 @@
-From 7cf8073bb06bf0c15e08475f9f952823b4576452 Mon Sep 17 00:00:00 2001
-From: Jon Schlinkert <github@sellside.com>
-Date: Sun, 12 Sep 2021 03:36:46 -0400
-Subject: [PATCH] 4.0.1
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: make_release_patch.py <secbench>
+Subject: [PATCH] set-value 3.0.0 -> 4.0.1 (release range, production files only)
 
-Fixes https://github.com/jonschlinkert/set-value/pull/33 thanks to @ready-research.
+Generated from tag 3.0.0 .. tag 4.0.1; 2 production file(s).
+Reverting this on the fixed tree reproduces the 3.0.0 tree.
 ---
- package.json | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/package.json b/package.json
-index a9b264e..3865c1f 100644
---- a/package.json
-+++ b/package.json
-@@ -1,6 +1,6 @@
- {
-   "name": "set-value",
--  "version": "4.0.0",
-+  "version": "4.0.1",
-   "description": "Set nested properties on an object using dot notation.",
-   "license": "MIT",
-   "repository": "jonschlinkert/set-value",
-@@ -122,4 +122,4 @@
-       "update"
-     ]
+diff --git a/examples.js b/examples.js
+index 8723d12..b824211 100644
+--- a/examples.js
++++ b/examples.js
+@@ -1,22 +1,40 @@
+-var set = require('./');
++'use strict';
+ 
+-console.log(set({}, 'a.b.c', 'd'));
+-//=> { a: { b: { c: 'd' } } }
++const set = require('.');
+ 
+-console.log(set({}, 'a\\.b.c', 'd'));
+-//=> { 'a.b': { c: 'd' } }
++const data = {};
++const key1 = Symbol('key-1');
++const key2 = Symbol('key-2');
++const key3 = Symbol('key-3');
++const key4 = Symbol('key-4');
+ 
+-console.log(set({}, 'a\\.b\\.c', 'd'));
+-//=> { 'a.b.c': 'd' }
++set(data, 'a.b.c', true);
++set(data, '"a.b".c', true, { split: set.parse });
++set(data, 'foo-bar', true);
++set(data, ['one', 'two'], true);
++set(data, ['one', key1], true);
++set(data, [key2, key3, key4], true);
++set(data, key1, true);
+ 
+-console.log(set({}, '"a.b".c', 'd'));
+-//=> { 'a.b': { c: 'd' } }
++console.log(data);
+ 
+-console.log(set({}, "'a.b'.c", "d"));
+-//=> { 'a.b': { c: 'd' } }
++// console.log(set({}, 'a.b.c', 'd'));
++// //=> { a: { b: { c: 'd' } } }
+ 
+-console.log(set({}, "{a..b}.c", "d"));
+-//=> { '{a..b}': { c: 'd' } }
++// console.log(set({}, 'a\\.b.c', 'd'));
++// //=> { 'a.b': { c: 'd' } }
+ 
+-console.log(set({}, '"this/is/a/.file.path"', 'd'));
+-//=> { 'this/is/a/.file.path': 'd' }
++// console.log(set({}, 'a\\.b\\.c', 'd'));
++// //=> { 'a.b.c': 'd' }
++
++// console.log(set({}, '"a.b".c', 'd'));
++// //=> { 'a.b': { c: 'd' } }
++
++// console.log(set({}, "'a.b'.c", "d"));
++// //=> { 'a.b': { c: 'd' } }
++
++// console.log(set({}, "{a..b}.c", "d"));
++// //=> { '{a..b}': { c: 'd' } }
++
++// console.log(set({}, '"this/is/a/.file.path"', 'd'));
++// //=> { 'this/is/a/.file.path': 'd' }
+diff --git a/index.js b/index.js
+index 8aee6ab..ec6a8a5 100644
+--- a/index.js
++++ b/index.js
+@@ -1,116 +1,166 @@
+ /*!
+  * set-value <https://github.com/jonschlinkert/set-value>
+  *
+- * Copyright (c) 2014-2018, Jon Schlinkert.
++ * Copyright (c) Jon Schlinkert (https://github.com/jonschlinkert).
+  * Released under the MIT License.
+  */
+ 
+ 'use strict';
+ 
+-const isPlain = require('is-plain-object');
++const isPlainObject = require('is-plain-object');
+ 
+-function set(target, path, value, options) {
+-  if (!isObject(target)) {
+-    return target;
++const isObject = val => {
++  return (typeof val === 'object' && val !== null) || typeof val === 'function';
++};
++
++const isUnsafeKey = key => {
++  return key === '__proto__' || key === 'constructor' || key === 'prototype';
++};
++
++const validateKey = key => {
++  if (typeof key !== 'string' && typeof key !== 'number') {
++    key = String(key);
+   }
+ 
+-  let opts = options || {};
+-  const isArray = Array.isArray(path);
+-  if (!isArray && typeof path !== 'string') {
+-    return target;
++  if (isUnsafeKey(key)) {
++    throw new Error(`Cannot set unsafe key: "${key}"`);
++  }
++};
++
++const toString = input => {
++  return Array.isArray(input) ? input.flat().map(String).join(',') : input;
++};
++
++const createMemoKey = (input, options) => {
++  if (typeof input !== 'string' || !options) return input;
++  let key = input + ';';
++  if (options.arrays !== undefined) key += `arrays=${options.arrays};`;
++  if (options.separator !== undefined) key += `separator=${options.separator};`;
++  if (options.split !== undefined) key += `split=${options.split};`;
++  if (options.merge !== undefined) key += `merge=${options.merge};`;
++  if (options.preservePaths !== undefined) key += `preservePaths=${options.preservePaths};`;
++  return key;
++};
++
++const memoize = (input, options, fn) => {
++  const key = toString(options ? createMemoKey(input, options) : input);
++  validateKey(key);
++
++  const val = setValue.cache.get(key) || fn();
++  setValue.cache.set(key, val);
++  return val;
++};
++
++const isNumber = value => {
++  if (value.trim() !== '') {
++    const number = Number(value);
++    return { is: Number.isInteger(number), number };
+   }
++  return { is: false };
++};
+ 
+-  let merge = opts.merge;
+-  if (merge && typeof merge !== 'function') {
+-    merge = Object.assign;
++const splitString = (input, options) => {
++  const opts = options || {};
++  const sep = opts.separator || '.';
++  const preserve = sep === '/' ? false : opts.preservePaths;
++
++  if (typeof input === 'symbol') {
++    return [input];
+   }
+ 
+-  const keys = isArray ? path : split(path, opts);
+-  const len = keys.length;
+-  const orig = target;
++  if (typeof opts.split === 'function') {
++    return opts.split(input);
++  }
++
++  const keys = Array.isArray(input) ? input : input.split(sep);
+ 
+-  if (!options && keys.length === 1) {
+-    result(target, keys[0], value, merge);
+-    return target;
++  if (typeof input === 'string' && preserve !== false && /\//.test(input)) {
++    return [input];
+   }
+ 
+-  for (let i = 0; i < len; i++) {
+-    let prop = keys[i];
++  for (let i = 0; i < keys.length; i++) {
++    if (typeof keys[i] !== 'string') break;
++    const { is, number } = isNumber(keys[i]);
+ 
+-    if (!isObject(target[prop])) {
+-      target[prop] = {};
++    if (is) {
++      keys[i] = number;
++      continue;
+     }
+ 
+-    if (i === len - 1) {
+-      result(target, prop, value, merge);
+-      break;
++    while (keys[i] && i < keys.length && keys[i].endsWith('\\') && typeof keys[i + 1] === 'string') {
++      keys[i] = keys[i].slice(0, -1) + sep + keys.splice(i + 1, 1);
+     }
+-
+-    target = target[prop];
+   }
+ 
+-  return orig;
+-}
++  return keys;
++};
+ 
+-function result(target, path, value, merge) {
+-  if (merge && isPlain(target[path]) && isPlain(value)) {
+-    target[path] = merge({}, target[path], value);
+-  } else {
+-    target[path] = value;
+-  }
+-}
++const split = (input, options) => {
++  return memoize(input, options, () => splitString(input, options));
++};
+ 
+-function split(path, options) {
+-  const id = createKey(path, options);
+-  if (set.memo[id]) return set.memo[id];
++const setProp = (obj, prop, value, options) => {
++  validateKey(prop);
+ 
+-  const char = (options && options.separator) ? options.separator : '.';
+-  let keys = [];
+-  let res = [];
++  // Delete property when "value" is undefined
++  if (value === undefined) {
++    delete obj[prop];
+ 
+-  if (options && typeof options.split === 'function') {
+-    keys = options.split(path);
+-  } else {
+-    keys = path.split(char);
+-  }
++  } else if (options && options.merge) {
++    const merge = options.merge === true ? Object.assign : options.merge;
+ 
+-  for (let i = 0; i < keys.length; i++) {
+-    let prop = keys[i];
+-    while (prop && prop.slice(-1) === '\\' && keys[i + 1]) {
+-      prop = prop.slice(0, -1) + char + keys[++i];
++    // Only merge plain objects
++    if (merge && isPlainObject(obj[prop]) && isPlainObject(value)) {
++      obj[prop] = merge(obj[prop], value);
++    } else {
++      obj[prop] = value;
+     }
+-    res.push(prop);
+-  }
+-  set.memo[id] = res;
+-  return res;
+-}
+-
+-function createKey(pattern, options) {
+-  let id = pattern;
+-  if (typeof options === 'undefined') {
+-    return id + '';
++
++  } else {
++    obj[prop] = value;
+   }
+-  const keys = Object.keys(options);
+-  for (let i = 0; i < keys.length; i++) {
++
++  return obj;
++};
++
++const setValue = (obj, path, value, options) => {
++  if (!path) return obj;
++  if (!isObject(obj)) return obj;
++
++  const keys = split(path, options);
++  const len = keys.length;
++  const target = obj;
++
++  for (let i = 0; i < len; i++) {
+     const key = keys[i];
+-    id += ';' + key + '=' + String(options[key]);
+-  }
+-  return id;
+-}
+-
+-function isObject(val) {
+-  switch (typeof val) {
+-    case 'null':
+-      return false;
+-    case 'object':
+-      return true;
+-    case 'function':
+-      return true;
+-    default: {
+-      return false;
++    const next = keys[i + 1];
++
++    validateKey(key);
++
++    if (next === undefined) {
++      setProp(obj, key, value, options);
++      break;
+     }
++
++    if (typeof next === 'number' && !Array.isArray(obj[key])) {
++      obj[key] = [];
++      obj = obj[key];
++      continue;
++    }
++
++    if (!isObject(obj[key])) {
++      obj[key] = {};
++    }
++
++    obj = obj[key];
    }
 -}
-\ No newline at end of file
-+}
+ 
+-set.memo = {};
+-module.exports = set;
++  return target;
++};
++
++setValue.cache = new Map();
++setValue.clear = () => {
++  setValue.cache = new Map();
++};
++
++module.exports = setValue;

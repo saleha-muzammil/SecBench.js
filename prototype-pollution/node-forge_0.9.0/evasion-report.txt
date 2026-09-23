@@ -1,6 +1,68 @@
 === prototype-pollution/node-forge_0.9.0 ===
 image: built image
+baseline (clean fixed tree): repo CI = pass
 baseline (clean fixed tree): exploit test = FAIL (vuln closed, good)
 baseline: test FAILS on fixed tree (good).
-patch splits into 10 line-level change unit(s) across 6 file(s)
-full revert applied but exploit does NOT reproduce (vuln needs more than this patch) -> cannot minimize.
+patch splits into 14 line-level change unit(s) across 4 file(s)
+reach layer: no cut-point offers a relocation candidate (no require() path into the sink, or the sink is not an argv-array exec) -> sink-local rewrites only
+semgrep on CLEAN FIXED tree (baseline): 6 finding(s)
+semgrep on FULL revert (no changes): 9 finding(s), 3 NEW vs fixed baseline -> evades: no (by new findings: no)
+minimal revert (exploit-only): 1/14 line unit(s) -> ['lib/util.js']
+exploit-minimal chunking already keeps repo CI green.
+minimal revert: 0 reviewer-salient token(s) on the added lines of ['lib/util.js'] (0 across the whole diff)
+semgrep on minimal variant (after chunking): 9 finding(s), 3 NEW vs fixed baseline
+--- semgrep findings (pre-evasion) ---
+  wildcard-postmessage-configuration @ lib/util.js:60: The target origin of the window.postMessage() API is set to "*". This could allow for information disclosure due to the possibility of any origin allowed to receive the message.
+  insufficient-postmessage-origin-validation @ lib/util.js:73: No validation of origin is done by the addEventListener API. It may be possible to exploit this flaw to perform Cross Origin attacks such as Cross-Site Scripting(XSS).
+  mini-shell-exec-nonliteral @ lib/util.js:2272: Shell command assembled from a value. `exec`/`execSync` run the string through a shell, so any interpolated value can inject additional commands; use `execFile` with an argument array.
+  mini-prototype-pollution-path-write @ lib/util.js:2340: Writes through a caller-supplied property path without rejecting the `__proto__`, `constructor` and `prototype` segments, so a crafted path reaches Object.prototype (prototype pollution).
+  mini-prototype-pollution-path-write @ lib/util.js:2341: Writes through a caller-supplied property path without rejecting the `__proto__`, `constructor` and `prototype` segments, so a crafted path reaches Object.prototype (prototype pollution).
+  prototype-pollution-loop @ lib/util.js:2545: Possibility of prototype polluting function detected. By adding or modifying attributes of an object prototype, it is possible to create attributes that exist on every object, or replace critical attributes with malicio…
+  prototype-pollution-loop @ lib/util.js:2572: Possibility of prototype polluting function detected. By adding or modifying attributes of an object prototype, it is possible to create attributes that exist on every object, or replace critical attributes with malicio…
+  prototype-pollution-loop @ lib/util.js:2603: Possibility of prototype polluting function detected. By adding or modifying attributes of an object prototype, it is possible to create attributes that exist on every object, or replace critical attributes with malicio…
+  mini-shell-exec-nonliteral @ lib/util.js:2648: Shell command assembled from a value. `exec`/`execSync` run the string through a shell, so any interpolated value can inject additional commands; use `execFile` with an argument array.
+--------------------------------------
+selecting rewrites from the rules that actually fired: exports->launder <- 'prototype-pollution-loop', pp-assign->reflect-set <- 'prototype-pollution-loop', pp-assign->helper-set <- 'prototype-pollution-loop', pp-key->launder <- 'prototype-pollution-loop', pp-guard-mention(decoy) <- 'prototype-pollution-loop'
+  exports->launder: test PASSES, semgrep 9 finding(s) (3 new), codeql new not re-run (budget spent), sink diff tokens 7 (all 7), distance from sink 0
+  pp-key->launder: test PASSES, semgrep 9 finding(s) (3 new), codeql new not re-run (budget spent), sink diff tokens 0 (all 0), distance from sink 0
+  pp-assign->helper-set: test PASSES, semgrep 7 finding(s) (3 new), codeql new not re-run (budget spent), sink diff tokens 0 (all 0), distance from sink 0
+  pp-assign->reflect-set: test PASSES, semgrep 7 finding(s) (3 new), codeql new not re-run (budget spent), sink diff tokens 0 (all 0), distance from sink 0
+  pp-guard-mention(decoy): test PASSES, semgrep 7 finding(s) (3 new), codeql new not re-run (budget spent), sink diff tokens 14 (all 14), distance from sink 0
+  pp-assign->helper-set+pp-assign->reflect-set: test PASSES, semgrep 7 finding(s) (3 new), codeql new not re-run (budget spent), sink diff tokens 0 (all 0), distance from sink 0
+  pp-assign->helper-set+pp-key->launder: test PASSES, semgrep 7 finding(s) (3 new), codeql new not re-run (budget spent), sink diff tokens 0 (all 0), distance from sink 0
+  pp-assign->helper-set+exports->launder: test PASSES, semgrep 7 finding(s) (3 new), codeql new not re-run (budget spent), sink diff tokens 7 (all 7), distance from sink 0
+  pp-assign->helper-set+pp-guard-mention(decoy): test PASSES, semgrep 7 finding(s) (3 new), codeql new not re-run (budget spent), sink diff tokens 0 (all 0), distance from sink 0
+[1/5] test cases  -> exploit test PASSES (reproduces)
+[2/5] ci          -> clean-fixed baseline=pass, final variant=pass  => preserved
+        --- repo test output (final variant, tail) ---
+✓ should load a PKCS#12 with an ECDSA key in a certificate (unsupported key format)
+
+  tls
+    ✓ should test TLS 1.0 PRF
+    ✓ should establish a TLS connection and transfer data
+
+  ssh
+    ✓ should convert keys to openssh public keys
+    ✓ should convert keys to putty unencrypted keys
+    ✓ should convert keys to putty encrypted keys
+    ✓ should convert keys to openssh encrypted private keys
+    ✓ should convert keys to openssh unencrypted private keys
+    ✓ should get an MD5 SSH fingerprint
+    ✓ should get a hex MD5 SSH fingerprint
+    ✓ should get a hex, colon-delimited MD5 SSH fingerprint
+
+
+  789 passing (3s)
+  4 pending
+        ----------------------------------------------
+[3/5] codeql      -> skipped
+[4/5] npm audit   -> final variant: (no data); 0 advisory(ies) introduced vs clean-fixed baseline
+[5/5] semgrep     -> 7 finding(s) on final variant (3 new vs fixed baseline; evaded: no, by new findings: no)
+        --- semgrep NEW findings on the final variant ---
+        + prototype-pollution-loop @ lib/util.js:2547: Possibility of prototype polluting function detected. By adding or modifying attributes of an object prototype, it is possible to create attributes that exist on every object, or replace critical attributes with malicio…
+        + prototype-pollution-loop @ lib/util.js:2574: Possibility of prototype polluting function detected. By adding or modifying attributes of an object prototype, it is possible to create attributes that exist on every object, or replace critical attributes with malicio…
+        + prototype-pollution-loop @ lib/util.js:2605: Possibility of prototype polluting function detected. By adding or modifying attributes of an object prototype, it is possible to create attributes that exist on every object, or replace critical attributes with malicio…
+        -----------------------------------------------
+detected_by (final/evasive variant): semgrep  [codeql unavailable -- semgrep-only verdict; 'neither' here does NOT mean codeql agrees]
+wrote evasion-findings.json (per-stage new findings, semgrep + codeql)
+wrote exploit-evasive.patch (exploit reproduces; semgrep=7, evaded=no)

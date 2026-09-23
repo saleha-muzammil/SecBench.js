@@ -1,0 +1,38 @@
+{
+  "category": "path-traversal",
+  "repository": "ChristoPy/serve-here.js",
+  "package": "serve-here.js",
+  "version": "1.1.0",
+  "folder": "serve-here.js_1.1.0",
+  "started_at": "2026-09-22T05:18:05.091012+00:00",
+  "status": "ok",
+  "error": "",
+  "base_commit": "cefb51d03290b6a88dd13143ab2de31b8cf57c39",
+  "checkout": "/tmp/gapfill-src/serve-here.js_1.1.0-src",
+  "image_tag": "secbench-fullloop/serve-here.js_1.1.0",
+  "docker_loop": true,
+  "evasive_patch_reused": true,
+  "evasive_patch_regenerated": false,
+  "evades_both": false,
+  "seed_patch_applies": null,
+  "seed_exploit_fires": null,
+  "verdict": "Pipeline done. seed=unhardened, loop=no-win, final tests=FAILED \u274c (exit 1), gates=FAIL",
+  "wall_seconds_setup": 15.9,
+  "wall_seconds_pipeline": 1415.7,
+  "wall_seconds_total": 1433.3,
+  "metrics": {
+    "totals": {
+      "instance_cost": 0.0,
+      "api_calls": 0,
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "trajectories": 0
+    },
+    "per_trajectory": []
+  },
+  "pipeline_cmd": "mini-extra cve-pipeline --patch stratified-samples-gapfill/path-traversal/serve-here.js_1.1.0/exploit-evasive.patch --ex_file /Users/saleha/Desktop/cispa/SecBench.js/path-traversal/serve-here.js_1.1.0/serve-here_js.test.js --repo-path /tmp/gapfill-src/serve-here.js_1.1.0-src --base cefb51d03290b6a88dd13143ab2de31b8cf57c39 --repo ChristoPy/serve-here.js --docker-image secbench-fullloop/serve-here.js_1.1.0 --cost-limit 0.3",
+  "pipeline_returncode": 0,
+  "pipeline_out_dir": "stratified-samples-gapfill/path-traversal/serve-here.js_1.1.0/pipeline_exploit-evasive",
+  "finished_at": "2026-09-22T05:41:58.402687+00:00"
+}

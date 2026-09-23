@@ -1,0 +1,16 @@
+{
+  "seed": 20260817,
+  "n": 3,
+  "until_success": false,
+  "generated_at": "2026-09-21T16:57:26.789859+00:00",
+  "categories": {
+    "prototype-pollution": [
+      {
+        "folder": "lodash_4.17.9",
+        "package": "lodash",
+        "version": "4.17.9",
+        "repository": "lodash/lodash"
+      }
+    ]
+  }
+}

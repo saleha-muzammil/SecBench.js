@@ -1,0 +1,9 @@
+command-injection arpping_2.0.0
+path-traversal crud-file-server_0.7.0
+path-traversal glance_3.0.0
+path-traversal hangersteak_0.2.2
+prototype-pollution flat_5.0.0
+prototype-pollution lodash_4.17.9
+prototype-pollution patchmerge_1.0.1
+prototype-pollution set-or-get_1.2.10
+redos is-email_1.0.0

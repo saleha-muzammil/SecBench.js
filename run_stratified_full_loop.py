@@ -68,7 +68,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
-CATEGORIES = ["code-injection", "command-injection", "path-traversal", "prototype-pollution"]
+CATEGORIES = ["code-injection", "command-injection", "path-traversal", "prototype-pollution", "redos"]
 DEFAULT_OUT = "stratified-samples-full-loop"
 DEFAULT_SEED = 20260817
 DEFAULT_N = 3
@@ -114,6 +114,18 @@ def folder_name(package: str, version: str) -> str:
     return f"{base}_{version}"
 
 
+def repo_label(repository: str, package: str) -> str:
+    """The repo name the pipeline shows its agents -- and, through them, the triage judge.
+
+    NEVER `{category}/{folder}`. That string IS the vulnerability class, and the judge prompt opens
+    with it ("you are an issue-triage gatekeeper for the repository `prototype-pollution/hoek_5.0.0`"),
+    which is a free prior on the exact thing the run is supposed to measure. Judges cited it
+    outright -- "the repository name explicitly includes `prototype-pollution`, indicating that
+    prevention is core to its design". The upstream slug is what a real triager would see.
+    """
+    return (repository or "").strip() or re.sub(r"^@", "", package)
+
+
 # category -> campaign CSV override, set from --csv (see main())
 CSV_OVERRIDES: dict[str, Path] = {}
 
@@ -124,19 +136,21 @@ def campaign_csv(category: str) -> Path:
     return CSV_OVERRIDES.get(category, ROOT / f"evasion-campaign-{category}.csv")
 
 
-def eligible_rows(category: str) -> list[dict]:
-    """Rows whose evasive patch is a valid loop seed: the exploit reproduced AND
-    it evaded BOTH scanners (exploit + semgrep + codeql all pass)."""
+def all_rows(category: str) -> list[dict]:
+    """Every row in the campaign CSV, eligibility ignored."""
     csv_path = campaign_csv(category)
     if not csv_path.exists():
         return []
-    out = []
     with open(csv_path, newline="", encoding="utf-8") as f:
-        for row in csv.DictReader(f):
-            if ((row.get("evaded_both") or "").strip() == "yes"
-                    and (row.get("exploit_reproduces") or "").strip() == "yes"):
-                out.append(row)
-    return out
+        return list(csv.DictReader(f))
+
+
+def eligible_rows(category: str) -> list[dict]:
+    """Rows whose evasive patch is a valid loop seed: the exploit reproduced AND
+    it evaded BOTH scanners (exploit + semgrep + codeql all pass)."""
+    return [row for row in all_rows(category)
+            if (row.get("evaded_both") or "").strip() == "yes"
+            and (row.get("exploit_reproduces") or "").strip() == "yes"]
 
 
 def patch_evades_both(repo_dir: Path) -> bool:
@@ -152,9 +166,13 @@ def patch_evades_both(repo_dir: Path) -> bool:
         data = json.loads(findings.read_text())
     except Exception:
         return False
+    # `or {}`, not a .get default: a scanner that never ran is recorded as an
+    # explicit null, so the key EXISTS and the default is skipped -- lodash_4.17.9
+    # has "codeql": null and raised AttributeError right here.
+    semgrep, codeql = data.get("semgrep") or {}, data.get("codeql") or {}
     return (data.get("detected_by") == "neither"
-            and not data.get("semgrep", {}).get("new_final")
-            and not data.get("codeql", {}).get("new_final"))
+            and not semgrep.get("new_final")
+            and not codeql.get("new_final"))
 
 
 def find_test_file(repo_dir: Path) -> Path | None:
@@ -380,8 +398,19 @@ def process_repo(category: str, row: dict, args) -> dict:
         meta["evades_both"] = evades
         if not patch_src.exists() or patch_src.stat().st_size == 0:
             raise RuntimeError("no evasive patch available (regeneration failed)")
+        if not evades and not args.allow_detected_seed:
+            # An unverifiable seed (campaign hit a harness-error, findings never written) is worth
+            # running -- the disk is the authority and it may well be clean. A seed the findings
+            # POSITIVELY flag is not: Phase A re-derives the same verdict, CodeBreaker burns its
+            # whole budget on it, and the loop then drafts issues from a form semgrep already sees.
+            # thenify_3.3.0 cost ~25min of container + API time proving exactly that.
+            raise RuntimeError(
+                "evasive patch is flagged by the recorded findings (evasion-findings.json "
+                "detected_by != 'neither'); re-run the evasion campaign for this repo or pass "
+                "--allow-detected-seed to run it anyway")
         if not evades:
-            log("    ⚠️  evasive patch does not (re)confirm evading both scanners; running anyway")
+            log("    ⚠️  evasive patch does not (re)confirm evading both scanners; running anyway "
+                "(--allow-detected-seed)")
         staged_patch = result_dir / "exploit-evasive.patch"
         shutil.copy2(patch_src, staged_patch)
 
@@ -418,7 +447,7 @@ def process_repo(category: str, row: dict, args) -> dict:
             "--ex_file", str(test_file),
             "--repo-path", str(checkout),
             "--base", base_sha,
-            "--repo", f"{category}/{folder}",
+            "--repo", repo_label(meta["repository"], package),
         ]
         if args.docker_loop:
             # Everything -- both agents and every evaluation command (git, jest,
@@ -521,7 +550,16 @@ def select(categories: list[str], n: int, seed: int, only: set[str],
     for cat in categories:
         rows = eligible_rows(cat)
         if only:
-            chosen[cat] = [r for r in rows if folder_name(r["package"], r["version"]) in only]
+            # --only names repos explicitly, so the CSV's eligibility columns are not
+            # the authority: they are campaign bookkeeping and go stale. A row that hit
+            # a harness-error records evaded_both="" even when the patch on disk evades
+            # both, and filtering on it silently yielded "0 repo(s)". Match every row and
+            # let patch_evades_both() decide from the artifacts.
+            chosen[cat] = [r for r in all_rows(cat)
+                           if folder_name(r["package"], r["version"]) in only]
+            missing = only - {folder_name(r["package"], r["version"]) for r in all_rows(cat)}
+            for name in sorted(missing):
+                log(f"  --only {name}: no row in {campaign_csv(cat).name}")
             continue
         rng = random.Random(f"{seed}:{cat}")   # per-category stream -> stable per category
         rng.shuffle(rows)
@@ -532,6 +570,10 @@ def select(categories: list[str], n: int, seed: int, only: set[str],
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap.add_argument("--allow-detected-seed", action="store_true",
+                    help="run even when the recorded findings say the evasive patch IS flagged by "
+                         "a scanner. Off by default: Phase A only re-derives the same verdict and "
+                         "the whole loop is then drafted from a detected form.")
     ap.add_argument("-c", "--category", action="append", dest="categories",
                     choices=CATEGORIES, help="restrict to category (repeatable)")
     ap.add_argument("-n", "--num", type=int, default=DEFAULT_N,

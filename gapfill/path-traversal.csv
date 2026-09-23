@@ -1,0 +1,6 @@
+category,repository,package,version,outcome,evaded_both,status,exploit_reproduces
+path-traversal,henrytseng/hostr,hostr,2.0.0,benchmark-fail,,baseline-already-vulnerable: image-not-fixed,
+path-traversal,nim579/node-srv,node-srv,2.0.0,setup-fail,,rebuild-failed,
+path-traversal,tnantoka/public,public,0.1.2,exploit-fail,,baseline-already-vulnerable: exploit-self-fires,
+path-traversal,ChristoPy/serve-here.js,serve-here.js,1.1.0,exploit-fail,,baseline-already-vulnerable: exploit-self-fires,
+path-traversal,vivaxy/here,@vivaxy/here,3.1.0,setup-fail,,image-failed,

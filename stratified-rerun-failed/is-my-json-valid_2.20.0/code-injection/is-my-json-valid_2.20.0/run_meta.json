@@ -1,0 +1,38 @@
+{
+  "category": "code-injection",
+  "repository": "mafintosh/is-my-json-valid",
+  "package": "is-my-json-valid",
+  "version": "2.20.0",
+  "folder": "is-my-json-valid_2.20.0",
+  "started_at": "2026-09-22T03:27:47.357555+00:00",
+  "status": "pipeline-rc-1",
+  "error": "",
+  "base_commit": "3419563687df463b4ca709a2b46be8e15d6a2b3d",
+  "checkout": "/tmp/is-my-json-valid_2.20.0-src",
+  "image_tag": "secbench-fullloop/is-my-json-valid_2.20.0",
+  "docker_loop": true,
+  "evasive_patch_reused": true,
+  "evasive_patch_regenerated": false,
+  "evades_both": true,
+  "seed_patch_applies": null,
+  "seed_exploit_fires": null,
+  "verdict": "",
+  "wall_seconds_setup": 30.5,
+  "wall_seconds_pipeline": 616.4,
+  "wall_seconds_total": 647.1,
+  "metrics": {
+    "totals": {
+      "instance_cost": 0.0,
+      "api_calls": 0,
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "trajectories": 0
+    },
+    "per_trajectory": []
+  },
+  "pipeline_cmd": "mini-extra cve-pipeline --patch stratified-rerun-failed/is-my-json-valid_2.20.0/code-injection/is-my-json-valid_2.20.0/exploit-evasive.patch --ex_file /Users/saleha/Desktop/cispa/SecBench.js/code-injection/is-my-json-valid_2.20.0/is-my-json-valid.test.js --repo-path /tmp/is-my-json-valid_2.20.0-src --base 3419563687df463b4ca709a2b46be8e15d6a2b3d --repo mafintosh/is-my-json-valid --docker-image secbench-fullloop/is-my-json-valid_2.20.0 --max-iterations 5 --cost-limit 0.3 --no-run-codegen --gate-in-loop --gate-runs 1 --revise-iterations 2",
+  "pipeline_returncode": 1,
+  "pipeline_out_dir": "stratified-rerun-failed/is-my-json-valid_2.20.0/code-injection/is-my-json-valid_2.20.0/pipeline_exploit-evasive",
+  "finished_at": "2026-09-22T03:38:34.493307+00:00"
+}

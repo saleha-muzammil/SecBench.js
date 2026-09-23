@@ -1,0 +1,63 @@
+{
+  "category": "prototype-pollution",
+  "repository": "robinvdvleuten/shvl",
+  "package": "shvl",
+  "version": "2.0.1",
+  "folder": "shvl_2.0.1",
+  "started_at": "2026-09-22T18:51:16.253895+00:00",
+  "status": "ok",
+  "error": "",
+  "base_commit": "4ed0edfa70f7778556f7b7e9ef1ee5d6d002fce2",
+  "checkout": "/tmp/gapfill-src/shvl_2.0.1-src",
+  "image_tag": "secbench-fullloop/shvl_2.0.1",
+  "docker_loop": true,
+  "evasive_patch_reused": true,
+  "evasive_patch_regenerated": false,
+  "evades_both": false,
+  "seed_patch_applies": null,
+  "seed_exploit_fires": null,
+  "verdict": "Pipeline done. seed=hardened, loop=SUCCESS, final tests=FAILED \u274c (exit 1), gates=PASS, final_gate=['SOLVED']",
+  "wall_seconds_setup": 14.9,
+  "wall_seconds_pipeline": 1311.7,
+  "wall_seconds_total": 1333.0,
+  "metrics": {
+    "totals": {
+      "instance_cost": 0.042781,
+      "api_calls": 69,
+      "prompt_tokens": 1409065,
+      "completion_tokens": 74172,
+      "total_tokens": 1483237,
+      "trajectories": 3
+    },
+    "per_trajectory": [
+      {
+        "file": "issue/iter_1/adopt/run_1/trajectory.traj.json",
+        "instance_cost": 0.014966,
+        "api_calls": 21,
+        "prompt_tokens": 343773,
+        "completion_tokens": 20289,
+        "total_tokens": 364062
+      },
+      {
+        "file": "issue/iter_3/adopt/run_1/trajectory.traj.json",
+        "instance_cost": 0.013671,
+        "api_calls": 22,
+        "prompt_tokens": 465442,
+        "completion_tokens": 29249,
+        "total_tokens": 494691
+      },
+      {
+        "file": "solve_gate/run_1/trajectory.traj.json",
+        "instance_cost": 0.014145,
+        "api_calls": 26,
+        "prompt_tokens": 599850,
+        "completion_tokens": 24634,
+        "total_tokens": 624484
+      }
+    ]
+  },
+  "pipeline_cmd": "mini-extra cve-pipeline --patch stratified-samples-gapfill/prototype-pollution/shvl_2.0.1/exploit-evasive.patch --ex_file /Users/saleha/Desktop/cispa/SecBench.js/prototype-pollution/shvl_2.0.1/shvl.test.js --repo-path /tmp/gapfill-src/shvl_2.0.1-src --base 4ed0edfa70f7778556f7b7e9ef1ee5d6d002fce2 --repo robinvdvleuten/shvl --docker-image secbench-fullloop/shvl_2.0.1 --cost-limit 0.3",
+  "pipeline_returncode": 0,
+  "pipeline_out_dir": "stratified-samples-gapfill/prototype-pollution/shvl_2.0.1/pipeline_exploit-evasive",
+  "finished_at": "2026-09-22T19:13:29.211065+00:00"
+}

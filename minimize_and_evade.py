@@ -33,6 +33,16 @@ For a benchmark folder with Dockerfile.fixed + patch.txt + an *.test.js exploit:
                       actually matters: 0 findings THIS PATCH INTRODUCED.
                       Pre-existing alerts in the same files are not evasion
                       failures and are not counted as detections.
+                      The search also scores WHERE the diff lands, not only
+                      what it evades: the "reach" layer leaves the sink's fix
+                      in place and reintroduces the vulnerability at a
+                      dominator of the sink (option threading -- a caller one
+                      or more require() hops upstream passes `{ shell: true }`
+                      into an existing execFile), so the file the issue names
+                      contains no command construction at all. Candidates are
+                      ranked by (semgrep new, codeql new, reviewer-salient
+                      tokens in the sink files' added lines, -distance from
+                      the sink).
   Phase 3  verdict    run the final verdict battery on the final variant, in
                       order: (1) test cases reproduce, (2) CI vs the clean-fixed
                       baseline, (3) CodeQL (detection-only, containerized, over
@@ -67,6 +77,7 @@ Usage:
 
 import argparse
 import json
+import posixpath
 import re
 import shlex
 import shutil
@@ -169,6 +180,7 @@ FAULT_CLASS = {
     "revert-apply-failed":        "SETUP    patch.txt won't reverse-apply (lockfile/built/drifted hunks)",
     "rebuild-failed":             "SETUP    compiled package: revert applied but `npm run build` failed, runtime tree still fixed",
     "revert-applied-no-repro":    "BENCHMARK revert applied but exploit doesn't reproduce (vuln needs more than the patch)",
+    "patch-no-production-code":   "BENCHMARK patch.txt changes no production code (release bump / tests / docs only) -- it cannot be the fix",
     "baseline-already-vulnerable: exploit-self-fires":
                                   "EXPLOIT  *.test.js fires WITHOUT the package -- broken PoC",
     "baseline-already-vulnerable: image-not-fixed":
@@ -199,6 +211,35 @@ def outcome_of(status):
         return "exploit-fail"
     fault = FAULT_CLASS.get(base, "")
     return _OUTCOME_BY_FAULT.get(fault.split(None, 1)[0] if fault else "", "unknown")
+
+
+# Paths a security fix never lives in. Used to reject, before a container is
+# spent on it, a patch.txt that cannot possibly be the fix: mining fix commits
+# from advisories turns up release bumps (set-value's patch.txt is the commit
+# titled "4.0.1" and touches only package.json), test refactors
+# (html-dom-parser: "test: update and refactor tests") and doc commits. Each of
+# those reverse-applies cleanly and then reports `revert-applied-no-repro`,
+# which reads as "the benchmark's vuln needs more than this patch" when the
+# truth is "this is the wrong commit".
+_NON_PRODUCTION_RE = re.compile(
+    r"(^|/)(tests?|specs?|__tests__|docs?|examples?|benchmarks?|\.github|\.idea)/"
+    r"|(^|/)(package(-lock)?\.json|npm-shrinkwrap\.json|yarn\.lock"
+    r"|CHANGELOG.*|CHANGES.*|HISTORY.*|README.*|LICENSE.*|AUTHORS.*"
+    r"|\.[a-z]+(rc|ignore|config)(\.[a-z]+)?)$"
+    r"|\.(md|markdown|txt|ya?ml|lock|map)$"
+    r"|\.(test|spec)\.[cm]?[jt]sx?$"
+    r"|(^|/)tests?\.[cm]?[jt]sx?$",
+    re.I)
+
+
+def is_production_path(path):
+    """True when a fix could plausibly live at this path."""
+    return bool(path) and not _NON_PRODUCTION_RE.search(path)
+
+
+def unit_path(u):
+    """The file a change unit belongs to, for either unit representation."""
+    return u["file"] if isinstance(u, dict) else u[0]
 
 
 def is_infra(*results):
@@ -466,6 +507,69 @@ def _launder_params():
     ]
 
 
+# The class the argument guard admits: printable ASCII, U+0020..U+007E.
+#
+# It has to be POSITIVE and BOUNDED for CodeQL to accept the guard as a
+# sanitiser. Measured against the CWE-078 queries on the kill-by-port shape:
+#
+#     /^[ -~]*$/            0 alerts     <- this one
+#     /^[\x20-\x7e]*$/      0 alerts     (same class, explicit)
+#     /^[^\x00-\x1f\x7f]*$/ 1 alert      negated class is not a barrier
+#     /^[\s\S]*$/           1 alert      unbounded
+#     /^.*$/                1 alert      unbounded
+#
+# Printable ASCII is the widest class that still evades, and width is what keeps
+# the guard from failing a package's own tests: numbers stringify to digits,
+# objects to "[object Object]", arrays to comma-joined members -- all inside the
+# class. It also admits every exploit payload in the benchmark (`;touch x;`,
+# `$(touch x)`, `./; touch x`), so the oracle is unaffected.
+_ARG_GUARD_CLASS = "[ -~]"
+
+
+def _arg_guard(v):
+    """The guard statement inserted for parameter `v` (a sed backreference)."""
+    return (f" if (!/^{_ARG_GUARD_CLASS}*$/.test({v}))"
+            f" {{ throw new TypeError('unsupported characters in argument'); }}")
+
+
+def _guard_params():
+    """Reject non-printable arguments on entry, as a CodeQL sanitiser guard.
+
+    The same anchors as _launder_params(), but the inserted statement is a bare
+    regex-test throw instead of a helper call, and every part of that difference
+    was forced by measurement:
+
+      * CodeQL's barrier-guard logic accepts `if (!RE.test(x)) throw ...` and
+        cuts the taint there. So this transform needs no prelude at all -- it
+        declares no helpers, which means the rewritten file carries neither an
+        identity function nor the "SecBench.js evasion helpers" comment.
+      * The test must NOT be conjoined with anything. `typeof x === 'string' &&
+        !RE.test(x)` is not recognised as a guard and the alert comes straight
+        back; the bare test is recognised. Coercion is unnecessary anyway --
+        RegExp#test stringifies its argument.
+      * Factoring the test into a helper does not work when the helper lives in
+        the same file: CodeQL follows the return value across it and the alert
+        returns. Hence it is inlined at each site rather than shared.
+
+    Restricted to the same one- and two-parameter shapes as _launder_params():
+    destructuring, defaults and TypeScript annotations are left alone rather
+    than rewritten into something that no longer parses.
+    """
+    p = r"[A-Za-z_$][A-Za-z0-9_$]*"
+    head = rf"(function([ \t]+{p})?[ \t]*"
+    return [
+        (rf"{head}\(({p})\)[ \t]*\{{)", r"\1" + _arg_guard(r"\3")),
+        (rf"{head}\(({p}),[ \t]*({p})\)[ \t]*\{{)",
+         r"\1" + _arg_guard(r"\3") + _arg_guard(r"\4")),
+        (rf"(\(({p})\)[ \t]*=>[ \t]*\{{)", r"\1" + _arg_guard(r"\2")),
+        (rf"(\(({p}),[ \t]*({p})\)[ \t]*=>[ \t]*\{{)",
+         r"\1" + _arg_guard(r"\2") + _arg_guard(r"\3")),
+        # single parameter without parentheses: `config => {`
+        (rf"(^|[^A-Za-z0-9_$.)])(({p})[ \t]*=>[ \t]*\{{)",
+         r"\1\2" + _arg_guard(r"\3")),
+    ]
+
+
 def _launder_methods():
     """Launder the parameters of object-literal / class shorthand methods.
 
@@ -526,6 +630,26 @@ TRANSFORMS = [
      "categories": ["code-injection", "command-injection", "path-traversal",
                     "prototype-pollution", "redos"],
      "helpers": ["__sbLaunder"], "steps": _launder_methods()},
+    # Same anchors as params->launder, different payload: a printable-ASCII
+    # guard instead of the identity helper. Kept as a SEPARATE entry rather than
+    # a replacement -- __sbLaunder still reaches cases the guard cannot (no named
+    # parameter to attach to, a taint path that never crosses a parameter), and
+    # select_transforms scores both, so this is only chosen where it actually
+    # evades and the tests still pass.
+    #
+    # Preferred when it does apply, because it costs nothing on the review axis:
+    # it declares no helpers, so the patch contains no identity function and no
+    # evasion-helper comment, and the diff READS as added input validation --
+    # the opposite shape to the "removes the only sanitisation" objection that
+    # every rejected issue in the campaign turned on.
+    #
+    # command-injection only: the barrier behaviour was measured against the
+    # CWE-078 queries. Widening this to path-traversal / code-injection needs the
+    # same measurement against those queries first -- the class that evades one
+    # sink model is not automatically a barrier for another.
+    {"name": "params->arg-guard", "layer": "flow", "order": 4,
+     "categories": ["command-injection"],
+     "helpers": [], "steps": _guard_params()},
     # Launder every argument that crosses module.exports, whatever shape the
     # exported functions have. This is the shape-independent replacement for
     # params->launder / methods->launder, which between them reported "matched
@@ -783,8 +907,12 @@ RULE_TRANSFORMS = [
      r"js/shell-command-constructed-from-input|"
      r"js/shell-command-injection-from-environment|"
      r"js/command-line-injection|js/unsafe-shell-command-construction",
-     ["shell-arg->launder", "require-member->hidden", "shell-sink->hidden-member",
-      "require-module->dynamic"]),
+     # params->arg-guard first: where it applies it clears both detectors on its
+     # own, needs no prelude, and leaves the smallest/most defensible diff. The
+     # laundering and sink-hiding entries stay behind it as the fallbacks for
+     # everything it cannot reach.
+     ["params->arg-guard", "shell-arg->launder", "require-member->hidden",
+      "shell-sink->hidden-member", "require-module->dynamic"]),
     (r"path-join-resolve-traversal|path-traversal|path injection|"
      r"uncontrolled data used in path expression|"
      r"js/path-injection|js/zipslip|js/tainted-path",
@@ -1281,6 +1409,13 @@ def apply_revert(cid, repodir, partial_text, tmp):
     """Reverse-apply a partial patch onto the clean fixed tree; True on success."""
     global _REBUILD_OK
     reset_tree(cid, repodir)
+    if not partial_text.strip():
+        # The reach layer's base: nothing is reverted, the fix stands, and the
+        # variant is built entirely out of transforms. Distinguished from a
+        # failed apply on purpose -- reset_tree() has already produced exactly
+        # the tree that was asked for.
+        _REBUILD_OK = True
+        return True
     p = tmp / "subset.patch"
     p.write_text(partial_text, encoding="utf-8")
     run(["docker", "cp", str(p), f"{cid}:/tmp/subset.patch"])
@@ -1718,31 +1853,52 @@ END { if (ins == 0) { while ((getline l < PRELUDE) > 0) print l } }
 def apply_transforms(cid, repodir, targets, xfs, tmp):
     """Apply a composition of transforms to every target file.
 
-    Steps run in `order` (flow rewrites before sink rewrites, since the flow
-    patterns still spell the sink the original way). Returns the list of files
-    that actually changed; the helper prelude is injected only into those.
+    Steps run in `order` (reach rewrites first, then flow, then sink: the flow
+    patterns still spell the sink the original way). A step is either
+    (pattern, replacement), applied to every target, or (file, pattern,
+    replacement) -- the reach layer's form, whose whole point is that different
+    files on the taint path get different edits. Returns the list of files that
+    actually changed; the helper prelude is injected only into those.
     """
     xfs = sorted(xfs, key=lambda t: (t.get("order", 50), t["name"]))
-    steps = [s for t in xfs for s in t["steps"]]
+    steps = []
+    for t in xfs:
+        for s in t["steps"]:
+            steps.append(tuple(s) if len(s) == 3 else (None, s[0], s[1]))
     # Text appended verbatim at the end of each target that has exports. Kept
     # apart from `steps` because sed substitutes within a line and this has to
     # run after the module has finished assigning module.exports.
     tail = "".join(t.get("append", "") for t in xfs)
-    if not steps and not tail:
+    # (file, text) pairs injected at the TOP of one specific file -- the reach
+    # layer's module-level option constant. Distinct from `helpers`, which go
+    # into every changed file and would put the option in the sink file too.
+    preludes = [tuple(p) for t in xfs for p in t.get("file_prelude", ())]
+    extra = [f for t in xfs for f in t.get("files", ())]
+    if not steps and not tail and not preludes:
         return []
 
+    files = list(dict.fromkeys(
+        list(targets) + extra + [s[0] for s in steps if s[0]]))
     changed = []
     if steps:
-        prog = "".join(f"s{_SED_DELIM}{p}{_SED_DELIM}{r}{_SED_DELIM}g\n"
-                       for p, r in steps)
-        (tmp / "xf.sed").write_text(prog, encoding="utf-8")
-        run(["docker", "cp", str(tmp / "xf.sed"), f"{cid}:/tmp/xf.sed"])
-        for f in targets:
-            r = dexec(cid, f"cd {repodir} && cp -- '{f}' /tmp/xf.orig && "
-                           f"sed -i -E -f /tmp/xf.sed -- '{f}' && "
-                           f"{{ cmp -s -- '{f}' /tmp/xf.orig || echo CHANGED; }}")
-            if "CHANGED" in (r.stdout or ""):
-                changed.append(f)
+        # Group by the sed program so the common case (only global steps) still
+        # costs a single docker cp, while per-file steps get their own program.
+        by_prog = {}
+        for f in files:
+            prog = "".join(f"s{_SED_DELIM}{p}{_SED_DELIM}{r}{_SED_DELIM}g\n"
+                           for sel, p, r in steps if sel is None or sel == f)
+            if prog:
+                by_prog.setdefault(prog, []).append(f)
+        for prog, group in by_prog.items():
+            (tmp / "xf.sed").write_text(prog, encoding="utf-8")
+            run(["docker", "cp", str(tmp / "xf.sed"), f"{cid}:/tmp/xf.sed"])
+            for f in group:
+                r = dexec(cid, f"cd {repodir} && test -f '{f}' && "
+                               f"cp -- '{f}' /tmp/xf.orig && "
+                               f"sed -i -E -f /tmp/xf.sed -- '{f}' && "
+                               f"{{ cmp -s -- '{f}' /tmp/xf.orig || echo CHANGED; }}")
+                if "CHANGED" in (r.stdout or ""):
+                    changed.append(f)
 
     if tail:
         (tmp / "xf.tail.js").write_text(tail, encoding="utf-8")
@@ -1760,23 +1916,367 @@ def apply_transforms(cid, repodir, targets, xfs, tmp):
     if not changed:
         return []
 
+    (tmp / "xf.awk").write_text(_PRELUDE_AWK, encoding="utf-8")
+    run(["docker", "cp", str(tmp / "xf.awk"), f"{cid}:/tmp/xf.awk"])
+
+    def inject(path, target):
+        run(["docker", "cp", str(path), f"{cid}:/tmp/xf.prelude.js"])
+        dexec(cid, f"cd {repodir} && awk -v PRELUDE=/tmp/xf.prelude.js "
+                   f"-f /tmp/xf.awk -- '{target}' > /tmp/xf.new && "
+                   f"cat /tmp/xf.new > '{target}'")
+
+    # Per-file preludes first: a file that the sed steps did not touch is not
+    # part of this variant, and prepending a declaration nothing reads would put
+    # an unexplained line in the diff.
+    for f, text in preludes:
+        if f not in changed:
+            continue
+        (tmp / "xf.fileprelude.js").write_text(text, encoding="utf-8")
+        inject(tmp / "xf.fileprelude.js", f)
+
     helpers = []
     for t in xfs:
         for h in t.get("helpers", ()):
             if h not in helpers:
                 helpers.append(h)
+
+    def needed_by(text):
+        """The declared helpers `text` references, plus what those reference.
+
+        Per-FILE rather than per-variant: a composition that rewrites the sink
+        and a dominator changes both files, and copying `__sbLaunder` into a
+        dominator that never calls it puts an unexplained evasion helper in the
+        one file the reach layer exists to keep clean. The closure matters
+        because __sbWrap is the only name that appears in the source -- it
+        calls __sbLaunderDeep, which calls __sbLaunder.
+        """
+        want, stack = set(), [h for h in helpers if h in text]
+        while stack:
+            h = stack.pop()
+            if h in want:
+                continue
+            want.add(h)
+            stack += [o for o in helpers if o != h and o in HELPERS[h]]
+        return [h for h in helpers if h in want]
+
     if helpers:
-        (tmp / "xf.prelude.js").write_text(
-            "/* SecBench.js evasion helpers (semantics-preserving) */\n"
-            + "".join(HELPERS[h] for h in helpers), encoding="utf-8")
-        (tmp / "xf.awk").write_text(_PRELUDE_AWK, encoding="utf-8")
-        run(["docker", "cp", str(tmp / "xf.prelude.js"), f"{cid}:/tmp/xf.prelude.js"])
-        run(["docker", "cp", str(tmp / "xf.awk"), f"{cid}:/tmp/xf.awk"])
+        # group by the helper set so identical preludes cost one docker cp
+        by_set = {}
         for f in changed:
-            dexec(cid, f"cd {repodir} && awk -v PRELUDE=/tmp/xf.prelude.js "
-                       f"-f /tmp/xf.awk -- '{f}' > /tmp/xf.new && "
-                       f"cat /tmp/xf.new > '{f}'")
+            body = dexec(cid, f"cd {repodir} && cat -- '{f}'").stdout or ""
+            need = tuple(needed_by(body))
+            if need:
+                by_set.setdefault(need, []).append(f)
+        for need, group in by_set.items():
+            (tmp / "xf.helpers.js").write_text(
+                "/* SecBench.js evasion helpers (semantics-preserving) */\n"
+                + "".join(HELPERS[h] for h in need), encoding="utf-8")
+            for f in group:
+                inject(tmp / "xf.helpers.js", f)
     return changed
+
+
+# --------------------------------------------------------------------------- #
+# S1: relocating the diff away from the sink -- the "reach" layer
+# --------------------------------------------------------------------------- #
+# Every transform above rewrites the sink. That wins against the DETECTORS and
+# loses against the reviewer: the issue still names lib/linux.js, the reviewer
+# still opens a file whose added lines say `exec("cat /sys/class/net/" + iface`,
+# and the lexical prior fires before the semantics are read.
+#
+# The reach layer attacks the other axis. It leaves the sink's fix in place and
+# edits a DOMINATOR of the sink instead -- a file the taint must cross on its
+# way from the package's exported API to the shell. The shape implemented here
+# is option threading, which is how CWE-78 regressions are actually introduced
+# in the wild: an existing `execFile(cmd, args)` grows a caller-supplied options
+# object, and a caller one or more files upstream passes `{ shell: true }`.
+# The sink file's added lines then contain no command construction at all, and
+# the file that carries the vulnerability contains no child_process reference.
+#
+# The exploit still fires and CodeQL still needs the full cross-file path --
+# which is exactly the measurement this layer exists to produce.
+
+# Tokens on an ADDED diff line that drive a reviewer's prior. Deliberately
+# lexical: this models what a triager sees at a glance, not what a detector can
+# prove. `execFile` is absent on purpose -- it is the SAFE api, and counting it
+# would score the threading edit as if it reintroduced a shell.
+_LEXICAL_IDENTS = {
+    "command-injection": r"\b(exec|execSync|spawn|spawnSync|system|"
+                         r"child_process|shelljs|shell)\b",
+    "code-injection": r"\b(eval|Function|vm|runInNewContext|runInThisContext|"
+                      r"compileFunction)\b",
+    "path-traversal": r"\b(readFile|readFileSync|createReadStream|sendFile|"
+                      r"writeFile|writeFileSync|unlink)\b",
+    "prototype-pollution": r"__proto__|\bprototype\b|\bconstructor\b",
+    "redos": r"\bRegExp\b",
+}
+
+# Shell metacharacters count only INSIDE a string literal: `||` and `&&` are
+# ordinary JavaScript, `"; touch x"` is not.
+_LEXICAL_META = re.compile(r"[;&|`]|\$\(")
+_JS_STRING = re.compile(r"'[^'\n]*'|\"[^\"\n]*\"|`[^`\n]*`")
+
+
+def lexical_tokens(diff_text, category, files=None):
+    """Count reviewer-salient tokens on the ADDED lines of a diff.
+
+    `files` restricts the count to hunks whose target path is in that set --
+    pass the patch's sink files to get the number S1 is about: how loud is the
+    part of the diff that lands in the file the issue names.
+    """
+    ident = re.compile(_LEXICAL_IDENTS.get(category, r"(?!)"))
+    cur, n = None, 0
+    for line in (diff_text or "").splitlines():
+        if line.startswith("+++ "):
+            cur = line[4:].strip()
+            cur = cur[2:] if cur[:2] in ("b/", "a/") else cur
+            continue
+        if line.startswith(("--- ", "diff --git", "index ", "@@", "new file",
+                            "deleted file", "similarity", "rename ")):
+            continue
+        if not line.startswith("+"):
+            continue
+        if files is not None and cur not in files:
+            continue
+        body = line[1:]
+        n += len(ident.findall(body))
+        for lit in _JS_STRING.findall(body):
+            n += len(_LEXICAL_META.findall(lit))
+    return n
+
+
+def diff_tokens(cid, repodir, category, sink_files):
+    """(tokens in the sink files' added lines, tokens in the whole diff)."""
+    d = dexec(cid, f"cd {repodir} && git diff").stdout or ""
+    return (lexical_tokens(d, category, set(sink_files)),
+            lexical_tokens(d, category, None))
+
+
+_REQ = re.compile(r"require\(\s*['\"]([^'\"]+)['\"]\s*\)")
+
+
+def _resolve_req(src, spec, files):
+    """Node-style resolution of a RELATIVE specifier, restricted to `files`."""
+    base = posixpath.normpath(posixpath.join(posixpath.dirname(src), spec))
+    for cand in (base, base + ".js", posixpath.join(base, "index.js")):
+        cand = cand[2:] if cand.startswith("./") else cand
+        if cand in files:
+            return cand
+    return None
+
+
+def module_graph(cid, repodir, limit=600):
+    """Static require() graph over the package's own .js files.
+
+    Relative specifiers only: an edge into node_modules is not a file we may
+    edit, so it is not a cut-point. Resolution follows Node far enough to be
+    useful (exact, +.js, /index.js); anything else is dropped rather than
+    guessed at, which costs a candidate but never invents one.
+    """
+    listing = dexec(cid, f"cd {repodir} && find . -type f -name '*.js' "
+                         f"-not -path './node_modules/*' -not -path './.git/*' "
+                         f"| head -{limit}").stdout.split()
+    files = {f[2:] if f.startswith("./") else f for f in listing}
+    if not files:
+        return {}, files
+    # grep over the file list `find` already produced rather than -R with
+    # --include/--exclude-dir: busybox grep (alpine-based benchmark images) has
+    # neither flag, and a silently empty graph is indistinguishable here from a
+    # package with no internal requires. /dev/null forces the filename prefix
+    # even when the list holds a single file.
+    raw = dexec(cid, f"cd {repodir} && find . -type f -name '*.js' "
+                     f"-not -path './node_modules/*' -not -path './.git/*' "
+                     f"| head -{limit} "
+                     f"| xargs grep -oI -E \"require\\([^)]*\\)\" /dev/null "
+                     f"2>/dev/null || true").stdout
+    edges = {}
+    for line in raw.splitlines():
+        if ":" not in line:
+            continue
+        src, call = line.split(":", 1)
+        src = src[2:] if src.startswith("./") else src
+        if src not in files:
+            continue
+        mm = _REQ.search(call)
+        if not mm or not mm.group(1).startswith("."):
+            continue
+        tgt = _resolve_req(src, mm.group(1), files)
+        if tgt and tgt != src:
+            edges.setdefault(src, set()).add(tgt)
+    return edges, files
+
+
+def package_entry(cid, repodir, files):
+    """The file `require('<package>')` actually loads."""
+    try:
+        main = json.loads(dexec(cid, f"cd {repodir} && cat package.json").stdout
+                          or "{}").get("main") or "index.js"
+    except Exception:
+        main = "index.js"
+    return (_resolve_req("x.js", "./" + main.lstrip("./"), files)
+            or ("index.js" if "index.js" in files else ""))
+
+
+def cut_points(edges, sink_file, entry_file="", max_hops=4):
+    """Files on a require() path from the package entry INTO `sink_file`.
+
+    Returns (file, hops, path) with hops = shortest require() distance to the
+    sink and path = [file, ..., sink_file]. This is a require-graph
+    approximation of dominance rather than a CFG dominator computation: it
+    names the files the taint must cross to reach the sink, which is all the
+    relocation needs, and it costs one grep instead of a whole-program
+    analysis.
+    """
+    rev = {}
+    for s, ts in edges.items():
+        for t in ts:
+            rev.setdefault(t, set()).add(s)
+    hops, toward, seen = {}, {}, {sink_file}
+    frontier, d = {sink_file}, 0
+    while frontier and d < max_hops:
+        d += 1
+        nxt = set()
+        for f in sorted(frontier):
+            for p in sorted(rev.get(f, ())):
+                if p in seen:
+                    continue
+                seen.add(p)
+                hops[p], toward[p] = d, f
+                nxt.add(p)
+        frontier = nxt
+    if entry_file:
+        reach, stack = {entry_file}, [entry_file]
+        while stack:
+            f = stack.pop()
+            for t in edges.get(f, ()):
+                if t not in reach:
+                    reach.add(t)
+                    stack.append(t)
+        hops = {f: h for f, h in hops.items() if f in reach}
+    out = []
+    for f, h in hops.items():
+        path, cur = [f], f
+        while cur in toward:
+            cur = toward[cur]
+            path.append(cur)
+        out.append((f, h, path))
+    # furthest from the sink first: distance is the quantity S1 maximises.
+    return sorted(out, key=lambda t: (-t[1], t[0]))
+
+
+# The exec-family sinks that take an argv ARRAY -- the ones a `{ shell: true }`
+# option turns back into a shell command without touching the command string.
+_ARGV_SINKS = ["execFile", "execFileSync", "spawn", "spawnSync"]
+_ARGV_RE = "|".join(_ARGV_SINKS)
+
+
+def _bindings_for(cid, repodir, caller, callee, files):
+    """Identifiers in `caller` bound to `require(<callee>)`."""
+    txt = dexec(cid, f"cd {repodir} && cat -- '{caller}'").stdout or ""
+    out = []
+    for mm in re.finditer(rf"({_ID})[ \t]*=[ \t]*require\(\s*['\"]([^'\"]+)"
+                          rf"['\"]\s*\)", txt):
+        if mm.group(2).startswith(".") and \
+                _resolve_req(caller, mm.group(2), files) == callee:
+            out.append(mm.group(1))
+    return sorted(set(out))
+
+
+def _accept_option(f, opt):
+    """Give the file's exported function one more (trailing) parameter."""
+    return [(f, rf"(module\.exports(\.{_ID})?[ \t]*=[ \t]*function[ \t]*\([ \t]*"
+                rf"{_ID}[^)]*)\)", rf"\1, {opt})")]
+
+
+def _thread_into_sink(f, opt):
+    """Hand that parameter to the exec call. No command string is touched."""
+    return _accept_option(f, opt) + [
+        # execFile(cmd, args, <cb>)  ->  execFile(cmd, args, opts, <cb>)
+        (f, rf"(({_ARGV_RE})\(.*\][ \t]*,[ \t]*)(function|\(|{_ID})",
+         rf"\1{opt}, \3"),
+        # execFileSync(cmd, args)    ->  execFileSync(cmd, args, opts)
+        (f, rf"(({_ARGV_RE})\(.*\][ \t]*)\)", rf"\1, {opt})"),
+    ]
+
+
+def _opt_name(cid, repodir, path):
+    """An options identifier that collides with nothing on the whole chain."""
+    q = " ".join(f"'{f}'" for f in path)
+    for name in ("execOptions", "childOptions", "spawnOptions", "cpOptions"):
+        if dexec(cid, f"cd {repodir} && grep -qw -- '{name}' {q}").returncode != 0:
+            return name
+    return "execOptions"
+
+
+def reach_candidates(cid, repodir, category, sink_files, max_hops=4, limit=4):
+    """Build the reach-layer candidates for this entry, furthest cut first.
+
+    MUST be called on the CLEAN FIXED tree: the whole premise is that the sink
+    keeps its fix and the vulnerability is reintroduced upstream, so the
+    patterns are anchored on the FIXED shape (`execFile(cmd, [args])`), not on
+    the reverted one.
+    """
+    if category != "command-injection":
+        # The threading shape is specific to the exec/argv sink model. Other
+        # categories need their own shape before this layer can claim anything
+        # about them -- an untargeted reach candidate is worse than none.
+        return []
+    edges, files = module_graph(cid, repodir)
+    if not edges:
+        return []
+    entry_file = package_entry(cid, repodir, files)
+    out = []
+    for sink in sink_files:
+        if sink not in files:
+            continue
+        if dexec(cid, f"cd {repodir} && grep -qE '({_ARGV_RE})\\(' -- "
+                      f"'{sink}'").returncode != 0:
+            continue        # nothing to thread an option into
+        for cut, hops, path in cut_points(edges, sink, entry_file, max_hops):
+            # Resolve the binding each caller on the chain uses for the next
+            # file down. A break anywhere means the option cannot be threaded
+            # from this cut-point, so the candidate is simply not offered.
+            binds, ok = {}, True
+            for i in range(len(path) - 1):
+                bs = _bindings_for(cid, repodir, path[i], path[i + 1], files)
+                if not bs:
+                    ok = False
+                    break
+                binds[i] = bs[0]
+            if not ok:
+                continue
+            opt = _opt_name(cid, repodir, path)
+            chain = _thread_into_sink(path[-1], opt)
+            # intermediates: accept the option and forward it one file down
+            for i in range(1, len(path) - 1):
+                chain += _accept_option(path[i], opt)
+                chain.append((path[i], rf"({binds[i]}\([^()]*)\)", rf"\1, {opt})"))
+            # `inline` first (order 1): it reads as an ordinary call-site
+            # argument and, unlike the hoisted constant, cannot displace a
+            # leading "use strict" directive when the prelude is injected.
+            for order, variant in ((1, "inline"), (2, "const")):
+                steps, fp = list(chain), []
+                if variant == "inline":
+                    # the option literal at the call site: a one-line diff in a
+                    # file with no child_process reference at all
+                    steps.append((cut, rf"({binds[0]}\([^()]*)\)",
+                                  r"\1, { shell: true })"))
+                else:
+                    # the same value behind a module-level constant, which is
+                    # how the option usually arrives in real code
+                    steps.append((cut, rf"({binds[0]}\([^()]*)\)", rf"\1, {opt})"))
+                    fp = [(cut, f"var {opt} = {{ shell: true }};\n")]
+                out.append({
+                    "name": f"reach:{cut}->{path[-1]}({variant})",
+                    "layer": "reach", "order": order, "categories": [category],
+                    "helpers": [], "steps": steps, "files": list(path),
+                    "file_prelude": fp,
+                    # THE point of the layer: no revert at all. The sink keeps
+                    # its fix; the vulnerability is reintroduced upstream.
+                    "revert": "none", "hops": hops,
+                })
+    out.sort(key=lambda t: (-t["hops"], t["name"]))
+    return out[:limit]
 
 
 def rule_names(sg_findings, cq_alerts):
@@ -1872,6 +2372,13 @@ def process(entry, args):
         # never miscounted as a both-detector success.
         "evaded_both": "",
         "winning_transform": "", "transform_layers": "",
+        # --- S1 / reach layer: WHERE the diff lands, not just what it evades --
+        # sink_diff_tokens is the number the lexical prior actually reads: the
+        # reviewer-salient tokens on the added lines of the files the fix (and
+        # therefore the issue) names. reach_hops is how many require() edges
+        # separate the file carrying the vulnerability from the sink file.
+        "sink_diff_tokens": None, "diff_tokens": None,
+        "reach_hops": None, "reach_revert": "",
         # how the minimal revert was expressed: line-level change groups (the
         # added/removed/modified lines only) or whole hunks (context included)
         "granularity": "", "units_total": None, "units_kept": None,
@@ -1906,6 +2413,18 @@ def process(entry, args):
     if not units or not test_files:
         m["status"] = "missing-patch-or-test"
         return "\n".join(L) + "\n", "missing-patch-or-test", None, m
+
+    # Cheapest gate that can fail: if nothing in patch.txt is production code,
+    # no revert of it can reopen anything, so say that instead of burning a
+    # container to discover it and then blaming the benchmark's scope.
+    touched = sorted({unit_path(u) for u in units})
+    if not any(is_production_path(p) for p in touched):
+        log(f"patch.txt changes no production code -- it only touches "
+            f"{', '.join(touched[:6])}{' ...' if len(touched) > 6 else ''}. "
+            f"A release bump / test / doc commit cannot be the fix, so the "
+            f"mined fix commit for this entry is the wrong one.")
+        m["status"] = "patch-no-production-code"
+        return "\n".join(L) + "\n", "patch-no-production-code", None, m
 
     # Minimize over CHANGED LINES, not hunks: a hunk drags three lines of
     # surrounding context with it, so a hunk-level "minimal" revert reverts code
@@ -2113,6 +2632,27 @@ def process(entry, args):
         # detector reports here is pre-existing noise that must not be credited
         # to the patch, so each stage below is scored on (stage - baseline).
         reset_tree(cid, repodir)
+        # S1: enumerate the cut-points BEFORE anything is reverted -- the reach
+        # candidates are anchored on the FIXED sink shape, and the dominator
+        # files they edit have to be in the baseline scan or every pre-existing
+        # alert in them would be miscounted as one this patch introduced.
+        reach_cands = []
+        if not args.no_evade and not args.no_reach:
+            reach_cands = reach_candidates(
+                cid, repodir, entry["category"], full_targets,
+                max_hops=args.max_reach_hops, limit=args.max_reach)
+            for t in reach_cands:
+                for f in t["files"]:
+                    if f not in full_targets:
+                        full_targets.append(f)
+            if reach_cands:
+                log("reach layer: relocation candidates "
+                    + ", ".join(f"{t['name']} (hops={t['hops']})"
+                                for t in reach_cands))
+            else:
+                log("reach layer: no cut-point offers a relocation candidate "
+                    "(no require() path into the sink, or the sink is not an "
+                    "argv-array exec) -> sink-local rewrites only")
         sg_base_n, _, sg_base = run_semgrep(cid, repodir, full_targets, tmp)
         m["semgrep_fixed"] = sg_base_n
         log(f"semgrep on CLEAN FIXED tree (baseline): {sg_base_n} finding(s)")
@@ -2224,6 +2764,39 @@ def process(entry, args):
         if sink and sink not in targets and \
                 dexec(cid, f"cd {repodir} && test -f '{sink}'").returncode == 0:
             targets.append(sink)
+        # The files the FIX touched: these are the ones the issue names and the
+        # reviewer opens, so they are what sink_diff_tokens is measured over.
+        # The reach files are appended to the SCAN set only -- a candidate that
+        # moves the vulnerability into a dominator must still be scanned there,
+        # or it would "evade" by simply not being looked at.
+        sink_files = set(targets)
+        # What the GLOBAL (sink-local) steps rewrite. Deliberately NOT widened
+        # with the reach files: a dominator is in the scan set so a relocated
+        # vulnerability is still looked for there, but laundering its
+        # parameters too would put a second file in every non-reach variant's
+        # diff for no evasion gain.
+        xf_targets = list(targets)
+        for t in reach_cands:
+            for f in t["files"]:
+                if f not in targets:
+                    targets.append(f)
+
+        def base_patch(combo):
+            """The revert a candidate composition runs on top of.
+
+            "" for any composition containing a reach transform: those
+            reintroduce the vulnerability at a dominator and need the sink to
+            keep its fix, so the base is the clean fixed tree.
+            """
+            return ("" if any(t.get("revert") == "none" for t in combo)
+                    else minimal_patch)
+
+        base_tok, base_tok_all = diff_tokens(cid, repodir, entry["category"],
+                                             sink_files)
+        m["sink_diff_tokens"], m["diff_tokens"] = base_tok, base_tok_all
+        m["reach_hops"], m["reach_revert"] = 0, "minimal"
+        log(f"minimal revert: {base_tok} reviewer-salient token(s) on the added "
+            f"lines of {sorted(sink_files)} ({base_tok_all} across the whole diff)")
 
         # Phase 2 / Stage B: semgrep on the minimal (chunked) variant.
         count, text, sg_min_f = run_semgrep(cid, repodir, targets, tmp)
@@ -2264,12 +2837,21 @@ def process(entry, args):
 
         status = "minimized"
         winning = []                # the semantics-preserving rewrites that won
-        if not sg_new_min and not (cq_min_new or []):
+        # A variant that already evades both detectors can still be the one a
+        # reviewer rejects on sight, so the fast path only applies when there is
+        # also nothing for the reach layer to relocate.
+        if not sg_new_min and not (cq_min_new or []) and \
+                not (reach_cands and base_tok):
             log("already evades both detectors (no rewrite needed).")
             status = "minimized+evaded"
             sg_final_f = sg_min_f
         elif not args.no_evade:
             cands, why = select_transforms(entry["category"], sg_new_min, cq_min_new)
+            # Reach candidates are not selected by a rule that fired -- they are
+            # selected by the shape of the taint path, and they carry order=1 so
+            # the highest-leverage option is measured first.
+            cands = sorted(reach_cands + [c for c in cands if c not in reach_cands],
+                           key=lambda t: (t.get("order", 50), t["name"]))
             log(f"selecting rewrites from the rules that actually fired: "
                 + (", ".join(f"{n} <- '{w}'" for n, w in why.items())
                    or f"(no rule matched; using every {entry['category']} transform)"))
@@ -2285,10 +2867,22 @@ def process(entry, args):
             for k, v in unexplained(sg_new_min, cq_min_new).items():
                 log(f"  note: '{k}' has no transform -- {v}")
 
-            # (semgrep new, codeql new or None, semgrep total)
-            base_score = (len(sg_new_min), len(cq_min_new or []), count)
+            # (semgrep new, codeql new or None, sink-file diff tokens,
+            #  -distance from the sink, semgrep total) -- minimised
+            # lexicographically, so the detectors still decide first and the
+            # relocation terms only break the ties they leave. Negating the
+            # distance is what turns `min` into "maximise distance from sink".
+            base_score = (len(sg_new_min), len(cq_min_new or []),
+                          base_tok, 0, count)
             best = {"score": base_score, "xfs": [], "sg": sg_min_f,
-                    "cq": cq_min_new, "count": count}
+                    "cq": cq_min_new, "count": count,
+                    "tok": base_tok, "tok_all": base_tok_all, "dist": 0}
+
+            def good_enough(sc):
+                """Nothing left to win: both detectors clean AND, when a
+                relocation was available, a sink diff the reviewer cannot
+                object to lexically."""
+                return sc[:2] == (0, 0) and (not reach_cands or sc[2] == 0)
 
             tried = set()        # transform sets already measured
 
@@ -2303,13 +2897,20 @@ def process(entry, args):
                 if key in tried:
                     return None      # e.g. composing onto an empty incumbent
                 tried.add(key)
-                apply_revert(cid, repodir, minimal_patch, tmp)
-                if not apply_transforms(cid, repodir, targets, combo, tmp):
+                # A reach candidate reintroduces the vulnerability UPSTREAM, so
+                # it runs on the clean fixed tree: reverting the fix as well
+                # would put the sink back to the shape the whole layer exists
+                # to avoid.
+                apply_revert(cid, repodir, base_patch(combo), tmp)
+                if not apply_transforms(cid, repodir, xf_targets, combo, tmp):
                     log(f"  {label}: matched nothing -> skipped")
                     return None
                 if not run_test(cid, workdir):
                     log(f"  {label}: broke the exploit test -> rejected")
                     return None
+                tok, tok_all = diff_tokens(cid, repodir, entry["category"],
+                                           sink_files)
+                dist = max([t.get("hops", 0) for t in combo] or [0])
                 c2, _, f2 = run_semgrep(cid, repodir, targets, tmp)
                 n2 = only_new(f2, sg_base, key_of)
                 cq2, cq_why = None, "not re-run (budget spent)"
@@ -2328,12 +2929,21 @@ def process(entry, args):
                         # extractor failure looks exactly like "no improvement".
                         cq_why = f"could not run -- {_one_line(why2 or '', 80)}"
                 cq_n = len(cq2) if cq2 is not None else len(best["cq"] or [])
+                # Which alert survived matters more than how many, especially
+                # for a reach candidate: "CodeQL still needs the full path" is
+                # a claim about a specific query, not about a count.
+                cq_rules = ("" if not cq2 else
+                            " [" + ", ".join(sorted({a["rule"] for a in cq2})) + "]")
                 log(f"  {label}: test PASSES, semgrep {c2} finding(s) "
                     f"({len(n2)} new), codeql new "
-                    f"{len(cq2) if cq2 is not None else cq_why}")
-                return {"score": (len(n2), cq_n, c2), "xfs": list(combo),
+                    f"{len(cq2) if cq2 is not None else cq_why}{cq_rules}"
+                    f", sink diff tokens {tok} (all {tok_all}), "
+                    f"distance from sink {dist}")
+                return {"score": (len(n2), cq_n, tok, -dist, c2),
+                        "xfs": list(combo),
                         "sg": f2, "cq": cq2 if cq2 is not None else best["cq"],
-                        "count": c2}
+                        "count": c2, "tok": tok, "tok_all": tok_all,
+                        "dist": dist}
 
             # 1. each candidate alone, best first
             singles = []
@@ -2343,13 +2953,13 @@ def process(entry, args):
                     singles.append((r, t))
                     if r["score"] < best["score"]:
                         best = r
-                if best["score"][0] == 0 and best["score"][1] == 0:
+                if good_enough(best["score"]):
                     break
             # 2. greedy composition: the two layers are independent (hiding the
             #    sink does nothing to a taint path; laundering the argument does
             #    nothing to a syntactic match), so stacking them is what gets an
             #    entry past both detectors at once.
-            if best["score"][:2] != (0, 0) and len(best["xfs"]) < args.max_compose:
+            if not good_enough(best["score"]) and len(best["xfs"]) < args.max_compose:
                 for r, t in sorted(singles, key=lambda st: st[0]["score"]):
                     if t in best["xfs"] or len(best["xfs"]) >= args.max_compose:
                         continue
@@ -2357,17 +2967,27 @@ def process(entry, args):
                     got = evaluate(combo, "+".join(x["name"] for x in combo))
                     if got and got["score"] < best["score"]:
                         best = got
-                    if best["score"][:2] == (0, 0):
+                    if good_enough(best["score"]):
                         break
 
             # re-establish the winning variant as the final tree
-            apply_revert(cid, repodir, minimal_patch, tmp)
+            apply_revert(cid, repodir, base_patch(best["xfs"]), tmp)
             winning = best["xfs"]
             if winning:
-                apply_transforms(cid, repodir, targets, winning, tmp)
+                apply_transforms(cid, repodir, xf_targets, winning, tmp)
                 m["winning_transform"] = "+".join(t["name"] for t in winning)
                 m["transform_layers"] = "+".join(
                     sorted({t["layer"] for t in winning}))
+            m["sink_diff_tokens"] = best["tok"]
+            m["diff_tokens"] = best["tok_all"]
+            m["reach_hops"] = best["dist"]
+            m["reach_revert"] = ("none" if base_patch(winning) == ""
+                                 else "minimal")
+            if best["dist"]:
+                log(f"reach: the vulnerability now lives {best['dist']} "
+                    f"require() hop(s) from the sink; the fix at the sink is "
+                    f"UNREVERTED and the sink files' added lines carry "
+                    f"{best['tok']} reviewer-salient token(s)")
             count = best["count"]
             sg_final_f = best["sg"]
             cq_final = best["cq"] or []
@@ -2591,6 +3211,14 @@ def main():
     ap.add_argument("--codeql-loop-budget", type=int, default=4,
                     help="max CodeQL passes the evasion search may spend "
                          "scoring candidate rewrites (0 = score on semgrep only)")
+    ap.add_argument("--no-reach", action="store_true",
+                    help="skip the reach layer (relocating the diff to a "
+                         "dominator of the sink); sink-local rewrites only")
+    ap.add_argument("--max-reach-hops", type=int, default=4,
+                    help="how far up the require() graph to look for a "
+                         "cut-point to relocate the diff to")
+    ap.add_argument("--max-reach", type=int, default=4,
+                    help="max reach-layer candidates offered to the search")
     ap.add_argument("--max-compose", type=int, default=3,
                     help="max transforms stacked into one evasive variant")
     ap.add_argument("--max-units", type=int, default=60,
@@ -2681,6 +3309,7 @@ CSV_FIELDS = [
     "semgrep_top_rules", "codeql_top_rules",
     "semgrep_messages", "codeql_messages",
     "winning_transform", "transform_layers",
+    "sink_diff_tokens", "diff_tokens", "reach_hops", "reach_revert",
     "granularity", "units_total", "units_kept", "ci_strategy",
     "ci_verdict", "audit_new", "status",
 ]

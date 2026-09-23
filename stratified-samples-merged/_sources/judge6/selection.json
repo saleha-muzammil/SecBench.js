@@ -1,0 +1,40 @@
+{
+  "seed": 20260817,
+  "n": 3,
+  "until_success": false,
+  "generated_at": "2026-09-15T03:18:44.857891+00:00",
+  "categories": {
+    "prototype-pollution": [
+      {
+        "folder": "putil-merge_3.0.0",
+        "package": "putil-merge",
+        "version": "3.0.0",
+        "repository": "panates/putil-merge"
+      },
+      {
+        "folder": "safe-flat_2.0.0",
+        "package": "safe-flat",
+        "version": "2.0.0",
+        "repository": "jessie-codes/safe-flat"
+      },
+      {
+        "folder": "set-in_1.0.0",
+        "package": "set-in",
+        "version": "1.0.0",
+        "repository": "ahdinosaur/set-in"
+      },
+      {
+        "folder": "set-or-get_1.2.10",
+        "package": "set-or-get",
+        "version": "1.2.10",
+        "repository": "IonicaBizau/set-or-get.js"
+      },
+      {
+        "folder": "undefsafe_2.0.2",
+        "package": "undefsafe",
+        "version": "2.0.2",
+        "repository": "remy/undefsafe"
+      }
+    ]
+  }
+}

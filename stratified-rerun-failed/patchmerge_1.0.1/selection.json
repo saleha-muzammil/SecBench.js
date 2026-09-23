@@ -1,0 +1,16 @@
+{
+  "seed": 20260817,
+  "n": 3,
+  "until_success": false,
+  "generated_at": "2026-09-22T04:15:33.443585+00:00",
+  "categories": {
+    "prototype-pollution": [
+      {
+        "folder": "patchmerge_1.0.1",
+        "package": "patchmerge",
+        "version": "1.0.1",
+        "repository": "pjshumphreys/patchmerge"
+      }
+    ]
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "category": "path-traversal",
+  "repository": "henrytseng/hostr",
+  "package": "hostr",
+  "version": "2.0.0",
+  "folder": "hostr_2.0.0",
+  "started_at": "2026-09-22T04:41:01.673396+00:00",
+  "status": "ok",
+  "error": "",
+  "base_commit": "789a00047459fd80b6f0a9701a1378a47fb73ba8",
+  "checkout": "/tmp/gapfill-src/hostr_2.0.0-src",
+  "image_tag": "secbench-fullloop/hostr_2.0.0",
+  "docker_loop": true,
+  "evasive_patch_reused": true,
+  "evasive_patch_regenerated": false,
+  "evades_both": false,
+  "seed_patch_applies": null,
+  "seed_exploit_fires": null,
+  "verdict": "Pipeline done. seed=unhardened, loop=no-win, final tests=PASSED \u2705, gates=FAIL",
+  "wall_seconds_setup": 20.7,
+  "wall_seconds_pipeline": 1697.1,
+  "wall_seconds_total": 1719.4,
+  "metrics": {
+    "totals": {
+      "instance_cost": 0.0,
+      "api_calls": 0,
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "trajectories": 0
+    },
+    "per_trajectory": []
+  },
+  "pipeline_cmd": "mini-extra cve-pipeline --patch stratified-samples-gapfill/path-traversal/hostr_2.0.0/exploit-evasive.patch --ex_file /Users/saleha/Desktop/cispa/SecBench.js/path-traversal/hostr_2.0.0/hostr.test.js --repo-path /tmp/gapfill-src/hostr_2.0.0-src --base 789a00047459fd80b6f0a9701a1378a47fb73ba8 --repo henrytseng/hostr --docker-image secbench-fullloop/hostr_2.0.0 --cost-limit 0.3",
+  "pipeline_returncode": 0,
+  "pipeline_out_dir": "stratified-samples-gapfill/path-traversal/hostr_2.0.0/pipeline_exploit-evasive",
+  "finished_at": "2026-09-22T05:09:41.061418+00:00"
+}

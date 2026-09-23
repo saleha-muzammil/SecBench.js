@@ -1,0 +1,38 @@
+{
+  "category": "prototype-pollution",
+  "repository": "jessie-codes/safe-flat",
+  "package": "flat",
+  "version": "5.0.0",
+  "folder": "flat_5.0.0",
+  "started_at": "2026-09-09T22:12:26.457680+00:00",
+  "status": "pipeline-rc-1",
+  "error": "",
+  "base_commit": "f25d3a11306bc460e43a14affa64d44a1d3cf8ed",
+  "checkout": "/tmp/flat_5.0.0-src",
+  "image_tag": "secbench-fullloop/flat_5.0.0",
+  "docker_loop": true,
+  "evasive_patch_reused": true,
+  "evasive_patch_regenerated": false,
+  "evades_both": true,
+  "seed_patch_applies": null,
+  "seed_exploit_fires": null,
+  "verdict": "",
+  "wall_seconds_setup": 12.8,
+  "wall_seconds_pipeline": 9.8,
+  "wall_seconds_total": 23.2,
+  "metrics": {
+    "totals": {
+      "instance_cost": 0.0,
+      "api_calls": 0,
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "trajectories": 0
+    },
+    "per_trajectory": []
+  },
+  "pipeline_cmd": "mini-extra cve-pipeline --patch stratified-samples-full-loop-judge6/prototype-pollution/flat_5.0.0/exploit-evasive.patch --ex_file /Users/saleha/Desktop/cispa/SecBench.js/prototype-pollution/flat_5.0.0/flat.test.js --repo-path /tmp/flat_5.0.0-src --base f25d3a11306bc460e43a14affa64d44a1d3cf8ed --repo prototype-pollution/flat_5.0.0 --docker-image secbench-fullloop/flat_5.0.0 --max-iterations 3 --cost-limit 0.3 --no-run-codegen --no-gate-in-loop",
+  "pipeline_returncode": 1,
+  "pipeline_out_dir": "stratified-samples-full-loop-judge6/prototype-pollution/flat_5.0.0/pipeline_exploit-evasive",
+  "finished_at": "2026-09-09T22:12:49.671361+00:00"
+}

@@ -1,0 +1,55 @@
+{
+  "category": "prototype-pollution",
+  "repository": "alexindigo/deeply",
+  "package": "deeply",
+  "version": "3.0.0",
+  "folder": "deeply_3.0.0",
+  "started_at": "2026-09-15T06:47:53.550184+00:00",
+  "status": "ok",
+  "error": "",
+  "base_commit": "6eccb2f03ec8d3eefc6805053c4cc2a36aab1505",
+  "checkout": "/tmp/deeply_3.0.0-src",
+  "image_tag": "secbench-fullloop/deeply_3.0.0",
+  "docker_loop": true,
+  "evasive_patch_reused": true,
+  "evasive_patch_regenerated": false,
+  "evades_both": true,
+  "seed_patch_applies": null,
+  "seed_exploit_fires": null,
+  "verdict": "Pipeline done. seed=hardened, loop=SUCCESS, final tests=FAILED \u274c (exit 1), gates=PASS, final_gate=['SOLVED']",
+  "wall_seconds_setup": 28.6,
+  "wall_seconds_pipeline": 1019.3,
+  "wall_seconds_total": 1049.2,
+  "metrics": {
+    "totals": {
+      "instance_cost": 0.039439,
+      "api_calls": 64,
+      "prompt_tokens": 1399515,
+      "completion_tokens": 23669,
+      "total_tokens": 1423184,
+      "trajectories": 2
+    },
+    "per_trajectory": [
+      {
+        "file": "issue/iter_2/adopt/run_1/trajectory.traj.json",
+        "instance_cost": 0.016634,
+        "api_calls": 28,
+        "prompt_tokens": 537282,
+        "completion_tokens": 7743,
+        "total_tokens": 545025
+      },
+      {
+        "file": "solve_gate/run_1/trajectory.traj.json",
+        "instance_cost": 0.022805,
+        "api_calls": 36,
+        "prompt_tokens": 862233,
+        "completion_tokens": 15926,
+        "total_tokens": 878159
+      }
+    ]
+  },
+  "pipeline_cmd": "mini-extra cve-pipeline --patch stratified-samples-full-loop-judge8/prototype-pollution/deeply_3.0.0/exploit-evasive.patch --ex_file /Users/saleha/Desktop/cispa/SecBench.js/prototype-pollution/deeply_3.0.0/deeply.test.js --repo-path /tmp/deeply_3.0.0-src --base 6eccb2f03ec8d3eefc6805053c4cc2a36aab1505 --repo prototype-pollution/deeply_3.0.0 --docker-image secbench-fullloop/deeply_3.0.0 --max-iterations 5 --cost-limit 0.3 --no-run-codegen --gate-in-loop --gate-runs 1 --revise-iterations 2",
+  "pipeline_returncode": 0,
+  "pipeline_out_dir": "stratified-samples-full-loop-judge8/prototype-pollution/deeply_3.0.0/pipeline_exploit-evasive",
+  "finished_at": "2026-09-15T07:05:22.798635+00:00"
+}

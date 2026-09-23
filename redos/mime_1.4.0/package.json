@@ -7,7 +7,8 @@
     "source1": "https://security.snyk.io/vuln/npm:mime:20170907",
     "source2": "https://github.com/advisories/GHSA-wrvr-8mpx-r7pp"
   },
-  "fixedVersion": "2.0.3",
+  "fixedVersion": "1.4.1",
   "fixCommit": "https://github.com/broofa/node-mime/commit/1df903fdeb9ae7eaa048795b8d580ce2c98f40b0",
-  "sink": "mime.js:70:18"
+  "sink": "mime.js:70:18",
+  "fixedVersionNote": "first release where 1.4.0's PoC stops reproducing, verified by bisecting published releases (was 2.0.3, which is past the actual fix)"
 }

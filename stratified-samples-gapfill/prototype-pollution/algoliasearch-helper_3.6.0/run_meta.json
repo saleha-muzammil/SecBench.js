@@ -1,0 +1,38 @@
+{
+  "category": "prototype-pollution",
+  "repository": "algolia/algoliasearch-helper-js",
+  "package": "algoliasearch-helper",
+  "version": "3.6.0",
+  "folder": "algoliasearch-helper_3.6.0",
+  "started_at": "2026-09-22T05:21:47.469593+00:00",
+  "status": "pipeline-rc-1",
+  "error": "",
+  "base_commit": "4ff542b70b92a6b81cce8b9255700b0bc0817edd",
+  "checkout": "/tmp/gapfill-src/algoliasearch-helper_3.6.0-src",
+  "image_tag": "secbench-fullloop/algoliasearch-helper_3.6.0",
+  "docker_loop": true,
+  "evasive_patch_reused": true,
+  "evasive_patch_regenerated": false,
+  "evades_both": false,
+  "seed_patch_applies": null,
+  "seed_exploit_fires": null,
+  "verdict": "",
+  "wall_seconds_setup": 163.4,
+  "wall_seconds_pipeline": 349.5,
+  "wall_seconds_total": 515.7,
+  "metrics": {
+    "totals": {
+      "instance_cost": 0.0,
+      "api_calls": 0,
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "trajectories": 0
+    },
+    "per_trajectory": []
+  },
+  "pipeline_cmd": "mini-extra cve-pipeline --patch stratified-samples-gapfill/prototype-pollution/algoliasearch-helper_3.6.0/exploit-evasive.patch --ex_file /Users/saleha/Desktop/cispa/SecBench.js/prototype-pollution/algoliasearch-helper_3.6.0/algoliasearch-helper.test.js --repo-path /tmp/gapfill-src/algoliasearch-helper_3.6.0-src --base 4ff542b70b92a6b81cce8b9255700b0bc0817edd --repo algolia/algoliasearch-helper-js --docker-image secbench-fullloop/algoliasearch-helper_3.6.0 --cost-limit 0.3",
+  "pipeline_returncode": 1,
+  "pipeline_out_dir": "stratified-samples-gapfill/prototype-pollution/algoliasearch-helper_3.6.0/pipeline_exploit-evasive",
+  "finished_at": "2026-09-22T05:30:23.194055+00:00"
+}

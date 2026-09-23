@@ -76,13 +76,22 @@ RUN git clone https://github.com/yargs/y18n.git node_modules/y18n \
            echo "       regenerate with --allow-npm-fallback to install from npm." >&2; \
            exit 1; \
        fi \
-    && npm install --no-audit --no-fund --ignore-scripts \
+    && node -e 'const fs=require("fs"),p=require("path"),want=process.argv[1],seen=[];const scan=(d,n)=>{if(n>3)return false;let E;try{E=fs.readdirSync(d,{withFileTypes:true})}catch(e){return false}for(const e of E){if(e.name==="node_modules"||e.name[0]===".")continue;const f=p.join(d,e.name);if(e.isFile()&&e.name==="package.json"){try{const x=JSON.parse(fs.readFileSync(f,"utf8")).name;if(x)seen.push(x);if(x===want)return true}catch(_){}}else if(e.isDirectory()&&scan(f,n+1))return true}return false};if(!scan(".",0)){console.error("ERROR: this checkout does not contain the package \"" + want + "\". package.json names found: " + (seen.slice(0,8).join(", ")||"(none)"));console.error("       repositories.csv maps it to yargs/y18n, and fix_commit_sha comes from that same row, so BOTH are wrong together. Correct the row before building.");process.exit(1)}' "y18n" \
+    && for L in package-lock.json npm-shrinkwrap.json; do \
+           [ -f "$L" ] || continue; \
+           if grep -o "\"resolved\": *\"https\?://[^/\"]*" "$L" | sed "s|.*//||" | grep -qv "^registry\.npmjs\.org"; then \
+               echo "WARNING: $L pins dependencies to a registry that is not registry.npmjs.org; removing it so npm resolves publicly" >&2; \
+               rm -f "$L"; \
+           fi; \
+       done \
+    && (npm install --no-audit --no-fund --ignore-scripts || { echo "WARNING: npm install failed (likely ERESOLVE peer conflict in the repo devDependencies); retrying with --legacy-peer-deps" >&2; npm install --no-audit --no-fund --ignore-scripts --legacy-peer-deps; }) \
     && (npm run build --if-present || echo "WARNING: build step failed/partial; continuing") \
     && (npm run prepare --if-present || echo "WARNING: prepare step failed/partial; continuing")
 
-# jest installed globally so it does not disturb the package tree
-# jest pinned to 29: jest 30 calls os.availableParallelism(), which the node:16 base
-# image does not have, so the exploit oracle died at config load instead of running.
+# jest installed globally so it does not disturb the package tree. Pinned to 29:
+# jest 30 calls os.availableParallelism(), absent on the node:16 base image, so the
+# exploit oracle died at config load ("availableParallelism is not a function")
+# instead of running -- every harness then reported exploit=False for free.
 RUN npm install -g --no-audit --no-fund jest@29
 
 CMD ["jest", "--runInBand"]

@@ -1,0 +1,55 @@
+{
+  "category": "redos",
+  "repository": "josdejong/ducktype",
+  "package": "ducktype",
+  "version": "1.2.0",
+  "folder": "ducktype_1.2.0",
+  "started_at": "2026-09-22T20:04:03.539488+00:00",
+  "status": "ok",
+  "error": "",
+  "base_commit": "d8b4c902598c9104d5c56225c3fffcbe1368eff6",
+  "checkout": "/tmp/gapfill-src/ducktype_1.2.0-src",
+  "image_tag": "secbench-fullloop/ducktype_1.2.0",
+  "docker_loop": true,
+  "evasive_patch_reused": true,
+  "evasive_patch_regenerated": false,
+  "evades_both": false,
+  "seed_patch_applies": null,
+  "seed_exploit_fires": null,
+  "verdict": "Pipeline done. seed=hardened, loop=SUCCESS, final tests=PASSED \u2705, gates=PASS, final_gate=['SOLVED']",
+  "wall_seconds_setup": 19.7,
+  "wall_seconds_pipeline": 879.5,
+  "wall_seconds_total": 906.4,
+  "metrics": {
+    "totals": {
+      "instance_cost": 0.038073,
+      "api_calls": 84,
+      "prompt_tokens": 1841700,
+      "completion_tokens": 37400,
+      "total_tokens": 1879100,
+      "trajectories": 2
+    },
+    "per_trajectory": [
+      {
+        "file": "issue/iter_1/adopt/run_1/trajectory.traj.json",
+        "instance_cost": 0.025536,
+        "api_calls": 58,
+        "prompt_tokens": 1383107,
+        "completion_tokens": 19576,
+        "total_tokens": 1402683
+      },
+      {
+        "file": "solve_gate/run_1/trajectory.traj.json",
+        "instance_cost": 0.012537,
+        "api_calls": 26,
+        "prompt_tokens": 458593,
+        "completion_tokens": 17824,
+        "total_tokens": 476417
+      }
+    ]
+  },
+  "pipeline_cmd": "mini-extra cve-pipeline --patch stratified-samples-gapfill/redos/ducktype_1.2.0/exploit-evasive.patch --ex_file /Users/saleha/Desktop/cispa/SecBench.js/redos/ducktype_1.2.0/ducktype.test.js --repo-path /tmp/gapfill-src/ducktype_1.2.0-src --base d8b4c902598c9104d5c56225c3fffcbe1368eff6 --repo josdejong/ducktype --docker-image secbench-fullloop/ducktype_1.2.0 --cost-limit 0.3",
+  "pipeline_returncode": 0,
+  "pipeline_out_dir": "stratified-samples-gapfill/redos/ducktype_1.2.0/pipeline_exploit-evasive",
+  "finished_at": "2026-09-22T20:19:09.962662+00:00"
+}

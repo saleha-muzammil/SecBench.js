@@ -50,6 +50,14 @@ WXttE7IftOZVJ7th29L+C27jZaazk9IP+BLTIu1J+rhv1Tjco4aeiSgzTObBjJRZzFci43HFJHK5yeMy
 9Z03ODTqrD62bN91yLJdjXv/APIpkjCVEwAA' \
     | base64 -d | gzip -dc > /exploit/utils.js
 
+# conventional-commits-parser@3.2.0 does not own this ReDoS: its parser.js does
+# `require("trim-off-newlines")`, and the catastrophic regex lives in THAT package.
+# A plain install resolves the ^1.0.0 range to 1.0.2, which is already patched, so
+# the exploit measured ~29 ms and the entry looked dead. 1.0.0 is pinned below to
+# restore the dependency state this release actually shipped against. The fixed
+# image keeps the same pin on purpose: 3.2.3 inlines trimOffNewlines and stops
+# calling the dependency at all, so the hole stays closed even with 1.0.0 present --
+# which is exactly what makes the fixed/vulnerable pair differ by the patch alone.
 RUN git clone https://github.com/conventional-changelog/conventional-changelog.git node_modules/conventional-commits-parser \
     && cd node_modules/conventional-commits-parser \
     && if ! (git checkout -q "v3.2.0" || git checkout -q "3.2.0"); then \
@@ -62,6 +70,7 @@ RUN git clone https://github.com/conventional-changelog/conventional-changelog.g
            exit 1; \
        fi \
     && npm install --no-audit --no-fund --ignore-scripts \
+    && npm install --no-audit --no-fund --ignore-scripts --no-save trim-off-newlines@1.0.0 \
     && (npm run build --if-present || echo "WARNING: build step failed/partial; continuing") \
     && (npm run prepare --if-present || echo "WARNING: prepare step failed/partial; continuing")
 

@@ -1,0 +1,47 @@
+{
+  "category": "prototype-pollution",
+  "repository": "strikeentco/set",
+  "package": "@strikeentco/set",
+  "version": "1.0.0",
+  "folder": "strikeentco-set_1.0.0",
+  "started_at": "2026-09-21T04:28:20.755932+00:00",
+  "status": "ok",
+  "error": "",
+  "base_commit": "102cc6b2e1d1e0c928ced87e75df759d5541ff60",
+  "checkout": "/tmp/strikeentco-set_1.0.0-src",
+  "image_tag": "secbench-fullloop/strikeentco-set_1.0.0",
+  "docker_loop": true,
+  "evasive_patch_reused": true,
+  "evasive_patch_regenerated": false,
+  "evades_both": false,
+  "seed_patch_applies": null,
+  "seed_exploit_fires": null,
+  "verdict": "Pipeline done. seed=hardened, loop=no-win, final tests=FAILED \u274c (exit 4), gates=PASS, final_gate=['SOLVED']",
+  "wall_seconds_setup": 26.0,
+  "wall_seconds_pipeline": 1192.8,
+  "wall_seconds_total": 1220.0,
+  "metrics": {
+    "totals": {
+      "instance_cost": 0.016083,
+      "api_calls": 21,
+      "prompt_tokens": 452059,
+      "completion_tokens": 28461,
+      "total_tokens": 480520,
+      "trajectories": 1
+    },
+    "per_trajectory": [
+      {
+        "file": "solve_gate/run_1/trajectory.traj.json",
+        "instance_cost": 0.016083,
+        "api_calls": 21,
+        "prompt_tokens": 452059,
+        "completion_tokens": 28461,
+        "total_tokens": 480520
+      }
+    ]
+  },
+  "pipeline_cmd": "mini-extra cve-pipeline --patch stratified-samples-full-loop-judge14/prototype-pollution/strikeentco-set_1.0.0/exploit-evasive.patch --ex_file /Users/saleha/Desktop/cispa/SecBench.js/prototype-pollution/strikeentco-set_1.0.0/strikeentco.test.js --repo-path /tmp/strikeentco-set_1.0.0-src --base 102cc6b2e1d1e0c928ced87e75df759d5541ff60 --repo prototype-pollution/strikeentco-set_1.0.0 --docker-image secbench-fullloop/strikeentco-set_1.0.0 --max-iterations 5 --cost-limit 0.3 --no-run-codegen --gate-in-loop --gate-runs 1 --revise-iterations 2",
+  "pipeline_returncode": 0,
+  "pipeline_out_dir": "stratified-samples-full-loop-judge14/prototype-pollution/strikeentco-set_1.0.0/pipeline_exploit-evasive",
+  "finished_at": "2026-09-21T04:48:40.745486+00:00"
+}

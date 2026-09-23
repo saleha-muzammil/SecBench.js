@@ -1,6 +1,53 @@
 === path-traversal/m-server_1.4.0 ===
 image: built image
-installed test deps: sleep
-baseline (clean fixed tree): exploit test = PASS (NOT fixed!)
-baseline: exploit test PASSES on the FIXED tree (installed m-server@1.4.0, expected fixed >= 1.4.2) -> not truly fixed.
-  diagnosis: stubbing the package STOPS the exploit -> the image is not actually on the fixed version (BENCHMARK/setup fault).
+installed test deps (isolated in /sb-testdeps): sleep
+baseline (clean fixed tree): repo CI = pass
+baseline (clean fixed tree): exploit test = FAIL (vuln closed, good)
+baseline: test FAILS on fixed tree (good).
+patch splits into 20 line-level change unit(s) across 4 file(s)
+reach layer: no cut-point offers a relocation candidate (no require() path into the sink, or the sink is not an argv-array exec) -> sink-local rewrites only
+semgrep on CLEAN FIXED tree (baseline): 4 finding(s)
+semgrep on FULL revert (no changes): 4 finding(s), 0 NEW vs fixed baseline -> evades: no (by new findings: yes)
+minimal revert (exploit-only): 1/20 line unit(s) -> ['lib/index.js']
+exploit-minimal chunking already keeps repo CI green.
+minimal revert: 0 reviewer-salient token(s) on the added lines of ['lib/index.js'] (0 across the whole diff)
+semgrep on minimal variant (after chunking): 4 finding(s), 0 NEW vs fixed baseline
+--- semgrep findings (pre-evasion) ---
+  using-http-server @ lib/index.js:9: Checks for any usage of http servers instead of https servers. Encourages the usage of https protocol instead of http, which does not have TLS and is therefore unencrypted. Using http can lead to man-in-the-middle attac…
+  path-join-resolve-traversal @ lib/index.js:10: Detected possible user input going into a `path.join` or `path.resolve` function. This could possibly lead to a path traversal vulnerability, where the attacker can access arbitrary files stored in the file system. Inst…
+  path-join-resolve-traversal @ lib/index.js:24: Detected possible user input going into a `path.join` or `path.resolve` function. This could possibly lead to a path traversal vulnerability, where the attacker can access arbitrary files stored in the file system. Inst…
+  path-join-resolve-traversal @ lib/index.js:24: Detected possible user input going into a `path.join` or `path.resolve` function. This could possibly lead to a path traversal vulnerability, where the attacker can access arbitrary files stored in the file system. Inst…
+--------------------------------------
+already evades both detectors (no rewrite needed).
+[1/5] test cases  -> exploit test PASSES (reproduces)
+[2/5] ci          -> clean-fixed baseline=pass, final variant=pass  => preserved
+        --- repo test output (final variant, tail) ---
+.travis.yml
+circle.yml
+index.js
+package-lock.json
+package.json
+README.md
+      ✓ http server should return 200 status
+      ✓ http server should return 404 status
+      ✓ test open dir
+    Utils test.
+      ✓ Object assign test
+      ✓ assign test
+      ✓ sort test
+      ✓ allow enable path
+      ✓ allow disable path
+      ✓ escape html string
+
+
+  10 passing (18ms)
+        ----------------------------------------------
+[3/5] codeql      -> skipped
+[4/5] npm audit   -> final variant: critical=3, high=3, moderate=0, low=1, info=0, total=7; 3 advisory(ies) introduced vs clean-fixed baseline
+        + glob :: (via minimatch)
+        + minimatch :: (via brace-expansion)
+        + mocha :: (via glob)
+[5/5] semgrep     -> 4 finding(s) on final variant (0 new vs fixed baseline; evaded: no, by new findings: yes)
+detected_by (final/evasive variant): neither  [codeql unavailable -- semgrep-only verdict; 'neither' here does NOT mean codeql agrees]
+wrote evasion-findings.json (per-stage new findings, semgrep + codeql)
+wrote exploit-evasive.patch (exploit reproduces; semgrep=4, evaded=no)

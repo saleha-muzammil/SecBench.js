@@ -1,0 +1,10 @@
+category,repository,package,version,outcome,evaded_both,status,exploit_reproduces
+command-injection,vincentmorneau/apex-publish-static-files,alfred-workflow-nodejs,2.0.1,setup-fail,,revert-apply-failed,
+command-injection,nfriedly/node-bestzip,bestzip,2.1.6,ok,yes,minimized+evaded (ci:baseline-already-broken),yes
+command-injection,kucherenko/blamer,blamer,0.1.13,setup-fail,,rebuild-failed,
+command-injection,codecov/codecov-node,codecov,3.6.4,benchmark-fail,,revert-applied-no-repro,
+command-injection,kellyselden/git-diff-apply,command-exists,1.2.2,benchmark-fail,,revert-applied-no-repro,
+command-injection,iximiuz/node-diskusage-ng,diskusage-ng,0.2.6,exploit-fail,no,minimized+evaded-EXPLOIT-BROKEN (ci:skipped),no
+command-injection,nodef/extra-asciinema,extra-asciinema,1.0.0,setup-fail,,rebuild-failed,
+command-injection,kellyselden/git-diff-apply,scp,0.0.3,benchmark-fail,,revert-applied-no-repro,
+command-injection,thi-ng/umbrella,@thi.ng/egf,0.3.0,benchmark-fail,,revert-applied-no-repro,

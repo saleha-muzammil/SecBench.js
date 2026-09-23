@@ -2,14 +2,14 @@
   "seed": 20260817,
   "n": 3,
   "until_success": false,
-  "generated_at": "2026-08-21T08:25:26.320048+00:00",
+  "generated_at": "2026-09-22T03:31:48.329899+00:00",
   "categories": {
-    "code-injection": [
+    "redos": [
       {
-        "folder": "mixin-pro_0.6.0",
-        "package": "mixin-pro",
-        "version": "0.6.0",
-        "repository": "floatinghotpot/mixin-pro"
+        "folder": "marked_0.3.6",
+        "package": "marked",
+        "version": "0.3.6",
+        "repository": "markedjs/marked"
       }
     ]
   }

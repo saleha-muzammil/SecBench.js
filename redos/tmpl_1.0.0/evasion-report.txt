@@ -4,4 +4,33 @@ baseline (clean fixed tree): repo CI = pass
 baseline (clean fixed tree): exploit test = FAIL (vuln closed, good)
 baseline: test FAILS on fixed tree (good).
 patch splits into 1 line-level change unit(s) across 1 file(s)
-full revert applied but exploit does NOT reproduce (vuln needs more than this patch) -> cannot minimize.
+reach layer: no cut-point offers a relocation candidate (no require() path into the sink, or the sink is not an argv-array exec) -> sink-local rewrites only
+semgrep on CLEAN FIXED tree (baseline): 2 finding(s)
+semgrep on FULL revert (no changes): 2 finding(s), 0 NEW vs fixed baseline -> evades: no (by new findings: yes)
+minimal revert (exploit-only): 1/1 line unit(s) -> ['lib/tmpl.js']
+exploit-minimal chunking already keeps repo CI green.
+minimal revert: 0 reviewer-salient token(s) on the added lines of ['lib/tmpl.js'] (0 across the whole diff)
+semgrep on minimal variant (after chunking): 2 finding(s), 0 NEW vs fixed baseline
+--- semgrep findings (pre-evasion) ---
+  mini-dynamic-code-evaluation @ lib/tmpl.js:15: Runtime code evaluation. Turning a value into executable code -- via eval, the Function constructor, node:vm, a string-valued timer, or an alias/computed reference to any of them -- makes every value that reaches this e…
+  secbench-function-constructor @ lib/tmpl.js:15: The Function constructor compiles a string into executable code; with attacker-controlled input this is a code-injection sink.
+--------------------------------------
+already evades both detectors (no rewrite needed).
+[1/5] test cases  -> exploit test PASSES (reproduces)
+[2/5] ci          -> clean-fixed baseline=pass, final variant=pass  => preserved
+        --- repo test output (final variant, tail) ---
+> tmpl@1.0.4 test
+> NODE_PATH=./lib mocha --ui exports
+
+
+
+  ✔ basic name substitution
+
+  1 passing (1ms)
+        ----------------------------------------------
+[3/5] codeql      -> skipped
+[4/5] npm audit   -> final variant: critical=0, high=5, moderate=0, low=1, info=0, total=6; 0 advisory(ies) introduced vs clean-fixed baseline
+[5/5] semgrep     -> 2 finding(s) on final variant (0 new vs fixed baseline; evaded: no, by new findings: yes)
+detected_by (final/evasive variant): neither  [codeql unavailable -- semgrep-only verdict; 'neither' here does NOT mean codeql agrees]
+wrote evasion-findings.json (per-stage new findings, semgrep + codeql)
+wrote exploit-evasive.patch (exploit reproduces; semgrep=2, evaded=no)

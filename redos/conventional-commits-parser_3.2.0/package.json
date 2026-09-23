@@ -9,5 +9,5 @@
   },
   "fixedVersion": "3.2.3",
   "fixCommit": "https://github.com/conventional-changelog/conventional-changelog/commit/c696fa35f93e0ee13728d6cf1221587ac6386311",
-  "sink": ""
+  "sink": "packages/conventional-commits-parser/lib/parser.js"
 }

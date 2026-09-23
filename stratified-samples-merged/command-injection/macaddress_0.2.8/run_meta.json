@@ -1,0 +1,47 @@
+{
+  "category": "command-injection",
+  "repository": "scravy/node-macaddress",
+  "package": "macaddress",
+  "version": "0.2.8",
+  "folder": "macaddress_0.2.8",
+  "started_at": "2026-08-20T11:15:05.704843+00:00",
+  "status": "ok",
+  "error": "",
+  "base_commit": "358fd594adb196a86b94ac9c691f69fe5dad2332",
+  "checkout": "/tmp/macaddress_0.2.8-src",
+  "image_tag": "secbench-fullloop/macaddress_0.2.8",
+  "docker_loop": true,
+  "evasive_patch_reused": true,
+  "evasive_patch_regenerated": false,
+  "evades_both": true,
+  "seed_patch_applies": null,
+  "seed_exploit_fires": null,
+  "verdict": "Pipeline done. seed=hardened, loop=no-win, final tests=PASSED \u2705, gates=PASS, final_gate=['SOLVED']",
+  "wall_seconds_setup": 21.0,
+  "wall_seconds_pipeline": 1344.2,
+  "wall_seconds_total": 1367.8,
+  "metrics": {
+    "totals": {
+      "instance_cost": 0.0023,
+      "api_calls": 11,
+      "prompt_tokens": 71821,
+      "completion_tokens": 4479,
+      "total_tokens": 76300,
+      "trajectories": 1
+    },
+    "per_trajectory": [
+      {
+        "file": "solve_gate/run_1/trajectory.traj.json",
+        "instance_cost": 0.0023,
+        "api_calls": 11,
+        "prompt_tokens": 71821,
+        "completion_tokens": 4479,
+        "total_tokens": 76300
+      }
+    ]
+  },
+  "pipeline_cmd": "mini-extra cve-pipeline --patch stratified-samples-full-loop/command-injection/macaddress_0.2.8/exploit-evasive.patch --ex_file /Users/saleha/Desktop/cispa/SecBench.js/command-injection/macaddress_0.2.8/macaddress.test.js --repo-path /tmp/macaddress_0.2.8-src --base 358fd594adb196a86b94ac9c691f69fe5dad2332 --repo command-injection/macaddress_0.2.8 --docker-image secbench-fullloop/macaddress_0.2.8 --cost-limit 0.3",
+  "pipeline_returncode": 0,
+  "pipeline_out_dir": "stratified-samples-full-loop/command-injection/macaddress_0.2.8/pipeline_exploit-evasive",
+  "finished_at": "2026-08-20T11:37:53.505393+00:00"
+}

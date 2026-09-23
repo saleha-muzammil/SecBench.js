@@ -1,0 +1,18 @@
+{
+  "package": "samsung-remote",
+  "targets": [
+    "lib/samsung-remote.js"
+  ],
+  "full_targets": [
+    "index.js",
+    "lib/samsung-remote.js"
+  ],
+  "semgrep": {
+    "fixed_total": 0,
+    "new_full": 0,
+    "new_minimal": 0,
+    "new_final": []
+  },
+  "codeql": null,
+  "detected_by": "neither"
+}

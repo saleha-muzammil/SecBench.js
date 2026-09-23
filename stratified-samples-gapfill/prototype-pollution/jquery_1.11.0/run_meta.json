@@ -1,0 +1,38 @@
+{
+  "category": "prototype-pollution",
+  "repository": "jquery/jquery",
+  "package": "jquery",
+  "version": "1.11.0",
+  "folder": "jquery_1.11.0",
+  "started_at": "2026-09-22T06:54:11.699901+00:00",
+  "status": "ok",
+  "error": "",
+  "base_commit": "753d591aea698e57d6db58c9f722cd0808619b1b",
+  "checkout": "/tmp/gapfill-src/jquery_1.11.0-src",
+  "image_tag": "secbench-fullloop/jquery_1.11.0",
+  "docker_loop": true,
+  "evasive_patch_reused": true,
+  "evasive_patch_regenerated": false,
+  "evades_both": false,
+  "seed_patch_applies": null,
+  "seed_exploit_fires": null,
+  "verdict": "Pipeline done. seed=unhardened, loop=no-win, final tests=FAILED \u274c (exit 3), gates=FAIL",
+  "wall_seconds_setup": 49.8,
+  "wall_seconds_pipeline": 1922.7,
+  "wall_seconds_total": 1975.5,
+  "metrics": {
+    "totals": {
+      "instance_cost": 0.0,
+      "api_calls": 0,
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "trajectories": 0
+    },
+    "per_trajectory": []
+  },
+  "pipeline_cmd": "mini-extra cve-pipeline --patch stratified-samples-gapfill/prototype-pollution/jquery_1.11.0/exploit-evasive.patch --ex_file /Users/saleha/Desktop/cispa/SecBench.js/prototype-pollution/jquery_1.11.0/jquery.test.js --repo-path /tmp/gapfill-src/jquery_1.11.0-src --base 753d591aea698e57d6db58c9f722cd0808619b1b --repo jquery/jquery --docker-image secbench-fullloop/jquery_1.11.0 --cost-limit 0.3",
+  "pipeline_returncode": 0,
+  "pipeline_out_dir": "stratified-samples-gapfill/prototype-pollution/jquery_1.11.0/pipeline_exploit-evasive",
+  "finished_at": "2026-09-22T07:27:07.183721+00:00"
+}

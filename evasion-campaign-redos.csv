@@ -23,7 +23,7 @@ redos,gulpjs/glob-parent,glob-parent,5.0.0,exploit-fail,,poc-no-assertions,,,lin
 redos,highlightjs/highlight.js,highlight.js,10.4.0,setup-fail,,rebuild-failed,fail,,hunk,78,,,,,,,,,,,,,,,,,,,,
 redos,npm/hosted-git-info,hosted-git-info,3.0.0,benchmark-fail,,revert-applied-no-repro,fail,,line,2,,,,,,,,,,,,,,,,,,,,
 redos,remarkablemark/html-dom-parser,html-dom-parser,0.1.2,exploit-fail,,poc-no-assertions,,,line,16,,,,,,,,,,,,,,,,,,,,
-redos,HenrikJoreteg/html-parse-stringify,html-parse-stringify,2.0.0,setup-fail,,rebuild-failed,fail,,line,3,,,,,,,,,,,,,,,,,,,,
+redos,HenrikJoreteg/html-parse-stringify,html-parse-stringify,2.0.0,ok,no,minimized+partial-evade (ci:preserved),fail,yes,line,3,2,,,0,0,0,0,2,2,2,2,codeql,,js/redos×2,ci-preserving-chunk,preserved,0,,,"js/redos @ src/parse.js:1 — This part of the regular expression may cause exponential backtracking on strings starting with '<!""""' and containing many repetitions of '""""'. || js/redos @ src/parse.js:1 — This part of the regular expression may cause exponential backtracking on strings starting with '<!''' and containing many repetitions of ''''."
 redos,segmentio/is-email,is-email,1.0.0,exploit-fail,,poc-no-assertions,,,line,12,,,,,,,,,,,,,,,,,,,,
 redos,mafintosh/is-my-json-valid,is-my-json-valid,2.20.1,benchmark-fail,,revert-applied-no-repro,fail,,line,4,,,,,,,,,,,,,,,,,,,,
 redos,sindresorhus/is-svg,is-svg,4.2.2,exploit-fail,,poc-no-assertions,,,line,14,,,,,,,,,,,,,,,,,,,,

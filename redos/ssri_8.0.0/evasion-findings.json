@@ -1,0 +1,18 @@
+{
+  "package": "ssri",
+  "targets": [
+    "index.js"
+  ],
+  "full_targets": [
+    "index.js",
+    "test/parse.js"
+  ],
+  "semgrep": {
+    "fixed_total": 1,
+    "new_full": 0,
+    "new_minimal": 0,
+    "new_final": []
+  },
+  "codeql": null,
+  "detected_by": "neither"
+}

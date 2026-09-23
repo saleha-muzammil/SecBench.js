@@ -1,8 +1,7 @@
 {
   "package": "normalize-url",
   "targets": [
-    "index.js",
-    "test.js"
+    "index.js"
   ],
   "full_targets": [
     "index.js",

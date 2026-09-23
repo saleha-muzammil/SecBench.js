@@ -224,7 +224,7 @@ redos,glob-parent,5.0.0,CVE-2021-35065,gulpjs/glob-parent,https://github.com/gul
 redos,highlight.js,10.4.0,,highlightjs/highlight.js,https://github.com/highlightjs/highlight.js,10.4.1,https://github.com/highlightjs/highlight.js/commit/373b9d862401162e832ce77305e49b859e110f9c,373b9d862401162e832ce77305e49b859e110f9c,fixCommit
 redos,hosted-git-info,3.0.0,CVE-2021-23362,npm/hosted-git-info,https://github.com/npm/hosted-git-info,3.0.8,https://github.com/npm/hosted-git-info/commit/bede0dc38e1785e732bf0a48ba6f81a4a908eba3,bede0dc38e1785e732bf0a48ba6f81a4a908eba3,fixCommit
 redos,html-dom-parser,0.1.2,,remarkablemark/html-dom-parser,https://github.com/remarkablemark/html-dom-parser,0.1.3,https://github.com/remarkablemark/html-dom-parser/commit/b80d699bbbd45d254379e6916152c918998e3b10,b80d699bbbd45d254379e6916152c918998e3b10,fixCommit
-redos,html-parse-stringify2,2.0.1,CVE-2021-23346,rayd/html-parse-stringify2,https://github.com/rayd/html-parse-stringify2,,https://github.com/HenrikJoreteg/html-parse-stringify/commit/c7274a48e59c92b2b7e906fedf9065159e73fe12,c7274a48e59c92b2b7e906fedf9065159e73fe12,fixCommit
+redos,html-parse-stringify2,2.0.1,CVE-2021-23346,rayd/html-parse-stringify2,https://github.com/rayd/html-parse-stringify2,2.0.2,https://github.com/HenrikJoreteg/html-parse-stringify/commit/c7274a48e59c92b2b7e906fedf9065159e73fe12,c7274a48e59c92b2b7e906fedf9065159e73fe12,fixCommit
 redos,html-parse-stringify,2.0.0,CVE-2021-23346,HenrikJoreteg/html-parse-stringify,https://github.com/HenrikJoreteg/html-parse-stringify,2.0.1,https://github.com/HenrikJoreteg/html-parse-stringify/commit/c7274a48e59c92b2b7e906fedf9065159e73fe12,c7274a48e59c92b2b7e906fedf9065159e73fe12,fixCommit
 redos,htmlparser,1.7.7,,tautologistics/node-htmlparser,https://github.com/tautologistics/node-htmlparser,,,,npm
 redos,is-email,1.0.0,CVE-2021-36716,segmentio/is-email,https://github.com/segmentio/is-email,1.0.1,https://github.com/segmentio/is-email/commit/060ecedf345729f11ad857ccaf7a915ff6797739,060ecedf345729f11ad857ccaf7a915ff6797739,fixCommit
@@ -285,7 +285,7 @@ redos,uri-js,2.1.1,CVE-2017-16021,garycourt/uri-js,https://github.com/garycourt/
 redos,url-regex,5.0.0,CVE-2020-7661,kevva/url-regex,https://github.com/kevva/url-regex,,,,npm
 redos,urlregex,0.5.0,CVE-2020-7661,nescalante/urlregex,https://github.com/nescalante/urlregex,,,,npm
 redos,valid-email,0.0.1,,johnhenry/valid-email,https://github.com/johnhenry/valid-email,1.0.0,https://github.com/johnhenry/valid-email/commit/624ffa60b42bed8c577a679d682dda286b4603e6,624ffa60b42bed8c577a679d682dda286b4603e6,fixCommit
-redos,validator,13.5.2,,chriso/validator.js,https://github.com/chriso/validator.js,13.6.0,https://github.com/tux-tn/validator.js/commit/b21879cf45c05ee11b2d79e612b651bf7b2d93b7#diff-f41087599986e29c3c0dc15b62f1bf96d8aba16fe41f3730e315c84c2c4cb311,b21879cf45c05ee11b2d79e612b651bf7b2d93b7,fixCommit
+redos,validator,13.5.2,,chriso/validator.js,https://github.com/chriso/validator.js,13.6.0,https://github.com/validatorjs/validator.js/commit/2a3a1c33607698d69fc788c3b9efddffa6195193,2a3a1c33607698d69fc788c3b9efddffa6195193,fixCommit
 redos,vant,2.12.11,,youzan/vant,https://github.com/youzan/vant,3.0.7,,,npm
 redos,ws,7.0.0,CVE-2021-32640,websockets/ws,https://github.com/websockets/ws,7.4.6,https://github.com/websockets/ws/commit/00c425ec77993773d823f018f64a5c44e17023ff,00c425ec77993773d823f018f64a5c44e17023ff,fixCommit
 command-injection,aaptjs,1.3.1,CVE-2020-26707,shenzhim/aaptjs,https://github.com/shenzhim/aaptjs,,,,npm

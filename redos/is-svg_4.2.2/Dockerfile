@@ -50,6 +50,12 @@ WXttE7IftOZVJ7th29L+C27jZaazk9IP+BLTIu1J+rhv1Tjco4aeiSgzTObBjJRZzFci43HFJHK5yeMy
 9Z03ODTqrD62bN91yLJdjXv/APIpkjCVEwAA' \
     | base64 -d | gzip -dc > /exploit/utils.js
 
+# is-svg@4.3.0 replaced the hand-rolled regexes with fast-xml-parser and dropped
+# the html-comment-regex dependency. Reverting patch.txt therefore restores a
+# `require("html-comment-regex")` that the fixed tree no longer installs, and the
+# exploit died on MODULE_NOT_FOUND instead of on the backtracking it is there to
+# measure. Installing it in both images costs the fixed side nothing -- 4.3.0 never
+# requires it -- and gives the reverted side the dependency 4.2.2 shipped with.
 RUN git clone https://github.com/sindresorhus/is-svg.git node_modules/is-svg \
     && cd node_modules/is-svg \
     && if ! (git checkout -q "v4.2.2" || git checkout -q "4.2.2"); then \
@@ -62,6 +68,7 @@ RUN git clone https://github.com/sindresorhus/is-svg.git node_modules/is-svg \
            exit 1; \
        fi \
     && npm install --no-audit --no-fund --ignore-scripts \
+    && npm install --no-audit --no-fund --ignore-scripts --no-save html-comment-regex@1.1.2 \
     && (npm run build --if-present || echo "WARNING: build step failed/partial; continuing") \
     && (npm run prepare --if-present || echo "WARNING: prepare step failed/partial; continuing")
 

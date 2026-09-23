@@ -8,7 +8,7 @@ Subject: [PATCH] prevent extraordinary long inputs (@evilpacket)
  1 file changed, 2 insertions(+)
 
 diff --git a/index.js b/index.js
-index e79bfa1..4f92771 100644
+index e79bfa18..4f927716 100644
 --- a/index.js
 +++ b/index.js
 @@ -38,6 +38,8 @@ module.exports = function(val, options){

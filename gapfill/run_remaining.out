@@ -1,0 +1,21 @@
+=== 34 targets, 4 at a time -> stratified-samples-gapfill ===
+Tue Sep 22 14:51:16 EDT 2026
+[15:13:29] DONE  prototype-pollution/shvl_2.0.1 -> ok | Pipeline done. seed=hardened, loop=SUCCESS, final tests=FAILED ❌ (exit 1), gates=PASS, final_gate=['
+[15:18:40] DONE  prototype-pollution/supermixer_1.0.3 -> ok | Pipeline done. seed=unhardened, loop=no-win, final tests=FAILED ❌ (exit 1), gates=FAIL
+[15:18:45] DONE  prototype-pollution/ts-dot-prop_1.4.0 -> error | docker build failed (rc=1) -- see setup.log
+[15:21:23] DONE  prototype-pollution/tsed-core_5.62.3 -> error | docker build failed (rc=1) -- see setup.log
+[15:30:29] DONE  prototype-pollution/think-config_1.0.0 -> ok | Pipeline done. seed=unhardened, loop=no-win, final tests=FAILED ❌ (exit 1), gates=FAIL
+[15:40:24] DONE  redos/cejs_2.0.20170212 -> pipeline-rc-1 | 
+[15:40:55] DONE  prototype-pollution/utilitify_1.0.2 -> pipeline-rc-1 | 
+[15:44:47] DONE  prototype-pollution/swiper_6.5.0 -> ok | Pipeline done. seed=unhardened, loop=no-win, final tests=PASSED ✅, gates=FAIL
+[16:03:40] DONE  redos/content_3.0.5 -> pipeline-rc-1 | 
+[16:04:03] DONE  redos/conventional-commits-parser_3.2.0 -> error | docker cp of /exploit/conventional-commits-parser_3.2.0/node_modules/conventional-commits-parser fai
+[16:12:29] DONE  redos/codemirror_5.58.0 -> pipeline-rc-1 | 
+[16:19:10] DONE  redos/ducktype_1.2.0 -> ok | Pipeline done. seed=hardened, loop=SUCCESS, final tests=PASSED ✅, gates=PASS, final_gate=['SOLVED']
+[17:11:21] DONE  redos/ethers_5.2.0 -> pipeline-rc-1 | 
+[17:45:19] DONE  redos/chrono-node_2.2.3 -> pipeline-rc-1 | 
+[17:57:02] DONE  redos/glob-parent_5.0.0 -> ok | Pipeline done. seed=hardened, loop=SUCCESS, final tests=FAILED ❌ (exit 1), gates=PASS, final_gate=['
+[18:14:29] DONE  redos/fast-csv_4.3.5 -> ok | Pipeline done. seed=unhardened, loop=no-win, final tests=FAILED ❌ (exit 1), gates=FAIL
+[18:49:45] DONE  prototype-pollution/set-object-value_0.0.5 -> pipeline-rc-1 | 
+[18:57:52] DONE  redos/locutus_2.0.10 -> pipeline-rc-1 | 
+[19:08:51] DONE  redos/is-svg_4.2.2 -> ok | Pipeline done. seed=unhardened, loop=no-win, final tests=FAILED ❌ (exit 1), gates=PASS, final_gate=[

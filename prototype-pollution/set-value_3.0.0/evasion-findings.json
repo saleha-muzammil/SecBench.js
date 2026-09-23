@@ -1,0 +1,18 @@
+{
+  "package": "set-value",
+  "targets": [
+    "index.js"
+  ],
+  "full_targets": [
+    "examples.js",
+    "index.js"
+  ],
+  "semgrep": {
+    "fixed_total": 2,
+    "new_full": 1,
+    "new_minimal": 1,
+    "new_final": []
+  },
+  "codeql": null,
+  "detected_by": "neither"
+}

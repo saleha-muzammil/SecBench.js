@@ -1,0 +1,38 @@
+{
+  "category": "prototype-pollution",
+  "repository": "lodash/lodash",
+  "package": "lodash",
+  "version": "4.17.9",
+  "folder": "lodash_4.17.9",
+  "started_at": "2026-09-07T00:21:25.559696+00:00",
+  "status": "pipeline-rc-1",
+  "error": "",
+  "base_commit": "90e6199a161b6445b01454517b40ef65ebecd2ad",
+  "checkout": "/tmp/lodash_4.17.9-src",
+  "image_tag": "secbench-fullloop/lodash_4.17.9",
+  "docker_loop": true,
+  "evasive_patch_reused": true,
+  "evasive_patch_regenerated": false,
+  "evades_both": true,
+  "seed_patch_applies": null,
+  "seed_exploit_fires": null,
+  "verdict": "",
+  "wall_seconds_setup": 6.1,
+  "wall_seconds_pipeline": 1969.1,
+  "wall_seconds_total": 1977.0,
+  "metrics": {
+    "totals": {
+      "instance_cost": 0.0,
+      "api_calls": 0,
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "trajectories": 0
+    },
+    "per_trajectory": []
+  },
+  "pipeline_cmd": "mini-extra cve-pipeline --patch stratified-samples-full-loop-judge4/prototype-pollution/lodash_4.17.9/exploit-evasive.patch --ex_file /Users/saleha/Desktop/cispa/SecBench.js/prototype-pollution/lodash_4.17.9/lodash.test.js --repo-path /tmp/lodash_4.17.9-src --base 90e6199a161b6445b01454517b40ef65ebecd2ad --repo prototype-pollution/lodash_4.17.9 --docker-image secbench-fullloop/lodash_4.17.9 --max-iterations 3 --cost-limit 0.3 --no-run-codegen --no-gate-in-loop",
+  "pipeline_returncode": 1,
+  "pipeline_out_dir": "stratified-samples-full-loop-judge4/prototype-pollution/lodash_4.17.9/pipeline_exploit-evasive",
+  "finished_at": "2026-09-07T00:54:22.527115+00:00"
+}

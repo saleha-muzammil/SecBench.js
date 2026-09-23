@@ -1,0 +1,16 @@
+{
+  "seed": 20260817,
+  "n": 3,
+  "until_success": false,
+  "generated_at": "2026-09-21T16:57:26.783530+00:00",
+  "categories": {
+    "path-traversal": [
+      {
+        "folder": "crud-file-server_0.7.0",
+        "package": "crud-file-server",
+        "version": "0.7.0",
+        "repository": "omphalos/crud-file-server"
+      }
+    ]
+  }
+}

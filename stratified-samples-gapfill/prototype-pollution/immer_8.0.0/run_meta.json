@@ -1,0 +1,38 @@
+{
+  "category": "prototype-pollution",
+  "repository": "immerjs/immer",
+  "package": "immer",
+  "version": "8.0.0",
+  "folder": "immer_8.0.0",
+  "started_at": "2026-09-22T06:41:16.120851+00:00",
+  "status": "ok",
+  "error": "",
+  "base_commit": "fa671e55ee9bd42ae08cc239102b665a23958237",
+  "checkout": "/tmp/gapfill-src/immer_8.0.0-src",
+  "image_tag": "secbench-fullloop/immer_8.0.0",
+  "docker_loop": true,
+  "evasive_patch_reused": true,
+  "evasive_patch_regenerated": false,
+  "evades_both": false,
+  "seed_patch_applies": null,
+  "seed_exploit_fires": null,
+  "verdict": "Pipeline done. seed=unhardened, loop=no-win, final tests=NO NEW FAILURES \u2705 (baseline 18 failing, still 1; pre-existing failures ignored), gates=FAIL",
+  "wall_seconds_setup": 72.8,
+  "wall_seconds_pipeline": 698.6,
+  "wall_seconds_total": 775.5,
+  "metrics": {
+    "totals": {
+      "instance_cost": 0.0,
+      "api_calls": 0,
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "trajectories": 0
+    },
+    "per_trajectory": []
+  },
+  "pipeline_cmd": "mini-extra cve-pipeline --patch stratified-samples-gapfill/prototype-pollution/immer_8.0.0/exploit-evasive.patch --ex_file /Users/saleha/Desktop/cispa/SecBench.js/prototype-pollution/immer_8.0.0/immer.test.js --repo-path /tmp/gapfill-src/immer_8.0.0-src --base fa671e55ee9bd42ae08cc239102b665a23958237 --repo immerjs/immer --docker-image secbench-fullloop/immer_8.0.0 --cost-limit 0.3",
+  "pipeline_returncode": 0,
+  "pipeline_out_dir": "stratified-samples-gapfill/prototype-pollution/immer_8.0.0/pipeline_exploit-evasive",
+  "finished_at": "2026-09-22T06:54:11.580166+00:00"
+}

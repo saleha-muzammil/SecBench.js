@@ -1,5 +1,6 @@
 === redos/chrono-node_2.2.3 ===
 image: built image
+baseline (clean fixed tree): repo CI = fail
 baseline (clean fixed tree): exploit test = PASS (NOT fixed!)
-baseline: exploit test PASSES on the FIXED tree (installed chrono-node@2.2.3, expected fixed >= 2.2.4) -> not truly fixed.
+baseline: exploit test PASSES on the FIXED tree (installed chrono-node@2.2.4, expected fixed >= 2.2.4) -> not truly fixed.
   diagnosis: stubbing the package STOPS the exploit -> the image is not actually on the fixed version (BENCHMARK/setup fault).

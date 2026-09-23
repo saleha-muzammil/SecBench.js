@@ -1,0 +1,55 @@
+{
+  "category": "redos",
+  "repository": "axios/axios",
+  "package": "axios",
+  "version": "0.21.0",
+  "folder": "axios_0.21.0",
+  "started_at": "2026-09-15T11:45:26.101714+00:00",
+  "status": "ok",
+  "error": "",
+  "base_commit": "5b457116e31db0e88fede6c428e969e87f290929",
+  "checkout": "/tmp/axios_0.21.0-src",
+  "image_tag": "secbench-fullloop/axios_0.21.0",
+  "docker_loop": true,
+  "evasive_patch_reused": true,
+  "evasive_patch_regenerated": false,
+  "evades_both": true,
+  "seed_patch_applies": null,
+  "seed_exploit_fires": null,
+  "verdict": "Pipeline done. seed=hardened, loop=SUCCESS, final tests=FAILED \u274c (exit 3), gates=PASS, final_gate=['SOLVED']",
+  "wall_seconds_setup": 66.8,
+  "wall_seconds_pipeline": 697.3,
+  "wall_seconds_total": 767.1,
+  "metrics": {
+    "totals": {
+      "instance_cost": 0.016585,
+      "api_calls": 75,
+      "prompt_tokens": 609142,
+      "completion_tokens": 8491,
+      "total_tokens": 617633,
+      "trajectories": 2
+    },
+    "per_trajectory": [
+      {
+        "file": "issue/iter_3/adopt/run_1/trajectory.traj.json",
+        "instance_cost": 0.009734,
+        "api_calls": 39,
+        "prompt_tokens": 337037,
+        "completion_tokens": 4490,
+        "total_tokens": 341527
+      },
+      {
+        "file": "solve_gate/run_1/trajectory.traj.json",
+        "instance_cost": 0.006851,
+        "api_calls": 36,
+        "prompt_tokens": 272105,
+        "completion_tokens": 4001,
+        "total_tokens": 276106
+      }
+    ]
+  },
+  "pipeline_cmd": "mini-extra cve-pipeline --patch stratified-samples-full-loop-judge13/redos/axios_0.21.0/exploit-evasive.patch --ex_file /Users/saleha/Desktop/cispa/SecBench.js/redos/axios_0.21.0/axios.test.js --repo-path /tmp/axios_0.21.0-src --base 5b457116e31db0e88fede6c428e969e87f290929 --repo redos/axios_0.21.0 --docker-image secbench-fullloop/axios_0.21.0 --max-iterations 5 --cost-limit 0.3 --no-run-codegen --gate-in-loop --gate-runs 1 --revise-iterations 2",
+  "pipeline_returncode": 0,
+  "pipeline_out_dir": "stratified-samples-full-loop-judge13/redos/axios_0.21.0/pipeline_exploit-evasive",
+  "finished_at": "2026-09-15T11:58:13.207665+00:00"
+}

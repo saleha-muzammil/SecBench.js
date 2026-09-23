@@ -50,6 +50,15 @@ WXttE7IftOZVJ7th29L+C27jZaazk9IP+BLTIu1J+rhv1Tjco4aeiSgzTObBjJRZzFci43HFJHK5yeMy
 9Z03ODTqrD62bN91yLJdjXv/APIpkjCVEwAA' \
     | base64 -d | gzip -dc > /exploit/utils.js
 
+# highlight.js publishes lib/ but does not commit it: package.json says
+# main ./lib/index.js while the repo only has src/, and `npm run build`
+# (tools/build.js -t node) writes the npm-ready tree to build/. A bare checkout
+# therefore cannot satisfy require("highlight.js/lib/core") and the exploit died
+# on MODULE_NOT_FOUND on both images. lib -> build/lib is a symlink rather than a
+# copy on purpose: the campaign re-runs `npm run build` after each revert, and a
+# symlink picks the rebuilt output up automatically where a copy would go stale
+# and silently measure the fixed code. Verified: reverting patch.txt and
+# rebuilding takes the r-language PoC from 2.4 ms to 18.7 s.
 RUN git clone https://github.com/highlightjs/highlight.js.git node_modules/highlight.js \
     && cd node_modules/highlight.js \
     && if ! (git checkout -q "v10.4.0" || git checkout -q "10.4.0"); then \
@@ -63,6 +72,8 @@ RUN git clone https://github.com/highlightjs/highlight.js.git node_modules/highl
        fi \
     && npm install --no-audit --no-fund --ignore-scripts \
     && (npm run build --if-present || echo "WARNING: build step failed/partial; continuing") \
+    && ([ -d build/lib ] && ln -sfn build/lib lib \
+        || echo "WARNING: highlight.js node build produced no build/lib; require('highlight.js/lib/core') will fail" >&2) \
     && (npm run prepare --if-present || echo "WARNING: prepare step failed/partial; continuing")
 
 # jest installed globally so it does not disturb the package tree

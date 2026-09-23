@@ -1,217 +1,239 @@
-From 51228083550dde97701ac8e06c629a5184117562 Mon Sep 17 00:00:00 2001
-From: "David I. Lehn" <dlehn@digitalbazaar.com>
-Date: Thu, 27 May 2021 21:58:45 -0400
-Subject: [PATCH] Remove `forge.debug` API.
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: make_release_patch.py <secbench>
+Subject: [PATCH] node-forge 0.9.0 -> 0.10.0 (release range, production files only)
 
-The API has the potential for prototype pollution. This API was only
-briefly used by the maintainers for internal project debug purposes and
-was never inteneded to be used with untrusted user intputs. This API was
-not documented or advertised and is being removed rather than fixed.
+Generated from tag 0.9.0 .. tag 0.10.0; 4 production file(s).
+Reverting this on the fixed tree reproduces the 0.9.0 tree.
 ---
- CHANGELOG.md          |  5 +++
- README.md             | 14 --------
- lib/debug.js          | 78 -------------------------------------------
- lib/http.js           | 11 ------
- lib/index.js          |  1 -
- tests/support/task.js |  4 ---
- 6 files changed, 5 insertions(+), 108 deletions(-)
- delete mode 100644 lib/debug.js
-
-diff --git a/CHANGELOG.md b/CHANGELOG.md
-index cfe650070..86241ba04 100644
---- a/CHANGELOG.md
-+++ b/CHANGELOG.md
-@@ -4,6 +4,11 @@ Forge ChangeLog
- ## 0.11.0 - 2021-xx-xx
+diff --git a/karma.conf.js b/karma.conf.js
+index 996a5ad..a61407d 100644
+--- a/karma.conf.js
++++ b/karma.conf.js
+@@ -55,6 +55,7 @@ module.exports = function(config) {
+     },
  
- ### Removed
-+- **SECURITY**, **BREAKING**: Remove `forge.debug` API. The API has the
-+  potential for prototype pollution. This API was only briefly used by the
-+  maintainers for internal project debug purposes and was never inteneded to be
-+  used with untrusted user intputs. This API was not documented or advertised
-+  and is being removed rather than fixed.
- - **BREAKING**: Remove `forge.task` API. This API was never used, documented,
-   or advertised by the maintainers. If anyone was using this API and wishes to
-   continue development it in other project, please let the maintainers know.
-diff --git a/README.md b/README.md
-index 40bf29561..bfc640fee 100644
---- a/README.md
-+++ b/README.md
-@@ -80,7 +80,6 @@ Documentation
- * [Tasks](#task)
- * [Utilities](#util)
- * [Logging](#log)
--* [Debugging](#debug)
- * [Flash Networking Support](#flash)
+     webpack: {
++      mode: 'development',
+       devtool: 'inline-source-map',
+       node: {
+         Buffer: false,
+diff --git a/lib/cipherModes.js b/lib/cipherModes.js
+index 1f2d41d..339915c 100644
+--- a/lib/cipherModes.js
++++ b/lib/cipherModes.js
+@@ -119,7 +119,7 @@ modes.cbc.prototype.start = function(options) {
+     throw new Error('Invalid IV parameter.');
+   } else {
+     // save IV as "previous" block
+-    this._iv = transformIV(options.iv);
++    this._iv = transformIV(options.iv, this.blockSize);
+     this._prev = this._iv.slice(0);
+   }
+ };
+@@ -215,7 +215,7 @@ modes.cfb.prototype.start = function(options) {
+     throw new Error('Invalid IV parameter.');
+   }
+   // use IV as first input
+-  this._iv = transformIV(options.iv);
++  this._iv = transformIV(options.iv, this.blockSize);
+   this._inBlock = this._iv.slice(0);
+   this._partialBytes = 0;
+ };
+@@ -359,7 +359,7 @@ modes.ofb.prototype.start = function(options) {
+     throw new Error('Invalid IV parameter.');
+   }
+   // use IV as first input
+-  this._iv = transformIV(options.iv);
++  this._iv = transformIV(options.iv, this.blockSize);
+   this._inBlock = this._iv.slice(0);
+   this._partialBytes = 0;
+ };
+@@ -444,7 +444,7 @@ modes.ctr.prototype.start = function(options) {
+     throw new Error('Invalid IV parameter.');
+   }
+   // use IV as first input
+-  this._iv = transformIV(options.iv);
++  this._iv = transformIV(options.iv, this.blockSize);
+   this._inBlock = this._iv.slice(0);
+   this._partialBytes = 0;
+ };
+@@ -954,7 +954,7 @@ modes.gcm.prototype.generateSubHashTable = function(mid, bits) {
  
- ### Other
-@@ -1988,19 +1987,6 @@ __Examples__
- // TODO
- ```
+ /** Utility functions */
  
--<a name="debug" />
--
--### Debugging
--
--Provides storage of debugging information normally inaccessible in
--closures for viewing/investigation.
--
--__Examples__
--
--```js
--// TODO
--```
--
- <a name="flash" />
+-function transformIV(iv) {
++function transformIV(iv, blockSize) {
+   if(typeof iv === 'string') {
+     // convert iv string into byte buffer
+     iv = forge.util.createBuffer(iv);
+@@ -968,9 +968,21 @@ function transformIV(iv) {
+       iv.putByte(tmp[i]);
+     }
+   }
++
++  if(iv.length() < blockSize) {
++    throw new Error(
++      'Invalid IV length; got ' + iv.length() +
++      ' bytes and expected ' + blockSize + ' bytes.');
++  }
++
+   if(!forge.util.isArray(iv)) {
+     // convert iv byte buffer into 32-bit integer array
+-    iv = [iv.getInt32(), iv.getInt32(), iv.getInt32(), iv.getInt32()];
++    var ints = [];
++    var blocks = blockSize / 4;
++    for(var i = 0; i < blocks; ++i) {
++      ints.push(iv.getInt32());
++    }
++    iv = ints;
+   }
  
- ### Flash Networking Support
-diff --git a/lib/debug.js b/lib/debug.js
-deleted file mode 100644
-index 26756350e..000000000
---- a/lib/debug.js
-+++ /dev/null
-@@ -1,78 +0,0 @@
+   return iv;
+diff --git a/lib/util.js b/lib/util.js
+index a866092..98dfd34 100644
+--- a/lib/util.js
++++ b/lib/util.js
+@@ -2513,99 +2513,6 @@ util.makeLink = function(path, query, fragment) {
+     ((fragment.length > 0) ? ('#' + fragment) : '');
+ };
+ 
 -/**
-- * Debugging support for web applications.
+- * Follows a path of keys deep into an object hierarchy and set a value.
+- * If a key does not exist or it's value is not an object, create an
+- * object in it's place. This can be destructive to a object tree if
+- * leaf nodes are given as non-final path keys.
+- * Used to avoid exceptions from missing parts of the path.
 - *
-- * @author David I. Lehn <dlehn@digitalbazaar.com>
-- *
-- * Copyright 2008-2013 Digital Bazaar, Inc.
+- * @param object the starting object.
+- * @param keys an array of string keys.
+- * @param value the value to set.
 - */
--var forge = require('./forge');
--
--/* DEBUG API */
--module.exports = forge.debug = forge.debug || {};
--
--// Private storage for debugging.
--// Useful to expose data that is otherwise unviewable behind closures.
--// NOTE: remember that this can hold references to data and cause leaks!
--// format is "forge._debug.<modulename>.<dataname> = data"
--// Example:
--// (function() {
--//   var cat = 'forge.test.Test'; // debugging category
--//   var sState = {...}; // local state
--//   forge.debug.set(cat, 'sState', sState);
--// })();
--forge.debug.storage = {};
--
--/**
-- * Gets debug data. Omit name for all cat data  Omit name and cat for
-- * all data.
-- *
-- * @param cat name of debugging category.
-- * @param name name of data to get (optional).
-- * @return object with requested debug data or undefined.
-- */
--forge.debug.get = function(cat, name) {
--  var rval;
--  if(typeof(cat) === 'undefined') {
--    rval = forge.debug.storage;
--  } else if(cat in forge.debug.storage) {
--    if(typeof(name) === 'undefined') {
--      rval = forge.debug.storage[cat];
--    } else {
--      rval = forge.debug.storage[cat][name];
--    }
--  }
--  return rval;
--};
--
--/**
-- * Sets debug data.
-- *
-- * @param cat name of debugging category.
-- * @param name name of data to set.
-- * @param data data to set.
-- */
--forge.debug.set = function(cat, name, data) {
--  if(!(cat in forge.debug.storage)) {
--    forge.debug.storage[cat] = {};
--  }
--  forge.debug.storage[cat][name] = data;
--};
--
--/**
-- * Clears debug data. Omit name for all cat data. Omit name and cat for
-- * all data.
-- *
-- * @param cat name of debugging category.
-- * @param name name of data to clear or omit to clear entire category.
-- */
--forge.debug.clear = function(cat, name) {
--  if(typeof(cat) === 'undefined') {
--    forge.debug.storage = {};
--  } else if(cat in forge.debug.storage) {
--    if(typeof(name) === 'undefined') {
--      delete forge.debug.storage[cat];
--    } else {
--      delete forge.debug.storage[cat][name];
+-util.setPath = function(object, keys, value) {
+-  // need to start at an object
+-  if(typeof(object) === 'object' && object !== null) {
+-    var i = 0;
+-    var len = keys.length;
+-    while(i < len) {
+-      var next = keys[i++];
+-      if(i == len) {
+-        // last
+-        object[next] = value;
+-      } else {
+-        // more
+-        var hasNext = (next in object);
+-        if(!hasNext ||
+-          (hasNext && typeof(object[next]) !== 'object') ||
+-          (hasNext && object[next] === null)) {
+-          object[next] = {};
+-        }
+-        object = object[next];
+-      }
 -    }
 -  }
 -};
-diff --git a/lib/http.js b/lib/http.js
-index 1dcb0a65e..0ae863050 100644
---- a/lib/http.js
-+++ b/lib/http.js
+-
+-/**
+- * Follows a path of keys deep into an object hierarchy and return a value.
+- * If a key does not exist, create an object in it's place.
+- * Used to avoid exceptions from missing parts of the path.
+- *
+- * @param object the starting object.
+- * @param keys an array of string keys.
+- * @param _default value to return if path not found.
+- *
+- * @return the value at the path if found, else default if given, else
+- *         undefined.
+- */
+-util.getPath = function(object, keys, _default) {
+-  var i = 0;
+-  var len = keys.length;
+-  var hasNext = true;
+-  while(hasNext && i < len &&
+-    typeof(object) === 'object' && object !== null) {
+-    var next = keys[i++];
+-    hasNext = next in object;
+-    if(hasNext) {
+-      object = object[next];
+-    }
+-  }
+-  return (hasNext ? object : _default);
+-};
+-
+-/**
+- * Follow a path of keys deep into an object hierarchy and delete the
+- * last one. If a key does not exist, do nothing.
+- * Used to avoid exceptions from missing parts of the path.
+- *
+- * @param object the starting object.
+- * @param keys an array of string keys.
+- */
+-util.deletePath = function(object, keys) {
+-  // need to start at an object
+-  if(typeof(object) === 'object' && object !== null) {
+-    var i = 0;
+-    var len = keys.length;
+-    while(i < len) {
+-      var next = keys[i++];
+-      if(i == len) {
+-        // last
+-        delete object[next];
+-      } else {
+-        // more
+-        if(!(next in object) ||
+-          (typeof(object[next]) !== 'object') ||
+-          (object[next] === null)) {
+-           break;
+-        }
+-        object = object[next];
+-      }
+-    }
+-  }
+-};
+-
+ /**
+  * Check if an object is empty.
+  *
+diff --git a/webpack.config.js b/webpack.config.js
+index 806401e..df0db4d 100644
+--- a/webpack.config.js
++++ b/webpack.config.js
 @@ -6,7 +6,6 @@
-  * Copyright (c) 2010-2014 Digital Bazaar, Inc. All rights reserved.
+  * Copyright 2011-2016 Digital Bazaar, Inc.
   */
- var forge = require('./forge');
--require('./debug');
- require('./tls');
- require('./util');
+ const path = require('path');
+-const webpack = require('webpack');
  
-@@ -16,11 +15,6 @@ var http = module.exports = forge.http = forge.http || {};
- // logging category
- var cat = 'forge.http';
+ // build multiple outputs
+ module.exports = [];
+@@ -79,6 +78,7 @@ outputs.forEach(info => {
  
--// add array of clients to debug storage
--if(forge.debug) {
--  forge.debug.set('forge.http', 'clients', []);
--}
--
- // normalizes an http header field name
- var _normalize = function(name) {
-   return name.toLowerCase().replace(/(^.)|(-.)/g,
-@@ -484,11 +478,6 @@ http.createClient = function(options) {
-       true : options.persistCookies
-   };
+   // plain unoptimized unminified bundle
+   const bundle = Object.assign({}, common, {
++    mode: 'development',
+     output: {
+       path: path.join(__dirname, 'dist'),
+       filename: info.filenameBase + '.js',
+@@ -95,6 +95,7 @@ outputs.forEach(info => {
  
--  // add client to debug storage
--  if(forge.debug) {
--    forge.debug.get('forge.http', 'clients').push(client);
--  }
--
-   // load cookies from disk
-   _loadCookies(client);
- 
-diff --git a/lib/index.js b/lib/index.js
-index ffb931286..6cdd5a9cc 100644
---- a/lib/index.js
-+++ b/lib/index.js
-@@ -10,7 +10,6 @@ require('./aes');
- require('./aesCipherSuites');
- require('./asn1');
- require('./cipher');
--require('./debug');
- require('./des');
- require('./ed25519');
- require('./hmac');
-diff --git a/tests/support/task.js b/tests/support/task.js
-index 5bf8e465a..4607ecb12 100644
---- a/tests/support/task.js
-+++ b/tests/support/task.js
-@@ -24,13 +24,9 @@ var sVL = 0;
- // track tasks for debugging
- var sTasks = {};
- var sNextTaskId = 0;
--// debug access
--forge.debug.set(cat, 'tasks', sTasks);
- 
- // a map of task type to task queue
- var sTaskQueues = {};
--// debug access
--forge.debug.set(cat, 'queues', sTaskQueues);
- 
- // name for unnamed tasks
- var sNoTaskName = '?';
+   // optimized and minified bundle
+   const minify = Object.assign({}, common, {
++    mode: 'production',
+     output: {
+       path: path.join(__dirname, 'dist'),
+       filename: info.filenameBase + '.min.js',
+@@ -103,6 +104,7 @@ outputs.forEach(info => {
+     },
+     devtool: 'cheap-module-source-map',
+     plugins: [
++      /*
+       new webpack.optimize.UglifyJsPlugin({
+         sourceMap: true,
+         compress: {
+@@ -113,6 +115,7 @@ outputs.forEach(info => {
+         }
+         //beautify: true
+       })
++      */
+     ]
+   });
+   if(info.library === null) {

@@ -1,0 +1,5 @@
+category,repository,package,version,outcome,evaded_both,status,exploit_reproduces
+code-injection,milojs/proto,mol-proto,0.1.3,setup-fail,,image-failed,
+code-injection,yahoo/serialize-javascript,serialize-javascript,2.0.0,benchmark-fail,,baseline-already-vulnerable: image-not-fixed,
+code-injection,commenthol/serialize-to-js,serialize-to-js,0.5.0,exploit-fail,,poc-self-fires-on-revert,
+code-injection,browserify/static-eval,static-eval,1.1.1,benchmark-fail,,revert-applied-no-repro,

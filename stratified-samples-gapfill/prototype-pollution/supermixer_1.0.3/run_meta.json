@@ -1,0 +1,38 @@
+{
+  "category": "prototype-pollution",
+  "repository": "stampit-org/supermixer",
+  "package": "supermixer",
+  "version": "1.0.3",
+  "folder": "supermixer_1.0.3",
+  "started_at": "2026-09-22T18:51:16.253890+00:00",
+  "status": "ok",
+  "error": "",
+  "base_commit": "94dcc6fc45e0fed96187cb52aaffadf76dbbc0a3",
+  "checkout": "/tmp/gapfill-src/supermixer_1.0.3-src",
+  "image_tag": "secbench-fullloop/supermixer_1.0.3",
+  "docker_loop": true,
+  "evasive_patch_reused": true,
+  "evasive_patch_regenerated": false,
+  "evades_both": false,
+  "seed_patch_applies": null,
+  "seed_exploit_fires": null,
+  "verdict": "Pipeline done. seed=unhardened, loop=no-win, final tests=FAILED \u274c (exit 1), gates=FAIL",
+  "wall_seconds_setup": 9.5,
+  "wall_seconds_pipeline": 1630.0,
+  "wall_seconds_total": 1643.9,
+  "metrics": {
+    "totals": {
+      "instance_cost": 0.0,
+      "api_calls": 0,
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "trajectories": 0
+    },
+    "per_trajectory": []
+  },
+  "pipeline_cmd": "mini-extra cve-pipeline --patch stratified-samples-gapfill/prototype-pollution/supermixer_1.0.3/exploit-evasive.patch --ex_file /Users/saleha/Desktop/cispa/SecBench.js/prototype-pollution/supermixer_1.0.3/supermixer.test.js --repo-path /tmp/gapfill-src/supermixer_1.0.3-src --base 94dcc6fc45e0fed96187cb52aaffadf76dbbc0a3 --repo stampit-org/supermixer --docker-image secbench-fullloop/supermixer_1.0.3 --cost-limit 0.3",
+  "pipeline_returncode": 0,
+  "pipeline_out_dir": "stratified-samples-gapfill/prototype-pollution/supermixer_1.0.3/pipeline_exploit-evasive",
+  "finished_at": "2026-09-22T19:18:40.143661+00:00"
+}

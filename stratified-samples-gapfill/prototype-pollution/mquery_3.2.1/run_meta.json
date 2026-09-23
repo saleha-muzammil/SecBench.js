@@ -1,0 +1,38 @@
+{
+  "category": "prototype-pollution",
+  "repository": "aheckmann/mquery",
+  "package": "mquery",
+  "version": "3.2.1",
+  "folder": "mquery_3.2.1",
+  "started_at": "2026-09-22T09:01:36.476376+00:00",
+  "status": "pipeline-rc-1",
+  "error": "",
+  "base_commit": "158f059e058579d2d08c2f1380689f5f69336778",
+  "checkout": "/tmp/gapfill-src/mquery_3.2.1-src",
+  "image_tag": "secbench-fullloop/mquery_3.2.1",
+  "docker_loop": true,
+  "evasive_patch_reused": true,
+  "evasive_patch_regenerated": false,
+  "evades_both": false,
+  "seed_patch_applies": null,
+  "seed_exploit_fires": null,
+  "verdict": "",
+  "wall_seconds_setup": 15.6,
+  "wall_seconds_pipeline": 636.2,
+  "wall_seconds_total": 652.5,
+  "metrics": {
+    "totals": {
+      "instance_cost": 0.0,
+      "api_calls": 0,
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "trajectories": 0
+    },
+    "per_trajectory": []
+  },
+  "pipeline_cmd": "mini-extra cve-pipeline --patch stratified-samples-gapfill/prototype-pollution/mquery_3.2.1/exploit-evasive.patch --ex_file /Users/saleha/Desktop/cispa/SecBench.js/prototype-pollution/mquery_3.2.1/mquery.test.js --repo-path /tmp/gapfill-src/mquery_3.2.1-src --base 158f059e058579d2d08c2f1380689f5f69336778 --repo aheckmann/mquery --docker-image secbench-fullloop/mquery_3.2.1 --cost-limit 0.3",
+  "pipeline_returncode": 1,
+  "pipeline_out_dir": "stratified-samples-gapfill/prototype-pollution/mquery_3.2.1/pipeline_exploit-evasive",
+  "finished_at": "2026-09-22T09:12:28.931029+00:00"
+}

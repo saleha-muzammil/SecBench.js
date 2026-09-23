@@ -40,7 +40,8 @@ from generate_dockerfile import (
 OUTPUT_NAME = "Dockerfile.fixed"
 
 
-def render_fixed(entry, node, allow_npm_fallback=False, scanners=True):
+def render_fixed(entry, node, allow_npm_fallback=False, scanners=True,
+                 prefer_tag=False):
     """Render a Dockerfile for the patched version; returns (build_path, text)."""
     fixed = entry["fixed_version"]
     flag = (FLAG_HTML.replace("\\", "\\\\")
@@ -74,8 +75,36 @@ def render_fixed(entry, node, allow_npm_fallback=False, scanners=True):
         return (f'git checkout -q "{ref}" '
                 f'|| {{ git fetch -q --depth 1 origin "{ref}" && git checkout -q FETCH_HEAD; }}')
 
+    # ...except when the advisory's sha turns out NOT to be the fix. Mining fix
+    # commits from GHSA/Snyk yields, often enough to matter, a commit that is a
+    # release bump, one of several commits in the fix, a PR-branch commit, or the
+    # fix for a DIFFERENT CVE in the same package. The fixed image then sits on a
+    # still-vulnerable tree and the entry dies as
+    # `baseline-already-vulnerable: image-not-fixed`. Measured across the
+    # campaign CSVs: 14 of 17 such entries had a fixed image whose package.json
+    # version was BELOW fixedVersion, and 8 of those sat on the exact version the
+    # vulnerable image uses (all five path-traversal entries among them).
+    #
+    # --prefer-tag flips the order for those entries: the published release that
+    # the advisory says is fixed is the ground truth about whether the bug is
+    # closed, whereas the mined sha is a guess about where it was closed. The
+    # cost is that patch.txt no longer reverse-applies against its own parent
+    # tree, which apply_revert()'s 3way/whitespace/-C1/GNU-patch ladder absorbs.
     tag_clause = f'git checkout -q "v{fixed}" || git checkout -q "{fixed}"'
-    if sha:
+    # Repos that never tagged the fixed release (angular-http-server, hostr,
+    # m-server, cejs, ...) leave --prefer-tag with nothing to prefer. package.json
+    # may then name `fixedReleaseCommit`: the commit whose package.json first
+    # reads fixedVersion, resolved from upstream history rather than mined from
+    # an advisory. Tried after the tag and before the advisory's fix commit.
+    release_sha = entry.get("fixed_release_sha", "")
+    if release_sha and prefer_tag:
+        tag_clause = f'{tag_clause} || {_resolve(release_sha)}'
+    if sha and prefer_tag:
+        checkout_clause = f'{tag_clause} || {_resolve(sha)}'
+        checkout_desc = (f"tag v{fixed}"
+                         + (f" / release commit {release_sha[:10]}" if release_sha else "")
+                         + f" / commit {sha[:10]}")
+    elif sha:
         checkout_clause = f'{_resolve(sha)} || {tag_clause}'
         checkout_desc = f"commit {sha[:10]} / tag v{fixed}"
     else:
@@ -124,6 +153,12 @@ def main():
                     help="when the fix commit / version tag is missing, install from "
                          "npm instead of failing the build (default: fail loudly, so "
                          "the fixed baseline is never silently the wrong tree)")
+    ap.add_argument("--prefer-tag", action="store_true",
+                    help="check out the fixed RELEASE TAG before the mined fix "
+                         "commit (default: sha first). Use when the advisory's "
+                         "fix_commit_sha lands on a still-vulnerable tree -- the "
+                         "symptom is 'baseline-already-vulnerable: image-not-fixed' "
+                         "with an installed version below fixedVersion")
     ap.add_argument("--no-scanners", dest="scanners", action="store_false",
                     help="omit semgrep and the CodeQL CLI. They are ON by default "
                          "here because this is the image the evasion pipeline runs "
@@ -180,7 +215,8 @@ def main():
             continue
 
         _, dockerfile = render_fixed(entry, args.node, args.allow_npm_fallback,
-                                     scanners=args.scanners)
+                                     scanners=args.scanners,
+                                     prefer_tag=args.prefer_tag)
 
         if args.print_only:
             print(f"\n# ===== {build_path}/{OUTPUT_NAME} =====")

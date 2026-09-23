@@ -1,0 +1,2 @@
+category,folder,package,version,status,verdict,seed_exploit_fires,evades_both,evasive_patch_regenerated,base_commit,instance_cost,api_calls,prompt_tokens,completion_tokens,total_tokens,trajectories,wall_seconds_setup,wall_seconds_pipeline,wall_seconds_total,error
+command-injection,total.js_3.4.6,total.js,3.4.6,pipeline-rc-1,,,True,False,6192491ab263,0.0,0,0,0,0,0,2.1,2215.3,2218.7,

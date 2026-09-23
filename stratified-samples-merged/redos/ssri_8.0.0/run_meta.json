@@ -1,0 +1,55 @@
+{
+  "category": "redos",
+  "repository": "npm/ssri",
+  "package": "ssri",
+  "version": "8.0.0",
+  "folder": "ssri_8.0.0",
+  "started_at": "2026-09-16T22:44:11.827688+00:00",
+  "status": "ok",
+  "error": "",
+  "base_commit": "76e223317d971f19e4db8191865bdad5edee40d2",
+  "checkout": "/tmp/ssri_8.0.0-src",
+  "image_tag": "secbench-fullloop/ssri_8.0.0",
+  "docker_loop": true,
+  "evasive_patch_reused": true,
+  "evasive_patch_regenerated": false,
+  "evades_both": true,
+  "seed_patch_applies": null,
+  "seed_exploit_fires": null,
+  "verdict": "Pipeline done. seed=hardened, loop=SUCCESS, final tests=NO NEW FAILURES \u2705 (baseline 0 failing, still 0; pre-existing failures ignored), gates=PASS, final_gate=['SOLVED']",
+  "wall_seconds_setup": 20.0,
+  "wall_seconds_pipeline": 1164.9,
+  "wall_seconds_total": 1186.3,
+  "metrics": {
+    "totals": {
+      "instance_cost": 0.039965,
+      "api_calls": 70,
+      "prompt_tokens": 1421418,
+      "completion_tokens": 46235,
+      "total_tokens": 1467653,
+      "trajectories": 2
+    },
+    "per_trajectory": [
+      {
+        "file": "issue/iter_2/adopt/run_1/trajectory.traj.json",
+        "instance_cost": 0.021054,
+        "api_calls": 34,
+        "prompt_tokens": 789857,
+        "completion_tokens": 25506,
+        "total_tokens": 815363
+      },
+      {
+        "file": "solve_gate/run_1/trajectory.traj.json",
+        "instance_cost": 0.018911,
+        "api_calls": 36,
+        "prompt_tokens": 631561,
+        "completion_tokens": 20729,
+        "total_tokens": 652290
+      }
+    ]
+  },
+  "pipeline_cmd": "mini-extra cve-pipeline --patch stratified-samples-full-loop-judge14/redos/ssri_8.0.0/exploit-evasive.patch --ex_file /Users/saleha/Desktop/cispa/SecBench.js/redos/ssri_8.0.0/ssri.test.js --repo-path /tmp/ssri_8.0.0-src --base 76e223317d971f19e4db8191865bdad5edee40d2 --repo redos/ssri_8.0.0 --docker-image secbench-fullloop/ssri_8.0.0 --max-iterations 5 --cost-limit 0.3 --no-run-codegen --gate-in-loop --gate-runs 1 --revise-iterations 2",
+  "pipeline_returncode": 0,
+  "pipeline_out_dir": "stratified-samples-full-loop-judge14/redos/ssri_8.0.0/pipeline_exploit-evasive",
+  "finished_at": "2026-09-16T23:03:58.109873+00:00"
+}

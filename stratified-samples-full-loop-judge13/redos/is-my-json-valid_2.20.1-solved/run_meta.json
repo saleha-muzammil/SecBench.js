@@ -1,0 +1,55 @@
+{
+  "category": "redos",
+  "repository": "mafintosh/is-my-json-valid",
+  "package": "is-my-json-valid",
+  "version": "2.20.1",
+  "folder": "is-my-json-valid_2.20.1",
+  "started_at": "2026-09-15T12:27:34.005049+00:00",
+  "status": "ok",
+  "error": "",
+  "base_commit": "c3fc04fc455d40e9b29537f8e2c73a28ce106edb",
+  "checkout": "/tmp/is-my-json-valid_2.20.1-src",
+  "image_tag": "secbench-fullloop/is-my-json-valid_2.20.1",
+  "docker_loop": true,
+  "evasive_patch_reused": true,
+  "evasive_patch_regenerated": false,
+  "evades_both": true,
+  "seed_patch_applies": null,
+  "seed_exploit_fires": null,
+  "verdict": "Pipeline done. seed=hardened, loop=SUCCESS, final tests=NO NEW FAILURES \u2705 (baseline 0 failing, still 0; pre-existing failures ignored), gates=PASS, final_gate=['SOLVED']",
+  "wall_seconds_setup": 18.9,
+  "wall_seconds_pipeline": 947.1,
+  "wall_seconds_total": 966.7,
+  "metrics": {
+    "totals": {
+      "instance_cost": 0.013721,
+      "api_calls": 43,
+      "prompt_tokens": 474060,
+      "completion_tokens": 7146,
+      "total_tokens": 481206,
+      "trajectories": 2
+    },
+    "per_trajectory": [
+      {
+        "file": "issue/iter_5/adopt/run_1/trajectory.traj.json",
+        "instance_cost": 0.003546,
+        "api_calls": 15,
+        "prompt_tokens": 122600,
+        "completion_tokens": 2671,
+        "total_tokens": 125271
+      },
+      {
+        "file": "solve_gate/run_1/trajectory.traj.json",
+        "instance_cost": 0.010176,
+        "api_calls": 28,
+        "prompt_tokens": 351460,
+        "completion_tokens": 4475,
+        "total_tokens": 355935
+      }
+    ]
+  },
+  "pipeline_cmd": "mini-extra cve-pipeline --patch stratified-samples-full-loop-judge13/redos/is-my-json-valid_2.20.1/exploit-evasive.patch --ex_file /Users/saleha/Desktop/cispa/SecBench.js/redos/is-my-json-valid_2.20.1/is-my-json-valid.test.js --repo-path /tmp/is-my-json-valid_2.20.1-src --base c3fc04fc455d40e9b29537f8e2c73a28ce106edb --repo redos/is-my-json-valid_2.20.1 --docker-image secbench-fullloop/is-my-json-valid_2.20.1 --max-iterations 5 --cost-limit 0.3 --no-run-codegen --gate-in-loop --gate-runs 1 --revise-iterations 2",
+  "pipeline_returncode": 0,
+  "pipeline_out_dir": "stratified-samples-full-loop-judge13/redos/is-my-json-valid_2.20.1/pipeline_exploit-evasive",
+  "finished_at": "2026-09-15T12:43:40.742872+00:00"
+}

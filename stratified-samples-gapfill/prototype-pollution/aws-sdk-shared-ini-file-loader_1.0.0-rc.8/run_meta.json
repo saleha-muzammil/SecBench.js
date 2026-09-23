@@ -1,0 +1,38 @@
+{
+  "category": "prototype-pollution",
+  "repository": "aws/aws-sdk-js",
+  "package": "@aws-sdk/shared-ini-file-loader",
+  "version": "1.0.0-rc.8",
+  "folder": "aws-sdk-shared-ini-file-loader_1.0.0-rc.8",
+  "started_at": "2026-09-22T05:21:47.561968+00:00",
+  "status": "pipeline-rc-1",
+  "error": "",
+  "base_commit": "a209082dff913939672bb069964b33aa4c5409a9",
+  "checkout": "/tmp/gapfill-src/aws-sdk-shared-ini-file-loader_1.0.0-rc.8-src",
+  "image_tag": "secbench-fullloop/aws-sdk-shared-ini-file-loader_1.0.0-rc.8",
+  "docker_loop": true,
+  "evasive_patch_reused": true,
+  "evasive_patch_regenerated": false,
+  "evades_both": false,
+  "seed_patch_applies": null,
+  "seed_exploit_fires": null,
+  "verdict": "",
+  "wall_seconds_setup": 683.2,
+  "wall_seconds_pipeline": 8493.4,
+  "wall_seconds_total": 9184.4,
+  "metrics": {
+    "totals": {
+      "instance_cost": 0.0,
+      "api_calls": 0,
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "trajectories": 0
+    },
+    "per_trajectory": []
+  },
+  "pipeline_cmd": "mini-extra cve-pipeline --patch stratified-samples-gapfill/prototype-pollution/aws-sdk-shared-ini-file-loader_1.0.0-rc.8/exploit-evasive.patch --ex_file /Users/saleha/Desktop/cispa/SecBench.js/prototype-pollution/aws-sdk-shared-ini-file-loader_1.0.0-rc.8/aws-sdk-shared-ini-file-loader.test.js --repo-path /tmp/gapfill-src/aws-sdk-shared-ini-file-loader_1.0.0-rc.8-src --base a209082dff913939672bb069964b33aa4c5409a9 --repo aws/aws-sdk-js --docker-image secbench-fullloop/aws-sdk-shared-ini-file-loader_1.0.0-rc.8 --cost-limit 0.3",
+  "pipeline_returncode": 1,
+  "pipeline_out_dir": "stratified-samples-gapfill/prototype-pollution/aws-sdk-shared-ini-file-loader_1.0.0-rc.8/pipeline_exploit-evasive",
+  "finished_at": "2026-09-22T07:54:51.912194+00:00"
+}

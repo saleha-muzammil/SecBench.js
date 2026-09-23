@@ -9,5 +9,6 @@
   },
   "fixedVersion": "n/a",
   "fixCommit": "https://github.com/jsdom/whatwg-mimetype/commit/26c539a699778f8743b8319c298b5fb28a4328d0",
-  "sink": "content-type-parser.js:61:46"
+  "sink": "content-type-parser.js:61:46",
+  "fixedVersionNote": "No fixed release exists. npm deprecates the package with \"Use whatwg-mimetype instead\", and 1.0.2 -- the last version ever published -- still reproduces the PoC at ~2.0 s (1.0.1: 1.98 s). There is no vulnerable/fixed pair to build here, so fixedVersion stays n/a and no Dockerfile.fixed is generated. Retire the entry or re-target it at whatwg-mimetype, which is a different package with a different API and would need a new PoC."
 }

@@ -1,0 +1,23 @@
+From 015a719bf5cdc561feea05500ecb3274ef609cd2 Mon Sep 17 00:00:00 2001
+From: Alcaro <floating@muncher.se>
+Date: Wed, 25 Sep 2019 22:55:54 +0200
+Subject: [PATCH] Fix ReDoS with autolink
+
+Patterns like <<<<<<<<<<:/:/:/:/:/:/:/:/:/:/ currently exhibit O(n^3) complexity, allowing a 5KB document to take 7174ms to parse. With this change, it drops to O(n^2) and 73ms.
+---
+ simple-markdown.js | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/simple-markdown.js b/simple-markdown.js
+index 3828dcc..80015c5 100644
+--- a/simple-markdown.js
++++ b/simple-markdown.js
+@@ -1316,7 +1316,7 @@ var defaultRules /* : DefaultRules */ = {
+     },
+     autolink: {
+         order: currOrder++,
+-        match: inlineRegex(/^<([^ >]+:\/[^ >]+)>/),
++        match: inlineRegex(/^<([^: >]+:\/[^ >]+)>/),
+         parse: function(capture, parse, state) {
+             return {
+                 type: "link",

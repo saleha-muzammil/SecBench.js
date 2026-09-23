@@ -1,5 +1,5 @@
 === command-injection/growl_1.9.0 ===
-image: using existing image
+image: built image
 baseline (clean fixed tree): repo CI = no-script
 baseline (clean fixed tree): exploit test = FAIL (vuln closed, good)
 baseline: test FAILS on fixed tree (good).
@@ -37,9 +37,10 @@ codeql on minimal variant (after chunking): 24 finding(s), 23 NEW vs fixed basel
     ! js/shell-command-constructed-from-input @ lib/growl.js:273: This array element which depends on [library input](1) is later used in a [shell command](2).
     ! js/shell-command-constructed-from-input @ lib/growl.js:274: This array element which depends on [library input](1) is later used in a [shell command](2).
     ! js/shell-command-constructed-from-input @ lib/growl.js:282: This array element which depends on [library input](1) is later used in a [shell command](2). This array element which …
-selecting rewrites from the rules that actually fired: exports->launder <- 'library input', params->launder <- 'library input', methods->launder <- 'library input', source->launder <- 'library input', source->launder+index <- 'library input', shell-arg->launder <- 'js/shell-command-constructed-from-input', require-member->hidden <- 'js/shell-command-constructed-from-input', shell-sink->hidden-member <- 'js/shell-command-constructed-from-input', require-module->dynamic <- 'js/shell-command-constructed-from-input'
+selecting rewrites from the rules that actually fired: exports->launder <- 'library input', params->launder <- 'library input', methods->launder <- 'library input', source->launder <- 'library input', source->launder+index <- 'library input', params->arg-guard <- 'js/shell-command-constructed-from-input', shell-arg->launder <- 'js/shell-command-constructed-from-input', require-member->hidden <- 'js/shell-command-constructed-from-input', shell-sink->hidden-member <- 'js/shell-command-constructed-from-input', require-module->dynamic <- 'js/shell-command-constructed-from-input'
   exports->launder: test PASSES, semgrep 1 finding(s) (0 new), codeql new 23
   methods->launder: matched nothing -> skipped
+  params->arg-guard: test PASSES, semgrep 1 finding(s) (0 new), codeql new 23
   params->launder: test PASSES, semgrep 1 finding(s) (0 new), codeql new 23
   source->launder: test PASSES, semgrep 1 finding(s) (0 new), codeql new 23
   source->launder+index: test PASSES, semgrep 1 finding(s) (0 new), codeql new 23

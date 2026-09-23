@@ -36,9 +36,22 @@
   },
   "codeql": {
     "fixed_total": 0,
-    "new_full": 0,
-    "new_minimal": 0,
-    "new_final": []
+    "new_full": 2,
+    "new_minimal": 2,
+    "new_final": [
+      {
+        "rule": "js/unsafe-code-construction",
+        "message": "This string concatenation which depends on [library input](1) is later [interpreted as code](2).",
+        "path": "class.js",
+        "line": 26
+      },
+      {
+        "rule": "js/unsafe-code-construction",
+        "message": "This string concatenation which depends on [library input](1) is later [interpreted as code](2).",
+        "path": "class.js",
+        "line": 26
+      }
+    ]
   },
-  "detected_by": "semgrep"
+  "detected_by": "both"
 }

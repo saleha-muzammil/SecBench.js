@@ -1,0 +1,38 @@
+{
+  "category": "prototype-pollution",
+  "repository": "eivindfjeldstad/dot",
+  "package": "@eivifj/dot",
+  "version": "1.0.2",
+  "folder": "eivifj-dot_1.0.2",
+  "started_at": "2026-09-15T05:41:15.197868+00:00",
+  "status": "ok",
+  "error": "",
+  "base_commit": "774e4b0c97ca35d2ae40df2cd14428d37dd07a0b",
+  "checkout": "/tmp/eivifj-dot_1.0.2-src",
+  "image_tag": "secbench-fullloop/eivifj-dot_1.0.2",
+  "docker_loop": true,
+  "evasive_patch_reused": true,
+  "evasive_patch_regenerated": false,
+  "evades_both": true,
+  "seed_patch_applies": null,
+  "seed_exploit_fires": null,
+  "verdict": "Pipeline done. seed=unhardened, loop=no-win, final tests=FAILED \u274c (exit 1), gates=FAIL",
+  "wall_seconds_setup": 14.4,
+  "wall_seconds_pipeline": 2656.3,
+  "wall_seconds_total": 2671.0,
+  "metrics": {
+    "totals": {
+      "instance_cost": 0.0,
+      "api_calls": 0,
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "trajectories": 0
+    },
+    "per_trajectory": []
+  },
+  "pipeline_cmd": "mini-extra cve-pipeline --patch stratified-samples-full-loop-judge8/prototype-pollution/eivifj-dot_1.0.2/exploit-evasive.patch --ex_file /Users/saleha/Desktop/cispa/SecBench.js/prototype-pollution/eivifj-dot_1.0.2/eivifj-dot.test.js --repo-path /tmp/eivifj-dot_1.0.2-src --base 774e4b0c97ca35d2ae40df2cd14428d37dd07a0b --repo prototype-pollution/eivifj-dot_1.0.2 --docker-image secbench-fullloop/eivifj-dot_1.0.2 --max-iterations 5 --cost-limit 0.3 --no-run-codegen --gate-in-loop --gate-runs 1 --revise-iterations 2",
+  "pipeline_returncode": 0,
+  "pipeline_out_dir": "stratified-samples-full-loop-judge8/prototype-pollution/eivifj-dot_1.0.2/pipeline_exploit-evasive",
+  "finished_at": "2026-09-15T06:25:46.155437+00:00"
+}

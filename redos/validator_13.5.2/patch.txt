@@ -1,33 +1,90 @@
-From b21879cf45c05ee11b2d79e612b651bf7b2d93b7 Mon Sep 17 00:00:00 2001
-From: Sarhan <sarhanaissi@gmail.com>
-Date: Mon, 27 Sep 2021 11:19:08 +0100
-Subject: [PATCH] fix(rtrim): remove regex to prevent ReDOS attack
+From 2a3a1c33607698d69fc788c3b9efddffa6195193 Mon Sep 17 00:00:00 2001
+From: Anthony Nandaa <profnandaa@gmail.com>
+Date: Sun, 18 Apr 2021 22:20:08 +0300
+Subject: [PATCH] 13.6.0
 
 ---
- src/lib/rtrim.js | 15 ++++++++++++---
- 1 file changed, 12 insertions(+), 3 deletions(-)
+ CHANGELOG.md | 45 ++++++++++++++++++++++++++++++++++++++++++++-
+ package.json |  2 +-
+ src/index.js |  2 +-
+ 3 files changed, 46 insertions(+), 3 deletions(-)
 
-diff --git a/src/lib/rtrim.js b/src/lib/rtrim.js
-index d10aaa9de..2d311574b 100644
---- a/src/lib/rtrim.js
-+++ b/src/lib/rtrim.js
-@@ -2,7 +2,16 @@ import assertString from './util/assertString';
- 
- export default function rtrim(str, chars) {
-   assertString(str);
--  // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions#Escaping
--  const pattern = chars ? new RegExp(`[${chars.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}]+$`, 'g') : /(\s)+$/g;
--  return str.replace(pattern, '');
-+  if (chars) {
-+    // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions#Escaping
-+    const pattern = new RegExp(`[${chars.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}]+$`, 'g');
-+    return str.replace(pattern, '');
-+  }
-+  // Use a faster and more safe than regex trim method https://blog.stevenlevithan.com/archives/faster-trim-javascript
-+  let strIndex = str.length - 1;
-+  while (/\s/.test(str.charAt(strIndex))) {
-+    strIndex -= 1;
-+  }
+diff --git a/CHANGELOG.md b/CHANGELOG.md
+index 865459dd6..4608e74ae 100644
+--- a/CHANGELOG.md
++++ b/CHANGELOG.md
+@@ -1,4 +1,47 @@
+-#### ~13.5.0~ 13.5.1
++#### 13.6.0
 +
-+  return str.slice(0, strIndex + 1);
- }
++- **New features**:
++  - [#1495](https://github.com/validatorjs/validator.js/pull/1495) `isLicensePlate` @firlus
++
++- **Fixes and Enhancements**:
++  - [#1644](https://github.com/validatorjs/validator.js/pull/1644) `isURL`: Allow URLs to have only a username in the userinfo subcomponent @jbuchmann-coosto
++  - [#1633](https://github.com/validatorjs/validator.js/pull/1633) `isISIN`: optimization @bmacnaughton
++  - [#1632](https://github.com/validatorjs/validator.js/pull/1632) `isIP`: improved pattern for IPv4 and IPv6 @ognjenjevremovic
++  - [#1625](https://github.com/validatorjs/validator.js/pull/1625) fix `[A-z]` regex range on some validators @bmacnaughton
++  - [#1620](https://github.com/validatorjs/validator.js/pull/1620) fix docs @prahaladbelavadi
++  - [#1616](https://github.com/validatorjs/validator.js/pull/1616) `isMacAddress`: improve regexes and options @fedeci
++  - [#1603](https://github.com/validatorjs/validator.js/pull/1603) fix ReDOS vulnerabilities in `isSlug` and `rtrim` @fedeci
++  - [#1594](https://github.com/validatorjs/validator.js/pull/1594) `isIPRange`: add support for IPv6 @neilime
++  - [#1577](https://github.com/validatorjs/validator.js/pull/1577) `isEAN`: add support for EAN-14 @varsubham @tux-tn
++  - [#1566](https://github.com/validatorjs/validator.js/pull/1566) `isStrongPassword`: add `@` as a valid symbol @stingalleman
++  - [#1548](https://github.com/validatorjs/validator.js/pull/1548) `isBtcAddress`: add base58 @ezkemboi
++  - [#1546](https://github.com/validatorjs/validator.js/pull/1546) `isFQDN`: numeric domain names @tux-tn
++
++- **New and Improved locales**:
++  - `isIdentityCard`, `isPassportNumber`:
++    - [#1595](https://github.com/validatorjs/validator.js/pull/1595) `IR` @mhf-ir @fedeci
++    - [#1583](https://github.com/validatorjs/validator.js/pull/1583) `ar-LY` @asghaier76 @tux-tn
++    - [#1574](https://github.com/validatorjs/validator.js/pull/1574) `MY` @stranger26 @tux-tn
++  - `isMobilePhone`:
++    - [#1642](https://github.com/validatorjs/validator.js/pull/1642) `zh-CN` @Akira0705
++    - [#1638](https://github.com/validatorjs/validator.js/pull/1638) `lv-LV` @AntonLukichev
++    - [#1635](https://github.com/validatorjs/validator.js/pull/1635) `en-GH` @ankorGH
++    - [#1604](https://github.com/validatorjs/validator.js/pull/1604) `mz-MZ` @salmento @tux-tn
++    - [#1575](https://github.com/validatorjs/validator.js/pull/1575) `vi-VN` @kyled7
++    - [#1573](https://github.com/validatorjs/validator.js/pull/1573) `en-SG` @liliwei25
++    - [#1554](https://github.com/validatorjs/validator.js/pull/1554) `de-CH`, `fr-CH`, `it-CH` @dinfekted
++    - [#1541](https://github.com/validatorjs/validator.js/pull/1541) [#1623](https://github.com/validatorjs/validator.js/pull/1623) `es-CO` @ezkemboi @tux-tn
++    - [#1506](https://github.com/validatorjs/validator.js/pull/1506) `ar-OM` @dev-sna
++    - [#1505](https://github.com/validatorjs/validator.js/pull/1505) `pt-AO` @AdilsonFuxe
++  - `isPostalCode`:
++    - [#1628](https://github.com/validatorjs/validator.js/pull/1628) `KR` @greatSumini
++  - `isTaxID`:
++    - [#1613](https://github.com/validatorjs/validator.js/pull/1613) `pt-BR` @mschunke
++    - [#1529](https://github.com/validatorjs/validator.js/pull/1529) `el-GR` @dspinellis
++  - `isVAT`:
++    - [#1536](https://github.com/validatorjs/validator.js/pull/1536) `IT` @fedeci
++
++#### ~~13.5.0~~ 13.5.1
+ 
+ - **New features**:
+   - `isVAT` [#1463](https://github.com/validatorjs/validator.js/pull/1463) @ CodingNagger
+diff --git a/package.json b/package.json
+index 8122a7f64..324f80936 100644
+--- a/package.json
++++ b/package.json
+@@ -1,7 +1,7 @@
+ {
+   "name": "validator",
+   "description": "String validation and sanitization",
+-  "version": "13.5.1",
++  "version": "13.6.0",
+   "sideEffects": false,
+   "homepage": "https://github.com/validatorjs/validator.js",
+   "files": [
+diff --git a/src/index.js b/src/index.js
+index e91c582da..675947481 100644
+--- a/src/index.js
++++ b/src/index.js
+@@ -120,7 +120,7 @@ import isStrongPassword from './lib/isStrongPassword';
+ 
+ import isVAT from './lib/isVAT';
+ 
+-const version = '13.5.1';
++const version = '13.6.0';
+ 
+ const validator = {
+   version,

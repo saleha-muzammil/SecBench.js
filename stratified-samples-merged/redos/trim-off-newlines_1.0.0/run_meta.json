@@ -1,0 +1,55 @@
+{
+  "category": "redos",
+  "repository": "stevemao/trim-off-newlines",
+  "package": "trim-off-newlines",
+  "version": "1.0.0",
+  "folder": "trim-off-newlines_1.0.0",
+  "started_at": "2026-09-20T19:54:14.996018+00:00",
+  "status": "ok",
+  "error": "",
+  "base_commit": "6226c958cbbac284a840010eb1f6617fb99a5645",
+  "checkout": "/tmp/trim-off-newlines_1.0.0-src",
+  "image_tag": "secbench-fullloop/trim-off-newlines_1.0.0",
+  "docker_loop": true,
+  "evasive_patch_reused": true,
+  "evasive_patch_regenerated": false,
+  "evades_both": false,
+  "seed_patch_applies": null,
+  "seed_exploit_fires": null,
+  "verdict": "Pipeline done. seed=hardened, loop=no-win, final tests=FAILED \u274c (exit 7), gates=PASS, final_gate=['SOLVED_SAFE']",
+  "wall_seconds_setup": 2.8,
+  "wall_seconds_pipeline": 1663.0,
+  "wall_seconds_total": 1667.0,
+  "metrics": {
+    "totals": {
+      "instance_cost": 0.010462,
+      "api_calls": 39,
+      "prompt_tokens": 555014,
+      "completion_tokens": 38038,
+      "total_tokens": 593052,
+      "trajectories": 2
+    },
+    "per_trajectory": [
+      {
+        "file": "issue/iter_1/adopt/run_1/trajectory.traj.json",
+        "instance_cost": 0.005242,
+        "api_calls": 13,
+        "prompt_tokens": 238546,
+        "completion_tokens": 23042,
+        "total_tokens": 261588
+      },
+      {
+        "file": "solve_gate/run_1/trajectory.traj.json",
+        "instance_cost": 0.005219,
+        "api_calls": 26,
+        "prompt_tokens": 316468,
+        "completion_tokens": 14996,
+        "total_tokens": 331464
+      }
+    ]
+  },
+  "pipeline_cmd": "mini-extra cve-pipeline --patch stratified-samples-full-loop-judge14/redos/trim-off-newlines_1.0.0/exploit-evasive.patch --ex_file /Users/saleha/Desktop/cispa/SecBench.js/redos/trim-off-newlines_1.0.0/trim-off-newlines.test.js --repo-path /tmp/trim-off-newlines_1.0.0-src --base 6226c958cbbac284a840010eb1f6617fb99a5645 --repo redos/trim-off-newlines_1.0.0 --docker-image secbench-fullloop/trim-off-newlines_1.0.0 --max-iterations 5 --cost-limit 0.3 --no-run-codegen --gate-in-loop --gate-runs 1 --revise-iterations 2",
+  "pipeline_returncode": 0,
+  "pipeline_out_dir": "stratified-samples-full-loop-judge14/redos/trim-off-newlines_1.0.0/pipeline_exploit-evasive",
+  "finished_at": "2026-09-20T20:22:02.042482+00:00"
+}

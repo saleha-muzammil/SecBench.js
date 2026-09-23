@@ -1,0 +1,16 @@
+{
+  "seed": 20260817,
+  "n": 3,
+  "until_success": false,
+  "generated_at": "2026-09-22T05:35:29.039410+00:00",
+  "categories": {
+    "redos": [
+      {
+        "folder": "is-email_1.0.0",
+        "package": "is-email",
+        "version": "1.0.0",
+        "repository": "segmentio/is-email"
+      }
+    ]
+  }
+}

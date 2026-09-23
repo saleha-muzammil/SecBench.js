@@ -1,0 +1,47 @@
+{
+  "category": "prototype-pollution",
+  "repository": "eugeneware/changeset",
+  "package": "changeset",
+  "version": "0.1.0",
+  "folder": "changeset_0.1.0",
+  "started_at": "2026-09-09T21:26:44.484324+00:00",
+  "status": "ok",
+  "error": "",
+  "base_commit": "9e588844edbb9993b32e7366cc799262b4447f99",
+  "checkout": "/tmp/changeset_0.1.0-src",
+  "image_tag": "secbench-fullloop/changeset_0.1.0",
+  "docker_loop": true,
+  "evasive_patch_reused": true,
+  "evasive_patch_regenerated": false,
+  "evades_both": true,
+  "seed_patch_applies": null,
+  "seed_exploit_fires": null,
+  "verdict": "Pipeline done. seed=hardened, loop=SUCCESS, final tests=FAILED \u274c (exit 1), gates=PASS, final_gate=['SOLVED_SAFE']",
+  "wall_seconds_setup": 12.2,
+  "wall_seconds_pipeline": 1183.9,
+  "wall_seconds_total": 1196.3,
+  "metrics": {
+    "totals": {
+      "instance_cost": 0.009372,
+      "api_calls": 12,
+      "prompt_tokens": 92348,
+      "completion_tokens": 3499,
+      "total_tokens": 95847,
+      "trajectories": 1
+    },
+    "per_trajectory": [
+      {
+        "file": "solve_gate/run_1/trajectory.traj.json",
+        "instance_cost": 0.009372,
+        "api_calls": 12,
+        "prompt_tokens": 92348,
+        "completion_tokens": 3499,
+        "total_tokens": 95847
+      }
+    ]
+  },
+  "pipeline_cmd": "mini-extra cve-pipeline --patch stratified-samples-full-loop-judge6/prototype-pollution/changeset_0.1.0/exploit-evasive.patch --ex_file /Users/saleha/Desktop/cispa/SecBench.js/prototype-pollution/changeset_0.1.0/changeset.test.js --repo-path /tmp/changeset_0.1.0-src --base 9e588844edbb9993b32e7366cc799262b4447f99 --repo prototype-pollution/changeset_0.1.0 --docker-image secbench-fullloop/changeset_0.1.0 --max-iterations 3 --cost-limit 0.3 --no-run-codegen --no-gate-in-loop",
+  "pipeline_returncode": 0,
+  "pipeline_out_dir": "stratified-samples-full-loop-judge6/prototype-pollution/changeset_0.1.0/pipeline_exploit-evasive",
+  "finished_at": "2026-09-09T21:46:40.824270+00:00"
+}

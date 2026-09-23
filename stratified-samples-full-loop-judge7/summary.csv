@@ -1,0 +1,2 @@
+category,folder,package,version,status,verdict,seed_exploit_fires,evades_both,evasive_patch_regenerated,base_commit,instance_cost,api_calls,prompt_tokens,completion_tokens,total_tokens,trajectories,wall_seconds_setup,wall_seconds_pipeline,wall_seconds_total,error
+prototype-pollution,undefsafe_2.0.2,undefsafe,2.0.2,ok,"Pipeline done. seed=hardened, loop=no-win, final tests=FAILED ❌ (exit 1), gates=PASS, final_gate=['SOLVED_SAFE']",,True,False,f272681b3a50,0.017117,35,480657,26289,506946,2,5.8,937.9,944.5,

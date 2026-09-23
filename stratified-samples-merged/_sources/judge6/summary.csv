@@ -1,0 +1,2 @@
+category,folder,package,version,status,verdict,seed_exploit_fires,evades_both,evasive_patch_regenerated,base_commit,instance_cost,api_calls,prompt_tokens,completion_tokens,total_tokens,trajectories,wall_seconds_setup,wall_seconds_pipeline,wall_seconds_total,error
+prototype-pollution,putil-merge_3.0.0,putil-merge,3.0.0,ok,"Pipeline done. seed=hardened, loop=SUCCESS, final tests=FAILED ❌ (exit 1), gates=PASS, final_gate=['SOLVED_SAFE']",,True,False,a8f5087faaa0,0.004806,16,153196,6019,159215,1,2.8,353.0,356.4,

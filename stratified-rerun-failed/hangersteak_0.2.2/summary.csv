@@ -1,0 +1,2 @@
+category,folder,package,version,status,verdict,seed_exploit_fires,evades_both,evasive_patch_regenerated,base_commit,instance_cost,api_calls,prompt_tokens,completion_tokens,total_tokens,trajectories,wall_seconds_setup,wall_seconds_pipeline,wall_seconds_total,error
+path-traversal,hangersteak_0.2.2,hangersteak,0.2.2,pipeline-rc-1,,,True,False,9e853cced065,0.0,0,0,0,0,0,4.2,7263.3,7270.0,

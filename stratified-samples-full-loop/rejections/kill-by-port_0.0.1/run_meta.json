@@ -1,0 +1,38 @@
+{
+  "category": "command-injection",
+  "repository": "GuyMograbi/kill-by-port",
+  "package": "kill-by-port",
+  "version": "0.0.1",
+  "folder": "kill-by-port_0.0.1",
+  "started_at": "2026-09-03T22:06:18.350433+00:00",
+  "status": "pipeline-rc-1",
+  "error": "",
+  "base_commit": "ea5b1f377e196a4492e05ff070eba8b30b7372c4",
+  "checkout": "/tmp/kill-by-port_0.0.1-src",
+  "image_tag": "secbench-fullloop/kill-by-port_0.0.1",
+  "docker_loop": true,
+  "evasive_patch_reused": true,
+  "evasive_patch_regenerated": false,
+  "evades_both": true,
+  "seed_patch_applies": null,
+  "seed_exploit_fires": null,
+  "verdict": "",
+  "wall_seconds_setup": 56.1,
+  "wall_seconds_pipeline": 105.4,
+  "wall_seconds_total": 164.3,
+  "metrics": {
+    "totals": {
+      "instance_cost": 0.0,
+      "api_calls": 0,
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "trajectories": 0
+    },
+    "per_trajectory": []
+  },
+  "pipeline_cmd": "mini-extra cve-pipeline --patch stratified-samples-full-loop/command-injection/kill-by-port_0.0.1/exploit-evasive.patch --ex_file /Users/saleha/Desktop/cispa/SecBench.js/command-injection/kill-by-port_0.0.1/kill-by-port.test.js --repo-path /tmp/kill-by-port_0.0.1-src --base ea5b1f377e196a4492e05ff070eba8b30b7372c4 --repo command-injection/kill-by-port_0.0.1 --docker-image secbench-fullloop/kill-by-port_0.0.1 --cost-limit 0.3",
+  "pipeline_returncode": 1,
+  "pipeline_out_dir": "stratified-samples-full-loop/command-injection/kill-by-port_0.0.1/pipeline_exploit-evasive",
+  "finished_at": "2026-09-03T22:09:02.656353+00:00"
+}

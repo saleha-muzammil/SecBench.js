@@ -1,0 +1,55 @@
+{
+  "category": "redos",
+  "repository": "jshttp/forwarded",
+  "package": "forwarded",
+  "version": "0.1.0",
+  "folder": "forwarded_0.1.0",
+  "started_at": "2026-09-18T22:06:10.099524+00:00",
+  "status": "ok",
+  "error": "",
+  "base_commit": "d469116eda4931fbe1c0ccb29497b35930bfa328",
+  "checkout": "/tmp/forwarded_0.1.0-src",
+  "image_tag": "secbench-fullloop/forwarded_0.1.0",
+  "docker_loop": true,
+  "evasive_patch_reused": true,
+  "evasive_patch_regenerated": false,
+  "evades_both": false,
+  "seed_patch_applies": null,
+  "seed_exploit_fires": null,
+  "verdict": "Pipeline done. seed=hardened, loop=SUCCESS, final tests=PASSED \u2705, gates=PASS, final_gate=['SOLVED']",
+  "wall_seconds_setup": 15.8,
+  "wall_seconds_pipeline": 415.3,
+  "wall_seconds_total": 432.0,
+  "metrics": {
+    "totals": {
+      "instance_cost": 0.002665,
+      "api_calls": 23,
+      "prompt_tokens": 120170,
+      "completion_tokens": 7915,
+      "total_tokens": 128085,
+      "trajectories": 2
+    },
+    "per_trajectory": [
+      {
+        "file": "issue/iter_2/adopt/run_1/trajectory.traj.json",
+        "instance_cost": 0.001135,
+        "api_calls": 10,
+        "prompt_tokens": 46382,
+        "completion_tokens": 3456,
+        "total_tokens": 49838
+      },
+      {
+        "file": "solve_gate/run_1/trajectory.traj.json",
+        "instance_cost": 0.001529,
+        "api_calls": 13,
+        "prompt_tokens": 73788,
+        "completion_tokens": 4459,
+        "total_tokens": 78247
+      }
+    ]
+  },
+  "pipeline_cmd": "mini-extra cve-pipeline --patch stratified-samples-full-loop-judge14/redos/forwarded_0.1.0/exploit-evasive.patch --ex_file /Users/saleha/Desktop/cispa/SecBench.js/redos/forwarded_0.1.0/forwarded.test.js --repo-path /tmp/forwarded_0.1.0-src --base d469116eda4931fbe1c0ccb29497b35930bfa328 --repo redos/forwarded_0.1.0 --docker-image secbench-fullloop/forwarded_0.1.0 --max-iterations 5 --cost-limit 0.3 --no-run-codegen --gate-in-loop --gate-runs 1 --revise-iterations 2",
+  "pipeline_returncode": 0,
+  "pipeline_out_dir": "stratified-samples-full-loop-judge14/redos/forwarded_0.1.0/pipeline_exploit-evasive",
+  "finished_at": "2026-09-18T22:13:22.093217+00:00"
+}

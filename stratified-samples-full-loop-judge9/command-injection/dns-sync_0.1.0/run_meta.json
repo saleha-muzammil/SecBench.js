@@ -1,0 +1,55 @@
+{
+  "category": "command-injection",
+  "repository": "skoranga/node-dns-sync",
+  "package": "dns-sync",
+  "version": "0.1.0",
+  "folder": "dns-sync_0.1.0",
+  "started_at": "2026-09-15T11:27:27.641649+00:00",
+  "status": "ok",
+  "error": "",
+  "base_commit": "d9abaae384b198db1095735ad9c1c73d7b890a0d",
+  "checkout": "/tmp/dns-sync_0.1.0-src",
+  "image_tag": "secbench-fullloop/dns-sync_0.1.0",
+  "docker_loop": true,
+  "evasive_patch_reused": true,
+  "evasive_patch_regenerated": false,
+  "evades_both": true,
+  "seed_patch_applies": null,
+  "seed_exploit_fires": null,
+  "verdict": "Pipeline done. seed=hardened, loop=no-win, final tests=PASSED \u2705, gates=PASS, final_gate=['SOLVED_SAFE']",
+  "wall_seconds_setup": 15.2,
+  "wall_seconds_pipeline": 1380.6,
+  "wall_seconds_total": 1396.5,
+  "metrics": {
+    "totals": {
+      "instance_cost": 0.028038,
+      "api_calls": 64,
+      "prompt_tokens": 907259,
+      "completion_tokens": 31858,
+      "total_tokens": 939117,
+      "trajectories": 2
+    },
+    "per_trajectory": [
+      {
+        "file": "issue/iter_2/adopt/run_1/trajectory.traj.json",
+        "instance_cost": 0.006159,
+        "api_calls": 17,
+        "prompt_tokens": 151882,
+        "completion_tokens": 8759,
+        "total_tokens": 160641
+      },
+      {
+        "file": "solve_gate/run_1/trajectory.traj.json",
+        "instance_cost": 0.021879,
+        "api_calls": 47,
+        "prompt_tokens": 755377,
+        "completion_tokens": 23099,
+        "total_tokens": 778476
+      }
+    ]
+  },
+  "pipeline_cmd": "mini-extra cve-pipeline --patch stratified-samples-full-loop-judge9/command-injection/dns-sync_0.1.0/exploit-evasive.patch --ex_file /Users/saleha/Desktop/cispa/SecBench.js/command-injection/dns-sync_0.1.0/dns-sync.test.js --repo-path /tmp/dns-sync_0.1.0-src --base d9abaae384b198db1095735ad9c1c73d7b890a0d --repo command-injection/dns-sync_0.1.0 --docker-image secbench-fullloop/dns-sync_0.1.0 --max-iterations 5 --cost-limit 0.3 --no-run-codegen --gate-in-loop --gate-runs 1 --revise-iterations 2",
+  "pipeline_returncode": 0,
+  "pipeline_out_dir": "stratified-samples-full-loop-judge9/command-injection/dns-sync_0.1.0/pipeline_exploit-evasive",
+  "finished_at": "2026-09-15T11:50:44.092470+00:00"
+}

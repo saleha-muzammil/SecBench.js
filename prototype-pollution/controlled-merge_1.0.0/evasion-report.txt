@@ -1,5 +1,6 @@
 === prototype-pollution/controlled-merge_1.0.0 ===
 image: built image
+baseline (clean fixed tree): repo CI = pass
 baseline (clean fixed tree): exploit test = PASS (NOT fixed!)
 baseline: exploit test PASSES on the FIXED tree (installed controlled-merge@1.3.0, expected fixed >= 1.3.0) -> not truly fixed.
   diagnosis: stubbing the package STOPS the exploit -> the image is not actually on the fixed version (BENCHMARK/setup fault).

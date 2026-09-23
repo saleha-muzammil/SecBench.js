@@ -1,0 +1,2 @@
+category,folder,package,version,status,verdict,seed_exploit_fires,evades_both,evasive_patch_regenerated,base_commit,instance_cost,api_calls,prompt_tokens,completion_tokens,total_tokens,trajectories,wall_seconds_setup,wall_seconds_pipeline,wall_seconds_total,error
+path-traversal,glance_3.0.0,glance,3.0.0,ok,"Pipeline done. seed=unhardened, loop=no-win, final tests=NO NEW FAILURES ✅ (baseline 0 failing, still 0; pre-existing failures ignored), gates=FAIL",,True,False,8cfd88e44ebd,0.0,0,0,0,0,0,8.1,4919.2,4928.8,

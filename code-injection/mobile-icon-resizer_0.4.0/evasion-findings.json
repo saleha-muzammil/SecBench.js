@@ -21,10 +21,17 @@
     ]
   },
   "codeql": {
-    "fixed_total": 0,
+    "fixed_total": 6,
     "new_full": 0,
     "new_minimal": 0,
-    "new_final": []
+    "new_final": [
+      {
+        "rule": "js/unsafe-code-construction",
+        "message": "This string concatenation which depends on [library input](1) is later [interpreted as code](2).",
+        "path": "lib/resize.js",
+        "line": 32
+      }
+    ]
   },
-  "detected_by": "semgrep"
+  "detected_by": "both"
 }

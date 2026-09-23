@@ -481,6 +481,13 @@ def build_entry(category, path, repo_index):
         "version": version,
         "fixed_version": fixed,
         "fix_commit_sha": parse_commit_sha(meta.get("fixCommit", "")),
+        # Optional override: the commit at which package.json first reads
+        # fixedVersion, for repos that never tagged the fixed release. Kept
+        # SEPARATE from fixCommit on purpose -- fetch_patch.py derives patch.txt
+        # from fixCommit, so repointing that would silently change what gets
+        # reverted. This one only ever decides which tree the FIXED image is
+        # built from. Consumed by generate_dockerfile_fixed.py --prefer-tag.
+        "fixed_release_sha": parse_commit_sha(meta.get("fixedReleaseCommit", "")),
         "cve": (meta.get("id") or "").strip() or "(none)",
         "repository": repo,
         "repository_url": f"https://github.com/{repo}" if repo else "",

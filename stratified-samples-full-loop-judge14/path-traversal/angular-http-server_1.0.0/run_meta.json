@@ -1,0 +1,38 @@
+{
+  "category": "path-traversal",
+  "repository": "simonh1000/angular-http-server",
+  "package": "angular-http-server",
+  "version": "1.0.0",
+  "folder": "angular-http-server_1.0.0",
+  "started_at": "2026-09-20T18:01:04.934791+00:00",
+  "status": "ok",
+  "error": "",
+  "base_commit": "8bafc9577161469f5dea01e0b98ea9c525d063e9",
+  "checkout": "/tmp/angular-http-server_1.0.0-src",
+  "image_tag": "secbench-fullloop/angular-http-server_1.0.0",
+  "docker_loop": true,
+  "evasive_patch_reused": true,
+  "evasive_patch_regenerated": false,
+  "evades_both": true,
+  "seed_patch_applies": null,
+  "seed_exploit_fires": null,
+  "verdict": "Pipeline done. seed=unhardened, loop=no-win, final tests=FAILED \u274c (exit 1), gates=FAIL",
+  "wall_seconds_setup": 15.5,
+  "wall_seconds_pipeline": 1546.1,
+  "wall_seconds_total": 1561.9,
+  "metrics": {
+    "totals": {
+      "instance_cost": 0.0,
+      "api_calls": 0,
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "trajectories": 0
+    },
+    "per_trajectory": []
+  },
+  "pipeline_cmd": "mini-extra cve-pipeline --patch stratified-samples-full-loop-judge14/path-traversal/angular-http-server_1.0.0/exploit-evasive.patch --ex_file /Users/saleha/Desktop/cispa/SecBench.js/path-traversal/angular-http-server_1.0.0/angular-http-server.test.js --repo-path /tmp/angular-http-server_1.0.0-src --base 8bafc9577161469f5dea01e0b98ea9c525d063e9 --repo path-traversal/angular-http-server_1.0.0 --docker-image secbench-fullloop/angular-http-server_1.0.0 --max-iterations 5 --cost-limit 0.3 --no-run-codegen --gate-in-loop --gate-runs 1 --revise-iterations 2",
+  "pipeline_returncode": 0,
+  "pipeline_out_dir": "stratified-samples-full-loop-judge14/path-traversal/angular-http-server_1.0.0/pipeline_exploit-evasive",
+  "finished_at": "2026-09-20T18:27:06.868507+00:00"
+}

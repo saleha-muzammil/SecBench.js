@@ -1,0 +1,38 @@
+{
+  "category": "redos",
+  "repository": "cronvel/terminal-kit",
+  "package": "terminal-kit",
+  "version": "2.1.0",
+  "folder": "terminal-kit_2.1.0",
+  "started_at": "2026-09-22T05:02:52.865939+00:00",
+  "status": "pipeline-rc-1",
+  "error": "",
+  "base_commit": "a2e446cc3927b559d0281683feb9b821e83b758c",
+  "checkout": "/tmp/terminal-kit_2.1.0-src",
+  "image_tag": "secbench-fullloop/terminal-kit_2.1.0",
+  "docker_loop": true,
+  "evasive_patch_reused": true,
+  "evasive_patch_regenerated": false,
+  "evades_both": true,
+  "seed_patch_applies": null,
+  "seed_exploit_fires": null,
+  "verdict": "",
+  "wall_seconds_setup": 17.9,
+  "wall_seconds_pipeline": 7202.5,
+  "wall_seconds_total": 7220.9,
+  "metrics": {
+    "totals": {
+      "instance_cost": 0.0,
+      "api_calls": 0,
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "trajectories": 0
+    },
+    "per_trajectory": []
+  },
+  "pipeline_cmd": "mini-extra cve-pipeline --patch stratified-rerun-failed/terminal-kit_2.1.0/redos/terminal-kit_2.1.0/exploit-evasive.patch --ex_file /Users/saleha/Desktop/cispa/SecBench.js/redos/terminal-kit_2.1.0/terminal-kit.test.js --repo-path /tmp/terminal-kit_2.1.0-src --base a2e446cc3927b559d0281683feb9b821e83b758c --repo cronvel/terminal-kit --docker-image secbench-fullloop/terminal-kit_2.1.0 --max-iterations 5 --cost-limit 0.3 --no-run-codegen --gate-in-loop --gate-runs 1 --revise-iterations 2",
+  "pipeline_returncode": 1,
+  "pipeline_out_dir": "stratified-rerun-failed/terminal-kit_2.1.0/redos/terminal-kit_2.1.0/pipeline_exploit-evasive",
+  "finished_at": "2026-09-22T07:03:13.745045+00:00"
+}

@@ -1,0 +1,58 @@
+{
+  "seed": 20260817,
+  "n": 3,
+  "until_success": false,
+  "generated_at": "2026-09-15T10:34:03.199224+00:00",
+  "categories": {
+    "prototype-pollution": [
+      {
+        "folder": "extend-merge_1.0.5",
+        "package": "extend-merge",
+        "version": "1.0.5",
+        "repository": "crysalead-js/extend-merge"
+      },
+      {
+        "folder": "inireader_1.0.0",
+        "package": "inireader",
+        "version": "1.0.0",
+        "repository": "Ajnasz/IniReader"
+      },
+      {
+        "folder": "keyget_2.2.0",
+        "package": "keyget",
+        "version": "2.2.0",
+        "repository": "rumkin/keyget"
+      },
+      {
+        "folder": "merge-options_1.0.0",
+        "package": "merge-options",
+        "version": "1.0.0",
+        "repository": "schnittstabil/merge-options"
+      },
+      {
+        "folder": "object-path-set_1.0.0",
+        "package": "object-path-set",
+        "version": "1.0.0",
+        "repository": "skratchdot/object-path-set"
+      },
+      {
+        "folder": "property-expr_2.0.2",
+        "package": "property-expr",
+        "version": "2.0.2",
+        "repository": "jquense/expr"
+      },
+      {
+        "folder": "sds_3.2.0",
+        "package": "sds",
+        "version": "3.2.0",
+        "repository": "monsterkodi/sds"
+      },
+      {
+        "folder": "set-getter_0.1.0",
+        "package": "set-getter",
+        "version": "0.1.0",
+        "repository": "doowb/set-getter"
+      }
+    ]
+  }
+}

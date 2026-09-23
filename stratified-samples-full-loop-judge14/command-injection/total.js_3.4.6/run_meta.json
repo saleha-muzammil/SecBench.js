@@ -1,0 +1,38 @@
+{
+  "category": "command-injection",
+  "repository": "totaljs/framework",
+  "package": "total.js",
+  "version": "3.4.6",
+  "folder": "total.js_3.4.6",
+  "started_at": "2026-09-21T09:04:30.297026+00:00",
+  "status": "pipeline-rc-1",
+  "error": "",
+  "base_commit": "6192491ab2631e7c1d317c221f18ea613e2c18a5",
+  "checkout": "/tmp/total.js_3.4.6-src",
+  "image_tag": "secbench-fullloop/total.js_3.4.6",
+  "docker_loop": true,
+  "evasive_patch_reused": true,
+  "evasive_patch_regenerated": false,
+  "evades_both": true,
+  "seed_patch_applies": null,
+  "seed_exploit_fires": null,
+  "verdict": "",
+  "wall_seconds_setup": 2.7,
+  "wall_seconds_pipeline": 1840.6,
+  "wall_seconds_total": 1843.4,
+  "metrics": {
+    "totals": {
+      "instance_cost": 0.0,
+      "api_calls": 0,
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "trajectories": 0
+    },
+    "per_trajectory": []
+  },
+  "pipeline_cmd": "mini-extra cve-pipeline --patch stratified-samples-full-loop-judge14/command-injection/total.js_3.4.6/exploit-evasive.patch --ex_file /Users/saleha/Desktop/cispa/SecBench.js/command-injection/total.js_3.4.6/total-js.test.js --repo-path /tmp/total.js_3.4.6-src --base 6192491ab2631e7c1d317c221f18ea613e2c18a5 --repo command-injection/total.js_3.4.6 --docker-image secbench-fullloop/total.js_3.4.6 --max-iterations 5 --cost-limit 0.3 --no-run-codegen --gate-in-loop --gate-runs 1 --revise-iterations 2",
+  "pipeline_returncode": 1,
+  "pipeline_out_dir": "stratified-samples-full-loop-judge14/command-injection/total.js_3.4.6/pipeline_exploit-evasive",
+  "finished_at": "2026-09-21T09:35:13.711129+00:00"
+}

@@ -1,0 +1,63 @@
+{
+  "category": "redos",
+  "repository": "npm/hosted-git-info",
+  "package": "hosted-git-info",
+  "version": "3.0.0",
+  "folder": "hosted-git-info_3.0.0",
+  "started_at": "2026-09-21T03:39:49.950552+00:00",
+  "status": "ok",
+  "error": "",
+  "base_commit": "bede0dc38e1785e732bf0a48ba6f81a4a908eba3",
+  "checkout": "/tmp/hosted-git-info_3.0.0-src",
+  "image_tag": "secbench-fullloop/hosted-git-info_3.0.0",
+  "docker_loop": true,
+  "evasive_patch_reused": true,
+  "evasive_patch_regenerated": false,
+  "evades_both": false,
+  "seed_patch_applies": null,
+  "seed_exploit_fires": null,
+  "verdict": "Pipeline done. seed=hardened, loop=no-win, final tests=NO NEW FAILURES \u2705 (baseline 0 failing, still 0; pre-existing failures ignored), gates=PASS, final_gate=['SOLVED_SAFE']",
+  "wall_seconds_setup": 3.6,
+  "wall_seconds_pipeline": 3257.3,
+  "wall_seconds_total": 3261.7,
+  "metrics": {
+    "totals": {
+      "instance_cost": 0.114184,
+      "api_calls": 114,
+      "prompt_tokens": 4337994,
+      "completion_tokens": 140540,
+      "total_tokens": 4478534,
+      "trajectories": 3
+    },
+    "per_trajectory": [
+      {
+        "file": "issue/iter_1/adopt/run_1/trajectory.traj.json",
+        "instance_cost": 0.013021,
+        "api_calls": 41,
+        "prompt_tokens": 1305750,
+        "completion_tokens": 28212,
+        "total_tokens": 1333962
+      },
+      {
+        "file": "issue/iter_5/adopt/run_1/trajectory.traj.json",
+        "instance_cost": 0.034283,
+        "api_calls": 37,
+        "prompt_tokens": 1287081,
+        "completion_tokens": 43178,
+        "total_tokens": 1330259
+      },
+      {
+        "file": "solve_gate/run_1/trajectory.traj.json",
+        "instance_cost": 0.066881,
+        "api_calls": 36,
+        "prompt_tokens": 1745163,
+        "completion_tokens": 69150,
+        "total_tokens": 1814313
+      }
+    ]
+  },
+  "pipeline_cmd": "mini-extra cve-pipeline --patch stratified-samples-full-loop-judge14/redos/hosted-git-info_3.0.0/exploit-evasive.patch --ex_file /Users/saleha/Desktop/cispa/SecBench.js/redos/hosted-git-info_3.0.0/hosted-git-info.test.js --repo-path /tmp/hosted-git-info_3.0.0-src --base bede0dc38e1785e732bf0a48ba6f81a4a908eba3 --repo redos/hosted-git-info_3.0.0 --docker-image secbench-fullloop/hosted-git-info_3.0.0 --max-iterations 5 --cost-limit 0.3 --no-run-codegen --gate-in-loop --gate-runs 1 --revise-iterations 2",
+  "pipeline_returncode": 0,
+  "pipeline_out_dir": "stratified-samples-full-loop-judge14/redos/hosted-git-info_3.0.0/pipeline_exploit-evasive",
+  "finished_at": "2026-09-21T04:34:11.692131+00:00"
+}

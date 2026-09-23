@@ -1,0 +1,63 @@
+{
+  "category": "prototype-pollution",
+  "repository": "deoxxa/dotty",
+  "package": "dotty",
+  "version": "0.0.1",
+  "folder": "dotty_0.0.1",
+  "started_at": "2026-09-22T05:57:49.453167+00:00",
+  "status": "ok",
+  "error": "",
+  "base_commit": "88f61860dcc274a07a263c32cbe9d44c24ef02d7",
+  "checkout": "/tmp/gapfill-src/dotty_0.0.1-src",
+  "image_tag": "secbench-fullloop/dotty_0.0.1",
+  "docker_loop": true,
+  "evasive_patch_reused": true,
+  "evasive_patch_regenerated": false,
+  "evades_both": false,
+  "seed_patch_applies": null,
+  "seed_exploit_fires": null,
+  "verdict": "Pipeline done. seed=unhardened, loop=no-win, final tests=FAILED \u274c (exit 1), gates=PASS, final_gate=['SOLVED_SAFE']",
+  "wall_seconds_setup": 19.3,
+  "wall_seconds_pipeline": 1761.9,
+  "wall_seconds_total": 1781.7,
+  "metrics": {
+    "totals": {
+      "instance_cost": 0.043858,
+      "api_calls": 65,
+      "prompt_tokens": 1390728,
+      "completion_tokens": 60543,
+      "total_tokens": 1451271,
+      "trajectories": 3
+    },
+    "per_trajectory": [
+      {
+        "file": "issue/iter_4/adopt/run_1/trajectory.traj.json",
+        "instance_cost": 0.008421,
+        "api_calls": 14,
+        "prompt_tokens": 188434,
+        "completion_tokens": 11261,
+        "total_tokens": 199695
+      },
+      {
+        "file": "issue/iter_5/adopt/run_1/trajectory.traj.json",
+        "instance_cost": 0.024556,
+        "api_calls": 34,
+        "prompt_tokens": 883253,
+        "completion_tokens": 31484,
+        "total_tokens": 914737
+      },
+      {
+        "file": "solve_gate/run_1/trajectory.traj.json",
+        "instance_cost": 0.010881,
+        "api_calls": 17,
+        "prompt_tokens": 319041,
+        "completion_tokens": 17798,
+        "total_tokens": 336839
+      }
+    ]
+  },
+  "pipeline_cmd": "mini-extra cve-pipeline --patch stratified-samples-gapfill/prototype-pollution/dotty_0.0.1/exploit-evasive.patch --ex_file /Users/saleha/Desktop/cispa/SecBench.js/prototype-pollution/dotty_0.0.1/dotty.test.js --repo-path /tmp/gapfill-src/dotty_0.0.1-src --base 88f61860dcc274a07a263c32cbe9d44c24ef02d7 --repo deoxxa/dotty --docker-image secbench-fullloop/dotty_0.0.1 --cost-limit 0.3",
+  "pipeline_returncode": 0,
+  "pipeline_out_dir": "stratified-samples-gapfill/prototype-pollution/dotty_0.0.1/pipeline_exploit-evasive",
+  "finished_at": "2026-09-22T06:27:31.110695+00:00"
+}

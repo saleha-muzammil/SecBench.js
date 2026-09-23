@@ -8,6 +8,7 @@
     "source2": ""
   },
   "fixedVersion": "13.6.0",
-  "fixCommit": "https://github.com/tux-tn/validator.js/commit/b21879cf45c05ee11b2d79e612b651bf7b2d93b7#diff-f41087599986e29c3c0dc15b62f1bf96d8aba16fe41f3730e315c84c2c4cb311",
-  "sink": ""
+  "fixCommit": "https://github.com/validatorjs/validator.js/commit/2a3a1c33607698d69fc788c3b9efddffa6195193",
+  "sink": "src/lib/isSlug.js",
+  "fixCommitNote": "was https://github.com/tux-tn/validator.js/commit/b21879cf45c05ee11b2d79e612b651bf7b2d93b7 -- a commit on the tux-tn PR fork. That sha does not exist upstream, so the fixed image's `git checkout b21879cf45` failed and the entry was written off as npm-fallback. Upstream carries the same fix under tag 13.6.0."
 }

@@ -1,0 +1,17 @@
+{
+  "package": "tmpl",
+  "targets": [
+    "lib/tmpl.js"
+  ],
+  "full_targets": [
+    "lib/tmpl.js"
+  ],
+  "semgrep": {
+    "fixed_total": 2,
+    "new_full": 0,
+    "new_minimal": 0,
+    "new_final": []
+  },
+  "codeql": null,
+  "detected_by": "neither"
+}

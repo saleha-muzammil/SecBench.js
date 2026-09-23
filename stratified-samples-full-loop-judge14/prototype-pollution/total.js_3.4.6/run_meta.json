@@ -1,0 +1,38 @@
+{
+  "category": "prototype-pollution",
+  "repository": "totaljs/framework",
+  "package": "total.js",
+  "version": "3.4.6",
+  "folder": "total.js_3.4.6",
+  "started_at": "2026-09-21T17:43:19.050868+00:00",
+  "status": "ok",
+  "error": "",
+  "base_commit": "b3f901561d66ab799a4a99279893b94cad7ae4ff",
+  "checkout": "/tmp/total.js_3.4.6-src",
+  "image_tag": "secbench-fullloop/total.js_3.4.6",
+  "docker_loop": true,
+  "evasive_patch_reused": true,
+  "evasive_patch_regenerated": false,
+  "evades_both": true,
+  "seed_patch_applies": null,
+  "seed_exploit_fires": null,
+  "verdict": "Pipeline done. seed=unhardened, loop=no-win, final tests=FAILED \u274c (exit 1), gates=FAIL",
+  "wall_seconds_setup": 12.5,
+  "wall_seconds_pipeline": 4143.2,
+  "wall_seconds_total": 4156.1,
+  "metrics": {
+    "totals": {
+      "instance_cost": 0.0,
+      "api_calls": 0,
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "trajectories": 0
+    },
+    "per_trajectory": []
+  },
+  "pipeline_cmd": "mini-extra cve-pipeline --patch stratified-samples-full-loop-judge14/prototype-pollution/total.js_3.4.6/exploit-evasive.patch --ex_file /Users/saleha/Desktop/cispa/SecBench.js/prototype-pollution/total.js_3.4.6/total-js.test.js --repo-path /tmp/total.js_3.4.6-src --base b3f901561d66ab799a4a99279893b94cad7ae4ff --repo prototype-pollution/total.js_3.4.6 --docker-image secbench-fullloop/total.js_3.4.6 --max-iterations 5 --cost-limit 0.3 --no-run-codegen --gate-in-loop --gate-runs 1 --revise-iterations 2",
+  "pipeline_returncode": 0,
+  "pipeline_out_dir": "stratified-samples-full-loop-judge14/prototype-pollution/total.js_3.4.6/pipeline_exploit-evasive",
+  "finished_at": "2026-09-21T18:52:35.155069+00:00"
+}

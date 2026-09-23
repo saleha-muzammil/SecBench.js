@@ -1,0 +1,38 @@
+{
+  "category": "redos",
+  "repository": "kanasimi/CeJS",
+  "package": "cejs",
+  "version": "2.0.20170212",
+  "folder": "cejs_2.0.20170212",
+  "started_at": "2026-09-22T19:30:29.204528+00:00",
+  "status": "pipeline-rc-1",
+  "error": "",
+  "base_commit": "c6a9ffec1152781f268b8d72d80ee4d8fc837986",
+  "checkout": "/tmp/gapfill-src/cejs_2.0.20170212-src",
+  "image_tag": "secbench-fullloop/cejs_2.0.20170212",
+  "docker_loop": true,
+  "evasive_patch_reused": true,
+  "evasive_patch_regenerated": false,
+  "evades_both": false,
+  "seed_patch_applies": null,
+  "seed_exploit_fires": null,
+  "verdict": "",
+  "wall_seconds_setup": 32.7,
+  "wall_seconds_pipeline": 559.4,
+  "wall_seconds_total": 595.4,
+  "metrics": {
+    "totals": {
+      "instance_cost": 0.0,
+      "api_calls": 0,
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "trajectories": 0
+    },
+    "per_trajectory": []
+  },
+  "pipeline_cmd": "mini-extra cve-pipeline --patch stratified-samples-gapfill/redos/cejs_2.0.20170212/exploit-evasive.patch --ex_file /Users/saleha/Desktop/cispa/SecBench.js/redos/cejs_2.0.20170212/cejs.test.js --repo-path /tmp/gapfill-src/cejs_2.0.20170212-src --base c6a9ffec1152781f268b8d72d80ee4d8fc837986 --repo kanasimi/CeJS --docker-image secbench-fullloop/cejs_2.0.20170212 --cost-limit 0.3",
+  "pipeline_returncode": 1,
+  "pipeline_out_dir": "stratified-samples-gapfill/redos/cejs_2.0.20170212/pipeline_exploit-evasive",
+  "finished_at": "2026-09-22T19:40:24.653015+00:00"
+}

@@ -1,0 +1,38 @@
+{
+  "category": "command-injection",
+  "repository": "handsontable/formula-parser",
+  "package": "hot-formula-parser",
+  "version": "3.0.0",
+  "folder": "hot-formula-parser_3.0.0",
+  "started_at": "2026-09-21T07:39:46.734621+00:00",
+  "status": "ok",
+  "error": "",
+  "base_commit": "396b089738d4bf30eb570a4fe6a188affa95cd5e",
+  "checkout": "/tmp/hot-formula-parser_3.0.0-src",
+  "image_tag": "secbench-fullloop/hot-formula-parser_3.0.0",
+  "docker_loop": true,
+  "evasive_patch_reused": true,
+  "evasive_patch_regenerated": false,
+  "evades_both": true,
+  "seed_patch_applies": null,
+  "seed_exploit_fires": null,
+  "verdict": "Pipeline done. seed=unhardened, loop=no-win, final tests=NO NEW FAILURES \u2705 (baseline 4 failing, still 4; pre-existing failures ignored), gates=FAIL",
+  "wall_seconds_setup": 7.1,
+  "wall_seconds_pipeline": 2382.8,
+  "wall_seconds_total": 2392.0,
+  "metrics": {
+    "totals": {
+      "instance_cost": 0.0,
+      "api_calls": 0,
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "trajectories": 0
+    },
+    "per_trajectory": []
+  },
+  "pipeline_cmd": "mini-extra cve-pipeline --patch stratified-samples-full-loop-judge14/command-injection/hot-formula-parser_3.0.0/exploit-evasive.patch --ex_file /Users/saleha/Desktop/cispa/SecBench.js/command-injection/hot-formula-parser_3.0.0/hot-formula-parser.test.js --repo-path /tmp/hot-formula-parser_3.0.0-src --base 396b089738d4bf30eb570a4fe6a188affa95cd5e --repo command-injection/hot-formula-parser_3.0.0 --docker-image secbench-fullloop/hot-formula-parser_3.0.0 --max-iterations 5 --cost-limit 0.3 --no-run-codegen --gate-in-loop --gate-runs 1 --revise-iterations 2",
+  "pipeline_returncode": 0,
+  "pipeline_out_dir": "stratified-samples-full-loop-judge14/command-injection/hot-formula-parser_3.0.0/pipeline_exploit-evasive",
+  "finished_at": "2026-09-21T08:19:38.728756+00:00"
+}

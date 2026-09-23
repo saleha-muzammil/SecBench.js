@@ -1,0 +1,38 @@
+{
+  "category": "prototype-pollution",
+  "repository": "diegohaz/bodymen",
+  "package": "bodymen",
+  "version": "1.0.0",
+  "folder": "bodymen_1.0.0",
+  "started_at": "2026-09-22T05:30:23.335363+00:00",
+  "status": "ok",
+  "error": "",
+  "base_commit": "5d52e8cf360410ee697afd90937e6042c3a8653b",
+  "checkout": "/tmp/gapfill-src/bodymen_1.0.0-src",
+  "image_tag": "secbench-fullloop/bodymen_1.0.0",
+  "docker_loop": true,
+  "evasive_patch_reused": true,
+  "evasive_patch_regenerated": false,
+  "evades_both": false,
+  "seed_patch_applies": null,
+  "seed_exploit_fires": null,
+  "verdict": "Pipeline done. seed=unhardened, loop=no-win, final tests=FAILED \u274c (exit 1), gates=FAIL",
+  "wall_seconds_setup": 37.1,
+  "wall_seconds_pipeline": 868.9,
+  "wall_seconds_total": 909.6,
+  "metrics": {
+    "totals": {
+      "instance_cost": 0.0,
+      "api_calls": 0,
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "trajectories": 0
+    },
+    "per_trajectory": []
+  },
+  "pipeline_cmd": "mini-extra cve-pipeline --patch stratified-samples-gapfill/prototype-pollution/bodymen_1.0.0/exploit-evasive.patch --ex_file /Users/saleha/Desktop/cispa/SecBench.js/prototype-pollution/bodymen_1.0.0/bodymen.test.js --repo-path /tmp/gapfill-src/bodymen_1.0.0-src --base 5d52e8cf360410ee697afd90937e6042c3a8653b --repo diegohaz/bodymen --docker-image secbench-fullloop/bodymen_1.0.0 --cost-limit 0.3",
+  "pipeline_returncode": 0,
+  "pipeline_out_dir": "stratified-samples-gapfill/prototype-pollution/bodymen_1.0.0/pipeline_exploit-evasive",
+  "finished_at": "2026-09-22T05:45:32.963984+00:00"
+}

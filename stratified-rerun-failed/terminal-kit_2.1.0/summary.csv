@@ -1,0 +1,2 @@
+category,folder,package,version,status,verdict,seed_exploit_fires,evades_both,evasive_patch_regenerated,base_commit,instance_cost,api_calls,prompt_tokens,completion_tokens,total_tokens,trajectories,wall_seconds_setup,wall_seconds_pipeline,wall_seconds_total,error
+redos,terminal-kit_2.1.0,terminal-kit,2.1.0,pipeline-rc-1,,,True,False,a2e446cc3927,0.0,0,0,0,0,0,17.9,7202.5,7220.9,

@@ -1,0 +1,17 @@
+{
+  "package": "angular-http-server",
+  "targets": [
+    "angular-http-server.js"
+  ],
+  "full_targets": [
+    "angular-http-server.js"
+  ],
+  "semgrep": {
+    "fixed_total": 3,
+    "new_full": 0,
+    "new_minimal": 0,
+    "new_final": []
+  },
+  "codeql": null,
+  "detected_by": "neither"
+}

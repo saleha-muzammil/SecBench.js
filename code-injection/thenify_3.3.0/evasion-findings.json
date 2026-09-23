@@ -1,7 +1,8 @@
 {
   "package": "thenify",
   "targets": [
-    "index.js"
+    "index.js",
+    "test/test.js"
   ],
   "full_targets": [
     "index.js",
@@ -10,7 +11,7 @@
   "semgrep": {
     "fixed_total": 0,
     "new_full": 7,
-    "new_minimal": 4,
+    "new_minimal": 7,
     "new_final": [
       {
         "rule": "javascript.browser.security.eval-detected.eval-detected",
@@ -39,14 +40,42 @@
         "line": 17,
         "severity": "ERROR",
         "message": "Untrusted input reaches a dynamic code-execution sink without passing through a sanitizer."
+      },
+      {
+        "rule": "javascript.browser.security.eval-detected.eval-detected",
+        "path": "index.js",
+        "line": 33,
+        "severity": "WARNING",
+        "message": "Detected the use of eval(). eval() can be dangerous if used to evaluate dynamic content. If this content can be input from outside the program, this may be a code injection vulnerability. Ensure evaluated content is not definable by external sources."
+      },
+      {
+        "rule": "rules-mini.mini-dynamic-code-evaluation",
+        "path": "index.js",
+        "line": 33,
+        "severity": "ERROR",
+        "message": "Runtime code evaluation. Turning a value into executable code -- via eval, the Function constructor, node:vm, a string-valued timer, or an alias/computed reference to any of them -- makes every value that reaches this expression executable."
+      },
+      {
+        "rule": "rules.secbench-eval-call",
+        "path": "index.js",
+        "line": 33,
+        "severity": "ERROR",
+        "message": "eval() executes its argument as code; if attacker-controlled this is a code-injection sink."
       }
     ]
   },
   "codeql": {
     "fixed_total": 0,
-    "new_full": 0,
-    "new_minimal": 0,
-    "new_final": []
+    "new_full": 1,
+    "new_minimal": 1,
+    "new_final": [
+      {
+        "rule": "js/unsafe-code-construction",
+        "message": "This string concatenation which depends on [library input](1) is later [interpreted as code](2).\nThis string concatenation which depends on [library input](1) is later [interpreted as code](3).\nThis string concatenation which depends on [library input](4) is later [interpreted as code](2).\nThis string concatenation which depends on [library input](4) is later [interpreted as code](3).",
+        "path": "index.js",
+        "line": 69
+      }
+    ]
   },
-  "detected_by": "semgrep"
+  "detected_by": "both"
 }

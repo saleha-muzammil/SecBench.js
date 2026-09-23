@@ -1,0 +1,38 @@
+{
+  "category": "code-injection",
+  "repository": "commenthol/serialize-to-js",
+  "package": "serialize-to-js",
+  "version": "0.5.0",
+  "folder": "serialize-to-js_0.5.0",
+  "started_at": "2026-09-22T03:34:03.991335+00:00",
+  "status": "ok",
+  "error": "",
+  "base_commit": "1cd433960e5b9db4c0b537afb28366198a319429",
+  "checkout": "/tmp/gapfill-src/serialize-to-js_0.5.0-src",
+  "image_tag": "secbench-fullloop/serialize-to-js_0.5.0",
+  "docker_loop": true,
+  "evasive_patch_reused": true,
+  "evasive_patch_regenerated": false,
+  "evades_both": false,
+  "seed_patch_applies": null,
+  "seed_exploit_fires": null,
+  "verdict": "Pipeline done. seed=unhardened, loop=no-win, final tests=FAILED \u274c (exit 7), gates=FAIL",
+  "wall_seconds_setup": 36.3,
+  "wall_seconds_pipeline": 1394.8,
+  "wall_seconds_total": 1431.7,
+  "metrics": {
+    "totals": {
+      "instance_cost": 0.0,
+      "api_calls": 0,
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "trajectories": 0
+    },
+    "per_trajectory": []
+  },
+  "pipeline_cmd": "mini-extra cve-pipeline --patch stratified-samples-gapfill/code-injection/serialize-to-js_0.5.0/exploit-evasive.patch --ex_file /Users/saleha/Desktop/cispa/SecBench.js/code-injection/serialize-to-js_0.5.0/serialize-to-js.test.js --repo-path /tmp/gapfill-src/serialize-to-js_0.5.0-src --base 1cd433960e5b9db4c0b537afb28366198a319429 --repo commenthol/serialize-to-js --docker-image secbench-fullloop/serialize-to-js_0.5.0 --cost-limit 0.3",
+  "pipeline_returncode": 0,
+  "pipeline_out_dir": "stratified-samples-gapfill/code-injection/serialize-to-js_0.5.0/pipeline_exploit-evasive",
+  "finished_at": "2026-09-22T03:57:55.734328+00:00"
+}

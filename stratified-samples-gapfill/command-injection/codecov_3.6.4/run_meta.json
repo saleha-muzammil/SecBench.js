@@ -1,0 +1,38 @@
+{
+  "category": "command-injection",
+  "repository": "codecov/codecov-node",
+  "package": "codecov",
+  "version": "3.6.4",
+  "folder": "codecov_3.6.4",
+  "started_at": "2026-09-22T03:49:55.040867+00:00",
+  "status": "ok",
+  "error": "",
+  "base_commit": "29dd5b6b039ce03c7bc368855896641441233417",
+  "checkout": "/tmp/gapfill-src/codecov_3.6.4-src",
+  "image_tag": "secbench-fullloop/codecov_3.6.4",
+  "docker_loop": true,
+  "evasive_patch_reused": true,
+  "evasive_patch_regenerated": false,
+  "evades_both": false,
+  "seed_patch_applies": null,
+  "seed_exploit_fires": null,
+  "verdict": "Pipeline done. seed=unhardened, loop=no-win, final tests=NO NEW FAILURES \u2705 (baseline 3 failing, still 1; pre-existing failures ignored), gates=FAIL",
+  "wall_seconds_setup": 22.4,
+  "wall_seconds_pipeline": 3261.4,
+  "wall_seconds_total": 3286.1,
+  "metrics": {
+    "totals": {
+      "instance_cost": 0.0,
+      "api_calls": 0,
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "trajectories": 0
+    },
+    "per_trajectory": []
+  },
+  "pipeline_cmd": "mini-extra cve-pipeline --patch stratified-samples-gapfill/command-injection/codecov_3.6.4/exploit-evasive.patch --ex_file /Users/saleha/Desktop/cispa/SecBench.js/command-injection/codecov_3.6.4/codecov.test.js --repo-path /tmp/gapfill-src/codecov_3.6.4-src --base 29dd5b6b039ce03c7bc368855896641441233417 --repo codecov/codecov-node --docker-image secbench-fullloop/codecov_3.6.4 --cost-limit 0.3",
+  "pipeline_returncode": 0,
+  "pipeline_out_dir": "stratified-samples-gapfill/command-injection/codecov_3.6.4/pipeline_exploit-evasive",
+  "finished_at": "2026-09-22T04:44:41.120802+00:00"
+}

@@ -1,0 +1,55 @@
+{
+  "category": "prototype-pollution",
+  "repository": "lodash/lodash",
+  "package": "lodash",
+  "version": "4.17.9",
+  "folder": "lodash_4.17.9",
+  "started_at": "2026-09-21T16:57:26.796598+00:00",
+  "status": "ok",
+  "error": "",
+  "base_commit": "90e6199a161b6445b01454517b40ef65ebecd2ad",
+  "checkout": "/tmp/rerun-prototype-pollution/lodash_4.17.9-src",
+  "image_tag": "secbench-fullloop/lodash_4.17.9",
+  "docker_loop": true,
+  "evasive_patch_reused": true,
+  "evasive_patch_regenerated": false,
+  "evades_both": true,
+  "seed_patch_applies": null,
+  "seed_exploit_fires": null,
+  "verdict": "Pipeline done. seed=hardened, loop=SUCCESS, final tests=FAILED \u274c (exit 1), gates=PASS, final_gate=['SOLVED']",
+  "wall_seconds_setup": 14.0,
+  "wall_seconds_pipeline": 3258.0,
+  "wall_seconds_total": 3274.1,
+  "metrics": {
+    "totals": {
+      "instance_cost": 0.040086,
+      "api_calls": 103,
+      "prompt_tokens": 2264085,
+      "completion_tokens": 60865,
+      "total_tokens": 2324950,
+      "trajectories": 2
+    },
+    "per_trajectory": [
+      {
+        "file": "issue/iter_3/adopt/run_1/trajectory.traj.json",
+        "instance_cost": 0.019916,
+        "api_calls": 53,
+        "prompt_tokens": 1109968,
+        "completion_tokens": 27989,
+        "total_tokens": 1137957
+      },
+      {
+        "file": "solve_gate/run_1/trajectory.traj.json",
+        "instance_cost": 0.020169,
+        "api_calls": 50,
+        "prompt_tokens": 1154117,
+        "completion_tokens": 32876,
+        "total_tokens": 1186993
+      }
+    ]
+  },
+  "pipeline_cmd": "mini-extra cve-pipeline --patch stratified-rerun/prototype-pollution--lodash_4.17.9/prototype-pollution/lodash_4.17.9/exploit-evasive.patch --ex_file /Users/saleha/Desktop/cispa/SecBench.js/prototype-pollution/lodash_4.17.9/lodash.test.js --repo-path /tmp/rerun-prototype-pollution/lodash_4.17.9-src --base 90e6199a161b6445b01454517b40ef65ebecd2ad --repo prototype-pollution/lodash_4.17.9 --docker-image secbench-fullloop/lodash_4.17.9 --max-iterations 5 --cost-limit 0.3 --no-run-codegen --gate-in-loop --gate-runs 1 --revise-iterations 2 --codeql-ram 768",
+  "pipeline_returncode": 0,
+  "pipeline_out_dir": "stratified-rerun/prototype-pollution--lodash_4.17.9/prototype-pollution/lodash_4.17.9/pipeline_exploit-evasive",
+  "finished_at": "2026-09-21T17:52:00.863752+00:00"
+}

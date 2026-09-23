@@ -1,0 +1,79 @@
+{
+  "category": "redos",
+  "repository": "johnhenry/valid-email",
+  "package": "valid-email",
+  "version": "0.0.1",
+  "folder": "valid-email_0.0.1",
+  "started_at": "2026-09-17T16:30:24.939925+00:00",
+  "status": "ok",
+  "error": "",
+  "base_commit": "624ffa60b42bed8c577a679d682dda286b4603e6",
+  "checkout": "/tmp/valid-email_0.0.1-src",
+  "image_tag": "secbench-fullloop/valid-email_0.0.1",
+  "docker_loop": true,
+  "evasive_patch_reused": true,
+  "evasive_patch_regenerated": false,
+  "evades_both": true,
+  "seed_patch_applies": null,
+  "seed_exploit_fires": null,
+  "verdict": "Pipeline done. seed=hardened, loop=no-win, final tests=FAILED \u274c (exit 1), gates=PASS, final_gate=['SOLVED_SAFE']",
+  "wall_seconds_setup": 10.4,
+  "wall_seconds_pipeline": 7979.3,
+  "wall_seconds_total": 7990.2,
+  "metrics": {
+    "totals": {
+      "instance_cost": 0.299624,
+      "api_calls": 286,
+      "prompt_tokens": 12084199,
+      "completion_tokens": 249691,
+      "total_tokens": 12333890,
+      "trajectories": 5
+    },
+    "per_trajectory": [
+      {
+        "file": "issue/iter_2/adopt/run_1/trajectory.traj.json",
+        "instance_cost": 0.019972,
+        "api_calls": 27,
+        "prompt_tokens": 558755,
+        "completion_tokens": 32522,
+        "total_tokens": 591277
+      },
+      {
+        "file": "issue/iter_3/adopt/run_1/trajectory.traj.json",
+        "instance_cost": 0.124726,
+        "api_calls": 101,
+        "prompt_tokens": 5617000,
+        "completion_tokens": 76040,
+        "total_tokens": 5693040
+      },
+      {
+        "file": "issue/iter_4/adopt/run_1/trajectory.traj.json",
+        "instance_cost": 0.075934,
+        "api_calls": 70,
+        "prompt_tokens": 3200068,
+        "completion_tokens": 55017,
+        "total_tokens": 3255085
+      },
+      {
+        "file": "issue/iter_5/adopt/run_1/trajectory.traj.json",
+        "instance_cost": 0.032916,
+        "api_calls": 38,
+        "prompt_tokens": 1141285,
+        "completion_tokens": 39357,
+        "total_tokens": 1180642
+      },
+      {
+        "file": "solve_gate/run_1/trajectory.traj.json",
+        "instance_cost": 0.046076,
+        "api_calls": 50,
+        "prompt_tokens": 1567091,
+        "completion_tokens": 46755,
+        "total_tokens": 1613846
+      }
+    ]
+  },
+  "pipeline_cmd": "mini-extra cve-pipeline --patch stratified-samples-full-loop-judge14/redos/valid-email_0.0.1/exploit-evasive.patch --ex_file /Users/saleha/Desktop/cispa/SecBench.js/redos/valid-email_0.0.1/valid-email.test.js --repo-path /tmp/valid-email_0.0.1-src --base 624ffa60b42bed8c577a679d682dda286b4603e6 --repo redos/valid-email_0.0.1 --docker-image secbench-fullloop/valid-email_0.0.1 --max-iterations 5 --cost-limit 0.3 --no-run-codegen --gate-in-loop --gate-runs 1 --revise-iterations 2",
+  "pipeline_returncode": 0,
+  "pipeline_out_dir": "stratified-samples-full-loop-judge14/redos/valid-email_0.0.1/pipeline_exploit-evasive",
+  "finished_at": "2026-09-17T18:43:35.111074+00:00"
+}

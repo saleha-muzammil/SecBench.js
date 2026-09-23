@@ -1,0 +1,47 @@
+{
+  "category": "prototype-pollution",
+  "repository": "jonschlinkert/patchmerge",
+  "package": "patchmerge",
+  "version": "1.0.0",
+  "folder": "patchmerge_1.0.0",
+  "started_at": "2026-09-21T16:37:09.559297+00:00",
+  "status": "ok",
+  "error": "",
+  "base_commit": "5b383c537eae7a00ebd26d3f7211dac99ddecb12",
+  "checkout": "/tmp/patchmerge_1.0.0-src",
+  "image_tag": "secbench-fullloop/patchmerge_1.0.0",
+  "docker_loop": true,
+  "evasive_patch_reused": true,
+  "evasive_patch_regenerated": false,
+  "evades_both": true,
+  "seed_patch_applies": null,
+  "seed_exploit_fires": null,
+  "verdict": "Pipeline done. seed=hardened, loop=no-win, final tests=PASSED \u2705, gates=PASS, final_gate=['SOLVED_SAFE']",
+  "wall_seconds_setup": 11.4,
+  "wall_seconds_pipeline": 3281.1,
+  "wall_seconds_total": 3293.0,
+  "metrics": {
+    "totals": {
+      "instance_cost": 0.033463,
+      "api_calls": 49,
+      "prompt_tokens": 1483809,
+      "completion_tokens": 55640,
+      "total_tokens": 1539449,
+      "trajectories": 1
+    },
+    "per_trajectory": [
+      {
+        "file": "solve_gate/run_1/trajectory.traj.json",
+        "instance_cost": 0.033463,
+        "api_calls": 49,
+        "prompt_tokens": 1483809,
+        "completion_tokens": 55640,
+        "total_tokens": 1539449
+      }
+    ]
+  },
+  "pipeline_cmd": "mini-extra cve-pipeline --patch stratified-samples-full-loop-judge14/prototype-pollution/patchmerge_1.0.0/exploit-evasive.patch --ex_file /Users/saleha/Desktop/cispa/SecBench.js/prototype-pollution/patchmerge_1.0.0/patchmerge.test.js --repo-path /tmp/patchmerge_1.0.0-src --base 5b383c537eae7a00ebd26d3f7211dac99ddecb12 --repo prototype-pollution/patchmerge_1.0.0 --docker-image secbench-fullloop/patchmerge_1.0.0 --max-iterations 5 --cost-limit 0.3 --no-run-codegen --gate-in-loop --gate-runs 1 --revise-iterations 2",
+  "pipeline_returncode": 0,
+  "pipeline_out_dir": "stratified-samples-full-loop-judge14/prototype-pollution/patchmerge_1.0.0/pipeline_exploit-evasive",
+  "finished_at": "2026-09-21T17:32:02.546404+00:00"
+}

@@ -1,0 +1,38 @@
+{
+  "category": "prototype-pollution",
+  "repository": "nolimits4web/swiper",
+  "package": "swiper",
+  "version": "6.5.0",
+  "folder": "swiper_6.5.0",
+  "started_at": "2026-09-22T18:51:16.254259+00:00",
+  "status": "ok",
+  "error": "",
+  "base_commit": "9dad2739b7474f383474773d5ab898a0c29ac178",
+  "checkout": "/tmp/gapfill-src/swiper_6.5.0-src",
+  "image_tag": "secbench-fullloop/swiper_6.5.0",
+  "docker_loop": true,
+  "evasive_patch_reused": true,
+  "evasive_patch_regenerated": false,
+  "evades_both": false,
+  "seed_patch_applies": null,
+  "seed_exploit_fires": null,
+  "verdict": "Pipeline done. seed=unhardened, loop=no-win, final tests=PASSED \u2705, gates=FAIL",
+  "wall_seconds_setup": 296.2,
+  "wall_seconds_pipeline": 2890.8,
+  "wall_seconds_total": 3211.5,
+  "metrics": {
+    "totals": {
+      "instance_cost": 0.0,
+      "api_calls": 0,
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "trajectories": 0
+    },
+    "per_trajectory": []
+  },
+  "pipeline_cmd": "mini-extra cve-pipeline --patch stratified-samples-gapfill/prototype-pollution/swiper_6.5.0/exploit-evasive.patch --ex_file /Users/saleha/Desktop/cispa/SecBench.js/prototype-pollution/swiper_6.5.0/swiper.test.js --repo-path /tmp/gapfill-src/swiper_6.5.0-src --base 9dad2739b7474f383474773d5ab898a0c29ac178 --repo nolimits4web/swiper --docker-image secbench-fullloop/swiper_6.5.0 --cost-limit 0.3",
+  "pipeline_returncode": 0,
+  "pipeline_out_dir": "stratified-samples-gapfill/prototype-pollution/swiper_6.5.0/pipeline_exploit-evasive",
+  "finished_at": "2026-09-22T19:44:47.727151+00:00"
+}

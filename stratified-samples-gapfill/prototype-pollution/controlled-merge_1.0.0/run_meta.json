@@ -1,0 +1,47 @@
+{
+  "category": "prototype-pollution",
+  "repository": "hlfshell/controlled-merge",
+  "package": "controlled-merge",
+  "version": "1.0.0",
+  "folder": "controlled-merge_1.0.0",
+  "started_at": "2026-09-22T05:42:02.046003+00:00",
+  "status": "ok",
+  "error": "",
+  "base_commit": "5a4b2e9ffe5a0be7f8843d4ab038599d3ae5f9d4",
+  "checkout": "/tmp/gapfill-src/controlled-merge_1.0.0-src",
+  "image_tag": "secbench-fullloop/controlled-merge_1.0.0",
+  "docker_loop": true,
+  "evasive_patch_reused": true,
+  "evasive_patch_regenerated": false,
+  "evades_both": false,
+  "seed_patch_applies": null,
+  "seed_exploit_fires": null,
+  "verdict": "Pipeline done. seed=hardened, loop=no-win, final tests=PASSED \u2705, gates=PASS, final_gate=['SOLVED']",
+  "wall_seconds_setup": 22.5,
+  "wall_seconds_pipeline": 923.6,
+  "wall_seconds_total": 947.3,
+  "metrics": {
+    "totals": {
+      "instance_cost": 0.007819,
+      "api_calls": 18,
+      "prompt_tokens": 223913,
+      "completion_tokens": 12753,
+      "total_tokens": 236666,
+      "trajectories": 1
+    },
+    "per_trajectory": [
+      {
+        "file": "solve_gate/run_1/trajectory.traj.json",
+        "instance_cost": 0.007819,
+        "api_calls": 18,
+        "prompt_tokens": 223913,
+        "completion_tokens": 12753,
+        "total_tokens": 236666
+      }
+    ]
+  },
+  "pipeline_cmd": "mini-extra cve-pipeline --patch stratified-samples-gapfill/prototype-pollution/controlled-merge_1.0.0/exploit-evasive.patch --ex_file /Users/saleha/Desktop/cispa/SecBench.js/prototype-pollution/controlled-merge_1.0.0/controlled-merge.test.js --repo-path /tmp/gapfill-src/controlled-merge_1.0.0-src --base 5a4b2e9ffe5a0be7f8843d4ab038599d3ae5f9d4 --repo hlfshell/controlled-merge --docker-image secbench-fullloop/controlled-merge_1.0.0 --cost-limit 0.3",
+  "pipeline_returncode": 0,
+  "pipeline_out_dir": "stratified-samples-gapfill/prototype-pollution/controlled-merge_1.0.0/pipeline_exploit-evasive",
+  "finished_at": "2026-09-22T05:57:49.327187+00:00"
+}

@@ -1,0 +1,4 @@
+category,repository,package,version
+prototype-pollution,lodash/lodash,lodash,4.17.10
+prototype-pollution,jonschlinkert/patchmerge,patchmerge,1.0.0
+prototype-pollution,jonschlinkert/mixin-deep,mixin-deep,1.3.0

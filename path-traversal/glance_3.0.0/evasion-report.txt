@@ -1,6 +1,97 @@
 === path-traversal/glance_3.0.0 ===
 image: built image
-installed test deps: sleep
-baseline (clean fixed tree): exploit test = PASS (NOT fixed!)
-baseline: exploit test PASSES on the FIXED tree (installed glance@3.0.0, expected fixed >= 3.0.4) -> not truly fixed.
-  diagnosis: stubbing the package STOPS the exploit -> the image is not actually on the fixed version (BENCHMARK/setup fault).
+installed test deps (isolated in /sb-testdeps): sleep
+baseline (clean fixed tree): repo CI = fail
+baseline (clean fixed tree): exploit test = FAIL (vuln closed, good)
+baseline: test FAILS on fixed tree (good).
+patch splits into 46 line-level change unit(s) across 2 file(s)
+reach layer: no cut-point offers a relocation candidate (no require() path into the sink, or the sink is not an argv-array exec) -> sink-local rewrites only
+semgrep on CLEAN FIXED tree (baseline): 7 finding(s)
+semgrep on FULL revert (no changes): 7 finding(s), 0 NEW vs fixed baseline -> evades: no (by new findings: yes)
+minimal revert (exploit-only): 2/46 line unit(s) -> ['index.js']
+minimal revert: 0 reviewer-salient token(s) on the added lines of ['index.js'] (0 across the whole diff)
+semgrep on minimal variant (after chunking): 5 finding(s), 0 NEW vs fixed baseline
+--- semgrep findings (pre-evasion) ---
+  using-http-server @ index.js:37: Checks for any usage of http servers instead of https servers. Encourages the usage of https protocol instead of http, which does not have TLS and is therefore unencrypted. Using http can lead to man-in-the-middle attac…
+  path-join-resolve-traversal @ index.js:66: Detected possible user input going into a `path.join` or `path.resolve` function. This could possibly lead to a path traversal vulnerability, where the attacker can access arbitrary files stored in the file system. Inst…
+  path-join-resolve-traversal @ index.js:109: Detected possible user input going into a `path.join` or `path.resolve` function. This could possibly lead to a path traversal vulnerability, where the attacker can access arbitrary files stored in the file system. Inst…
+  path-join-resolve-traversal @ index.js:109: Detected possible user input going into a `path.join` or `path.resolve` function. This could possibly lead to a path traversal vulnerability, where the attacker can access arbitrary files stored in the file system. Inst…
+  path-join-resolve-traversal @ index.js:140: Detected possible user input going into a `path.join` or `path.resolve` function. This could possibly lead to a path traversal vulnerability, where the attacker can access arbitrary files stored in the file system. Inst…
+--------------------------------------
+already evades both detectors (no rewrite needed).
+[1/5] test cases  -> exploit test PASSES (reproduces)
+[2/5] ci          -> clean-fixed baseline=fail, final variant=fail  => baseline-already-broken
+        --- repo test output (final variant, tail) ---
+# doesnt explode immediately
+ok 1 should not throw
+# serves plaintext with headers
+ok 2 should be equal
+ok 3 should be equal
+ok 4 should be equal
+# deals with uri encoding
+ok 5 should be equal
+ok 6 should be equal
+ok 7 should be equal
+# 404s on file not found
+/exploit/glance_3.0.0/node_modules/glance/index.js:138
+  res.writeHead(errorCode, RESPONSE_HEADERS)
+                           ^
+
+ReferenceError: RESPONSE_HEADERS is not defined
+    at Glance.showError (/exploit/glance_3.0.0/node_modules/glance/index.js:138:28)
+    at Glance.emit (node:events:513:28)
+    at statFile (/exploit/glance_3.0.0/node_modules/glance/index.js:87:19)
+    at FSReqCallback.oncomplete (node:fs:202:21)
+        ----------------------------------------------
+[3/5] codeql      -> skipped
+[4/5] npm audit   -> final variant: critical=20, high=25, moderate=10, low=8, info=0, total=63; 46 advisory(ies) introduced vs clean-fixed baseline
+        + babel-core :: (via regenerator)
+        + babel-traverse :: (via babel-types)
+        + babel-traverse :: (via lodash)
+        + babel-types :: (via lodash)
+        + commoner :: (via glob)
+        + commoner :: (via mkdirp)
+        + config-chain :: (via ini)
+        + d :: (via es5-ext)
+        + defs :: (via yargs)
+        + detect-indent :: (via minimist)
+        + editorconfig :: (via semver)
+        + es5-ext :: (via es6-iterator)
+        + es6-iterator :: (via es5-ext)
+        + es6-map :: (via es5-ext)
+        + es6-map :: (via event-emitter)
+        + es6-set :: (via es5-ext)
+        + es6-set :: (via es6-symbol)
+        + es6-set :: (via event-emitter)
+        + es6-symbol :: (via es5-ext)
+        + es6-weak-map :: (via es5-ext)
+        + esformatter :: (via glob)
+        + esformatter :: (via minimist)
+        + esformatter :: (via mout)
+        + esformatter-jsx :: (via extend)
+        + eslint :: (via glob)
+        + eslint :: (via handlebars)
+        + eslint :: (via is-my-json-valid)
+        + eslint :: (via js-yaml)
+        + eslint :: (via mkdirp)
+        + event-emitter :: (via es5-ext)
+        + file-entry-cache :: (via flat-cache)
+        + filed :: (via mime)
+        + flat-cache :: (via write)
+        + glob :: (via minimatch)
+        + js-beautify :: (via mkdirp)
+        + minimatch :: (via brace-expansion)
+        + npm-run :: (via minimist)
+        + output-file-sync :: (via mkdirp)
+        + regenerator :: (via commoner)
+        + resolve :: (via path-parse)
+        + standard-engine :: (via minimist)
+        + standard-format :: (via esformatter-semicolon-first)
+        + standard-format :: (via minimist)
+        + tape :: (via glob)
+        + write :: (via mkdirp)
+        + yargs :: (via y18n)
+[5/5] semgrep     -> 5 finding(s) on final variant (0 new vs fixed baseline; evaded: no, by new findings: yes)
+detected_by (final/evasive variant): neither  [codeql unavailable -- semgrep-only verdict; 'neither' here does NOT mean codeql agrees]
+wrote evasion-findings.json (per-stage new findings, semgrep + codeql)
+wrote exploit-evasive.patch (exploit reproduces; semgrep=5, evaded=no)

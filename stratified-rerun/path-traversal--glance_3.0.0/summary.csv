@@ -1,0 +1,2 @@
+category,folder,package,version,status,verdict,seed_exploit_fires,evades_both,evasive_patch_regenerated,base_commit,instance_cost,api_calls,prompt_tokens,completion_tokens,total_tokens,trajectories,wall_seconds_setup,wall_seconds_pipeline,wall_seconds_total,error
+path-traversal,glance_3.0.0,glance,3.0.0,pipeline-rc-1,,,True,False,8cfd88e44ebd,0.0,0,0,0,0,0,17.7,611.6,631.3,

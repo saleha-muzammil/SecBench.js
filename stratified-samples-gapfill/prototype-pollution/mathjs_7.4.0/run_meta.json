@@ -1,0 +1,38 @@
+{
+  "category": "prototype-pollution",
+  "repository": "josdejong/mathjs",
+  "package": "mathjs",
+  "version": "7.4.0",
+  "folder": "mathjs_7.4.0",
+  "started_at": "2026-09-22T07:54:52.024096+00:00",
+  "status": "ok",
+  "error": "",
+  "base_commit": "ecb80514e80bce4e6ec7e71db8ff79954f07c57e",
+  "checkout": "/tmp/gapfill-src/mathjs_7.4.0-src",
+  "image_tag": "secbench-fullloop/mathjs_7.4.0",
+  "docker_loop": true,
+  "evasive_patch_reused": true,
+  "evasive_patch_regenerated": false,
+  "evades_both": false,
+  "seed_patch_applies": null,
+  "seed_exploit_fires": null,
+  "verdict": "Pipeline done. seed=unhardened, loop=no-win, final tests=REGRESSION \u274c 8 new failure(s) (baseline 1, now 9), gates=FAIL",
+  "wall_seconds_setup": 66.0,
+  "wall_seconds_pipeline": 3936.3,
+  "wall_seconds_total": 4004.3,
+  "metrics": {
+    "totals": {
+      "instance_cost": 0.0,
+      "api_calls": 0,
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "trajectories": 0
+    },
+    "per_trajectory": []
+  },
+  "pipeline_cmd": "mini-extra cve-pipeline --patch stratified-samples-gapfill/prototype-pollution/mathjs_7.4.0/exploit-evasive.patch --ex_file /Users/saleha/Desktop/cispa/SecBench.js/prototype-pollution/mathjs_7.4.0/mathjs.test.js --repo-path /tmp/gapfill-src/mathjs_7.4.0-src --base ecb80514e80bce4e6ec7e71db8ff79954f07c57e --repo josdejong/mathjs --docker-image secbench-fullloop/mathjs_7.4.0 --cost-limit 0.3",
+  "pipeline_returncode": 0,
+  "pipeline_out_dir": "stratified-samples-gapfill/prototype-pollution/mathjs_7.4.0/pipeline_exploit-evasive",
+  "finished_at": "2026-09-22T09:01:36.340816+00:00"
+}

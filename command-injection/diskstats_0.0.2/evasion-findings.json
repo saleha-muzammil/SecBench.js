@@ -1,0 +1,19 @@
+{
+  "package": "diskstats",
+  "targets": [
+    "lib/stat.js",
+    "index.js"
+  ],
+  "full_targets": [
+    "lib/stat.js",
+    "index.js"
+  ],
+  "semgrep": {
+    "fixed_total": 0,
+    "new_full": 2,
+    "new_minimal": 1,
+    "new_final": []
+  },
+  "codeql": null,
+  "detected_by": "neither"
+}

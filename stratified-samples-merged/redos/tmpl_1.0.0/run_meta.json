@@ -1,0 +1,55 @@
+{
+  "category": "redos",
+  "repository": "daaku/nodejs-tmpl",
+  "package": "tmpl",
+  "version": "1.0.0",
+  "folder": "tmpl_1.0.0",
+  "started_at": "2026-09-17T16:23:52.807612+00:00",
+  "status": "ok",
+  "error": "",
+  "base_commit": "4c654e4d1542f329ed561fd95ccd80f30c6872d6",
+  "checkout": "/tmp/tmpl_1.0.0-src",
+  "image_tag": "secbench-fullloop/tmpl_1.0.0",
+  "docker_loop": true,
+  "evasive_patch_reused": true,
+  "evasive_patch_regenerated": false,
+  "evades_both": true,
+  "seed_patch_applies": null,
+  "seed_exploit_fires": null,
+  "verdict": "Pipeline done. seed=hardened, loop=SUCCESS, final tests=PASSED \u2705, gates=PASS, final_gate=['SOLVED']",
+  "wall_seconds_setup": 10.9,
+  "wall_seconds_pipeline": 380.9,
+  "wall_seconds_total": 392.1,
+  "metrics": {
+    "totals": {
+      "instance_cost": 0.010898,
+      "api_calls": 32,
+      "prompt_tokens": 230864,
+      "completion_tokens": 14011,
+      "total_tokens": 244875,
+      "trajectories": 2
+    },
+    "per_trajectory": [
+      {
+        "file": "issue/iter_1/adopt/run_1/trajectory.traj.json",
+        "instance_cost": 0.005838,
+        "api_calls": 16,
+        "prompt_tokens": 121318,
+        "completion_tokens": 7315,
+        "total_tokens": 128633
+      },
+      {
+        "file": "solve_gate/run_1/trajectory.traj.json",
+        "instance_cost": 0.00506,
+        "api_calls": 16,
+        "prompt_tokens": 109546,
+        "completion_tokens": 6696,
+        "total_tokens": 116242
+      }
+    ]
+  },
+  "pipeline_cmd": "mini-extra cve-pipeline --patch stratified-samples-full-loop-judge14/redos/tmpl_1.0.0/exploit-evasive.patch --ex_file /Users/saleha/Desktop/cispa/SecBench.js/redos/tmpl_1.0.0/tmpl.test.js --repo-path /tmp/tmpl_1.0.0-src --base 4c654e4d1542f329ed561fd95ccd80f30c6872d6 --repo redos/tmpl_1.0.0 --docker-image secbench-fullloop/tmpl_1.0.0 --max-iterations 5 --cost-limit 0.3 --no-run-codegen --gate-in-loop --gate-runs 1 --revise-iterations 2",
+  "pipeline_returncode": 0,
+  "pipeline_out_dir": "stratified-samples-full-loop-judge14/redos/tmpl_1.0.0/pipeline_exploit-evasive",
+  "finished_at": "2026-09-17T16:30:24.938601+00:00"
+}

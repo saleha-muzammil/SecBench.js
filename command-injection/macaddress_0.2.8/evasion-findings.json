@@ -2,12 +2,14 @@
   "package": "macaddress",
   "targets": [
     "lib/linux.js",
-    "lib/unix.js"
+    "lib/unix.js",
+    "index.js"
   ],
   "full_targets": [
     "lib/linux.js",
     "lib/unix.js",
-    "lib/windows.js"
+    "lib/windows.js",
+    "index.js"
   ],
   "semgrep": {
     "fixed_total": 5,

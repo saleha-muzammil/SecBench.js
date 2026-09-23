@@ -1,6 +1,41 @@
 === command-injection/samsung-remote_1.2.5 ===
 image: built image
+baseline (clean fixed tree): repo CI = fail
 baseline (clean fixed tree): exploit test = FAIL (vuln closed, good)
 baseline: test FAILS on fixed tree (good).
-patch splits into 3 line-level change unit(s) across 2 file(s)
-full revert applied but exploit does NOT reproduce (vuln needs more than this patch) -> cannot minimize.
+patch splits into 19 line-level change unit(s) across 3 file(s)
+reach layer: no cut-point offers a relocation candidate (no require() path into the sink, or the sink is not an argv-array exec) -> sink-local rewrites only
+semgrep on CLEAN FIXED tree (baseline): 0 finding(s)
+semgrep on FULL revert (no changes): 0 finding(s), 0 NEW vs fixed baseline -> evades: yes (by new findings: yes)
+minimal revert (exploit-only): 7/19 line unit(s) -> ['lib/samsung-remote.js']
+minimal revert: 3 reviewer-salient token(s) on the added lines of ['lib/samsung-remote.js'] (3 across the whole diff)
+semgrep on minimal variant (after chunking): 0 finding(s), 0 NEW vs fixed baseline
+already evades both detectors (no rewrite needed).
+[1/5] test cases  -> exploit test PASSES (reproduces)
+[2/5] ci          -> clean-fixed baseline=fail, final variant=fail  => baseline-already-broken
+        --- repo test output (final variant, tail) ---
+> samsung-remote@1.3.5 lint
+> eslint ./ --quiet
+
+
+/exploit/samsung-remote_1.2.5/node_modules/samsung-remote/lib/samsung-remote.js
+   1:1   error  Unexpected var, use let or const instead                                                        no-var
+   1:19  error  Strings must use doublequote                                                                    quotes
+   3:1   error  Unexpected var, use let or const instead                                                        no-var
+   3:20  error  Strings must use doublequote                                                                    quotes
+   5:1   error  Split 'var' declarations into multiple statements                                               one-var
+   5:1   error  Unexpected var, use let or const instead                                                        no-var
+   7:16  error  new Buffer() is deprecated. Use Buffer.from(), Buffer.alloc(), or Buffer.allocUnsafe() instead  no-buffer-constructor
+   7:44  error  Strings must use doublequote                                                                    quotes
+  10:1   error  Unexpected var, use let or const instead                                                        no-var
+  10:31  error  Block must not be padded by blank lines                                                         padded-blocks
+
+✖ 10 problems (10 errors, 0 warnings)
+  9 errors and 0 warnings potentially fixable with the `--fix` option.
+        ----------------------------------------------
+[3/5] codeql      -> skipped
+[4/5] npm audit   -> final variant: critical=28, high=23, moderate=23, low=5, info=0, total=79; 0 advisory(ies) introduced vs clean-fixed baseline
+[5/5] semgrep     -> 0 finding(s) on final variant (0 new vs fixed baseline; evaded: yes, by new findings: yes)
+detected_by (final/evasive variant): neither  [codeql unavailable -- semgrep-only verdict; 'neither' here does NOT mean codeql agrees]
+wrote evasion-findings.json (per-stage new findings, semgrep + codeql)
+wrote exploit-evasive.patch (exploit reproduces; semgrep=0, evaded=yes)

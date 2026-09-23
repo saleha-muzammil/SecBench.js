@@ -1,0 +1,374 @@
+From a6b2dc82206891bb17c53a7610a59b6dc7b78a50 Mon Sep 17 00:00:00 2001
+From: Philip Skinner <philip.skinner@cds.co.uk>
+Date: Thu, 23 Jul 2020 08:19:24 +0100
+Subject: [PATCH] [*] Swaps over implementation to using spawn instead of exec.
+
+This is to protect against a injection vulnerability that
+was identified by Alessio (d3lla).
+
+Many thanks to Alessio for finding this and bringing it to
+my attention.
+
+A unit test that covers a specific example of this attack has
+been added into the project to ensure that it errors instead
+of executing the injected code.
+---
+ lib/hackerone-864354.test.js | 17 +++++++
+ lib/stat.js                  | 66 ++++++++++++++++++++------
+ lib/stat.test.js             | 89 ++++++++++++++++++++++++++++--------
+ package.json                 |  2 +-
+ readme.md                    | 10 +++-
+ 5 files changed, 150 insertions(+), 34 deletions(-)
+ create mode 100644 lib/hackerone-864354.test.js
+
+diff --git a/lib/hackerone-864354.test.js b/lib/hackerone-864354.test.js
+new file mode 100644
+index 0000000..50a27aa
+--- /dev/null
++++ b/lib/hackerone-864354.test.js
+@@ -0,0 +1,17 @@
++const diskstats = require('./stat');
++
++const test = (done) => {
++	let instance = diskstats();
++
++	instance.check('; touch HACKED', (err, results) => {}).catch((err) => {
++		let str = err.toString();
++
++		expect(str.indexOf('No such file or directory')).not.toEqual(-1);
++
++		done();
++	});
++}
++
++describe("A disk stat provider", () => {
++	it("protects against attach 864354", test);
++});
+\ No newline at end of file
+diff --git a/lib/stat.js b/lib/stat.js
+index cf7c4e1..6a1eaf8 100644
+--- a/lib/stat.js
++++ b/lib/stat.js
+@@ -32,8 +32,8 @@ stat.prototype._parseResponse = function(response) {
+ 				total 	: parseInt(parts[1]),
+ 				used 	: parseInt(parts[2]),
+ 				free 	: parseInt(parts[3])
+-			};	
+-		}		
++			};
++		}
+ 	});
+ 
+ 	return ret;
+@@ -41,10 +41,26 @@ stat.prototype._parseResponse = function(response) {
+ 
+ stat.prototype._fetchSpace = function(path) {
+ 	return new Promise((resolve, reject) => {
+-		this.child_process.exec('df ' + this._ensureAbsPath(path), (err, stdout) => {
+-			if (err) {
+-				return reject(err);
+-			}			
++		const proc = this.child_process.spawn('df',[
++			this._ensureAbsPath(path),
++		], {
++			cwd : process.cwd()
++		});
++
++		let stdout = '';
++		proc.stdout.on('data', (_data) => {
++			stdout += _data.toString('utf8');
++		});
++
++		let stderr = '';
++		proc.stderr.on('data', (_data) => {
++			stderr += _data.toString('utf8');
++		});
++
++		proc.on('close', (code) => {
++			if (code !== 0) {
++				return reject(new Error(stderr));
++			}
+ 
+ 			return resolve(this._parseResponse(stdout));
+ 		});
+@@ -53,9 +69,26 @@ stat.prototype._fetchSpace = function(path) {
+ 
+ stat.prototype._fetchInodes = function(path) {
+ 	return new Promise((resolve, reject) => {
+-		this.child_process.exec('df -i ' + this._ensureAbsPath(path), (err, stdout) => {
+-			if (err) {
+-				return reject(err);
++		const proc = this.child_process.spawn('df',[
++			'-i',
++			this._ensureAbsPath(path),
++		], {
++			cwd : process.cwd()
++		});
++
++		let stdout = '';
++		proc.stdout.on('data', (_data) => {
++			stdout += _data.toString('utf8');
++		});
++
++		let stderr = '';
++		proc.stderr.on('data', (_data) => {
++			stderr += _data.toString('utf8');
++		});
++
++		proc.on('close', (code) => {
++			if (code !== 0) {
++				return reject(new Error(stderr));
+ 			}
+ 
+ 			return resolve(this._parseResponse(stdout));
+@@ -67,16 +100,16 @@ stat.prototype.all = function(cb) {
+ 	return this.check('', cb);
+ };
+ 
+-stat.prototype.check = function(path, cb) {	
++stat.prototype.check = function(path, cb) {
+ 	return new Promise((resolve, reject) => {
+ 		var store = {};
+ 
+ 		this._fetchSpace(path).then((space) => {
+ 			store = space;
+ 			return this._fetchInodes(path);
+-		}).then((inodes) => {				
++		}).then((inodes) => {
+ 			var count = 0;
+-			var singleDrive = null;			
++			var singleDrive = null;
+ 			Object.keys(inodes).forEach((drive) => {
+ 				if (typeof(store[drive]) !== 'undefined') {
+ 					store[drive].inodes = inodes[drive];
+@@ -89,8 +122,13 @@ stat.prototype.check = function(path, cb) {
+ 				cb(null, count !== 1 ? store : store[singleDrive]);
+ 			}
+ 			return resolve(count !== 1 ? store : store[singleDrive]);
+-		}).catch(cb);
+-	});	
++		}).catch((err) => {
++			if (cb && typeof(cb) === 'function') {
++				cb(err);
++			}
++			return reject(err);
++		});
++	});
+ };
+ 
+ module.exports = function(child_process, path) {
+diff --git a/lib/stat.test.js b/lib/stat.test.js
+index abf6601..f7fddbb 100644
+--- a/lib/stat.test.js
++++ b/lib/stat.test.js
+@@ -2,7 +2,16 @@ const 	stat 	= require('./stat'),
+ 		sinon 	= require('sinon');
+ 
+ const child_process = {
+-	exec : () => {}
++	spawn 	: () => {},
++	stdout 	: {
++		on 	: () => {}
++	},
++	stderr 	: {
++		on 	: () => {}
++	},
++	on 		: () => {
++
++	}
+ };
+ 
+ const path = {
+@@ -23,8 +32,14 @@ const constructorTest = (done) => {
+ 
+ const allTest = (done) => {
+ 	const processMock = sinon.mock(child_process);
+-	processMock.expects('exec').once().withArgs('df ').callsArgWith(1, null, 'ignore\ndrive1 50 100 150\ndrive2 100 150 200\nignore\ndrive3 999 999 999\n');
+-	processMock.expects('exec').once().withArgs('df -i ').callsArgWith(1, null, 'woot\ndrive1 20 30 40\ndrive2 50 60 70\ndrive5 80 90 10\n');
++	processMock.expects('spawn').once().withArgs('df', ['']).returns(child_process);
++	processMock.expects('spawn').once().withArgs('df', ['-i', '']).returns(child_process);
++
++	const stdoutMock = sinon.mock(child_process.stdout);
++	stdoutMock.expects('on').once().withArgs('data').callsArgWith(1, 'ignore\ndrive1 50 100 150\ndrive2 100 150 200\nignore\ndrive3 999 999 999\n');
++	stdoutMock.expects('on').once().withArgs('data').callsArgWith(1, 'woot\ndrive1 20 30 40\ndrive2 50 60 70\ndrive5 80 90 10\n');
++
++	processMock.expects('on').twice().withArgs('close').callsArgWith(1, 0);
+ 
+ 	const pathMock = sinon.mock(path);
+ 	pathMock.expects('join').never();
+@@ -63,15 +78,23 @@ const allTest = (done) => {
+ 		processMock.restore();
+ 		pathMock.verify();
+ 		pathMock.restore();
++		stdoutMock.verify();
++		stdoutMock.restore();
+ 
+-		done();		
++		done();
+ 	});
+ };
+ 
+ const absTest = (done) => {
+ 	const processMock = sinon.mock(child_process);
+-	processMock.expects('exec').once().withArgs('df /hello/there').callsArgWith(1, null, 'ignore\nme\n');
+-	processMock.expects('exec').once().withArgs('df -i /hello/there').callsArgWith(1, null, 'woot\naswell');
++	processMock.expects('spawn').once().withArgs('df', ['/hello/there']).returns(child_process);
++	processMock.expects('spawn').once().withArgs('df', ['-i', '/hello/there']).returns(child_process);
++
++	const stdoutMock = sinon.mock(child_process.stdout);
++	stdoutMock.expects('on').once().withArgs('data').callsArgWith(1, 'ignore\nme\n');
++	stdoutMock.expects('on').once().withArgs('data').callsArgWith(1, 'woot\naswell');
++
++	processMock.expects('on').twice().withArgs('close').callsArgWith(1, 0);
+ 
+ 	const pathMock = sinon.mock(path);
+ 	pathMock.expects('join').never();
+@@ -86,15 +109,23 @@ const absTest = (done) => {
+ 		processMock.restore();
+ 		pathMock.verify();
+ 		pathMock.restore();
++		stdoutMock.verify();
++		stdoutMock.restore();
+ 
+-		done();		
++		done();
+ 	});
+ };
+ 
+ const relativeTest = (done) => {
+ 	const processMock = sinon.mock(child_process);
+-	processMock.expects('exec').once().withArgs('df /dir/hello/there').callsArgWith(1, null, 'ignore\ndrive1 50 100 150\n');
+-	processMock.expects('exec').once().withArgs('df -i /dir/hello/there').callsArgWith(1, null, 'ignore\ndrive1 50 100 150\n');
++	processMock.expects('spawn').once().withArgs('df', ['/dir/hello/there']).returns(child_process);
++	processMock.expects('spawn').once().withArgs('df', ['-i', '/dir/hello/there']).returns(child_process);
++
++	const stdoutMock = sinon.mock(child_process.stdout);
++	stdoutMock.expects('on').once().withArgs('data').callsArgWith(1, 'ignore\ndrive1 50 100 150\n');
++	stdoutMock.expects('on').once().withArgs('data').callsArgWith(1, 'ignore\ndrive1 50 100 150\n');
++
++	processMock.expects('on').twice().withArgs('close').callsArgWith(1, 0);
+ 
+ 	const pathMock = sinon.mock(path);
+ 	pathMock.expects('join').twice().withArgs(process.cwd(), './hello/there').returns('/dir/hello/there');
+@@ -118,14 +149,21 @@ const relativeTest = (done) => {
+ 		processMock.restore();
+ 		pathMock.verify();
+ 		pathMock.restore();
++		stdoutMock.verify();
++		stdoutMock.restore();
+ 
+-		done();		
++		done();
+ 	});
+ };
+ 
+ const spaceError = (done) => {
+ 	const processMock = sinon.mock(child_process);
+-	processMock.expects('exec').once().withArgs('df /hello/there').callsArgWith(1, 'Not today');	
++	processMock.expects('spawn').once().withArgs('df', ['/hello/there']).returns(child_process);
++
++	const stderrMock = sinon.mock(child_process.stderr);
++	stderrMock.expects('on').once().withArgs('data').callsArgWith(1, 'Not today');
++
++	processMock.expects('on').once().withArgs('close').callsArgWith(1, 100);
+ 
+ 	const pathMock = sinon.mock(path);
+ 	pathMock.expects('join').never();
+@@ -133,21 +171,34 @@ const spaceError = (done) => {
+ 
+ 	const instance = stat(child_process, path);
+ 	instance.check('/hello/there', (err) => {
+-		expect(err).toEqual('Not today');		
++		expect(err).toEqual(new Error('Not today'));
+ 
+ 		processMock.verify();
+ 		processMock.restore();
+ 		pathMock.verify();
+ 		pathMock.restore();
++		stderrMock.verify();
++		stderrMock.restore();
+ 
+-		done();	
++		done();
+ 	});
+ };
+ 
+ const inodeError = (done) => {
+ 	const processMock = sinon.mock(child_process);
+-	processMock.expects('exec').once().withArgs('df /hello/there').callsArgWith(1, null, 'ignore\ndrive1 50 100 150\n');
+-	processMock.expects('exec').once().withArgs('df -i /hello/there').callsArgWith(1, 'Not today');	
++	processMock.expects('spawn').once().withArgs('df', ['/hello/there']).returns(child_process);
++	processMock.expects('spawn').once().withArgs('df', ['-i', '/hello/there']).returns(child_process);
++
++	const stdoutMock = sinon.mock(child_process.stdout);
++	stdoutMock.expects('on').once().withArgs('data').callsArgWith(1, 'ignore\ndrive1 50 100 150\n');
++	stdoutMock.expects('on').once().withArgs('data').callsArgWith(1, '');
++
++	const stderrMock = sinon.mock(child_process.stderr);
++	stderrMock.expects('on').once().withArgs('data').callsArgWith(1, '');
++	stderrMock.expects('on').once().withArgs('data').callsArgWith(1, 'Not today');
++
++	processMock.expects('on').once().withArgs('close').callsArgWith(1, 0);
++	processMock.expects('on').once().withArgs('close').callsArgWith(1, 100);
+ 
+ 	const pathMock = sinon.mock(path);
+ 	pathMock.expects('join').never();
+@@ -155,14 +206,16 @@ const inodeError = (done) => {
+ 
+ 	const instance = stat(child_process, path);
+ 	instance.check('/hello/there', (err) => {
+-		expect(err).toEqual('Not today');		
++		expect(err).toEqual(new Error('Not today'));
+ 
+ 		processMock.verify();
+ 		processMock.restore();
+ 		pathMock.verify();
+ 		pathMock.restore();
++		stdoutMock.verify();
++		stdoutMock.restore();
+ 
+-		done();		
++		done();
+ 	});
+ };
+ 
+@@ -175,7 +228,7 @@ describe("A disk stat provider", () => {
+ 
+ 	describe("can check a path", () => {
+ 		it("handling absolutes", absTest);
+-		it("handling relative", relativeTest);		
++		it("handling relative", relativeTest);
+ 	});
+ 
+ 	describe("handles errors", () => {
+diff --git a/package.json b/package.json
+index f58c879..6ff9832 100644
+--- a/package.json
++++ b/package.json
+@@ -1,6 +1,6 @@
+ {
+ 	"name": "diskstats",
+-	"version": "0.0.2",
++	"version": "0.1.0",
+ 	"description": "Get disk stats such as space used & inode usage, relies on df",
+ 	"main": "index.js",
+ 	"keywords": [
+diff --git a/readme.md b/readme.md
+index 4850569..b60fd0a 100644
+--- a/readme.md
++++ b/readme.md
+@@ -55,4 +55,12 @@ diskstats.check('.').then((results) => {
+ }).catch((err) => {
+ 	console.log(err);
+ })
+-```
+\ No newline at end of file
++```
++
++Contributors
++------------
++
++The following people have contributed to this library:
++
++* Philip Skinner
++* Alessio (d3lla) - https://hackerone.com/d3lla?type=user

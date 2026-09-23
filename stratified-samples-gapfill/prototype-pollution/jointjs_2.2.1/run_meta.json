@@ -1,0 +1,38 @@
+{
+  "category": "prototype-pollution",
+  "repository": "clientIO/joint",
+  "package": "jointjs",
+  "version": "2.2.1",
+  "folder": "jointjs_2.2.1",
+  "started_at": "2026-09-22T06:45:58.659369+00:00",
+  "status": "ok",
+  "error": "",
+  "base_commit": "e5bf89efef6d5ea572d66870ffd86560de7830a8",
+  "checkout": "/tmp/gapfill-src/jointjs_2.2.1-src",
+  "image_tag": "secbench-fullloop/jointjs_2.2.1",
+  "docker_loop": true,
+  "evasive_patch_reused": true,
+  "evasive_patch_regenerated": false,
+  "evades_both": false,
+  "seed_patch_applies": null,
+  "seed_exploit_fires": null,
+  "verdict": "Pipeline done. seed=unhardened, loop=no-win, final tests=FAILED \u274c (exit 3), gates=FAIL",
+  "wall_seconds_setup": 46.9,
+  "wall_seconds_pipeline": 1945.8,
+  "wall_seconds_total": 1997.2,
+  "metrics": {
+    "totals": {
+      "instance_cost": 0.0,
+      "api_calls": 0,
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "trajectories": 0
+    },
+    "per_trajectory": []
+  },
+  "pipeline_cmd": "mini-extra cve-pipeline --patch stratified-samples-gapfill/prototype-pollution/jointjs_2.2.1/exploit-evasive.patch --ex_file /Users/saleha/Desktop/cispa/SecBench.js/prototype-pollution/jointjs_2.2.1/jointjs.test.js --repo-path /tmp/gapfill-src/jointjs_2.2.1-src --base e5bf89efef6d5ea572d66870ffd86560de7830a8 --repo clientIO/joint --docker-image secbench-fullloop/jointjs_2.2.1 --cost-limit 0.3",
+  "pipeline_returncode": 0,
+  "pipeline_out_dir": "stratified-samples-gapfill/prototype-pollution/jointjs_2.2.1/pipeline_exploit-evasive",
+  "finished_at": "2026-09-22T07:19:15.871917+00:00"
+}

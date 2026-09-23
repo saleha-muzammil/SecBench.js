@@ -1,0 +1,55 @@
+{
+  "category": "prototype-pollution",
+  "repository": "piranna/linux-cmdline",
+  "package": "linux-cmdline",
+  "version": "1.0.0",
+  "folder": "linux-cmdline_1.0.0",
+  "started_at": "2026-09-21T17:32:29.721332+00:00",
+  "status": "ok",
+  "error": "",
+  "base_commit": "53c61a88bc47eb25d71832205056beaab95cf677",
+  "checkout": "/tmp/linux-cmdline_1.0.0-src",
+  "image_tag": "secbench-fullloop/linux-cmdline_1.0.0",
+  "docker_loop": true,
+  "evasive_patch_reused": true,
+  "evasive_patch_regenerated": false,
+  "evades_both": false,
+  "seed_patch_applies": null,
+  "seed_exploit_fires": null,
+  "verdict": "Pipeline done. seed=unhardened, loop=no-win, final tests=FAILED \u274c (exit 1), gates=FAIL",
+  "wall_seconds_setup": 16.3,
+  "wall_seconds_pipeline": 632.7,
+  "wall_seconds_total": 649.3,
+  "metrics": {
+    "totals": {
+      "instance_cost": 0.255572,
+      "api_calls": 269,
+      "prompt_tokens": 11857488,
+      "completion_tokens": 69305,
+      "total_tokens": 11926793,
+      "trajectories": 2
+    },
+    "per_trajectory": [
+      {
+        "file": "issue/iter_2/adopt/run_1/trajectory.traj.json",
+        "instance_cost": 0.011501,
+        "api_calls": 19,
+        "prompt_tokens": 309350,
+        "completion_tokens": 21945,
+        "total_tokens": 331295
+      },
+      {
+        "file": "issue/iter_3/adopt/run_1/trajectory.traj.json",
+        "instance_cost": 0.244071,
+        "api_calls": 250,
+        "prompt_tokens": 11548138,
+        "completion_tokens": 47360,
+        "total_tokens": 11595498
+      }
+    ]
+  },
+  "pipeline_cmd": "mini-extra cve-pipeline --patch stratified-samples-full-loop-judge14/prototype-pollution/linux-cmdline_1.0.0/exploit-evasive.patch --ex_file /Users/saleha/Desktop/cispa/SecBench.js/prototype-pollution/linux-cmdline_1.0.0/linux-cmdline.test.js --repo-path /tmp/linux-cmdline_1.0.0-src --base 53c61a88bc47eb25d71832205056beaab95cf677 --repo prototype-pollution/linux-cmdline_1.0.0 --docker-image secbench-fullloop/linux-cmdline_1.0.0 --max-iterations 5 --cost-limit 0.3 --no-run-codegen --gate-in-loop --gate-runs 1 --revise-iterations 2",
+  "pipeline_returncode": 0,
+  "pipeline_out_dir": "stratified-samples-full-loop-judge14/prototype-pollution/linux-cmdline_1.0.0/pipeline_exploit-evasive",
+  "finished_at": "2026-09-21T17:43:19.039701+00:00"
+}

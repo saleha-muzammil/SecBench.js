@@ -1,0 +1,55 @@
+{
+  "category": "command-injection",
+  "repository": "GuyMograbi/kill-by-port",
+  "package": "kill-by-port",
+  "version": "0.0.1",
+  "folder": "kill-by-port_0.0.1",
+  "started_at": "2026-09-22T03:27:47.237234+00:00",
+  "status": "ok",
+  "error": "",
+  "base_commit": "ea5b1f377e196a4492e05ff070eba8b30b7372c4",
+  "checkout": "/tmp/kill-by-port_0.0.1-src",
+  "image_tag": "secbench-fullloop/kill-by-port_0.0.1",
+  "docker_loop": true,
+  "evasive_patch_reused": true,
+  "evasive_patch_regenerated": false,
+  "evades_both": true,
+  "seed_patch_applies": null,
+  "seed_exploit_fires": null,
+  "verdict": "Pipeline done. seed=hardened, loop=SUCCESS, final tests=NO NEW FAILURES \u2705 (baseline 1 failing, still 1; pre-existing failures ignored), gates=PASS, final_gate=['SOLVED']",
+  "wall_seconds_setup": 30.0,
+  "wall_seconds_pipeline": 360.3,
+  "wall_seconds_total": 391.6,
+  "metrics": {
+    "totals": {
+      "instance_cost": 0.004568,
+      "api_calls": 25,
+      "prompt_tokens": 119241,
+      "completion_tokens": 6298,
+      "total_tokens": 125539,
+      "trajectories": 2
+    },
+    "per_trajectory": [
+      {
+        "file": "issue/iter_1/adopt/run_1/trajectory.traj.json",
+        "instance_cost": 0.002117,
+        "api_calls": 12,
+        "prompt_tokens": 54790,
+        "completion_tokens": 2984,
+        "total_tokens": 57774
+      },
+      {
+        "file": "solve_gate/run_1/trajectory.traj.json",
+        "instance_cost": 0.002451,
+        "api_calls": 13,
+        "prompt_tokens": 64451,
+        "completion_tokens": 3314,
+        "total_tokens": 67765
+      }
+    ]
+  },
+  "pipeline_cmd": "mini-extra cve-pipeline --patch stratified-rerun-failed/kill-by-port_0.0.1/command-injection/kill-by-port_0.0.1/exploit-evasive.patch --ex_file /Users/saleha/Desktop/cispa/SecBench.js/command-injection/kill-by-port_0.0.1/kill-by-port.test.js --repo-path /tmp/kill-by-port_0.0.1-src --base ea5b1f377e196a4492e05ff070eba8b30b7372c4 --repo GuyMograbi/kill-by-port --docker-image secbench-fullloop/kill-by-port_0.0.1 --max-iterations 5 --cost-limit 0.3 --no-run-codegen --gate-in-loop --gate-runs 1 --revise-iterations 2",
+  "pipeline_returncode": 0,
+  "pipeline_out_dir": "stratified-rerun-failed/kill-by-port_0.0.1/command-injection/kill-by-port_0.0.1/pipeline_exploit-evasive",
+  "finished_at": "2026-09-22T03:34:18.830256+00:00"
+}

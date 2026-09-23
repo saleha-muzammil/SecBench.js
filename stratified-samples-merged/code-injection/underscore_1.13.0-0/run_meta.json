@@ -1,0 +1,85 @@
+{
+  "category": "code-injection",
+  "repository": "jashkenas/underscore",
+  "package": "underscore",
+  "version": "1.13.0-0",
+  "folder": "underscore_1.13.0-0",
+  "started_at": "2026-08-17T10:57:38.670322+00:00",
+  "status": "ok",
+  "error": "",
+  "base_commit": "4c73526d43838ad6ab43a6134728776632adeb66",
+  "checkout": "/tmp/underscore_1.13.0-0-src",
+  "evasive_patch_reused": true,
+  "evasive_patch_regenerated": false,
+  "evades_both": true,
+  "seed_patch_applies": true,
+  "seed_exploit_fires": true,
+  "verdict": "Pipeline done. loop=no-win, final tests=NO NEW FAILURES \u2705 (baseline 0 failing, still 0; pre-existing failures ignored), gates=FAIL",
+  "wall_seconds_setup": 46.0,
+  "wall_seconds_pipeline": 5079.6,
+  "wall_seconds_total": 5128.8,
+  "metrics": {
+    "totals": {
+      "instance_cost": 0.094963,
+      "api_calls": 215,
+      "prompt_tokens": 7576042,
+      "completion_tokens": 101836,
+      "total_tokens": 7677878,
+      "trajectories": 6
+    },
+    "per_trajectory": [
+      {
+        "file": "issue/iter_1/adopt_probe/run_1/trajectory.traj.json",
+        "instance_cost": 0.030857,
+        "api_calls": 15,
+        "prompt_tokens": 2433194,
+        "completion_tokens": 5443,
+        "total_tokens": 2438637
+      },
+      {
+        "file": "issue/iter_1/trajectory.traj.json",
+        "instance_cost": 0.012619,
+        "api_calls": 40,
+        "prompt_tokens": 1022195,
+        "completion_tokens": 17229,
+        "total_tokens": 1039424
+      },
+      {
+        "file": "issue/iter_2/trajectory.traj.json",
+        "instance_cost": 0.013356,
+        "api_calls": 40,
+        "prompt_tokens": 1153823,
+        "completion_tokens": 18772,
+        "total_tokens": 1172595
+      },
+      {
+        "file": "issue/iter_3/trajectory.traj.json",
+        "instance_cost": 0.012586,
+        "api_calls": 40,
+        "prompt_tokens": 903527,
+        "completion_tokens": 22315,
+        "total_tokens": 925842
+      },
+      {
+        "file": "issue/iter_4/trajectory.traj.json",
+        "instance_cost": 0.012519,
+        "api_calls": 40,
+        "prompt_tokens": 1011765,
+        "completion_tokens": 17381,
+        "total_tokens": 1029146
+      },
+      {
+        "file": "issue/iter_5/trajectory.traj.json",
+        "instance_cost": 0.013027,
+        "api_calls": 40,
+        "prompt_tokens": 1051538,
+        "completion_tokens": 20696,
+        "total_tokens": 1072234
+      }
+    ]
+  },
+  "pipeline_cmd": "mini-extra cve-pipeline --patch stratified-samples-full-loop/code-injection/underscore_1.13.0-0/exploit-evasive.patch --ex_file /Users/saleha/Desktop/cispa/SecBench.js/code-injection/underscore_1.13.0-0/underscore.test.js --repo-path /tmp/underscore_1.13.0-0-src --base 4c73526d43838ad6ab43a6134728776632adeb66 --repo code-injection/underscore_1.13.0-0",
+  "pipeline_returncode": 0,
+  "pipeline_out_dir": "stratified-samples-full-loop/code-injection/underscore_1.13.0-0/pipeline_exploit-evasive",
+  "finished_at": "2026-08-17T12:23:07.458074+00:00"
+}

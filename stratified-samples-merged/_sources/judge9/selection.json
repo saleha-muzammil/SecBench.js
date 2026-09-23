@@ -1,0 +1,46 @@
+{
+  "seed": 20260817,
+  "n": 3,
+  "until_success": false,
+  "generated_at": "2026-09-15T11:04:56.613443+00:00",
+  "categories": {
+    "command-injection": [
+      {
+        "folder": "clamscan_1.2.0",
+        "package": "clamscan",
+        "version": "1.2.0",
+        "repository": "kylefarris/clamscan"
+      },
+      {
+        "folder": "dns-sync_0.1.0",
+        "package": "dns-sync",
+        "version": "0.1.0",
+        "repository": "skoranga/node-dns-sync"
+      },
+      {
+        "folder": "killport_1.0.1",
+        "package": "killport",
+        "version": "1.0.1",
+        "repository": "ssnau/killport"
+      },
+      {
+        "folder": "macaddress_0.2.8",
+        "package": "macaddress",
+        "version": "0.2.8",
+        "repository": "scravy/node-macaddress"
+      },
+      {
+        "folder": "pidusage_1.0.0",
+        "package": "pidusage",
+        "version": "1.0.0",
+        "repository": "soyuka/pidusage"
+      },
+      {
+        "folder": "whereis_0.4.0",
+        "package": "whereis",
+        "version": "0.4.0",
+        "repository": "vvo/node-whereis"
+      }
+    ]
+  }
+}

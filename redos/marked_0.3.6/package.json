@@ -7,7 +7,8 @@
     "source1": "https://security.snyk.io/vuln/SNYK-JS-MARKED-1070800",
     "source2": "https://github.com/advisories/GHSA-4r62-v4vq-hr96"
   },
-  "fixedVersion": "2.0.0",
+  "fixedVersion": "0.3.9",
   "fixCommit": "https://github.com/markedjs/marked/commit/7293251c438e3ee968970f7609f1a27f9007bccd",
-  "sink": "marked.js:662:31"
+  "sink": "marked.js:662:31",
+  "fixedVersionNote": "first release where 0.3.6's PoC stops reproducing, verified by bisecting published releases (was 2.0.0, which is past the actual fix)"
 }

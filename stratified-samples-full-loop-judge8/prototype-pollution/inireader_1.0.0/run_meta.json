@@ -1,0 +1,55 @@
+{
+  "category": "prototype-pollution",
+  "repository": "Ajnasz/IniReader",
+  "package": "inireader",
+  "version": "1.0.0",
+  "folder": "inireader_1.0.0",
+  "started_at": "2026-09-15T11:10:09.646227+00:00",
+  "status": "ok",
+  "error": "",
+  "base_commit": "c260e4e9050c731dbdb88e1d2e23e851528d3d93",
+  "checkout": "/tmp/inireader_1.0.0-src",
+  "image_tag": "secbench-fullloop/inireader_1.0.0",
+  "docker_loop": true,
+  "evasive_patch_reused": true,
+  "evasive_patch_regenerated": false,
+  "evades_both": true,
+  "seed_patch_applies": null,
+  "seed_exploit_fires": null,
+  "verdict": "Pipeline done. seed=unhardened, loop=no-win, final tests=FAILED \u274c (exit 2), gates=PASS, final_gate=['SOLVED_SAFE']",
+  "wall_seconds_setup": 14.8,
+  "wall_seconds_pipeline": 3093.2,
+  "wall_seconds_total": 3108.6,
+  "metrics": {
+    "totals": {
+      "instance_cost": 0.078344,
+      "api_calls": 129,
+      "prompt_tokens": 3596666,
+      "completion_tokens": 38865,
+      "total_tokens": 3635531,
+      "trajectories": 2
+    },
+    "per_trajectory": [
+      {
+        "file": "issue/iter_4/adopt/run_1/trajectory.traj.json",
+        "instance_cost": 0.034871,
+        "api_calls": 65,
+        "prompt_tokens": 1652421,
+        "completion_tokens": 18978,
+        "total_tokens": 1671399
+      },
+      {
+        "file": "solve_gate/run_1/trajectory.traj.json",
+        "instance_cost": 0.043473,
+        "api_calls": 64,
+        "prompt_tokens": 1944245,
+        "completion_tokens": 19887,
+        "total_tokens": 1964132
+      }
+    ]
+  },
+  "pipeline_cmd": "mini-extra cve-pipeline --patch stratified-samples-full-loop-judge8/prototype-pollution/inireader_1.0.0/exploit-evasive.patch --ex_file /Users/saleha/Desktop/cispa/SecBench.js/prototype-pollution/inireader_1.0.0/inireader.test.js --repo-path /tmp/inireader_1.0.0-src --base c260e4e9050c731dbdb88e1d2e23e851528d3d93 --repo prototype-pollution/inireader_1.0.0 --docker-image secbench-fullloop/inireader_1.0.0 --max-iterations 5 --cost-limit 0.3 --no-run-codegen --gate-in-loop --gate-runs 1 --revise-iterations 2",
+  "pipeline_returncode": 0,
+  "pipeline_out_dir": "stratified-samples-full-loop-judge8/prototype-pollution/inireader_1.0.0/pipeline_exploit-evasive",
+  "finished_at": "2026-09-15T12:01:58.218304+00:00"
+}

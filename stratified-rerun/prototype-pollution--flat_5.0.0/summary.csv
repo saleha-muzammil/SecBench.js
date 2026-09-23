@@ -1,0 +1,2 @@
+category,folder,package,version,status,verdict,seed_exploit_fires,evades_both,evasive_patch_regenerated,base_commit,instance_cost,api_calls,prompt_tokens,completion_tokens,total_tokens,trajectories,wall_seconds_setup,wall_seconds_pipeline,wall_seconds_total,error
+prototype-pollution,flat_5.0.0,flat,5.0.0,pipeline-rc-1,,,True,False,f25d3a11306b,0.0,0,0,0,0,0,12.6,40.0,55.8,

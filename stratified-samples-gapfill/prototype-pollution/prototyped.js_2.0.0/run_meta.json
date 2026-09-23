@@ -1,0 +1,38 @@
+{
+  "category": "prototype-pollution",
+  "repository": "ardalanamini/prototyped.js",
+  "package": "prototyped.js",
+  "version": "2.0.0",
+  "folder": "prototyped.js_2.0.0",
+  "started_at": "2026-09-22T09:49:59.125355+00:00",
+  "status": "ok",
+  "error": "",
+  "base_commit": "3ab56e78250d3d5b44ac03938d3d04591b206730",
+  "checkout": "/tmp/gapfill-src/prototyped.js_2.0.0-src",
+  "image_tag": "secbench-fullloop/prototyped.js_2.0.0",
+  "docker_loop": true,
+  "evasive_patch_reused": true,
+  "evasive_patch_regenerated": false,
+  "evades_both": false,
+  "seed_patch_applies": null,
+  "seed_exploit_fires": null,
+  "verdict": "Pipeline done. seed=unhardened, loop=no-win, final tests=FAILED \u274c (exit 1), gates=FAIL",
+  "wall_seconds_setup": 29.3,
+  "wall_seconds_pipeline": 922.7,
+  "wall_seconds_total": 953.8,
+  "metrics": {
+    "totals": {
+      "instance_cost": 0.0,
+      "api_calls": 0,
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "trajectories": 0
+    },
+    "per_trajectory": []
+  },
+  "pipeline_cmd": "mini-extra cve-pipeline --patch stratified-samples-gapfill/prototype-pollution/prototyped.js_2.0.0/exploit-evasive.patch --ex_file /Users/saleha/Desktop/cispa/SecBench.js/prototype-pollution/prototyped.js_2.0.0/prototyped.test.js --repo-path /tmp/gapfill-src/prototyped.js_2.0.0-src --base 3ab56e78250d3d5b44ac03938d3d04591b206730 --repo ardalanamini/prototyped.js --docker-image secbench-fullloop/prototyped.js_2.0.0 --cost-limit 0.3",
+  "pipeline_returncode": 0,
+  "pipeline_out_dir": "stratified-samples-gapfill/prototype-pollution/prototyped.js_2.0.0/pipeline_exploit-evasive",
+  "finished_at": "2026-09-22T10:05:52.878067+00:00"
+}

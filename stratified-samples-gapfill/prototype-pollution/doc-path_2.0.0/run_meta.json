@@ -1,0 +1,47 @@
+{
+  "category": "prototype-pollution",
+  "repository": "mrodrig/doc-path",
+  "package": "doc-path",
+  "version": "2.0.0",
+  "folder": "doc-path_2.0.0",
+  "started_at": "2026-09-22T05:45:33.113808+00:00",
+  "status": "ok",
+  "error": "",
+  "base_commit": "3e2bb168cf303bffcd7fae5f8d05e5300c1541c7",
+  "checkout": "/tmp/gapfill-src/doc-path_2.0.0-src",
+  "image_tag": "secbench-fullloop/doc-path_2.0.0",
+  "docker_loop": true,
+  "evasive_patch_reused": true,
+  "evasive_patch_regenerated": false,
+  "evades_both": false,
+  "seed_patch_applies": null,
+  "seed_exploit_fires": null,
+  "verdict": "Pipeline done. seed=unhardened, loop=no-win, final tests=FAILED \u274c (exit 2), gates=PASS, final_gate=['SOLVED_SAFE']",
+  "wall_seconds_setup": 33.4,
+  "wall_seconds_pipeline": 929.9,
+  "wall_seconds_total": 965.4,
+  "metrics": {
+    "totals": {
+      "instance_cost": 0.006682,
+      "api_calls": 12,
+      "prompt_tokens": 156219,
+      "completion_tokens": 13254,
+      "total_tokens": 169473,
+      "trajectories": 1
+    },
+    "per_trajectory": [
+      {
+        "file": "solve_gate/run_1/trajectory.traj.json",
+        "instance_cost": 0.006682,
+        "api_calls": 12,
+        "prompt_tokens": 156219,
+        "completion_tokens": 13254,
+        "total_tokens": 169473
+      }
+    ]
+  },
+  "pipeline_cmd": "mini-extra cve-pipeline --patch stratified-samples-gapfill/prototype-pollution/doc-path_2.0.0/exploit-evasive.patch --ex_file /Users/saleha/Desktop/cispa/SecBench.js/prototype-pollution/doc-path_2.0.0/doc-path.test.js --repo-path /tmp/gapfill-src/doc-path_2.0.0-src --base 3e2bb168cf303bffcd7fae5f8d05e5300c1541c7 --repo mrodrig/doc-path --docker-image secbench-fullloop/doc-path_2.0.0 --cost-limit 0.3",
+  "pipeline_returncode": 0,
+  "pipeline_out_dir": "stratified-samples-gapfill/prototype-pollution/doc-path_2.0.0/pipeline_exploit-evasive",
+  "finished_at": "2026-09-22T06:01:38.526884+00:00"
+}

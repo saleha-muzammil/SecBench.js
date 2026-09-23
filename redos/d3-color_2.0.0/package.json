@@ -9,5 +9,6 @@
   },
   "fixedVersion": "n/a",
   "fixCommit": "https://github.com/d3/d3-color/commit/4c2be7e59a317d0af7c3d66e44fa888f02163a59",
-  "sink": "d3-color.js:221:27"
+  "sink": "d3-color.js:221:27",
+  "fixedVersionNote": "The fix is 3.1.0, but d3-color 3.x is ESM-only: require() throws ERR_REQUIRE_ESM, and the package's \"exports\" map also blocks the UMD fallback (require(\"d3-color/dist/d3-color.js\") -> ERR_PACKAGE_PATH_NOT_EXPORTED), so the CommonJS PoC cannot load the fixed tree at all. Vulnerable 2.0.0 reproduces at 2.43 s. Making this runnable means porting the exploit to dynamic import() under an ESM-capable jest config; until then fixedVersion stays n/a rather than generating an image whose baseline fails on a module-load error that looks like a closed vulnerability."
 }

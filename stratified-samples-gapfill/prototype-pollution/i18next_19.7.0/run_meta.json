@@ -1,0 +1,55 @@
+{
+  "category": "prototype-pollution",
+  "repository": "i18next/i18next",
+  "package": "i18next",
+  "version": "19.7.0",
+  "folder": "i18next_19.7.0",
+  "started_at": "2026-09-22T06:29:09.479426+00:00",
+  "status": "ok",
+  "error": "",
+  "base_commit": "932f5f662893376254d826e9b01dc4e4c0cd91c0",
+  "checkout": "/tmp/gapfill-src/i18next_19.7.0-src",
+  "image_tag": "secbench-fullloop/i18next_19.7.0",
+  "docker_loop": true,
+  "evasive_patch_reused": true,
+  "evasive_patch_regenerated": false,
+  "evades_both": false,
+  "seed_patch_applies": null,
+  "seed_exploit_fires": null,
+  "verdict": "Pipeline done. seed=hardened, loop=SUCCESS, final tests=FAILED \u274c (exit 1), gates=PASS, final_gate=['SOLVED']",
+  "wall_seconds_setup": 49.6,
+  "wall_seconds_pipeline": 956.3,
+  "wall_seconds_total": 1009.1,
+  "metrics": {
+    "totals": {
+      "instance_cost": 0.030604,
+      "api_calls": 68,
+      "prompt_tokens": 1171432,
+      "completion_tokens": 20643,
+      "total_tokens": 1192075,
+      "trajectories": 2
+    },
+    "per_trajectory": [
+      {
+        "file": "issue/iter_1/adopt/run_1/trajectory.traj.json",
+        "instance_cost": 0.010736,
+        "api_calls": 30,
+        "prompt_tokens": 353538,
+        "completion_tokens": 7511,
+        "total_tokens": 361049
+      },
+      {
+        "file": "solve_gate/run_1/trajectory.traj.json",
+        "instance_cost": 0.019868,
+        "api_calls": 38,
+        "prompt_tokens": 817894,
+        "completion_tokens": 13132,
+        "total_tokens": 831026
+      }
+    ]
+  },
+  "pipeline_cmd": "mini-extra cve-pipeline --patch stratified-samples-gapfill/prototype-pollution/i18next_19.7.0/exploit-evasive.patch --ex_file /Users/saleha/Desktop/cispa/SecBench.js/prototype-pollution/i18next_19.7.0/i18next.test.js --repo-path /tmp/gapfill-src/i18next_19.7.0-src --base 932f5f662893376254d826e9b01dc4e4c0cd91c0 --repo i18next/i18next --docker-image secbench-fullloop/i18next_19.7.0 --cost-limit 0.3",
+  "pipeline_returncode": 0,
+  "pipeline_out_dir": "stratified-samples-gapfill/prototype-pollution/i18next_19.7.0/pipeline_exploit-evasive",
+  "finished_at": "2026-09-22T06:45:58.532804+00:00"
+}

@@ -1,0 +1,2 @@
+category,folder,package,version,status,verdict,seed_exploit_fires,evades_both,evasive_patch_regenerated,base_commit,instance_cost,api_calls,prompt_tokens,completion_tokens,total_tokens,trajectories,wall_seconds_setup,wall_seconds_pipeline,wall_seconds_total,error
+code-injection,is-my-json-valid_2.20.0,is-my-json-valid,2.20.0,pipeline-rc-1,,,True,False,3419563687df,0.0,0,0,0,0,0,30.5,616.4,647.1,

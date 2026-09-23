@@ -1,0 +1,85 @@
+From 32a6b2a362815eb85ce3f3abad5adf92f2b80e10 Mon Sep 17 00:00:00 2001
+From: Richard Moore <github@ricmoo.com>
+Date: Thu, 16 Sep 2021 13:04:32 -0400
+Subject: [PATCH] Fix parseUints with excess zeros and fix ReDoS issue (#2016,
+ #1975, #1976).
+
+---
+ packages/bignumber/src.ts/fixednumber.ts | 19 +++++++++++++------
+ packages/tests/src.ts/test-utils.ts      | 17 +++++++++++++++++
+ 2 files changed, 30 insertions(+), 6 deletions(-)
+
+diff --git a/packages/bignumber/src.ts/fixednumber.ts b/packages/bignumber/src.ts/fixednumber.ts
+index f6b24c209d..8eef777b6a 100644
+--- a/packages/bignumber/src.ts/fixednumber.ts
++++ b/packages/bignumber/src.ts/fixednumber.ts
+@@ -68,6 +68,7 @@ export function formatFixed(value: BigNumberish, decimals?: string | BigNumberis
+ }
+ 
+ export function parseFixed(value: string, decimals?: BigNumberish): BigNumber {
++
+     if (decimals == null) { decimals = 0; }
+     const multiplier = getMultiplier(decimals);
+ 
+@@ -93,14 +94,19 @@ export function parseFixed(value: string, decimals?: BigNumberish): BigNumber {
+     if (!whole) { whole = "0"; }
+     if (!fraction) { fraction = "0"; }
+ 
+-    // Get significant digits to check truncation for underflow
+-    {
+-    const sigFraction = fraction.replace(/^([0-9]*?)(0*)$/, (all, sig, zeros) => (sig));
+-        if (sigFraction.length > multiplier.length - 1) {
+-            throwFault("fractional component exceeds decimals", "underflow", "parseFixed");
+-        }
++    // Trim trialing zeros
++    while (fraction[fraction.length - 1] === "0") {
++        fraction = fraction.substring(0, fraction.length - 1);
++    }
++
++    // Check the fraction doesn't exceed our decimals
++    if (fraction.length > multiplier.length - 1) {
++        throwFault("fractional component exceeds decimals", "underflow", "parseFixed");
+     }
+ 
++    // If decimals is 0, we have an empty string for fraction
++    if (fraction === "") { fraction = "0"; }
++
+     // Fully pad the string with zeros to get to wei
+     while (fraction.length < multiplier.length - 1) { fraction += "0"; }
+ 
+@@ -114,6 +120,7 @@ export function parseFixed(value: string, decimals?: BigNumberish): BigNumber {
+     return wei;
+ }
+ 
++
+ export class FixedFormat {
+     readonly signed: boolean;
+     readonly width: number;
+diff --git a/packages/tests/src.ts/test-utils.ts b/packages/tests/src.ts/test-utils.ts
+index c510eac6e8..0db86537b2 100644
+--- a/packages/tests/src.ts/test-utils.ts
++++ b/packages/tests/src.ts/test-utils.ts
+@@ -223,6 +223,23 @@ describe('Test Unit Conversion', function () {
+             assert.equal(ethers.utils.commify(test), tests[test]);
+         });
+     });
++
++    // See #2016; @TODO: Add more tests along these lines
++    it("checks extra tests", function() {
++        assert.ok(ethers.utils.parseUnits("2", 0).eq(2), "folds trailing zeros without decimal: 2");
++        assert.ok(ethers.utils.parseUnits("2.", 0).eq(2), "folds trailing zeros without decimal: 2.");
++        assert.ok(ethers.utils.parseUnits("2.0", 0).eq(2), "folds trailing zeros without decimal: 2.0");
++        assert.ok(ethers.utils.parseUnits("2.00", 0).eq(2), "folds trailing zeros without decimal: 2.00");
++
++        assert.ok(ethers.utils.parseUnits("2", 1).eq(20), "folds trailing zeros: 2");
++        assert.ok(ethers.utils.parseUnits("2.", 1).eq(20), "folds trailing zeros: 2.");
++        assert.ok(ethers.utils.parseUnits("2.0", 1).eq(20), "folds trailing zeros: 2.0");
++        assert.ok(ethers.utils.parseUnits("2.00", 1).eq(20), "folds trailing zeros: 2.00");
++
++        assert.ok(ethers.utils.parseUnits("2.5", 1).eq(25), "folds trailing zeros: 2.5");
++        assert.ok(ethers.utils.parseUnits("2.50", 1).eq(25), "folds trailing zeros: 2.50");
++        assert.ok(ethers.utils.parseUnits("2.500", 1).eq(25), "folds trailing zeros: 2.500");
++    });
+ });
+ 
+ 

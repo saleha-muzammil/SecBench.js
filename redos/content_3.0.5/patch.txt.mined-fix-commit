@@ -1,0 +1,80 @@
+From 96beb34f7c38a08d024dbf9cd63865c56e2955d9 Mon Sep 17 00:00:00 2001
+From: Eran Hammer <eran@hammer.io>
+Date: Tue, 27 Feb 2018 21:01:10 -0800
+Subject: [PATCH] Simplify content type header processing
+
+---
+ lib/index.js  | 28 +++++++++++++++++++++-------
+ test/index.js |  4 ++--
+ 2 files changed, 23 insertions(+), 9 deletions(-)
+
+diff --git a/lib/index.js b/lib/index.js
+index fd68cce..e1a1578 100755
+--- a/lib/index.js
++++ b/lib/index.js
+@@ -19,8 +19,12 @@ const internals = {};
+     parameter  = token "=" ( token / quoted-string )
+ */
+ 
+-//                             1: type/subtype                              2: "b"   3: b
+-internals.contentTypeRegex = /^([^\/\s]+\/[^\s;]+)(?:(?:\s*;\s*boundary=(?:"([^"]+)"|([^;"\s]+)))|(?:\s*;[^=]+=(?:(?:"(?:[^"]+)")|(?:[^;"\s]+))))*$/i;
++//                             1: type/subtype    2: params
++internals.contentTypeRegex = /^([^\/\s]+\/[^\s;]+)(.*)?$/;
++
++//                                        1: "b"   2: b
++internals.paramsRegex = /;\s*boundary=(?:"([^"]+)"|([^;"\s]+))/i;
++
+ 
+ exports.type = function (header) {
+ 
+@@ -29,15 +33,25 @@ exports.type = function (header) {
+         throw Boom.badRequest('Invalid content-type header');
+     }
+ 
+-    const mime = match[1].toLowerCase();
+-    const boundary = match[2] || match[3];
+-    if (mime.indexOf('multipart/') === 0 &&
+-        !boundary) {
++    const result = {
++        mime: match[1].toLowerCase()
++    };
++
++    const params = match[2];
++    if (params) {
++        const param = params.match(internals.paramsRegex);
++        if (param) {
++            result.boundary = param[1] || param[2];
++        }
++    }
++
++    if (result.mime.indexOf('multipart/') === 0 &&
++        !result.boundary) {
+ 
+         throw Boom.badRequest('Invalid content-type header: multipart missing boundary');
+     }
+ 
+-    return { mime, boundary };
++    return result;
+ };
+ 
+ 
+diff --git a/test/index.js b/test/index.js
+index 7c9b7dd..bd6e0a1 100755
+--- a/test/index.js
++++ b/test/index.js
+@@ -51,13 +51,13 @@ describe('type()', () => {
+     it('handles large number of OWS', () => {
+ 
+         const now = Date.now();
+-        expect(() => Content.type(`l/h ; ${new Array(80000).join(' ')}"`)).to.throw();
++        Content.type(`l/h ; ${new Array(80000).join(' ')}"`);
+         expect(Date.now() - now).to.be.below(100);
+     });
+ 
+     it('errors on invalid header', () => {
+ 
+-        expect(() => Content.type('application/json; some')).to.throw();
++        expect(() => Content.type('application; some')).to.throw();
+     });
+ 
+     it('errors on multipart missing boundary', () => {

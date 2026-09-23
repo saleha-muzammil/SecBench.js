@@ -1,5 +1,5 @@
 === command-injection/pdf-image_1.0.5 ===
-image: using existing image
+image: built image
 baseline (clean fixed tree): repo CI = fail
 baseline (clean fixed tree): exploit test = FAIL (vuln closed, good)
 baseline: test FAILS on fixed tree (good).
@@ -15,9 +15,10 @@ semgrep on minimal variant (after chunking): 1 finding(s), 0 NEW vs fixed baseli
 --------------------------------------
 codeql on minimal variant (after chunking): 2 finding(s), 1 NEW vs fixed baseline
     ! js/shell-command-constructed-from-input @ index.js:132: This string concatenation which depends on [library input](1) is later used in a [shell command](2).
-selecting rewrites from the rules that actually fired: exports->launder <- 'library input', params->launder <- 'library input', methods->launder <- 'library input', source->launder <- 'library input', source->launder+index <- 'library input', shell-arg->launder <- 'js/shell-command-constructed-from-input', require-member->hidden <- 'js/shell-command-constructed-from-input', shell-sink->hidden-member <- 'js/shell-command-constructed-from-input', require-module->dynamic <- 'js/shell-command-constructed-from-input'
+selecting rewrites from the rules that actually fired: exports->launder <- 'library input', params->launder <- 'library input', methods->launder <- 'library input', source->launder <- 'library input', source->launder+index <- 'library input', params->arg-guard <- 'js/shell-command-constructed-from-input', shell-arg->launder <- 'js/shell-command-constructed-from-input', require-member->hidden <- 'js/shell-command-constructed-from-input', shell-sink->hidden-member <- 'js/shell-command-constructed-from-input', require-module->dynamic <- 'js/shell-command-constructed-from-input'
   exports->launder: test PASSES, semgrep 1 finding(s) (0 new), codeql new 1
   methods->launder: matched nothing -> skipped
+  params->arg-guard: broke the exploit test -> rejected
   params->launder: test PASSES, semgrep 1 finding(s) (0 new), codeql new 1
   source->launder: matched nothing -> skipped
   source->launder+index: matched nothing -> skipped

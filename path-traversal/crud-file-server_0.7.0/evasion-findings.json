@@ -1,0 +1,17 @@
+{
+  "package": "crud-file-server",
+  "targets": [
+    "crud-file-server.js"
+  ],
+  "full_targets": [
+    "crud-file-server.js"
+  ],
+  "semgrep": {
+    "fixed_total": 0,
+    "new_full": 0,
+    "new_minimal": 0,
+    "new_final": []
+  },
+  "codeql": null,
+  "detected_by": "neither"
+}

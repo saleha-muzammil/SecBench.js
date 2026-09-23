@@ -1,0 +1,38 @@
+{
+  "category": "path-traversal",
+  "repository": "omphalos/crud-file-server",
+  "package": "crud-file-server",
+  "version": "0.7.0",
+  "folder": "crud-file-server_0.7.0",
+  "started_at": "2026-09-21T16:57:26.785209+00:00",
+  "status": "pipeline-rc-1",
+  "error": "",
+  "base_commit": "4fc3b404f718abb789f4ce4272c39c7a138c7a82",
+  "checkout": "/tmp/rerun-path-traversal/crud-file-server_0.7.0-src",
+  "image_tag": "secbench-fullloop/crud-file-server_0.7.0",
+  "docker_loop": true,
+  "evasive_patch_reused": true,
+  "evasive_patch_regenerated": false,
+  "evades_both": true,
+  "seed_patch_applies": null,
+  "seed_exploit_fires": null,
+  "verdict": "",
+  "wall_seconds_setup": 3.1,
+  "wall_seconds_pipeline": 37.5,
+  "wall_seconds_total": 42.8,
+  "metrics": {
+    "totals": {
+      "instance_cost": 0.0,
+      "api_calls": 0,
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "trajectories": 0
+    },
+    "per_trajectory": []
+  },
+  "pipeline_cmd": "mini-extra cve-pipeline --patch stratified-rerun/path-traversal--crud-file-server_0.7.0/path-traversal/crud-file-server_0.7.0/exploit-evasive.patch --ex_file /Users/saleha/Desktop/cispa/SecBench.js/path-traversal/crud-file-server_0.7.0/crud-file-server.test.js --repo-path /tmp/rerun-path-traversal/crud-file-server_0.7.0-src --base 4fc3b404f718abb789f4ce4272c39c7a138c7a82 --repo path-traversal/crud-file-server_0.7.0 --docker-image secbench-fullloop/crud-file-server_0.7.0 --max-iterations 5 --cost-limit 0.3 --no-run-codegen --gate-in-loop --gate-runs 1 --revise-iterations 2 --codeql-ram 768",
+  "pipeline_returncode": 1,
+  "pipeline_out_dir": "stratified-rerun/path-traversal--crud-file-server_0.7.0/path-traversal/crud-file-server_0.7.0/pipeline_exploit-evasive",
+  "finished_at": "2026-09-21T16:58:09.561479+00:00"
+}

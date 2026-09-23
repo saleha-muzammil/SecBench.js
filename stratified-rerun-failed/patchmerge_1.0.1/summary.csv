@@ -1,0 +1,2 @@
+category,folder,package,version,status,verdict,seed_exploit_fires,evades_both,evasive_patch_regenerated,base_commit,instance_cost,api_calls,prompt_tokens,completion_tokens,total_tokens,trajectories,wall_seconds_setup,wall_seconds_pipeline,wall_seconds_total,error
+prototype-pollution,patchmerge_1.0.1,patchmerge,1.0.1,ok,"Pipeline done. seed=hardened, loop=no-win, final tests=PASSED ✅, gates=PASS, final_gate=['SOLVED_SAFE']",,True,False,5b383c537eae,0.014059,20,377485,22276,399761,1,4.4,1243.6,1248.7,

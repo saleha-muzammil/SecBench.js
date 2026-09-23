@@ -1,0 +1,2 @@
+category,folder,package,version,status,verdict,seed_exploit_fires,evades_both,evasive_patch_regenerated,base_commit,instance_cost,api_calls,prompt_tokens,completion_tokens,total_tokens,trajectories,wall_seconds_setup,wall_seconds_pipeline,wall_seconds_total,error
+redos,is-svg_4.2.2,is-svg,4.2.2,ok,"Pipeline done. seed=unhardened, loop=no-win, final tests=FAILED ❌ (exit 1), gates=PASS, final_gate=['SOLVED']",,False,False,732fc7277984,0.059569,77,2268599,96135,2364734,3,27.7,4278.5,4308.2,

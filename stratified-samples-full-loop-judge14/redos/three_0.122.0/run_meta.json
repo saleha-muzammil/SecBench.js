@@ -1,0 +1,38 @@
+{
+  "category": "redos",
+  "repository": "mrdoob/three.js",
+  "package": "three",
+  "version": "0.122.0",
+  "folder": "three_0.122.0",
+  "started_at": "2026-09-17T15:22:10.069485+00:00",
+  "status": "ok",
+  "error": "",
+  "base_commit": "e1037f93367a610a9135f81c36cc5b077b8b2a92",
+  "checkout": "/tmp/three_0.122.0-src",
+  "image_tag": "secbench-fullloop/three_0.122.0",
+  "docker_loop": true,
+  "evasive_patch_reused": true,
+  "evasive_patch_regenerated": false,
+  "evades_both": true,
+  "seed_patch_applies": null,
+  "seed_exploit_fires": null,
+  "verdict": "Pipeline done. seed=hardened, loop=no-win, final tests=FAILED \u274c (exit 1), gates=FAIL",
+  "wall_seconds_setup": 235.4,
+  "wall_seconds_pipeline": 3464.6,
+  "wall_seconds_total": 3702.7,
+  "metrics": {
+    "totals": {
+      "instance_cost": 0.0,
+      "api_calls": 0,
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "trajectories": 0
+    },
+    "per_trajectory": []
+  },
+  "pipeline_cmd": "mini-extra cve-pipeline --patch stratified-samples-full-loop-judge14/redos/three_0.122.0/exploit-evasive.patch --ex_file /Users/saleha/Desktop/cispa/SecBench.js/redos/three_0.122.0/three.test.js --repo-path /tmp/three_0.122.0-src --base e1037f93367a610a9135f81c36cc5b077b8b2a92 --repo redos/three_0.122.0 --docker-image secbench-fullloop/three_0.122.0 --max-iterations 5 --cost-limit 0.3 --no-run-codegen --gate-in-loop --gate-runs 1 --revise-iterations 2",
+  "pipeline_returncode": 0,
+  "pipeline_out_dir": "stratified-samples-full-loop-judge14/redos/three_0.122.0/pipeline_exploit-evasive",
+  "finished_at": "2026-09-17T16:23:52.802213+00:00"
+}

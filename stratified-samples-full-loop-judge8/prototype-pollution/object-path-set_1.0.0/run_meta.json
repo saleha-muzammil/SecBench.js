@@ -1,0 +1,38 @@
+{
+  "category": "prototype-pollution",
+  "repository": "skratchdot/object-path-set",
+  "package": "object-path-set",
+  "version": "1.0.0",
+  "folder": "object-path-set_1.0.0",
+  "started_at": "2026-09-15T13:15:17.565427+00:00",
+  "status": "ok",
+  "error": "",
+  "base_commit": "55f06d75abf5885f9cba3b7760acb38d7d7d06c0",
+  "checkout": "/tmp/object-path-set_1.0.0-src",
+  "image_tag": "secbench-fullloop/object-path-set_1.0.0",
+  "docker_loop": true,
+  "evasive_patch_reused": true,
+  "evasive_patch_regenerated": false,
+  "evades_both": true,
+  "seed_patch_applies": null,
+  "seed_exploit_fires": null,
+  "verdict": "Pipeline done. seed=unhardened, loop=no-win, final tests=PASSED \u2705, gates=FAIL",
+  "wall_seconds_setup": 25.5,
+  "wall_seconds_pipeline": 970.8,
+  "wall_seconds_total": 997.2,
+  "metrics": {
+    "totals": {
+      "instance_cost": 0.0,
+      "api_calls": 0,
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "trajectories": 0
+    },
+    "per_trajectory": []
+  },
+  "pipeline_cmd": "mini-extra cve-pipeline --patch stratified-samples-full-loop-judge8/prototype-pollution/object-path-set_1.0.0/exploit-evasive.patch --ex_file /Users/saleha/Desktop/cispa/SecBench.js/prototype-pollution/object-path-set_1.0.0/object-path-set.test.js --repo-path /tmp/object-path-set_1.0.0-src --base 55f06d75abf5885f9cba3b7760acb38d7d7d06c0 --repo prototype-pollution/object-path-set_1.0.0 --docker-image secbench-fullloop/object-path-set_1.0.0 --max-iterations 5 --cost-limit 0.3 --no-run-codegen --gate-in-loop --gate-runs 1 --revise-iterations 2",
+  "pipeline_returncode": 0,
+  "pipeline_out_dir": "stratified-samples-full-loop-judge8/prototype-pollution/object-path-set_1.0.0/pipeline_exploit-evasive",
+  "finished_at": "2026-09-15T13:31:54.747301+00:00"
+}

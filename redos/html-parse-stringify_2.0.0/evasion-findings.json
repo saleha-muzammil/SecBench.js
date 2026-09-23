@@ -1,7 +1,8 @@
 {
   "package": "html-parse-stringify",
   "targets": [
-    "src/parse.js"
+    "src/parse.js",
+    "test/parse.js"
   ],
   "full_targets": [
     "src/parse.js",

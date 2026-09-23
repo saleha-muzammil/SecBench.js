@@ -1,0 +1,22 @@
+{
+  "seed": 20260817,
+  "n": 3,
+  "until_success": false,
+  "generated_at": "2026-09-19T21:53:23.863219+00:00",
+  "categories": {
+    "redos": [
+      {
+        "folder": "hosted-git-info_3.0.0",
+        "package": "hosted-git-info",
+        "version": "3.0.0",
+        "repository": "npm/hosted-git-info"
+      },
+      {
+        "folder": "html-parse-stringify_2.0.0",
+        "package": "html-parse-stringify",
+        "version": "2.0.0",
+        "repository": "HenrikJoreteg/html-parse-stringify"
+      }
+    ]
+  }
+}

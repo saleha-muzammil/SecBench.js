@@ -7,7 +7,8 @@
     "source1": "https://security.snyk.io/vuln/SNYK-JS-SEMVERREGEX-1585624",
     "source2": "https://github.com/advisories/GHSA-44c6-4v22-4mhx"
   },
-  "fixedVersion": "3.1.3",
+  "fixedVersion": "3.1.2",
   "fixCommit": "https://github.com/sindresorhus/semver-regex/commit/11c66245f4e1976dccc52977ed183696a21a3fd7",
-  "sink": "jasmineAsyncInstall.js:106:37"
+  "sink": "jasmineAsyncInstall.js:106:37",
+  "fixedVersionNote": "first release where 3.1.1's PoC stops reproducing, verified by bisecting published releases (was 3.1.3, which is past the actual fix)"
 }

@@ -1,0 +1,38 @@
+{
+  "category": "prototype-pollution",
+  "repository": "pjshumphreys/patchmerge",
+  "package": "patchmerge",
+  "version": "1.0.1",
+  "folder": "patchmerge_1.0.1",
+  "started_at": "2026-09-21T16:57:26.785244+00:00",
+  "status": "pipeline-rc-1",
+  "error": "",
+  "base_commit": "5b383c537eae7a00ebd26d3f7211dac99ddecb12",
+  "checkout": "/tmp/rerun-prototype-pollution/patchmerge_1.0.1-src",
+  "image_tag": "secbench-fullloop/patchmerge_1.0.1",
+  "docker_loop": true,
+  "evasive_patch_reused": true,
+  "evasive_patch_regenerated": false,
+  "evades_both": true,
+  "seed_patch_applies": null,
+  "seed_exploit_fires": null,
+  "verdict": "",
+  "wall_seconds_setup": 3.5,
+  "wall_seconds_pipeline": 1840.9,
+  "wall_seconds_total": 1844.8,
+  "metrics": {
+    "totals": {
+      "instance_cost": 0.0,
+      "api_calls": 0,
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "trajectories": 0
+    },
+    "per_trajectory": []
+  },
+  "pipeline_cmd": "mini-extra cve-pipeline --patch stratified-rerun/prototype-pollution--patchmerge_1.0.1/prototype-pollution/patchmerge_1.0.1/exploit-evasive.patch --ex_file /Users/saleha/Desktop/cispa/SecBench.js/prototype-pollution/patchmerge_1.0.1/patchmerge.test.js --repo-path /tmp/rerun-prototype-pollution/patchmerge_1.0.1-src --base 5b383c537eae7a00ebd26d3f7211dac99ddecb12 --repo prototype-pollution/patchmerge_1.0.1 --docker-image secbench-fullloop/patchmerge_1.0.1 --max-iterations 5 --cost-limit 0.3 --no-run-codegen --gate-in-loop --gate-runs 1 --revise-iterations 2 --codeql-ram 768",
+  "pipeline_returncode": 1,
+  "pipeline_out_dir": "stratified-rerun/prototype-pollution--patchmerge_1.0.1/prototype-pollution/patchmerge_1.0.1/pipeline_exploit-evasive",
+  "finished_at": "2026-09-21T17:28:11.610232+00:00"
+}

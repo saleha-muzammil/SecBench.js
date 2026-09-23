@@ -1,0 +1,47 @@
+{
+  "category": "prototype-pollution",
+  "repository": "IonicaBizau/set-or-get.js",
+  "package": "set-or-get",
+  "version": "1.2.10",
+  "folder": "set-or-get_1.2.10",
+  "started_at": "2026-09-21T16:57:26.785120+00:00",
+  "status": "ok",
+  "error": "",
+  "base_commit": "82ede5cccb2e8d13e4f62599203a4389f6d8e936",
+  "checkout": "/tmp/rerun-prototype-pollution/set-or-get_1.2.10-src",
+  "image_tag": "secbench-fullloop/set-or-get_1.2.10",
+  "docker_loop": true,
+  "evasive_patch_reused": true,
+  "evasive_patch_regenerated": false,
+  "evades_both": true,
+  "seed_patch_applies": null,
+  "seed_exploit_fires": null,
+  "verdict": "Pipeline done. seed=hardened, loop=no-win, final tests=PASSED \u2705, gates=PASS, final_gate=['SOLVED']",
+  "wall_seconds_setup": 3.9,
+  "wall_seconds_pipeline": 812.0,
+  "wall_seconds_total": 816.3,
+  "metrics": {
+    "totals": {
+      "instance_cost": 0.002448,
+      "api_calls": 15,
+      "prompt_tokens": 100741,
+      "completion_tokens": 6522,
+      "total_tokens": 107263,
+      "trajectories": 1
+    },
+    "per_trajectory": [
+      {
+        "file": "solve_gate/run_1/trajectory.traj.json",
+        "instance_cost": 0.002448,
+        "api_calls": 15,
+        "prompt_tokens": 100741,
+        "completion_tokens": 6522,
+        "total_tokens": 107263
+      }
+    ]
+  },
+  "pipeline_cmd": "mini-extra cve-pipeline --patch stratified-rerun/prototype-pollution--set-or-get_1.2.10/prototype-pollution/set-or-get_1.2.10/exploit-evasive.patch --ex_file /Users/saleha/Desktop/cispa/SecBench.js/prototype-pollution/set-or-get_1.2.10/set-or-get.test.js --repo-path /tmp/rerun-prototype-pollution/set-or-get_1.2.10-src --base 82ede5cccb2e8d13e4f62599203a4389f6d8e936 --repo prototype-pollution/set-or-get_1.2.10 --docker-image secbench-fullloop/set-or-get_1.2.10 --max-iterations 5 --cost-limit 0.3 --no-run-codegen --gate-in-loop --gate-runs 1 --revise-iterations 2 --codeql-ram 768",
+  "pipeline_returncode": 0,
+  "pipeline_out_dir": "stratified-rerun/prototype-pollution--set-or-get_1.2.10/prototype-pollution/set-or-get_1.2.10/pipeline_exploit-evasive",
+  "finished_at": "2026-09-21T17:11:03.121154+00:00"
+}

@@ -1,0 +1,55 @@
+{
+  "category": "prototype-pollution",
+  "repository": "jonschlinkert/mixin-deep",
+  "package": "mixin-deep",
+  "version": "2.0.0",
+  "folder": "mixin-deep_2.0.0",
+  "started_at": "2026-09-21T07:55:29.576312+00:00",
+  "status": "ok",
+  "error": "",
+  "base_commit": "8f464c8ce9761a8c9c2b3457eaeee9d404fa7af9",
+  "checkout": "/tmp/mixin-deep_2.0.0-src",
+  "image_tag": "secbench-fullloop/mixin-deep_2.0.0",
+  "docker_loop": true,
+  "evasive_patch_reused": true,
+  "evasive_patch_regenerated": false,
+  "evades_both": false,
+  "seed_patch_applies": null,
+  "seed_exploit_fires": null,
+  "verdict": "Pipeline done. seed=hardened, loop=no-win, final tests=PASSED \u2705, gates=PASS, final_gate=['SOLVED']",
+  "wall_seconds_setup": 3.6,
+  "wall_seconds_pipeline": 620.9,
+  "wall_seconds_total": 625.3,
+  "metrics": {
+    "totals": {
+      "instance_cost": 0.008805,
+      "api_calls": 29,
+      "prompt_tokens": 249128,
+      "completion_tokens": 13186,
+      "total_tokens": 262314,
+      "trajectories": 2
+    },
+    "per_trajectory": [
+      {
+        "file": "issue/iter_4/adopt/run_1/trajectory.traj.json",
+        "instance_cost": 0.006194,
+        "api_calls": 19,
+        "prompt_tokens": 184675,
+        "completion_tokens": 9176,
+        "total_tokens": 193851
+      },
+      {
+        "file": "solve_gate/run_1/trajectory.traj.json",
+        "instance_cost": 0.002611,
+        "api_calls": 10,
+        "prompt_tokens": 64453,
+        "completion_tokens": 4010,
+        "total_tokens": 68463
+      }
+    ]
+  },
+  "pipeline_cmd": "mini-extra cve-pipeline --patch stratified-samples-full-loop-judge14/prototype-pollution/mixin-deep_2.0.0/exploit-evasive.patch --ex_file /Users/saleha/Desktop/cispa/SecBench.js/prototype-pollution/mixin-deep_2.0.0/mixin-deep.test.js --repo-path /tmp/mixin-deep_2.0.0-src --base 8f464c8ce9761a8c9c2b3457eaeee9d404fa7af9 --repo prototype-pollution/mixin-deep_2.0.0 --docker-image secbench-fullloop/mixin-deep_2.0.0 --max-iterations 5 --cost-limit 0.3 --no-run-codegen --gate-in-loop --gate-runs 1 --revise-iterations 2",
+  "pipeline_returncode": 0,
+  "pipeline_out_dir": "stratified-samples-full-loop-judge14/prototype-pollution/mixin-deep_2.0.0/pipeline_exploit-evasive",
+  "finished_at": "2026-09-21T08:05:54.910803+00:00"
+}

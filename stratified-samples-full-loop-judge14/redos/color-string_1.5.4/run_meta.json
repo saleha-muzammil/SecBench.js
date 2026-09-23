@@ -1,0 +1,55 @@
+{
+  "category": "redos",
+  "repository": "Qix-/color-string",
+  "package": "color-string",
+  "version": "1.5.4",
+  "folder": "color-string_1.5.4",
+  "started_at": "2026-09-18T22:04:56.047418+00:00",
+  "status": "ok",
+  "error": "",
+  "base_commit": "0789e21284c33d89ebc4ab4ca6f759b9375ac9d3",
+  "checkout": "/tmp/color-string_1.5.4-src",
+  "image_tag": "secbench-fullloop/color-string_1.5.4",
+  "docker_loop": true,
+  "evasive_patch_reused": true,
+  "evasive_patch_regenerated": false,
+  "evades_both": false,
+  "seed_patch_applies": null,
+  "seed_exploit_fires": null,
+  "verdict": "Pipeline done. seed=hardened, loop=SUCCESS, final tests=PASSED \u2705, gates=PASS, final_gate=['SOLVED']",
+  "wall_seconds_setup": 3.0,
+  "wall_seconds_pipeline": 435.0,
+  "wall_seconds_total": 438.8,
+  "metrics": {
+    "totals": {
+      "instance_cost": 0.005586,
+      "api_calls": 29,
+      "prompt_tokens": 320364,
+      "completion_tokens": 11368,
+      "total_tokens": 331732,
+      "trajectories": 2
+    },
+    "per_trajectory": [
+      {
+        "file": "issue/iter_1/adopt/run_1/trajectory.traj.json",
+        "instance_cost": 0.002689,
+        "api_calls": 13,
+        "prompt_tokens": 145979,
+        "completion_tokens": 5701,
+        "total_tokens": 151680
+      },
+      {
+        "file": "solve_gate/run_1/trajectory.traj.json",
+        "instance_cost": 0.002897,
+        "api_calls": 16,
+        "prompt_tokens": 174385,
+        "completion_tokens": 5667,
+        "total_tokens": 180052
+      }
+    ]
+  },
+  "pipeline_cmd": "mini-extra cve-pipeline --patch stratified-samples-full-loop-judge14/redos/color-string_1.5.4/exploit-evasive.patch --ex_file /Users/saleha/Desktop/cispa/SecBench.js/redos/color-string_1.5.4/color-string.selfcontained.test.js --repo-path /tmp/color-string_1.5.4-src --base 0789e21284c33d89ebc4ab4ca6f759b9375ac9d3 --repo redos/color-string_1.5.4 --docker-image secbench-fullloop/color-string_1.5.4 --max-iterations 5 --cost-limit 0.3 --no-run-codegen --gate-in-loop --gate-runs 1 --revise-iterations 2",
+  "pipeline_returncode": 0,
+  "pipeline_out_dir": "stratified-samples-full-loop-judge14/redos/color-string_1.5.4/pipeline_exploit-evasive",
+  "finished_at": "2026-09-18T22:12:14.826477+00:00"
+}

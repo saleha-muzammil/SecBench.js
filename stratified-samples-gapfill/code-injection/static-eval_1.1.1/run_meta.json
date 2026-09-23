@@ -1,0 +1,38 @@
+{
+  "category": "code-injection",
+  "repository": "browserify/static-eval",
+  "package": "static-eval",
+  "version": "1.1.1",
+  "folder": "static-eval_1.1.1",
+  "started_at": "2026-09-22T03:34:06.118357+00:00",
+  "status": "ok",
+  "error": "",
+  "base_commit": "32f8efd072625e267aa7237d2daff35738c50d2a",
+  "checkout": "/tmp/gapfill-src/static-eval_1.1.1-src",
+  "image_tag": "secbench-fullloop/static-eval_1.1.1",
+  "docker_loop": true,
+  "evasive_patch_reused": true,
+  "evasive_patch_regenerated": false,
+  "evades_both": false,
+  "seed_patch_applies": null,
+  "seed_exploit_fires": null,
+  "verdict": "Pipeline done. seed=unhardened, loop=no-win, final tests=FAILED \u274c (exit 127), gates=FAIL",
+  "wall_seconds_setup": 32.2,
+  "wall_seconds_pipeline": 1699.0,
+  "wall_seconds_total": 1731.5,
+  "metrics": {
+    "totals": {
+      "instance_cost": 0.0,
+      "api_calls": 0,
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "trajectories": 0
+    },
+    "per_trajectory": []
+  },
+  "pipeline_cmd": "mini-extra cve-pipeline --patch stratified-samples-gapfill/code-injection/static-eval_1.1.1/exploit-evasive.patch --ex_file /Users/saleha/Desktop/cispa/SecBench.js/code-injection/static-eval_1.1.1/static-eval.test.js --repo-path /tmp/gapfill-src/static-eval_1.1.1-src --base 32f8efd072625e267aa7237d2daff35738c50d2a --repo browserify/static-eval --docker-image secbench-fullloop/static-eval_1.1.1 --cost-limit 0.3",
+  "pipeline_returncode": 0,
+  "pipeline_out_dir": "stratified-samples-gapfill/code-injection/static-eval_1.1.1/pipeline_exploit-evasive",
+  "finished_at": "2026-09-22T04:02:57.606795+00:00"
+}

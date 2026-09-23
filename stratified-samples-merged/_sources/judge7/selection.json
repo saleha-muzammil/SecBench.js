@@ -1,0 +1,16 @@
+{
+  "seed": 20260817,
+  "n": 3,
+  "until_success": false,
+  "generated_at": "2026-09-15T05:27:30.704718+00:00",
+  "categories": {
+    "prototype-pollution": [
+      {
+        "folder": "undefsafe_2.0.2",
+        "package": "undefsafe",
+        "version": "2.0.2",
+        "repository": "remy/undefsafe"
+      }
+    ]
+  }
+}

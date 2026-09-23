@@ -1,84 +1,21 @@
-From c0711c656686e902af2cd92d6aecc8074de4d83d Mon Sep 17 00:00:00 2001
-From: Joe Becher <drazisil@users.noreply.github.com>
-Date: Fri, 17 Jul 2020 12:20:03 -0400
-Subject: [PATCH] Switch from execSync to execFileSync (#180)
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: make_release_patch.py <secbench>
+Subject: [PATCH] codecov 3.6.4 -> 3.7.1 (release range, production files only)
 
-* Switch from execSync to execFileSync
-
-* Call existsSync instead of executing `if`
-
-* Trigger a build
-
-* I think this fixes linux and macos...
-
-* Only add more_patterns of it has a value. Correct windows.
-
-* Remove default value to more_patterns, change windows to winPatterns
-
-* Try a colon.
-
-* Let's try not using MinGw...
-
-* What are the chances that Windows has a find?
-
-* Put it back
-
-* Reverting Windows side so this can me merged in time if needed.
-
-* Reverting Windows side so this can me merged in time if needed.
-
-* Update lib/codecov.js
-
-Co-authored-by: Guillaume St-Pierre <guillaume@codecov.io>
-
-* Update lib/codecov.js
-
-Co-authored-by: Guillaume St-Pierre <guillaume@codecov.io>
-
-* Set initial values
-
-Co-authored-by: Guillaume St-Pierre <guillaume@codecov.io>
+Generated from tag v3.6.4 .. tag v3.7.1; 2 production file(s).
+Reverting this on the fixed tree reproduces the 3.6.4 tree.
 ---
- .idea/.gitignore |  7 ++++++
- README.md        |  2 ++
- lib/codecov.js   | 55 ++++++++++++++++++++++++++++++++----------------
- 3 files changed, 46 insertions(+), 18 deletions(-)
- create mode 100644 .idea/.gitignore
-
-diff --git a/.idea/.gitignore b/.idea/.gitignore
-new file mode 100644
-index 00000000..03edeb0b
---- /dev/null
-+++ b/.idea/.gitignore
-@@ -0,0 +1,7 @@
-+# Default ignored files
-+/shelf/
-+/workspace.xml
-+# Editor-based HTTP Client requests
-+/httpRequests/
-+
-+.idea/
-\ No newline at end of file
-diff --git a/README.md b/README.md
-index a10cce05..62a52166 100644
---- a/README.md
-+++ b/README.md
-@@ -116,3 +116,5 @@ If you're seeing an **HTTP 400 error when uploading reports to S3**, make sure y
- - v3.6.3 Fix for AWS Codebuild & package updates
- - v3.6.4 Fix Cirrus CI
- - v3.7.0 Remove the X-Amz-Acl: public-read header
-+
-+.
 diff --git a/lib/codecov.js b/lib/codecov.js
-index 2a8cc448..da8b6e52 100644
+index 0e850aa..da8b6e5 100644
 --- a/lib/codecov.js
 +++ b/lib/codecov.js
-@@ -4,21 +4,23 @@ var request = require('teeny-request').teenyRequest
+@@ -4,22 +4,23 @@ var request = require('teeny-request').teenyRequest
  var urlgrey = require('urlgrey')
  var jsYaml = require('js-yaml')
  var walk = require('ignore-walk')
 +var execFileSync = require('child_process').execFileSync
  var execSync = require('child_process').execSync
+-var validator = require('validator')
  
  var detectProvider = require('./detect')
  
@@ -101,7 +38,7 @@ index 2a8cc448..da8b6e52 100644
      "-or -name 'nosetests.xml' " +
      "-or -name 'jacoco*.xml' " +
      "-or -name 'clover.xml' " +
-@@ -29,7 +31,7 @@ if (!isWindows) {
+@@ -30,7 +31,7 @@ if (!isWindows) {
      "-or -name '*.lcov' " +
      "-or -name 'gcov.info' " +
      "-or -name '*.gcov' " +
@@ -110,7 +47,7 @@ index 2a8cc448..da8b6e52 100644
      "-not -name '*.sh' " +
      "-not -name '*.data' " +
      "-not -name '*.py' " +
-@@ -76,9 +78,10 @@ if (!isWindows) {
+@@ -77,9 +78,10 @@ if (!isWindows) {
      "-not -path '*/$bower_components/*' " +
      "-not -path '*/node_modules/*' " +
      "-not -path '*/conftest_*.c.gcov'"
@@ -123,7 +60,7 @@ index 2a8cc448..da8b6e52 100644
      '/s nosetests.xml ' +
      '/s jacoco*.xml ' +
      '/s clover.xml ' +
-@@ -136,6 +139,7 @@ if (!isWindows) {
+@@ -137,6 +139,7 @@ if (!isWindows) {
      '| findstr /i /v \\\\$bower_components\\ ' +
      '| findstr /i /v \\node_modules\\ ' +
      '| findstr /i /v \\conftest_.*\\.c\\.gcov '
@@ -131,7 +68,15 @@ index 2a8cc448..da8b6e52 100644
  }
  
  var sendToCodecovV2 = function(
-@@ -355,7 +359,7 @@ var upload = function(args, on_success, on_failure) {
+@@ -212,7 +215,6 @@ var sendToCodecovV3 = function(
+             body: upload_body,
+             headers: {
+               'Content-Type': 'text/plain',
+-              'x-amz-acl': 'public-read',
+             },
+           },
+           function(err) {
+@@ -357,7 +359,7 @@ var upload = function(args, on_success, on_failure) {
    console.log('==> Building file structure')
    try {
      upload +=
@@ -140,7 +85,33 @@ index 2a8cc448..da8b6e52 100644
          .toString()
          .trim() + '\n<<<<<< network\n'
    } catch (err) {
-@@ -414,7 +418,7 @@ var upload = function(args, on_success, on_failure) {
+@@ -394,13 +396,13 @@ var upload = function(args, on_success, on_failure) {
+       if (!isWindows) {
+         gcov =
+           'find ' +
+-          (args.options['gcov-root'] || root) +
++          (sanitizeVar(args.options['gcov-root']) || root) +
+           " -type f -name '*.gcno' " +
+           gcg +
+           ' -exec ' +
+-          (validator.escape(args.options['gcov-exec']) || 'gcov') +
++          (sanitizeVar(args.options['gcov-exec']) || 'gcov') +
+           ' ' +
+-          (validator.escape(args.options['gcov-args']) || '') +
++          (sanitizeVar(args.options['gcov-args']) || '') +
+           ' {} +'
+       } else {
+         // @TODO support for root
+@@ -409,14 +411,14 @@ var upload = function(args, on_success, on_failure) {
+           'for /f "delims=" %g in (\'dir /a-d /b /s *.gcno ' +
+           gcg +
+           "') do " +
+-          (args.options['gcov-exec'] || 'gcov') +
++          (sanitizeVar(args.options['gcov-exec']) || 'gcov') +
+           ' ' +
+-          (args.options['gcov-args'] || '') +
++          (sanitizeVar(args.options['gcov-args']) || '') +
+           ' %g'
        }
        debug.push(gcov)
        console.log('    $ ' + gcov)
@@ -149,7 +120,7 @@ index 2a8cc448..da8b6e52 100644
      } catch (e) {
        console.log('    Failed to run gcov command.')
      }
-@@ -431,19 +435,23 @@ var upload = function(args, on_success, on_failure) {
+@@ -433,19 +435,23 @@ var upload = function(args, on_success, on_failure) {
        .toString()
        .trim()
    } else {
@@ -180,7 +151,7 @@ index 2a8cc448..da8b6e52 100644
        }
      }
    }
-@@ -474,15 +482,26 @@ var upload = function(args, on_success, on_failure) {
+@@ -476,15 +482,26 @@ var upload = function(args, on_success, on_failure) {
    } else if ((args.options.disable || '').split(',').indexOf('search') === -1) {
      console.log('==> Scanning for reports')
      var _files
@@ -209,3 +180,32 @@ index 2a8cc448..da8b6e52 100644
          .toString()
          .trim()
          .split('\r\n')
+@@ -556,7 +573,12 @@ var upload = function(args, on_success, on_failure) {
+   }
+ }
+ 
++function sanitizeVar(arg) {
++  return arg.replace(/&/g, '')
++}
++
+ module.exports = {
++  sanitizeVar: sanitizeVar,
+   upload: upload,
+   version: version,
+   sendToCodecovV2: sendToCodecovV2,
+diff --git a/lib/services/codebuild.js b/lib/services/codebuild.js
+index 8126527..30ef644 100644
+--- a/lib/services/codebuild.js
++++ b/lib/services/codebuild.js
+@@ -26,7 +26,10 @@ module.exports = {
+       return git.branch()
+     }
+     function detectPRNumber() {
+-      if (process.env.CODEBUILD_WEBHOOK_HEAD_REF) {
++      if (
++        process.env.CODEBUILD_WEBHOOK_HEAD_REF &&
++        process.env.CODEBUILD_SOURCE_VERSION.startsWith('pr/')
++      ) {
+         return process.env.CODEBUILD_SOURCE_VERSION.replace(/^pr\//, '')
+       }
+       return undefined

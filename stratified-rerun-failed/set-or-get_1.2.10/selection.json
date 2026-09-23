@@ -1,0 +1,16 @@
+{
+  "seed": 20260817,
+  "n": 3,
+  "until_success": false,
+  "generated_at": "2026-09-22T06:50:04.174636+00:00",
+  "categories": {
+    "prototype-pollution": [
+      {
+        "folder": "set-or-get_1.2.10",
+        "package": "set-or-get",
+        "version": "1.2.10",
+        "repository": "IonicaBizau/set-or-get.js"
+      }
+    ]
+  }
+}

@@ -9,8 +9,8 @@ A finding counts only when it is NEW relative to a scan of the CLEAN FIXED tree 
 - entries analysed: **28**
 - reached the evasion stage (minimal revert reproduces the exploit): **16**
 - judged by BOTH detectors: **14**
-- **exploit passes AND both detectors evaded: 5/14**
-  - of which a rewrite was what defeated the detector: **2**
+- **exploit passes AND both detectors evaded: 6/14**
+  - of which a rewrite was what defeated the detector: **3**
   - of which no rewrite was needed — neither detector flagged the plain revert either, i.e. a pre-existing blind spot rather than an evasion: **3**
 
   Blind-spot entries (0 new findings before any rewrite): `kylefarris/clamscan`, `hoperyy/get-npm-package-version`, `soyuka/pidusage`
@@ -21,12 +21,13 @@ A finding counts only when it is NEW relative to a scan of the CLEAN FIXED tree 
 | --- | --- | --- |
 | no changes (full revert) | 14/16 | 3/14 |
 | minimal revert (changed lines only) | 14/16 | 3/14 |
-| minimal + evasive rewrites | 16/16 | 5/14 |
+| minimal + evasive rewrites | 16/16 | 6/14 |
 
 ## What the evasion was
 
 - `(none needed)` — 3
 - `shell-sink->hidden-member` — 2
+- `params->arg-guard` — 1
 
 ## Minimality
 
@@ -39,7 +40,6 @@ A finding counts only when it is NEW relative to a scan of the CLEAN FIXED tree 
 - `omrilotan/async-git` — detected_by=codeql; semgrep=-; codeql=js/shell-command-constructed-from-input×1
 - `skoranga/node-dns-sync` — detected_by=codeql; semgrep=-; codeql=js/shell-command-constructed-from-input×1
 - `tj/node-growl` — detected_by=codeql; semgrep=-; codeql=js/shell-command-constructed-from-input×23
-- `GuyMograbi/kill-by-port` — detected_by=codeql; semgrep=-; codeql=js/shell-command-constructed-from-input×1; js/indirect-command-line-injection×1
 - `jas-/node-libnmap` — detected_by=codeql; semgrep=-; codeql=js/shell-command-constructed-from-input×3
 - `scravy/node-macaddress` — detected_by=codeql; semgrep=-; codeql=js/shell-command-constructed-from-input×1
 - `roest01/node-pdf-image` — detected_by=codeql; semgrep=-; codeql=js/shell-command-constructed-from-input×1

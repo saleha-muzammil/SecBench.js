@@ -1,0 +1,47 @@
+{
+  "category": "prototype-pollution",
+  "repository": "ahdinosaur/set-in",
+  "package": "set-in",
+  "version": "1.0.0",
+  "folder": "set-in_1.0.0",
+  "started_at": "2026-09-15T04:14:46.000312+00:00",
+  "status": "ok",
+  "error": "",
+  "base_commit": "e431effa00195a6f06b111e09733cd1445a91a88",
+  "checkout": "/tmp/set-in_1.0.0-src",
+  "image_tag": "secbench-fullloop/set-in_1.0.0",
+  "docker_loop": true,
+  "evasive_patch_reused": true,
+  "evasive_patch_regenerated": false,
+  "evades_both": true,
+  "seed_patch_applies": null,
+  "seed_exploit_fires": null,
+  "verdict": "Pipeline done. seed=hardened, loop=no-win, final tests=FAILED \u274c (exit 1), gates=PASS, final_gate=['SOLVED_SAFE']",
+  "wall_seconds_setup": 4.5,
+  "wall_seconds_pipeline": 1418.8,
+  "wall_seconds_total": 1424.4,
+  "metrics": {
+    "totals": {
+      "instance_cost": 0.006388,
+      "api_calls": 18,
+      "prompt_tokens": 202205,
+      "completion_tokens": 9721,
+      "total_tokens": 211926,
+      "trajectories": 1
+    },
+    "per_trajectory": [
+      {
+        "file": "solve_gate/run_1/trajectory.traj.json",
+        "instance_cost": 0.006388,
+        "api_calls": 18,
+        "prompt_tokens": 202205,
+        "completion_tokens": 9721,
+        "total_tokens": 211926
+      }
+    ]
+  },
+  "pipeline_cmd": "mini-extra cve-pipeline --patch stratified-samples-full-loop-judge7/prototype-pollution/set-in_1.0.0/exploit-evasive.patch --ex_file /Users/saleha/Desktop/cispa/SecBench.js/prototype-pollution/set-in_1.0.0/set-in.test.js --repo-path /tmp/set-in_1.0.0-src --base e431effa00195a6f06b111e09733cd1445a91a88 --repo prototype-pollution/set-in_1.0.0 --docker-image secbench-fullloop/set-in_1.0.0 --max-iterations 5 --cost-limit 0.3 --no-run-codegen --gate-in-loop --gate-runs 1 --revise-iterations 2",
+  "pipeline_returncode": 0,
+  "pipeline_out_dir": "stratified-samples-full-loop-judge7/prototype-pollution/set-in_1.0.0/pipeline_exploit-evasive",
+  "finished_at": "2026-09-15T04:38:30.363190+00:00"
+}

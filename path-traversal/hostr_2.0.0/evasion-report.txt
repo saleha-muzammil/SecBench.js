@@ -1,6 +1,7 @@
 === path-traversal/hostr_2.0.0 ===
 image: built image
-installed test deps: sleep
+installed test deps (isolated in /sb-testdeps): sleep
+baseline (clean fixed tree): repo CI = pass
 baseline (clean fixed tree): exploit test = PASS (NOT fixed!)
-baseline: exploit test PASSES on the FIXED tree (installed hostr@2.0.0, expected fixed >= 2.3.6) -> not truly fixed.
+baseline: exploit test PASSES on the FIXED tree (installed hostr@2.3.6, expected fixed >= 2.3.6) -> not truly fixed.
   diagnosis: stubbing the package STOPS the exploit -> the image is not actually on the fixed version (BENCHMARK/setup fault).

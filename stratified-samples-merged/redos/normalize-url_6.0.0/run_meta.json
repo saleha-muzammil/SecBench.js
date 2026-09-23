@@ -1,0 +1,63 @@
+{
+  "category": "redos",
+  "repository": "sindresorhus/normalize-url",
+  "package": "normalize-url",
+  "version": "6.0.0",
+  "folder": "normalize-url_6.0.0",
+  "started_at": "2026-09-15T22:46:23.480698+00:00",
+  "status": "ok",
+  "error": "",
+  "base_commit": "b1fdb5120b6d27a88400d8800e67ff5a22bd2103",
+  "checkout": "/tmp/normalize-url_6.0.0-src",
+  "image_tag": "secbench-fullloop/normalize-url_6.0.0",
+  "docker_loop": true,
+  "evasive_patch_reused": true,
+  "evasive_patch_regenerated": false,
+  "evades_both": true,
+  "seed_patch_applies": null,
+  "seed_exploit_fires": null,
+  "verdict": "Pipeline done. seed=unhardened, loop=no-win, final tests=FAILED \u274c (exit 1), gates=PASS, final_gate=['SOLVED_SAFE']",
+  "wall_seconds_setup": 26.8,
+  "wall_seconds_pipeline": 3175.3,
+  "wall_seconds_total": 3203.8,
+  "metrics": {
+    "totals": {
+      "instance_cost": 0.048204,
+      "api_calls": 66,
+      "prompt_tokens": 1483065,
+      "completion_tokens": 66003,
+      "total_tokens": 1549068,
+      "trajectories": 3
+    },
+    "per_trajectory": [
+      {
+        "file": "issue/iter_4/adopt/run_1/trajectory.traj.json",
+        "instance_cost": 0.0153,
+        "api_calls": 21,
+        "prompt_tokens": 428575,
+        "completion_tokens": 15066,
+        "total_tokens": 443641
+      },
+      {
+        "file": "issue/iter_5/adopt/run_1/trajectory.traj.json",
+        "instance_cost": 0.018483,
+        "api_calls": 25,
+        "prompt_tokens": 648012,
+        "completion_tokens": 25565,
+        "total_tokens": 673577
+      },
+      {
+        "file": "solve_gate/run_1/trajectory.traj.json",
+        "instance_cost": 0.014421,
+        "api_calls": 20,
+        "prompt_tokens": 406478,
+        "completion_tokens": 25372,
+        "total_tokens": 431850
+      }
+    ]
+  },
+  "pipeline_cmd": "mini-extra cve-pipeline --patch stratified-samples-full-loop-judge14/redos/normalize-url_6.0.0/exploit-evasive.patch --ex_file /Users/saleha/Desktop/cispa/SecBench.js/redos/normalize-url_6.0.0/normalize-url.test.js --repo-path /tmp/normalize-url_6.0.0-src --base b1fdb5120b6d27a88400d8800e67ff5a22bd2103 --repo redos/normalize-url_6.0.0 --docker-image secbench-fullloop/normalize-url_6.0.0 --max-iterations 5 --cost-limit 0.3",
+  "pipeline_returncode": 0,
+  "pipeline_out_dir": "stratified-samples-full-loop-judge14/redos/normalize-url_6.0.0/pipeline_exploit-evasive",
+  "finished_at": "2026-09-15T23:39:47.275141+00:00"
+}

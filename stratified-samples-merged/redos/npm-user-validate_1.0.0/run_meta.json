@@ -1,0 +1,71 @@
+{
+  "category": "redos",
+  "repository": "npm/npm-user-validate",
+  "package": "npm-user-validate",
+  "version": "1.0.0",
+  "folder": "npm-user-validate_1.0.0",
+  "started_at": "2026-09-16T22:19:43.347673+00:00",
+  "status": "ok",
+  "error": "",
+  "base_commit": "c8a87dac1a4cc6988b5418f30411a8669bef204e",
+  "checkout": "/tmp/npm-user-validate_1.0.0-src",
+  "image_tag": "secbench-fullloop/npm-user-validate_1.0.0",
+  "docker_loop": true,
+  "evasive_patch_reused": true,
+  "evasive_patch_regenerated": false,
+  "evades_both": true,
+  "seed_patch_applies": null,
+  "seed_exploit_fires": null,
+  "verdict": "Pipeline done. seed=hardened, loop=no-win, final tests=NO NEW FAILURES \u2705 (baseline 0 failing, still 0; pre-existing failures ignored), gates=PASS, final_gate=['SOLVED_SAFE']",
+  "wall_seconds_setup": 2.8,
+  "wall_seconds_pipeline": 1464.6,
+  "wall_seconds_total": 1468.5,
+  "metrics": {
+    "totals": {
+      "instance_cost": 0.031182,
+      "api_calls": 89,
+      "prompt_tokens": 1125438,
+      "completion_tokens": 34875,
+      "total_tokens": 1160313,
+      "trajectories": 4
+    },
+    "per_trajectory": [
+      {
+        "file": "issue/iter_3/adopt/run_1/trajectory.traj.json",
+        "instance_cost": 0.00337,
+        "api_calls": 14,
+        "prompt_tokens": 99974,
+        "completion_tokens": 4455,
+        "total_tokens": 104429
+      },
+      {
+        "file": "issue/iter_4/adopt/run_1/trajectory.traj.json",
+        "instance_cost": 0.007775,
+        "api_calls": 20,
+        "prompt_tokens": 246631,
+        "completion_tokens": 11395,
+        "total_tokens": 258026
+      },
+      {
+        "file": "issue/iter_5/adopt/run_1/trajectory.traj.json",
+        "instance_cost": 0.010875,
+        "api_calls": 33,
+        "prompt_tokens": 459416,
+        "completion_tokens": 7121,
+        "total_tokens": 466537
+      },
+      {
+        "file": "solve_gate/run_1/trajectory.traj.json",
+        "instance_cost": 0.009163,
+        "api_calls": 22,
+        "prompt_tokens": 319417,
+        "completion_tokens": 11904,
+        "total_tokens": 331321
+      }
+    ]
+  },
+  "pipeline_cmd": "mini-extra cve-pipeline --patch stratified-samples-full-loop-judge14/redos/npm-user-validate_1.0.0/exploit-evasive.patch --ex_file /Users/saleha/Desktop/cispa/SecBench.js/redos/npm-user-validate_1.0.0/npm-user-validate.test.js --repo-path /tmp/npm-user-validate_1.0.0-src --base c8a87dac1a4cc6988b5418f30411a8669bef204e --repo redos/npm-user-validate_1.0.0 --docker-image secbench-fullloop/npm-user-validate_1.0.0 --max-iterations 5 --cost-limit 0.3 --no-run-codegen --gate-in-loop --gate-runs 1 --revise-iterations 2",
+  "pipeline_returncode": 0,
+  "pipeline_out_dir": "stratified-samples-full-loop-judge14/redos/npm-user-validate_1.0.0/pipeline_exploit-evasive",
+  "finished_at": "2026-09-16T22:44:11.824594+00:00"
+}

@@ -1,0 +1,55 @@
+{
+  "category": "redos",
+  "repository": "chalk/ansi-regex",
+  "package": "ansi-regex",
+  "version": "4.1.0",
+  "folder": "ansi-regex_4.1.0",
+  "started_at": "2026-09-15T11:22:12.993371+00:00",
+  "status": "ok",
+  "error": "",
+  "base_commit": "419250fa510bf31b4cc672e76537a64f9332e1f1",
+  "checkout": "/tmp/ansi-regex_4.1.0-src",
+  "image_tag": "secbench-fullloop/ansi-regex_4.1.0",
+  "docker_loop": true,
+  "evasive_patch_reused": true,
+  "evasive_patch_regenerated": false,
+  "evades_both": true,
+  "seed_patch_applies": null,
+  "seed_exploit_fires": null,
+  "verdict": "Pipeline done. seed=hardened, loop=SUCCESS, final tests=FAILED \u274c (exit 1), gates=PASS, final_gate=['SOLVED']",
+  "wall_seconds_setup": 44.6,
+  "wall_seconds_pipeline": 1346.3,
+  "wall_seconds_total": 1393.1,
+  "metrics": {
+    "totals": {
+      "instance_cost": 0.031896,
+      "api_calls": 46,
+      "prompt_tokens": 727716,
+      "completion_tokens": 40792,
+      "total_tokens": 768508,
+      "trajectories": 2
+    },
+    "per_trajectory": [
+      {
+        "file": "issue/iter_2/adopt/run_1/trajectory.traj.json",
+        "instance_cost": 0.025679,
+        "api_calls": 26,
+        "prompt_tokens": 552203,
+        "completion_tokens": 33885,
+        "total_tokens": 586088
+      },
+      {
+        "file": "solve_gate/run_1/trajectory.traj.json",
+        "instance_cost": 0.006217,
+        "api_calls": 20,
+        "prompt_tokens": 175513,
+        "completion_tokens": 6907,
+        "total_tokens": 182420
+      }
+    ]
+  },
+  "pipeline_cmd": "mini-extra cve-pipeline --patch stratified-samples-full-loop-judge13/redos/ansi-regex_4.1.0/exploit-evasive.patch --ex_file /Users/saleha/Desktop/cispa/SecBench.js/redos/ansi-regex_4.1.0/ansi-regex.selfcontained.test.js --repo-path /tmp/ansi-regex_4.1.0-src --base 419250fa510bf31b4cc672e76537a64f9332e1f1 --repo redos/ansi-regex_4.1.0 --docker-image secbench-fullloop/ansi-regex_4.1.0 --max-iterations 5 --cost-limit 0.3 --no-run-codegen --gate-in-loop --gate-runs 1 --revise-iterations 2",
+  "pipeline_returncode": 0,
+  "pipeline_out_dir": "stratified-samples-full-loop-judge13/redos/ansi-regex_4.1.0/pipeline_exploit-evasive",
+  "finished_at": "2026-09-15T11:45:26.097568+00:00"
+}

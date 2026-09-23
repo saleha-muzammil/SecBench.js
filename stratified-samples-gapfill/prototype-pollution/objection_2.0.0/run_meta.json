@@ -1,0 +1,55 @@
+{
+  "category": "prototype-pollution",
+  "repository": "vincit/objection.js",
+  "package": "objection",
+  "version": "2.0.0",
+  "folder": "objection_2.0.0",
+  "started_at": "2026-09-22T09:27:03.304630+00:00",
+  "status": "ok",
+  "error": "",
+  "base_commit": "b41aab8dcd78f426f7468dcda541a7aca18a66a6",
+  "checkout": "/tmp/gapfill-src/objection_2.0.0-src",
+  "image_tag": "secbench-fullloop/objection_2.0.0",
+  "docker_loop": true,
+  "evasive_patch_reused": true,
+  "evasive_patch_regenerated": false,
+  "evades_both": false,
+  "seed_patch_applies": null,
+  "seed_exploit_fires": null,
+  "verdict": "Pipeline done. seed=hardened, loop=SUCCESS, final tests=FAILED \u274c (exit 1), gates=PASS, final_gate=['SOLVED']",
+  "wall_seconds_setup": 65.3,
+  "wall_seconds_pipeline": 1296.3,
+  "wall_seconds_total": 1364.0,
+  "metrics": {
+    "totals": {
+      "instance_cost": 0.024443,
+      "api_calls": 63,
+      "prompt_tokens": 940651,
+      "completion_tokens": 16381,
+      "total_tokens": 957032,
+      "trajectories": 2
+    },
+    "per_trajectory": [
+      {
+        "file": "issue/iter_4/adopt/run_1/trajectory.traj.json",
+        "instance_cost": 0.013331,
+        "api_calls": 25,
+        "prompt_tokens": 527834,
+        "completion_tokens": 9758,
+        "total_tokens": 537592
+      },
+      {
+        "file": "solve_gate/run_1/trajectory.traj.json",
+        "instance_cost": 0.011113,
+        "api_calls": 38,
+        "prompt_tokens": 412817,
+        "completion_tokens": 6623,
+        "total_tokens": 419440
+      }
+    ]
+  },
+  "pipeline_cmd": "mini-extra cve-pipeline --patch stratified-samples-gapfill/prototype-pollution/objection_2.0.0/exploit-evasive.patch --ex_file /Users/saleha/Desktop/cispa/SecBench.js/prototype-pollution/objection_2.0.0/objection.test.js --repo-path /tmp/gapfill-src/objection_2.0.0-src --base b41aab8dcd78f426f7468dcda541a7aca18a66a6 --repo vincit/objection.js --docker-image secbench-fullloop/objection_2.0.0 --cost-limit 0.3",
+  "pipeline_returncode": 0,
+  "pipeline_out_dir": "stratified-samples-gapfill/prototype-pollution/objection_2.0.0/pipeline_exploit-evasive",
+  "finished_at": "2026-09-22T09:49:47.319607+00:00"
+}

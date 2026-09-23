@@ -1,0 +1,38 @@
+{
+  "category": "path-traversal",
+  "repository": "nunnly/m-server",
+  "package": "m-server",
+  "version": "1.4.0",
+  "folder": "m-server_1.4.0",
+  "started_at": "2026-09-21T01:32:47.553526+00:00",
+  "status": "ok",
+  "error": "",
+  "base_commit": "b8613fd1f35b2ba1e3b0cbac254c03f7c9f95232",
+  "checkout": "/tmp/m-server_1.4.0-src",
+  "image_tag": "secbench-fullloop/m-server_1.4.0",
+  "docker_loop": true,
+  "evasive_patch_reused": true,
+  "evasive_patch_regenerated": false,
+  "evades_both": true,
+  "seed_patch_applies": null,
+  "seed_exploit_fires": null,
+  "verdict": "Pipeline done. seed=unhardened, loop=no-win, final tests=PASSED \u2705, gates=FAIL",
+  "wall_seconds_setup": 2.1,
+  "wall_seconds_pipeline": 3612.9,
+  "wall_seconds_total": 3615.3,
+  "metrics": {
+    "totals": {
+      "instance_cost": 0.0,
+      "api_calls": 0,
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "trajectories": 0
+    },
+    "per_trajectory": []
+  },
+  "pipeline_cmd": "mini-extra cve-pipeline --patch stratified-samples-full-loop-judge14/path-traversal/m-server_1.4.0/exploit-evasive.patch --ex_file /Users/saleha/Desktop/cispa/SecBench.js/path-traversal/m-server_1.4.0/m-server.test.js --repo-path /tmp/m-server_1.4.0-src --base b8613fd1f35b2ba1e3b0cbac254c03f7c9f95232 --repo path-traversal/m-server_1.4.0 --docker-image secbench-fullloop/m-server_1.4.0 --max-iterations 5 --cost-limit 0.3 --no-run-codegen --gate-in-loop --gate-runs 1 --revise-iterations 2",
+  "pipeline_returncode": 0,
+  "pipeline_out_dir": "stratified-samples-full-loop-judge14/path-traversal/m-server_1.4.0/pipeline_exploit-evasive",
+  "finished_at": "2026-09-21T02:33:02.855505+00:00"
+}

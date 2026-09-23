@@ -1,0 +1,47 @@
+{
+  "category": "prototype-pollution",
+  "repository": "monsterkodi/sds",
+  "package": "sds",
+  "version": "3.2.0",
+  "folder": "sds_3.2.0",
+  "started_at": "2026-09-15T13:54:05.930886+00:00",
+  "status": "ok",
+  "error": "",
+  "base_commit": "a228f025fd1be033088b7abbc0f77118d573f216",
+  "checkout": "/tmp/sds_3.2.0-src",
+  "image_tag": "secbench-fullloop/sds_3.2.0",
+  "docker_loop": true,
+  "evasive_patch_reused": true,
+  "evasive_patch_regenerated": false,
+  "evades_both": true,
+  "seed_patch_applies": null,
+  "seed_exploit_fires": null,
+  "verdict": "Pipeline done. seed=hardened, loop=no-win, final tests=FAILED \u274c (exit 4), gates=PASS, final_gate=['SOLVED']",
+  "wall_seconds_setup": 28.2,
+  "wall_seconds_pipeline": 4287.7,
+  "wall_seconds_total": 4317.6,
+  "metrics": {
+    "totals": {
+      "instance_cost": 0.025922,
+      "api_calls": 30,
+      "prompt_tokens": 716325,
+      "completion_tokens": 14173,
+      "total_tokens": 730498,
+      "trajectories": 1
+    },
+    "per_trajectory": [
+      {
+        "file": "solve_gate/run_1/trajectory.traj.json",
+        "instance_cost": 0.025922,
+        "api_calls": 30,
+        "prompt_tokens": 716325,
+        "completion_tokens": 14173,
+        "total_tokens": 730498
+      }
+    ]
+  },
+  "pipeline_cmd": "mini-extra cve-pipeline --patch stratified-samples-full-loop-judge8/prototype-pollution/sds_3.2.0/exploit-evasive.patch --ex_file /Users/saleha/Desktop/cispa/SecBench.js/prototype-pollution/sds_3.2.0/sds.test.js --repo-path /tmp/sds_3.2.0-src --base a228f025fd1be033088b7abbc0f77118d573f216 --repo prototype-pollution/sds_3.2.0 --docker-image secbench-fullloop/sds_3.2.0 --max-iterations 5 --cost-limit 0.3 --no-run-codegen --gate-in-loop --gate-runs 1 --revise-iterations 2",
+  "pipeline_returncode": 0,
+  "pipeline_out_dir": "stratified-samples-full-loop-judge8/prototype-pollution/sds_3.2.0/pipeline_exploit-evasive",
+  "finished_at": "2026-09-15T15:06:03.546735+00:00"
+}

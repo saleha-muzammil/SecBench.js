@@ -1,0 +1,79 @@
+{
+  "category": "prototype-pollution",
+  "repository": "jonschlinkert/defaults-deep",
+  "package": "defaults-deep",
+  "version": "0.2.0",
+  "folder": "defaults-deep_0.2.0",
+  "started_at": "2026-09-21T17:05:10.174685+00:00",
+  "status": "ok",
+  "error": "",
+  "base_commit": "c873f341327ad885ff4d0f23b3d3bca31b0343e5",
+  "checkout": "/tmp/defaults-deep_0.2.0-src",
+  "image_tag": "secbench-fullloop/defaults-deep_0.2.0",
+  "docker_loop": true,
+  "evasive_patch_reused": true,
+  "evasive_patch_regenerated": false,
+  "evades_both": false,
+  "seed_patch_applies": null,
+  "seed_exploit_fires": null,
+  "verdict": "Pipeline done. seed=hardened, loop=no-win, final tests=FAILED \u274c (exit 1), gates=PASS, final_gate=['SOLVED']",
+  "wall_seconds_setup": 13.2,
+  "wall_seconds_pipeline": 675.9,
+  "wall_seconds_total": 689.5,
+  "metrics": {
+    "totals": {
+      "instance_cost": 0.021156,
+      "api_calls": 72,
+      "prompt_tokens": 498108,
+      "completion_tokens": 28056,
+      "total_tokens": 526164,
+      "trajectories": 5
+    },
+    "per_trajectory": [
+      {
+        "file": "issue/iter_2/adopt/run_1/trajectory.traj.json",
+        "instance_cost": 0.005654,
+        "api_calls": 19,
+        "prompt_tokens": 138797,
+        "completion_tokens": 5619,
+        "total_tokens": 144416
+      },
+      {
+        "file": "issue/iter_3/adopt/run_1/trajectory.traj.json",
+        "instance_cost": 0.005216,
+        "api_calls": 16,
+        "prompt_tokens": 117593,
+        "completion_tokens": 6377,
+        "total_tokens": 123970
+      },
+      {
+        "file": "issue/iter_4/adopt/run_1/trajectory.traj.json",
+        "instance_cost": 0.004898,
+        "api_calls": 18,
+        "prompt_tokens": 120450,
+        "completion_tokens": 5633,
+        "total_tokens": 126083
+      },
+      {
+        "file": "issue/iter_5/adopt/run_1/trajectory.traj.json",
+        "instance_cost": 0.003323,
+        "api_calls": 8,
+        "prompt_tokens": 58958,
+        "completion_tokens": 6885,
+        "total_tokens": 65843
+      },
+      {
+        "file": "solve_gate/run_1/trajectory.traj.json",
+        "instance_cost": 0.002065,
+        "api_calls": 11,
+        "prompt_tokens": 62310,
+        "completion_tokens": 3542,
+        "total_tokens": 65852
+      }
+    ]
+  },
+  "pipeline_cmd": "mini-extra cve-pipeline --patch stratified-samples-full-loop-judge14/prototype-pollution/defaults-deep_0.2.0/exploit-evasive.patch --ex_file /Users/saleha/Desktop/cispa/SecBench.js/prototype-pollution/defaults-deep_0.2.0/defaults-deep.test.js --repo-path /tmp/defaults-deep_0.2.0-src --base c873f341327ad885ff4d0f23b3d3bca31b0343e5 --repo prototype-pollution/defaults-deep_0.2.0 --docker-image secbench-fullloop/defaults-deep_0.2.0 --max-iterations 5 --cost-limit 0.3 --no-run-codegen --gate-in-loop --gate-runs 1 --revise-iterations 2",
+  "pipeline_returncode": 0,
+  "pipeline_out_dir": "stratified-samples-full-loop-judge14/prototype-pollution/defaults-deep_0.2.0/pipeline_exploit-evasive",
+  "finished_at": "2026-09-21T17:16:39.656132+00:00"
+}

@@ -71,9 +71,10 @@ RUN npm install --no-audit --no-fund --ignore-scripts tinyserver2@0.6.1 \
     && node -e "const v=require('tinyserver2/package.json').version; \
         if(v!=='0.6.1'){console.error('ERROR: asked npm for tinyserver2@0.6.1 but got '+v+'.');process.exit(1);}"
 
-# jest installed globally so it does not disturb the package tree
-# jest pinned to 29: jest 30 calls os.availableParallelism(), which the node:16 base
-# image does not have, so the exploit oracle died at config load instead of running.
+# jest installed globally so it does not disturb the package tree. Pinned to 29:
+# jest 30 calls os.availableParallelism(), absent on the node:16 base image, so the
+# exploit oracle died at config load ("availableParallelism is not a function")
+# instead of running -- every harness then reported exploit=False for free.
 RUN npm install -g --no-audit --no-fund jest@29
 
 CMD ["jest", "--runInBand"]

@@ -1,0 +1,47 @@
+{
+  "category": "command-injection",
+  "repository": "kylefarris/clamscan",
+  "package": "clamscan",
+  "version": "1.2.0",
+  "folder": "clamscan_1.2.0",
+  "started_at": "2026-08-20T11:20:23.641134+00:00",
+  "status": "ok",
+  "error": "",
+  "base_commit": "5f557c970817fe8c578ec3f7ad3bcbcef4cf5538",
+  "checkout": "/tmp/clamscan_1.2.0-src",
+  "image_tag": "secbench-fullloop/clamscan_1.2.0",
+  "docker_loop": true,
+  "evasive_patch_reused": true,
+  "evasive_patch_regenerated": false,
+  "evades_both": true,
+  "seed_patch_applies": null,
+  "seed_exploit_fires": null,
+  "verdict": "Pipeline done. seed=hardened, loop=SUCCESS, final tests=NO NEW FAILURES \u2705 (baseline 45 failing, still 45; pre-existing failures ignored), gates=PASS, final_gate=['SOLVED_SAFE']",
+  "wall_seconds_setup": 24.4,
+  "wall_seconds_pipeline": 1167.9,
+  "wall_seconds_total": 1194.7,
+  "metrics": {
+    "totals": {
+      "instance_cost": 0.013305,
+      "api_calls": 58,
+      "prompt_tokens": 1355105,
+      "completion_tokens": 21813,
+      "total_tokens": 1376918,
+      "trajectories": 1
+    },
+    "per_trajectory": [
+      {
+        "file": "solve_gate/run_1/trajectory.traj.json",
+        "instance_cost": 0.013305,
+        "api_calls": 58,
+        "prompt_tokens": 1355105,
+        "completion_tokens": 21813,
+        "total_tokens": 1376918
+      }
+    ]
+  },
+  "pipeline_cmd": "mini-extra cve-pipeline --patch stratified-samples-full-loop/command-injection/clamscan_1.2.0/exploit-evasive.patch --ex_file /Users/saleha/Desktop/cispa/SecBench.js/command-injection/clamscan_1.2.0/clamscan.test.js --repo-path /tmp/clamscan_1.2.0-src --base 5f557c970817fe8c578ec3f7ad3bcbcef4cf5538 --repo command-injection/clamscan_1.2.0 --docker-image secbench-fullloop/clamscan_1.2.0 --cost-limit 0.3",
+  "pipeline_returncode": 0,
+  "pipeline_out_dir": "stratified-samples-full-loop/command-injection/clamscan_1.2.0/pipeline_exploit-evasive",
+  "finished_at": "2026-08-20T11:40:18.360498+00:00"
+}

@@ -1,0 +1,38 @@
+{
+  "category": "redos",
+  "repository": "hapijs/content",
+  "package": "content",
+  "version": "3.0.5",
+  "folder": "content_3.0.5",
+  "started_at": "2026-09-22T19:44:47.928259+00:00",
+  "status": "pipeline-rc-1",
+  "error": "",
+  "base_commit": "96beb34f7c38a08d024dbf9cd63865c56e2955d9",
+  "checkout": "/tmp/gapfill-src/content_3.0.5-src",
+  "image_tag": "secbench-fullloop/content_3.0.5",
+  "docker_loop": true,
+  "evasive_patch_reused": true,
+  "evasive_patch_regenerated": false,
+  "evades_both": false,
+  "seed_patch_applies": null,
+  "seed_exploit_fires": null,
+  "verdict": "",
+  "wall_seconds_setup": 46.9,
+  "wall_seconds_pipeline": 1083.9,
+  "wall_seconds_total": 1132.3,
+  "metrics": {
+    "totals": {
+      "instance_cost": 0.0,
+      "api_calls": 0,
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "trajectories": 0
+    },
+    "per_trajectory": []
+  },
+  "pipeline_cmd": "mini-extra cve-pipeline --patch stratified-samples-gapfill/redos/content_3.0.5/exploit-evasive.patch --ex_file /Users/saleha/Desktop/cispa/SecBench.js/redos/content_3.0.5/content.test.js --repo-path /tmp/gapfill-src/content_3.0.5-src --base 96beb34f7c38a08d024dbf9cd63865c56e2955d9 --repo hapijs/content --docker-image secbench-fullloop/content_3.0.5 --cost-limit 0.3",
+  "pipeline_returncode": 1,
+  "pipeline_out_dir": "stratified-samples-gapfill/redos/content_3.0.5/pipeline_exploit-evasive",
+  "finished_at": "2026-09-22T20:03:40.186819+00:00"
+}

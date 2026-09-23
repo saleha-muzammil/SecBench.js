@@ -1,0 +1,47 @@
+{
+  "category": "prototype-pollution",
+  "repository": "jquense/expr",
+  "package": "property-expr",
+  "version": "2.0.2",
+  "folder": "property-expr_2.0.2",
+  "started_at": "2026-09-15T13:31:54.750861+00:00",
+  "status": "ok",
+  "error": "",
+  "base_commit": "df846910915d59f711ce63c1f817815bceab5ff7",
+  "checkout": "/tmp/property-expr_2.0.2-src",
+  "image_tag": "secbench-fullloop/property-expr_2.0.2",
+  "docker_loop": true,
+  "evasive_patch_reused": true,
+  "evasive_patch_regenerated": false,
+  "evades_both": true,
+  "seed_patch_applies": null,
+  "seed_exploit_fires": null,
+  "verdict": "Pipeline done. seed=hardened, loop=no-win, final tests=NO NEW FAILURES \u2705 (baseline 0 failing, still 0; pre-existing failures ignored), gates=PASS, final_gate=['SOLVED']",
+  "wall_seconds_setup": 14.5,
+  "wall_seconds_pipeline": 1315.7,
+  "wall_seconds_total": 1331.2,
+  "metrics": {
+    "totals": {
+      "instance_cost": 0.010927,
+      "api_calls": 20,
+      "prompt_tokens": 307876,
+      "completion_tokens": 14896,
+      "total_tokens": 322772,
+      "trajectories": 1
+    },
+    "per_trajectory": [
+      {
+        "file": "solve_gate/run_1/trajectory.traj.json",
+        "instance_cost": 0.010927,
+        "api_calls": 20,
+        "prompt_tokens": 307876,
+        "completion_tokens": 14896,
+        "total_tokens": 322772
+      }
+    ]
+  },
+  "pipeline_cmd": "mini-extra cve-pipeline --patch stratified-samples-full-loop-judge8/prototype-pollution/property-expr_2.0.2/exploit-evasive.patch --ex_file /Users/saleha/Desktop/cispa/SecBench.js/prototype-pollution/property-expr_2.0.2/property-expr.test.js --repo-path /tmp/property-expr_2.0.2-src --base df846910915d59f711ce63c1f817815bceab5ff7 --repo prototype-pollution/property-expr_2.0.2 --docker-image secbench-fullloop/property-expr_2.0.2 --max-iterations 5 --cost-limit 0.3 --no-run-codegen --gate-in-loop --gate-runs 1 --revise-iterations 2",
+  "pipeline_returncode": 0,
+  "pipeline_out_dir": "stratified-samples-full-loop-judge8/prototype-pollution/property-expr_2.0.2/pipeline_exploit-evasive",
+  "finished_at": "2026-09-15T13:54:05.928315+00:00"
+}

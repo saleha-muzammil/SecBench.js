@@ -13,24 +13,20 @@ semgrep on minimal variant (after chunking): 0 finding(s), 0 NEW vs fixed baseli
 codeql on minimal variant (after chunking): 3 finding(s), 2 NEW vs fixed baseline
     ! js/shell-command-constructed-from-input @ index.js:8: This string concatenation which depends on [library input](1) is later used in a [shell command](2).
     ! js/indirect-command-line-injection @ index.js:8: This command depends on an unsanitized [command-line argument](1).
-selecting rewrites from the rules that actually fired: exports->launder <- 'library input', params->launder <- 'library input', methods->launder <- 'library input', source->launder <- 'library input', source->launder+index <- 'library input', shell-arg->launder <- 'js/shell-command-constructed-from-input', require-member->hidden <- 'js/shell-command-constructed-from-input', shell-sink->hidden-member <- 'js/shell-command-constructed-from-input', require-module->dynamic <- 'js/shell-command-constructed-from-input'
+selecting rewrites from the rules that actually fired: exports->launder <- 'library input', params->launder <- 'library input', methods->launder <- 'library input', source->launder <- 'library input', source->launder+index <- 'library input', params->arg-guard <- 'js/shell-command-constructed-from-input', shell-arg->launder <- 'js/shell-command-constructed-from-input', require-member->hidden <- 'js/shell-command-constructed-from-input', shell-sink->hidden-member <- 'js/shell-command-constructed-from-input', require-module->dynamic <- 'js/shell-command-constructed-from-input'
   exports->launder: test PASSES, semgrep 0 finding(s) (0 new), codeql new 2
   methods->launder: matched nothing -> skipped
-  params->launder: test PASSES, semgrep 0 finding(s) (0 new), codeql new 2
-  source->launder: matched nothing -> skipped
-  source->launder+index: matched nothing -> skipped
-  shell-arg->launder: matched nothing -> skipped
-  require-member->hidden: test PASSES, semgrep 0 finding(s) (0 new), codeql new 0
+  params->arg-guard: test PASSES, semgrep 0 finding(s) (0 new), codeql new 0
 [1/5] test cases  -> exploit test PASSES (reproduces)
 [2/5] ci          -> clean-fixed baseline=fail, final variant=fail  => baseline-already-broken
         --- repo test output (final variant, tail) ---
 [90m[2m⠏[22m[39m [?25l[2K[1A[2K[0G 
  [90m[2m⠋[22m[39m [?25l[2K[1A[2K[0G 
  [90m[2m⠙[22m[39m [?25l[2K[1A[2K[0G 
- [90m[2m⠹[22m[39m [?25l[2K[1A[2K[0G 
- [90m[2m⠸[22m[39m [2K[1A[2K[0Gcontent is {"port":8081}
+ [90m[2m⠹[22m[39m [2K[1A[2K[0Gcontent is {"port":8081}
 
  
+ [90m[2m⠹[22m[39m [?25l[2K[1A[2K[0G 
  [90m[2m⠸[22m[39m [2K[1A[2K[0G/bin/sh: 1: lsof: not found
  
  [90m[2m⠸[22m[39m [?25l[2K[1A[2K[0G 

@@ -1,0 +1,38 @@
+{
+  "category": "prototype-pollution",
+  "repository": "davideicardi/confinit",
+  "package": "confinit",
+  "version": "0.3.0",
+  "folder": "confinit_0.3.0",
+  "started_at": "2026-09-21T05:12:49.051141+00:00",
+  "status": "ok",
+  "error": "",
+  "base_commit": "a34e06ca5c1c8b047ef112ef188b2fe30d2a1eab",
+  "checkout": "/tmp/confinit_0.3.0-src",
+  "image_tag": "secbench-fullloop/confinit_0.3.0",
+  "docker_loop": true,
+  "evasive_patch_reused": true,
+  "evasive_patch_regenerated": false,
+  "evades_both": false,
+  "seed_patch_applies": null,
+  "seed_exploit_fires": null,
+  "verdict": "Pipeline done. seed=unhardened, loop=no-win, final tests=FAILED \u274c (exit 3), gates=FAIL",
+  "wall_seconds_setup": 10.5,
+  "wall_seconds_pipeline": 781.6,
+  "wall_seconds_total": 793.0,
+  "metrics": {
+    "totals": {
+      "instance_cost": 0.0,
+      "api_calls": 0,
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "trajectories": 0
+    },
+    "per_trajectory": []
+  },
+  "pipeline_cmd": "mini-extra cve-pipeline --patch stratified-samples-full-loop-judge14/prototype-pollution/confinit_0.3.0/exploit-evasive.patch --ex_file /Users/saleha/Desktop/cispa/SecBench.js/prototype-pollution/confinit_0.3.0/confinit.test.js --repo-path /tmp/confinit_0.3.0-src --base a34e06ca5c1c8b047ef112ef188b2fe30d2a1eab --repo prototype-pollution/confinit_0.3.0 --docker-image secbench-fullloop/confinit_0.3.0 --max-iterations 5 --cost-limit 0.3 --no-run-codegen --gate-in-loop --gate-runs 1 --revise-iterations 2",
+  "pipeline_returncode": 0,
+  "pipeline_out_dir": "stratified-samples-full-loop-judge14/prototype-pollution/confinit_0.3.0/pipeline_exploit-evasive",
+  "finished_at": "2026-09-21T05:26:02.074633+00:00"
+}

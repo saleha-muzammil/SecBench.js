@@ -1,0 +1,38 @@
+{
+  "category": "prototype-pollution",
+  "repository": "xcritical-software/utilitify",
+  "package": "utilitify",
+  "version": "1.0.2",
+  "folder": "utilitify_1.0.2",
+  "started_at": "2026-09-22T19:21:24.101453+00:00",
+  "status": "pipeline-rc-1",
+  "error": "",
+  "base_commit": "88d6e27009823338bf319ffb768fe6b08e8ad2d1",
+  "checkout": "/tmp/gapfill-src/utilitify_1.0.2-src",
+  "image_tag": "secbench-fullloop/utilitify_1.0.2",
+  "docker_loop": true,
+  "evasive_patch_reused": true,
+  "evasive_patch_regenerated": false,
+  "evades_both": false,
+  "seed_patch_applies": null,
+  "seed_exploit_fires": null,
+  "verdict": "",
+  "wall_seconds_setup": 167.5,
+  "wall_seconds_pipeline": 971.4,
+  "wall_seconds_total": 1171.5,
+  "metrics": {
+    "totals": {
+      "instance_cost": 0.0,
+      "api_calls": 0,
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "trajectories": 0
+    },
+    "per_trajectory": []
+  },
+  "pipeline_cmd": "mini-extra cve-pipeline --patch stratified-samples-gapfill/prototype-pollution/utilitify_1.0.2/exploit-evasive.patch --ex_file /Users/saleha/Desktop/cispa/SecBench.js/prototype-pollution/utilitify_1.0.2/utilitify.test.js --repo-path /tmp/gapfill-src/utilitify_1.0.2-src --base 88d6e27009823338bf319ffb768fe6b08e8ad2d1 --repo xcritical-software/utilitify --docker-image secbench-fullloop/utilitify_1.0.2 --cost-limit 0.3",
+  "pipeline_returncode": 1,
+  "pipeline_out_dir": "stratified-samples-gapfill/prototype-pollution/utilitify_1.0.2/pipeline_exploit-evasive",
+  "finished_at": "2026-09-22T19:40:55.634576+00:00"
+}

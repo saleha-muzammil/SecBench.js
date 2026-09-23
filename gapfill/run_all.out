@@ -1,0 +1,52 @@
+=== 78 targets, 3 at a time -> stratified-samples-gapfill ===
+Mon Sep 21 23:34:03 EDT 2026
+[23:34:06] DONE  code-injection/mol-proto_0.1.3 -> error | docker build failed (rc=1) -- see setup.log
+[23:48:37] DONE  code-injection/serialize-javascript_2.0.0 -> ok | Pipeline done. seed=unhardened, loop=no-win, final tests=PASSED ✅, gates=FAIL
+[23:49:54] DONE  command-injection/bestzip_2.1.6 -> error | docker build failed (rc=1) -- see setup.log
+[23:57:55] DONE  code-injection/serialize-to-js_0.5.0 -> ok | Pipeline done. seed=unhardened, loop=no-win, final tests=FAILED ❌ (exit 7), gates=FAIL
+[23:58:22] DONE  command-injection/command-exists_1.2.2 -> pipeline-rc-1 | 
+[23:58:53] DONE  command-injection/diskusage-ng_0.2.6 -> pipeline-rc-1 | 
+[00:02:57] DONE  code-injection/static-eval_1.1.1 -> ok | Pipeline done. seed=unhardened, loop=no-win, final tests=FAILED ❌ (exit 127), gates=FAIL
+[00:41:01] DONE  command-injection/extra-asciinema_1.0.0 -> ok | Pipeline done. seed=unhardened, loop=no-win, final tests=PASSED ✅, gates=FAIL
+[00:44:41] DONE  command-injection/codecov_3.6.4 -> ok | Pipeline done. seed=unhardened, loop=no-win, final tests=NO NEW FAILURES ✅ (baseline 3 failing, stil
+[01:09:41] DONE  path-traversal/hostr_2.0.0 -> ok | Pipeline done. seed=unhardened, loop=no-win, final tests=PASSED ✅, gates=FAIL
+[01:18:05] DONE  path-traversal/node-srv_2.0.0 -> pipeline-rc-1 | 
+[01:21:20] DONE  path-traversal/public_0.1.2 -> ok | Pipeline done. seed=unhardened, loop=no-win, final tests=FAILED ❌ (exit 1), gates=FAIL
+[01:21:47] DONE  path-traversal/vivaxy-here_3.1.0 -> error | docker cp of /exploit/vivaxy-here_3.1.0/node_modules/@vivaxy/here failed
+[01:21:47] DONE  command-injection/thi.ng-egf_0.3.0 -> ok | Pipeline done. seed=unhardened, loop=no-win, final tests=NO NEW FAILURES ✅ (baseline 0 failing, stil
+[01:30:23] DONE  prototype-pollution/algoliasearch-helper_3.6.0 -> pipeline-rc-1 | 
+[01:41:58] DONE  path-traversal/serve-here.js_1.1.0 -> ok | Pipeline done. seed=unhardened, loop=no-win, final tests=FAILED ❌ (exit 1), gates=FAIL
+[01:42:01] DONE  prototype-pollution/connie_0.1.0 -> error | docker build failed (rc=1) -- see setup.log
+[01:45:33] DONE  prototype-pollution/bodymen_1.0.0 -> ok | Pipeline done. seed=unhardened, loop=no-win, final tests=FAILED ❌ (exit 1), gates=FAIL
+[01:57:49] DONE  prototype-pollution/controlled-merge_1.0.0 -> ok | Pipeline done. seed=hardened, loop=no-win, final tests=PASSED ✅, gates=PASS, final_gate=['SOLVED']
+[02:01:38] DONE  prototype-pollution/doc-path_2.0.0 -> ok | Pipeline done. seed=unhardened, loop=no-win, final tests=FAILED ❌ (exit 2), gates=PASS, final_gate=[
+[02:23:13] DONE  prototype-pollution/extend_3.0.1 -> ok | Pipeline done. seed=unhardened, loop=SUCCESS, final tests=FAILED ❌ (exit 2), gates=PASS, final_gate=
+[02:27:31] DONE  prototype-pollution/dotty_0.0.1 -> ok | Pipeline done. seed=unhardened, loop=no-win, final tests=FAILED ❌ (exit 1), gates=PASS, final_gate=[
+[02:29:09] DONE  prototype-pollution/firebase-util_0.3.3-canary.c47ba31d0 -> error | docker build failed (rc=1) -- see setup.log
+[02:41:16] DONE  prototype-pollution/fast-json-patch_2.0.4 -> ok | Pipeline done. seed=hardened, loop=SUCCESS, final tests=FAILED ❌ (exit 1), gates=PASS, final_gate=['
+[02:45:58] DONE  prototype-pollution/i18next_19.7.0 -> ok | Pipeline done. seed=hardened, loop=SUCCESS, final tests=FAILED ❌ (exit 1), gates=PASS, final_gate=['
+[02:54:11] DONE  prototype-pollution/immer_8.0.0 -> ok | Pipeline done. seed=unhardened, loop=no-win, final tests=NO NEW FAILURES ✅ (baseline 18 failing, sti
+[03:19:15] DONE  prototype-pollution/jointjs_2.2.1 -> ok | Pipeline done. seed=unhardened, loop=no-win, final tests=FAILED ❌ (exit 3), gates=FAIL
+[03:27:07] DONE  prototype-pollution/jquery_1.11.0 -> ok | Pipeline done. seed=unhardened, loop=no-win, final tests=FAILED ❌ (exit 3), gates=FAIL
+[03:48:32] DONE  prototype-pollution/just-safe-set_1.0.0 -> ok | Pipeline done. seed=hardened, loop=no-win, final tests=PASSED ✅, gates=PASS, final_gate=['SOLVED']
+[03:54:51] DONE  prototype-pollution/aws-sdk-shared-ini-file-loader_1.0.0-rc.8 -> pipeline-rc-1 | 
+[03:59:05] DONE  prototype-pollution/js-ini_1.2.0 -> ok | Pipeline done. seed=unhardened, loop=no-win, final tests=FAILED ❌ (exit 1), gates=FAIL
+[04:26:18] DONE  prototype-pollution/mithril_1.0.0 -> ok | Pipeline done. seed=unhardened, loop=no-win, final tests=FAILED ❌ (exit 1), gates=FAIL
+[05:01:36] DONE  prototype-pollution/mathjs_7.4.0 -> ok | Pipeline done. seed=unhardened, loop=no-win, final tests=REGRESSION ❌ 8 new failure(s) (baseline 1, 
+[05:11:43] DONE  prototype-pollution/mpath_0.4.1 -> ok | Pipeline done. seed=unhardened, loop=no-win, final tests=FAILED ❌ (exit 2), gates=PASS, final_gate=[
+[05:12:28] DONE  prototype-pollution/mquery_3.2.1 -> pipeline-rc-1 | 
+[05:24:27] DONE  prototype-pollution/nestie_1.0.0 -> ok | Pipeline done. seed=unhardened, loop=no-win, final tests=FAILED ❌ (exit 1), gates=FAIL
+[05:27:03] DONE  prototype-pollution/nested-property_0.0.5 -> ok | Pipeline done. seed=hardened, loop=SUCCESS, final tests=FAILED ❌ (exit 1), gates=PASS, final_gate=['
+[05:31:38] DONE  prototype-pollution/lodash_4.17.15 -> ok | Pipeline done. seed=unhardened, loop=no-win, final tests=FAILED ❌ (exit 1), gates=FAIL
+[05:49:47] DONE  prototype-pollution/objection_2.0.0 -> ok | Pipeline done. seed=hardened, loop=SUCCESS, final tests=FAILED ❌ (exit 1), gates=PASS, final_gate=['
+[05:49:59] DONE  prototype-pollution/plain-object-merge_1.0.1 -> error | docker build failed (rc=1) -- see setup.log
+[05:54:35] DONE  prototype-pollution/object-collider_1.0.3 -> ok | Pipeline done. seed=unhardened, loop=no-win, final tests=PASSED ✅, gates=FAIL
+[06:05:52] DONE  prototype-pollution/prototyped.js_2.0.0 -> ok | Pipeline done. seed=unhardened, loop=no-win, final tests=FAILED ❌ (exit 1), gates=FAIL
+[06:06:01] DONE  prototype-pollution/objnest_5.0.0 -> ok | Pipeline done. seed=unhardened, loop=no-win, final tests=FAILED ❌ (exit 2), gates=PASS, final_gate=[
+[06:15:30] DONE  prototype-pollution/querymen_2.1.3 -> ok | Pipeline done. seed=unhardened, loop=no-win, final tests=FAILED ❌ (exit 1), gates=FAIL
+Terminated: 15             python3 -u run_stratified_full_loop.py -c "$cat" --only "$folder" --csv "$cat=gapfill/$cat.csv" --allow-detected-seed --no-regen --no-preflight --out "$OUT" --src-dir "$SRC" --cost-limit "$COST" --pipeline-timeout "$TIMEOUT" "${resume_flag[@]}" > "$log" 2>&1
+Terminated: 15             python3 -u run_stratified_full_loop.py -c "$cat" --only "$folder" --csv "$cat=gapfill/$cat.csv" --allow-detected-seed --no-regen --no-preflight --out "$OUT" --src-dir "$SRC" --cost-limit "$COST" --pipeline-timeout "$TIMEOUT" "${resume_flag[@]}" > "$log" 2>&1
+Terminated: 15             python3 -u run_stratified_full_loop.py -c "$cat" --only "$folder" --csv "$cat=gapfill/$cat.csv" --allow-detected-seed --no-regen --no-preflight --out "$OUT" --src-dir "$SRC" --cost-limit "$COST" --pipeline-timeout "$TIMEOUT" "${resume_flag[@]}" > "$log" 2>&1
+[06:22:15] DONE  prototype-pollution/shvl_2.0.1 -> rc=143 | no run_meta
+[06:22:15] DONE  prototype-pollution/supermixer_1.0.3 -> rc=143 | no run_meta
+[06:22:15] DONE  prototype-pollution/set-object-value_0.0.5 -> rc=143 | no run_meta

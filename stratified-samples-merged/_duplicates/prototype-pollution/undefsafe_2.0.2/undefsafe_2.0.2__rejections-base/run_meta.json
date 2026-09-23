@@ -1,0 +1,53 @@
+{
+  "category": "prototype-pollution",
+  "repository": "remy/undefsafe",
+  "package": "undefsafe",
+  "version": "2.0.2",
+  "folder": "undefsafe_2.0.2",
+  "started_at": "2026-08-18T08:08:00.192954+00:00",
+  "status": "pipeline-rc-1",
+  "error": "",
+  "base_commit": "f272681b3a50e2c4cbb6a8533795e1453382c822",
+  "checkout": "/tmp/undefsafe_2.0.2-src",
+  "evasive_patch_reused": true,
+  "evasive_patch_regenerated": false,
+  "evades_both": true,
+  "seed_patch_applies": true,
+  "seed_exploit_fires": true,
+  "verdict": "",
+  "wall_seconds_setup": 57.3,
+  "wall_seconds_pipeline": 2690.7,
+  "wall_seconds_total": 2773.8,
+  "metrics": {
+    "totals": {
+      "instance_cost": 0.017058,
+      "api_calls": 52,
+      "prompt_tokens": 964288,
+      "completion_tokens": 35065,
+      "total_tokens": 999353,
+      "trajectories": 2
+    },
+    "per_trajectory": [
+      {
+        "file": "issue/iter_1/trajectory.traj.json",
+        "instance_cost": 0.008385,
+        "api_calls": 26,
+        "prompt_tokens": 470838,
+        "completion_tokens": 18187,
+        "total_tokens": 489025
+      },
+      {
+        "file": "issue/iter_2/trajectory.traj.json",
+        "instance_cost": 0.008673,
+        "api_calls": 26,
+        "prompt_tokens": 493450,
+        "completion_tokens": 16878,
+        "total_tokens": 510328
+      }
+    ]
+  },
+  "pipeline_cmd": "mini-extra cve-pipeline --patch stratified-samples-full-loop/prototype-pollution/undefsafe_2.0.2/exploit-evasive.patch --ex_file /Users/saleha/Desktop/cispa/SecBench.js/prototype-pollution/undefsafe_2.0.2/undefsafe.test.js --repo-path /tmp/undefsafe_2.0.2-src --base f272681b3a50e2c4cbb6a8533795e1453382c822 --repo prototype-pollution/undefsafe_2.0.2 --cost-limit 0.3",
+  "pipeline_returncode": 1,
+  "pipeline_out_dir": "stratified-samples-full-loop/prototype-pollution/undefsafe_2.0.2/pipeline_exploit-evasive",
+  "finished_at": "2026-08-18T08:54:14.016288+00:00"
+}

@@ -1,0 +1,52 @@
+{
+  "totals": {
+    "instance_cost": 0.0615,
+    "api_calls": 128,
+    "prompt_tokens": 2616679,
+    "completion_tokens": 117642,
+    "total_tokens": 2734321,
+    "trajectories": 5
+  },
+  "per_trajectory": [
+    {
+      "file": "issue/iter_1/adopt/run_1/trajectory.traj.json",
+      "instance_cost": 0.006485,
+      "api_calls": 21,
+      "prompt_tokens": 167177,
+      "completion_tokens": 9734,
+      "total_tokens": 176911
+    },
+    {
+      "file": "issue/iter_3/adopt/run_1/trajectory.traj.json",
+      "instance_cost": 0.028959,
+      "api_calls": 41,
+      "prompt_tokens": 1368408,
+      "completion_tokens": 53755,
+      "total_tokens": 1422163
+    },
+    {
+      "file": "issue/iter_4/adopt/run_1/trajectory.traj.json",
+      "instance_cost": 0.002034,
+      "api_calls": 9,
+      "prompt_tokens": 44064,
+      "completion_tokens": 3677,
+      "total_tokens": 47741
+    },
+    {
+      "file": "issue/iter_5/adopt/run_1/trajectory.traj.json",
+      "instance_cost": 0.013291,
+      "api_calls": 33,
+      "prompt_tokens": 653655,
+      "completion_tokens": 26957,
+      "total_tokens": 680612
+    },
+    {
+      "file": "solve_gate/run_1/trajectory.traj.json",
+      "instance_cost": 0.010732,
+      "api_calls": 24,
+      "prompt_tokens": 383375,
+      "completion_tokens": 23519,
+      "total_tokens": 406894
+    }
+  ]
+}

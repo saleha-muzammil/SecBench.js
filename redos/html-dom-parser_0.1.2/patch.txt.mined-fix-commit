@@ -1,0 +1,174 @@
+From b80d699bbbd45d254379e6916152c918998e3b10 Mon Sep 17 00:00:00 2001
+From: Mark <mark@remarkablemark.org>
+Date: Mon, 19 Feb 2018 23:17:31 -0500
+Subject: [PATCH] test: update and refactor tests
+
+Rename test directory, add more test cases (capitalized tags),
+and improve readability of output.
+---
+ test/{fixtures => cases}/complex.html |  0
+ test/{fixtures => cases}/complex.svg  |  0
+ test/{fixtures => cases}/index.js     | 34 ++++++++++----------
+ test/index.js                         | 45 +++++++++++++++------------
+ 4 files changed, 41 insertions(+), 38 deletions(-)
+ rename test/{fixtures => cases}/complex.html (100%)
+ rename test/{fixtures => cases}/complex.svg (100%)
+ rename test/{fixtures => cases}/index.js (61%)
+
+diff --git a/test/fixtures/complex.html b/test/cases/complex.html
+similarity index 100%
+rename from test/fixtures/complex.html
+rename to test/cases/complex.html
+diff --git a/test/fixtures/complex.svg b/test/cases/complex.svg
+similarity index 100%
+rename from test/fixtures/complex.svg
+rename to test/cases/complex.svg
+diff --git a/test/fixtures/index.js b/test/cases/index.js
+similarity index 61%
+rename from test/fixtures/index.js
+rename to test/cases/index.js
+index a7ed8fe9..50f32add 100644
+--- a/test/fixtures/index.js
++++ b/test/cases/index.js
+@@ -22,9 +22,17 @@ function read(filepath) {
+ }
+ 
+ // html
+-var html = {
++module.exports.html = {
+     directive: '<!DOCTYPE html>',
+-    single: '<p>foo</p>',
++    head: '<head></head>',
++    'head with title': '<head><title>content</title></head>',
++    body: '<body></body>',
++    'body with div': '<body><div>hello</div></body>',
++    'capitalized body': '<BODY></BODY>',
++    'head and body': '<head></head><body></body>',
++    'empty paragraph': '<p></p>',
++    'paragraph with text': '<p>text</p>',
++    'multiple spans': '<span>1</span><span>2</span>',
+     nested: '<ul><li>foo<span>bar</span></li><li>baz</li></ul>',
+     attributes: '<hr id="foo" class="bar baz" style="background: #fff; text-align: center;" data-foo="bar" />',
+     textarea: '<textarea>foo</textarea>',
+@@ -33,23 +41,13 @@ var html = {
+     img: '<img src="http://stat.ic/img.jpg" alt="Image"/>',
+     void: '<link/><meta/><img/><br/><hr/><input/>',
+     comment: '<!-- comment -->',
+-    'closing tag': '</div>'
++    'closing tag': '</div>',
++    'complex html': minify(read('./complex.html'), {
++        collapseWhitespace: true
++    })
+ };
+ 
+-html.multiple = html.single + html.single;
+-html.complex = minify(read('./complex.html'), {
+-    collapseWhitespace: true
+-});
+-
+ // svg
+-var svg = {
+-    complex: read('./complex.svg')
+-};
+-
+-/**
+- * Export mocks.
+- */
+-module.exports = {
+-    html: html,
+-    svg: svg
++module.exports.svg = {
++    'complex svg': read('./complex.svg')
+ };
+diff --git a/test/index.js b/test/index.js
+index 5868e7d9..1b769ab9 100644
+--- a/test/index.js
++++ b/test/index.js
+@@ -4,19 +4,19 @@
+  * Module dependencies.
+  */
+ var assert = require('chai').assert;
+-var fixtures = require('./fixtures/');
++var cases = require('./cases');
+ var htmlparser = require('htmlparser2');
+ 
+ /**
+- * Helper that creates and runs tests based on fixture data.
++ * Helper that creates and runs tests based on available cases.
+  *
+- * @param {Function} parser  - The parser.
+- * @param {Object}   fixture - The fixture.
++ * @param {Function} parser - The parser.
++ * @param {Object}   cases  - The cases.
+  */
+-function runTests(parser, fixture) {
+-    Object.keys(fixture).forEach(function(type) {
++function runTests(parser, cases) {
++    Object.keys(cases).forEach(function(type) {
+         it(type, function() {
+-            var data = fixture[type];
++            var data = cases[type];
+             assert.deepEqual(parser(data), htmlparser.parseDOM(data));
+         })
+     });
+@@ -28,9 +28,18 @@ function runTests(parser, fixture) {
+  * @param {Function} parser - The parser.
+  */
+ function throwTests(parser) {
+-    [undefined, null, 1, true, {}, [], Function].forEach(function(parameter) {
+-        it('throws error for invalid parameter: ' + parameter, function() {
+-            assert.throws(function() { parser(parameter); }, TypeError);
++    [
++        undefined,
++        null,
++        1,
++        true,
++        {},
++        ['Array'],
++        Function,
++        Date
++    ].forEach(function(value) {
++        it('throws when argument is ' + value, function() {
++            assert.throws(function() { parser(value); }, TypeError);
+         });
+     });
+ }
+@@ -39,21 +48,18 @@ function throwTests(parser) {
+  * Tests for parser.
+  */
+ describe('html-dom-parser', function() {
+-
+-    // server
+-    describe('server parser', function() {
++    describe('server', function() {
+         var parser = require('../');
+ 
+         // check if invalid parameter type throws error
+         throwTests(parser);
+ 
+         // should be equivalent to `htmlparser2.parseDOM()`
+-        runTests(parser, fixtures.html);
+-        runTests(parser, fixtures.svg);
++        runTests(parser, cases.html);
++        runTests(parser, cases.svg);
+     });
+ 
+-    // client
+-    describe('client parser', function() {
++    describe('client', function() {
+         var jsdomify = require('jsdomify').default;
+         jsdomify.create();
+         var parser = require('../lib/html-to-dom-client');
+@@ -62,10 +68,9 @@ describe('html-dom-parser', function() {
+         throwTests(parser);
+ 
+         // should return the same output as `htmlparser2.parseDOM()`
+-        runTests(parser, fixtures.html);
+-        runTests(parser, fixtures.svg);
++        runTests(parser, cases.html);
++        runTests(parser, cases.svg);
+ 
+         jsdomify.destroy();
+     });
+-
+ });

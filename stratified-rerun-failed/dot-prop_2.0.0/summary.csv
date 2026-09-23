@@ -1,0 +1,2 @@
+category,folder,package,version,status,verdict,seed_exploit_fires,evades_both,evasive_patch_regenerated,base_commit,instance_cost,api_calls,prompt_tokens,completion_tokens,total_tokens,trajectories,wall_seconds_setup,wall_seconds_pipeline,wall_seconds_total,error
+prototype-pollution,dot-prop_2.0.0,dot-prop,2.0.0,ok,"Pipeline done. seed=hardened, loop=no-win, final tests=FAILED ❌ (exit 1), gates=PASS, final_gate=['SOLVED']",,True,False,3039c8c07f6f,0.066998,71,2257681,82457,2340138,2,37.6,1893.6,1935.6,

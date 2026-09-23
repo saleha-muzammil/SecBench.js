@@ -1,0 +1,38 @@
+{
+  "category": "path-traversal",
+  "repository": "jarofghosts/glance",
+  "package": "glance",
+  "version": "3.0.0",
+  "folder": "glance_3.0.0",
+  "started_at": "2026-09-22T05:27:55.288609+00:00",
+  "status": "ok",
+  "error": "",
+  "base_commit": "8cfd88e44ebd3f07e3a2eaf376a3e758b6c4ca19",
+  "checkout": "/tmp/glance_3.0.0-src",
+  "image_tag": "secbench-fullloop/glance_3.0.0",
+  "docker_loop": true,
+  "evasive_patch_reused": true,
+  "evasive_patch_regenerated": false,
+  "evades_both": true,
+  "seed_patch_applies": null,
+  "seed_exploit_fires": null,
+  "verdict": "Pipeline done. seed=unhardened, loop=no-win, final tests=NO NEW FAILURES \u2705 (baseline 0 failing, still 0; pre-existing failures ignored), gates=FAIL",
+  "wall_seconds_setup": 8.1,
+  "wall_seconds_pipeline": 4919.2,
+  "wall_seconds_total": 4928.8,
+  "metrics": {
+    "totals": {
+      "instance_cost": 0.0,
+      "api_calls": 0,
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "trajectories": 0
+    },
+    "per_trajectory": []
+  },
+  "pipeline_cmd": "mini-extra cve-pipeline --patch stratified-rerun-failed/glance_3.0.0/path-traversal/glance_3.0.0/exploit-evasive.patch --ex_file /Users/saleha/Desktop/cispa/SecBench.js/path-traversal/glance_3.0.0/glance.test.js --repo-path /tmp/glance_3.0.0-src --base 8cfd88e44ebd3f07e3a2eaf376a3e758b6c4ca19 --repo jarofghosts/glance --docker-image secbench-fullloop/glance_3.0.0 --max-iterations 5 --cost-limit 0.3 --no-run-codegen --gate-in-loop --gate-runs 1 --revise-iterations 2",
+  "pipeline_returncode": 0,
+  "pipeline_out_dir": "stratified-rerun-failed/glance_3.0.0/path-traversal/glance_3.0.0/pipeline_exploit-evasive",
+  "finished_at": "2026-09-22T06:50:04.098482+00:00"
+}

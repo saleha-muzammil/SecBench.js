@@ -1,0 +1,20 @@
+{
+  "totals": {
+    "instance_cost": 0.016083,
+    "api_calls": 21,
+    "prompt_tokens": 452059,
+    "completion_tokens": 28461,
+    "total_tokens": 480520,
+    "trajectories": 1
+  },
+  "per_trajectory": [
+    {
+      "file": "solve_gate/run_1/trajectory.traj.json",
+      "instance_cost": 0.016083,
+      "api_calls": 21,
+      "prompt_tokens": 452059,
+      "completion_tokens": 28461,
+      "total_tokens": 480520
+    }
+  ]
+}

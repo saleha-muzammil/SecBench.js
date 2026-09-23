@@ -1,0 +1,19 @@
+{
+  "package": "mobile-detect",
+  "targets": [
+    "mobile-detect.js"
+  ],
+  "full_targets": [
+    "generate/mobile-detect.template.js",
+    "mobile-detect.js",
+    "mobile-detect.min.js"
+  ],
+  "semgrep": {
+    "fixed_total": 16,
+    "new_full": 0,
+    "new_minimal": 0,
+    "new_final": []
+  },
+  "codeql": null,
+  "detected_by": "neither"
+}

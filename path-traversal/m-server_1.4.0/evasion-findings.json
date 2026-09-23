@@ -1,0 +1,17 @@
+{
+  "package": "m-server",
+  "targets": [
+    "lib/index.js"
+  ],
+  "full_targets": [
+    "lib/index.js"
+  ],
+  "semgrep": {
+    "fixed_total": 4,
+    "new_full": 0,
+    "new_minimal": 0,
+    "new_final": []
+  },
+  "codeql": null,
+  "detected_by": "neither"
+}

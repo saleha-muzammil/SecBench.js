@@ -9,5 +9,6 @@
   },
   "fixedVersion": "2.0.20180219",
   "fixCommit": "https://github.com/kanasimi/CeJS/commit/c6a9ffec1152781f268b8d72d80ee4d8fc837986",
-  "sink": ""
+  "sink": "",
+  "fixedReleaseCommit": "https://github.com/kanasimi/CeJS/commit/7bdf54cd9b89a85bf38258dbfdf3d5737572a068"
 }

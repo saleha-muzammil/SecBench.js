@@ -1,0 +1,38 @@
+{
+  "category": "prototype-pollution",
+  "repository": "steveukx/properties",
+  "package": "properties-reader",
+  "version": "2.0.0",
+  "folder": "properties-reader_2.0.0",
+  "started_at": "2026-09-21T09:55:06.895100+00:00",
+  "status": "ok",
+  "error": "",
+  "base_commit": "0877cc871db9865f58dd9389ce99e61be05380a5",
+  "checkout": "/tmp/properties-reader_2.0.0-src",
+  "image_tag": "secbench-fullloop/properties-reader_2.0.0",
+  "docker_loop": true,
+  "evasive_patch_reused": true,
+  "evasive_patch_regenerated": false,
+  "evades_both": false,
+  "seed_patch_applies": null,
+  "seed_exploit_fires": null,
+  "verdict": "Pipeline done. seed=unhardened, loop=no-win, final tests=PASSED \u2705, gates=FAIL",
+  "wall_seconds_setup": 4.3,
+  "wall_seconds_pipeline": 2584.9,
+  "wall_seconds_total": 2589.9,
+  "metrics": {
+    "totals": {
+      "instance_cost": 0.0,
+      "api_calls": 0,
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "trajectories": 0
+    },
+    "per_trajectory": []
+  },
+  "pipeline_cmd": "mini-extra cve-pipeline --patch stratified-samples-full-loop-judge14/prototype-pollution/properties-reader_2.0.0/exploit-evasive.patch --ex_file /Users/saleha/Desktop/cispa/SecBench.js/prototype-pollution/properties-reader_2.0.0/properties-reader.test.js --repo-path /tmp/properties-reader_2.0.0-src --base 0877cc871db9865f58dd9389ce99e61be05380a5 --repo prototype-pollution/properties-reader_2.0.0 --docker-image secbench-fullloop/properties-reader_2.0.0 --max-iterations 5 --cost-limit 0.3 --no-run-codegen --gate-in-loop --gate-runs 1 --revise-iterations 2",
+  "pipeline_returncode": 0,
+  "pipeline_out_dir": "stratified-samples-full-loop-judge14/prototype-pollution/properties-reader_2.0.0/pipeline_exploit-evasive",
+  "finished_at": "2026-09-21T10:38:16.763069+00:00"
+}

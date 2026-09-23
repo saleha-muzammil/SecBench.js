@@ -1,0 +1,63 @@
+{
+  "category": "redos",
+  "repository": "sindresorhus/is-svg",
+  "package": "is-svg",
+  "version": "4.2.2",
+  "folder": "is-svg_4.2.2",
+  "started_at": "2026-09-22T21:57:02.929984+00:00",
+  "status": "ok",
+  "error": "",
+  "base_commit": "732fc72779840c45a30817d3fe28e12058592b02",
+  "checkout": "/tmp/gapfill-src/is-svg_4.2.2-src",
+  "image_tag": "secbench-fullloop/is-svg_4.2.2",
+  "docker_loop": true,
+  "evasive_patch_reused": true,
+  "evasive_patch_regenerated": false,
+  "evades_both": false,
+  "seed_patch_applies": null,
+  "seed_exploit_fires": null,
+  "verdict": "Pipeline done. seed=unhardened, loop=no-win, final tests=FAILED \u274c (exit 1), gates=PASS, final_gate=['SOLVED']",
+  "wall_seconds_setup": 27.7,
+  "wall_seconds_pipeline": 4278.5,
+  "wall_seconds_total": 4308.2,
+  "metrics": {
+    "totals": {
+      "instance_cost": 0.059569,
+      "api_calls": 77,
+      "prompt_tokens": 2268599,
+      "completion_tokens": 96135,
+      "total_tokens": 2364734,
+      "trajectories": 3
+    },
+    "per_trajectory": [
+      {
+        "file": "issue/iter_2/adopt/run_1/trajectory.traj.json",
+        "instance_cost": 0.021027,
+        "api_calls": 28,
+        "prompt_tokens": 882573,
+        "completion_tokens": 37265,
+        "total_tokens": 919838
+      },
+      {
+        "file": "issue/iter_4/adopt/run_1/trajectory.traj.json",
+        "instance_cost": 0.014421,
+        "api_calls": 20,
+        "prompt_tokens": 429950,
+        "completion_tokens": 23310,
+        "total_tokens": 453260
+      },
+      {
+        "file": "solve_gate/run_1/trajectory.traj.json",
+        "instance_cost": 0.024121,
+        "api_calls": 29,
+        "prompt_tokens": 956076,
+        "completion_tokens": 35560,
+        "total_tokens": 991636
+      }
+    ]
+  },
+  "pipeline_cmd": "mini-extra cve-pipeline --patch stratified-samples-gapfill/redos/is-svg_4.2.2/exploit-evasive.patch --ex_file /Users/saleha/Desktop/cispa/SecBench.js/redos/is-svg_4.2.2/is-svg.test.js --repo-path /tmp/gapfill-src/is-svg_4.2.2-src --base 732fc72779840c45a30817d3fe28e12058592b02 --repo sindresorhus/is-svg --docker-image secbench-fullloop/is-svg_4.2.2 --cost-limit 0.3",
+  "pipeline_returncode": 0,
+  "pipeline_out_dir": "stratified-samples-gapfill/redos/is-svg_4.2.2/pipeline_exploit-evasive",
+  "finished_at": "2026-09-22T23:08:51.080119+00:00"
+}

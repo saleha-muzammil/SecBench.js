@@ -1,0 +1,55 @@
+{
+  "category": "redos",
+  "repository": "NaturalNode/natural",
+  "package": "natural",
+  "version": "5.1.0",
+  "folder": "natural_5.1.0",
+  "started_at": "2026-09-15T12:43:40.747999+00:00",
+  "status": "ok",
+  "error": "",
+  "base_commit": "90e85afb20e76560bc555d83abad3bc919388381",
+  "checkout": "/tmp/natural_5.1.0-src",
+  "image_tag": "secbench-fullloop/natural_5.1.0",
+  "docker_loop": true,
+  "evasive_patch_reused": true,
+  "evasive_patch_regenerated": false,
+  "evades_both": true,
+  "seed_patch_applies": null,
+  "seed_exploit_fires": null,
+  "verdict": "Pipeline done. seed=hardened, loop=SUCCESS, final tests=FAILED \u274c (exit 1), gates=PASS, final_gate=['SOLVED']",
+  "wall_seconds_setup": 81.2,
+  "wall_seconds_pipeline": 1456.3,
+  "wall_seconds_total": 1540.0,
+  "metrics": {
+    "totals": {
+      "instance_cost": 0.00605,
+      "api_calls": 30,
+      "prompt_tokens": 196838,
+      "completion_tokens": 6736,
+      "total_tokens": 203574,
+      "trajectories": 2
+    },
+    "per_trajectory": [
+      {
+        "file": "issue/iter_3/adopt/run_1/trajectory.traj.json",
+        "instance_cost": 0.002595,
+        "api_calls": 13,
+        "prompt_tokens": 80483,
+        "completion_tokens": 3008,
+        "total_tokens": 83491
+      },
+      {
+        "file": "solve_gate/run_1/trajectory.traj.json",
+        "instance_cost": 0.003455,
+        "api_calls": 17,
+        "prompt_tokens": 116355,
+        "completion_tokens": 3728,
+        "total_tokens": 120083
+      }
+    ]
+  },
+  "pipeline_cmd": "mini-extra cve-pipeline --patch stratified-samples-full-loop-judge13/redos/natural_5.1.0/exploit-evasive.patch --ex_file /Users/saleha/Desktop/cispa/SecBench.js/redos/natural_5.1.0/natural.test.js --repo-path /tmp/natural_5.1.0-src --base 90e85afb20e76560bc555d83abad3bc919388381 --repo redos/natural_5.1.0 --docker-image secbench-fullloop/natural_5.1.0 --max-iterations 5 --cost-limit 0.3 --no-run-codegen --gate-in-loop --gate-runs 1 --revise-iterations 2",
+  "pipeline_returncode": 0,
+  "pipeline_out_dir": "stratified-samples-full-loop-judge13/redos/natural_5.1.0/pipeline_exploit-evasive",
+  "finished_at": "2026-09-15T13:09:20.708615+00:00"
+}

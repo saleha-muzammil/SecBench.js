@@ -1,0 +1,17 @@
+{
+  "package": "valid-email",
+  "targets": [
+    "lib/valid-email.js"
+  ],
+  "full_targets": [
+    "lib/valid-email.js"
+  ],
+  "semgrep": {
+    "fixed_total": 0,
+    "new_full": 0,
+    "new_minimal": 0,
+    "new_final": []
+  },
+  "codeql": null,
+  "detected_by": "neither"
+}

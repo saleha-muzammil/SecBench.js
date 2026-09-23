@@ -1,0 +1,16 @@
+{
+  "seed": 20260817,
+  "n": 3,
+  "until_success": false,
+  "generated_at": "2026-09-22T03:27:47.357201+00:00",
+  "categories": {
+    "code-injection": [
+      {
+        "folder": "is-my-json-valid_2.20.0",
+        "package": "is-my-json-valid",
+        "version": "2.20.0",
+        "repository": "mafintosh/is-my-json-valid"
+      }
+    ]
+  }
+}

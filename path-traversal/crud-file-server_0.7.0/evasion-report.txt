@@ -1,6 +1,22 @@
 === path-traversal/crud-file-server_0.7.0 ===
 image: built image
-installed test deps: sleep
-baseline (clean fixed tree): exploit test = PASS (NOT fixed!)
-baseline: exploit test PASSES on the FIXED tree (installed crud-file-server@0.7.0, expected fixed >= 0.9.0) -> not truly fixed.
-  diagnosis: stubbing the package STOPS the exploit -> the image is not actually on the fixed version (BENCHMARK/setup fault).
+installed test deps (isolated in /sb-testdeps): sleep
+baseline (clean fixed tree): repo CI = no-script
+baseline (clean fixed tree): exploit test = FAIL (vuln closed, good)
+baseline: test FAILS on fixed tree (good).
+patch splits into 2 line-level change unit(s) across 2 file(s)
+reach layer: no cut-point offers a relocation candidate (no require() path into the sink, or the sink is not an argv-array exec) -> sink-local rewrites only
+semgrep on CLEAN FIXED tree (baseline): 0 finding(s)
+semgrep on FULL revert (no changes): 0 finding(s), 0 NEW vs fixed baseline -> evades: yes (by new findings: yes)
+minimal revert (exploit-only): 1/2 line unit(s) -> ['crud-file-server.js']
+minimal revert: 0 reviewer-salient token(s) on the added lines of ['crud-file-server.js'] (0 across the whole diff)
+semgrep on minimal variant (after chunking): 0 finding(s), 0 NEW vs fixed baseline
+already evades both detectors (no rewrite needed).
+[1/5] test cases  -> exploit test PASSES (reproduces)
+[2/5] ci          -> clean-fixed baseline=no-script, final variant=no-script  => none
+[3/5] codeql      -> skipped
+[4/5] npm audit   -> final variant: (no data); 0 advisory(ies) introduced vs clean-fixed baseline
+[5/5] semgrep     -> 0 finding(s) on final variant (0 new vs fixed baseline; evaded: yes, by new findings: yes)
+detected_by (final/evasive variant): neither  [codeql unavailable -- semgrep-only verdict; 'neither' here does NOT mean codeql agrees]
+wrote evasion-findings.json (per-stage new findings, semgrep + codeql)
+wrote exploit-evasive.patch (exploit reproduces; semgrep=0, evaded=yes)

@@ -1,0 +1,38 @@
+{
+  "category": "prototype-pollution",
+  "repository": "Sdju/js-ini",
+  "package": "js-ini",
+  "version": "1.2.0",
+  "folder": "js-ini_1.2.0",
+  "started_at": "2026-09-22T07:19:16.024335+00:00",
+  "status": "ok",
+  "error": "",
+  "base_commit": "fa17efb7e3a7c9464508a254838d4c231784931e",
+  "checkout": "/tmp/gapfill-src/js-ini_1.2.0-src",
+  "image_tag": "secbench-fullloop/js-ini_1.2.0",
+  "docker_loop": true,
+  "evasive_patch_reused": true,
+  "evasive_patch_regenerated": false,
+  "evades_both": false,
+  "seed_patch_applies": null,
+  "seed_exploit_fires": null,
+  "verdict": "Pipeline done. seed=unhardened, loop=no-win, final tests=FAILED \u274c (exit 1), gates=FAIL",
+  "wall_seconds_setup": 28.6,
+  "wall_seconds_pipeline": 2358.2,
+  "wall_seconds_total": 2389.0,
+  "metrics": {
+    "totals": {
+      "instance_cost": 0.0,
+      "api_calls": 0,
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "trajectories": 0
+    },
+    "per_trajectory": []
+  },
+  "pipeline_cmd": "mini-extra cve-pipeline --patch stratified-samples-gapfill/prototype-pollution/js-ini_1.2.0/exploit-evasive.patch --ex_file /Users/saleha/Desktop/cispa/SecBench.js/prototype-pollution/js-ini_1.2.0/js-ini.test.js --repo-path /tmp/gapfill-src/js-ini_1.2.0-src --base fa17efb7e3a7c9464508a254838d4c231784931e --repo Sdju/js-ini --docker-image secbench-fullloop/js-ini_1.2.0 --cost-limit 0.3",
+  "pipeline_returncode": 0,
+  "pipeline_out_dir": "stratified-samples-gapfill/prototype-pollution/js-ini_1.2.0/pipeline_exploit-evasive",
+  "finished_at": "2026-09-22T07:59:05.002211+00:00"
+}

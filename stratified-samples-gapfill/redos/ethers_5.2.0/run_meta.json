@@ -1,0 +1,38 @@
+{
+  "category": "redos",
+  "repository": "ethers-io/ethers.js",
+  "package": "ethers",
+  "version": "5.2.0",
+  "folder": "ethers_5.2.0",
+  "started_at": "2026-09-22T20:12:29.198154+00:00",
+  "status": "pipeline-rc-1",
+  "error": "",
+  "base_commit": "32a6b2a362815eb85ce3f3abad5adf92f2b80e10",
+  "checkout": "/tmp/gapfill-src/ethers_5.2.0-src",
+  "image_tag": "secbench-fullloop/ethers_5.2.0",
+  "docker_loop": true,
+  "evasive_patch_reused": true,
+  "evasive_patch_regenerated": false,
+  "evades_both": false,
+  "seed_patch_applies": null,
+  "seed_exploit_fires": null,
+  "verdict": "",
+  "wall_seconds_setup": 282.6,
+  "wall_seconds_pipeline": 3245.8,
+  "wall_seconds_total": 3532.6,
+  "metrics": {
+    "totals": {
+      "instance_cost": 0.0,
+      "api_calls": 0,
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "trajectories": 0
+    },
+    "per_trajectory": []
+  },
+  "pipeline_cmd": "mini-extra cve-pipeline --patch stratified-samples-gapfill/redos/ethers_5.2.0/exploit-evasive.patch --ex_file /Users/saleha/Desktop/cispa/SecBench.js/redos/ethers_5.2.0/ethers.test.js --repo-path /tmp/gapfill-src/ethers_5.2.0-src --base 32a6b2a362815eb85ce3f3abad5adf92f2b80e10 --repo ethers-io/ethers.js --docker-image secbench-fullloop/ethers_5.2.0 --cost-limit 0.3",
+  "pipeline_returncode": 1,
+  "pipeline_out_dir": "stratified-samples-gapfill/redos/ethers_5.2.0/pipeline_exploit-evasive",
+  "finished_at": "2026-09-22T21:11:21.811950+00:00"
+}

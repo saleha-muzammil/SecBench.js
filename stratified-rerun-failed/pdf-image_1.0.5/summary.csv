@@ -1,0 +1,2 @@
+category,folder,package,version,status,verdict,seed_exploit_fires,evades_both,evasive_patch_regenerated,base_commit,instance_cost,api_calls,prompt_tokens,completion_tokens,total_tokens,trajectories,wall_seconds_setup,wall_seconds_pipeline,wall_seconds_total,error
+command-injection,pdf-image_1.0.5,pdf-image,1.0.5,ok,"Pipeline done. seed=hardened, loop=no-win, final tests=FAILED ❌ (exit 1), gates=PASS, final_gate=['SOLVED_SAFE']",,True,False,54679496a897,0.056117,61,2273684,48074,2321758,1,27.3,3742.1,3769.9,

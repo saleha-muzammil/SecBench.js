@@ -1,0 +1,28 @@
+{
+  "totals": {
+    "instance_cost": 0.005586,
+    "api_calls": 29,
+    "prompt_tokens": 320364,
+    "completion_tokens": 11368,
+    "total_tokens": 331732,
+    "trajectories": 2
+  },
+  "per_trajectory": [
+    {
+      "file": "issue/iter_1/adopt/run_1/trajectory.traj.json",
+      "instance_cost": 0.002689,
+      "api_calls": 13,
+      "prompt_tokens": 145979,
+      "completion_tokens": 5701,
+      "total_tokens": 151680
+    },
+    {
+      "file": "solve_gate/run_1/trajectory.traj.json",
+      "instance_cost": 0.002897,
+      "api_calls": 16,
+      "prompt_tokens": 174385,
+      "completion_tokens": 5667,
+      "total_tokens": 180052
+    }
+  ]
+}

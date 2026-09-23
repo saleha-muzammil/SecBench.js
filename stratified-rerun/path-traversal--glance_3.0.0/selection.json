@@ -1,0 +1,16 @@
+{
+  "seed": 20260817,
+  "n": 3,
+  "until_success": false,
+  "generated_at": "2026-09-21T16:57:26.785138+00:00",
+  "categories": {
+    "path-traversal": [
+      {
+        "folder": "glance_3.0.0",
+        "package": "glance",
+        "version": "3.0.0",
+        "repository": "jarofghosts/glance"
+      }
+    ]
+  }
+}

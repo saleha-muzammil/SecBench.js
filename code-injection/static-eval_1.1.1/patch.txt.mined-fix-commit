@@ -1,0 +1,23 @@
+From 32f8efd072625e267aa7237d2daff35738c50d2a Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Mat=C3=ADas=20Lang?= <yo@matiaslang.me>
+Date: Thu, 14 Feb 2019 17:27:11 -0300
+Subject: [PATCH] Fix sandbox breakout vulnerability
+
+This fixes the vulnerability detailed in this advisory:
+https://www.npmjs.com/advisories/758
+---
+ index.js | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/index.js b/index.js
+index 3cfbdba..998c8b7 100644
+--- a/index.js
++++ b/index.js
+@@ -135,6 +135,7 @@ module.exports = function (ast, vars) {
+                 if(key.type == 'Identifier'){
+                   vars[key.name] = null;
+                 }
++                else return FAIL;
+             });
+             for(var i in bodies){
+                 if(walk(bodies[i]) === FAIL){

@@ -1,0 +1,47 @@
+{
+  "category": "command-injection",
+  "repository": "vincentmorneau/apex-publish-static-files",
+  "package": "apex-publish-static-files",
+  "version": "2.0.0",
+  "folder": "apex-publish-static-files_2.0.0",
+  "started_at": "2026-08-20T10:53:40.134890+00:00",
+  "status": "ok",
+  "error": "",
+  "base_commit": "2209af8f2b65c24aa55ab757e0e05b958c16f063",
+  "checkout": "/tmp/apex-publish-static-files_2.0.0-src",
+  "image_tag": "secbench-fullloop/apex-publish-static-files_2.0.0",
+  "docker_loop": true,
+  "evasive_patch_reused": true,
+  "evasive_patch_regenerated": false,
+  "evades_both": true,
+  "seed_patch_applies": null,
+  "seed_exploit_fires": null,
+  "verdict": "Pipeline done. seed=hardened, loop=no-win, final tests=FAILED \u274c (exit 1), gates=PASS, final_gate=['SOLVED']",
+  "wall_seconds_setup": 56.1,
+  "wall_seconds_pipeline": 1456.1,
+  "wall_seconds_total": 1514.9,
+  "metrics": {
+    "totals": {
+      "instance_cost": 0.013964,
+      "api_calls": 39,
+      "prompt_tokens": 1078686,
+      "completion_tokens": 29412,
+      "total_tokens": 1108098,
+      "trajectories": 1
+    },
+    "per_trajectory": [
+      {
+        "file": "solve_gate/run_1/trajectory.traj.json",
+        "instance_cost": 0.013964,
+        "api_calls": 39,
+        "prompt_tokens": 1078686,
+        "completion_tokens": 29412,
+        "total_tokens": 1108098
+      }
+    ]
+  },
+  "pipeline_cmd": "mini-extra cve-pipeline --patch stratified-samples-full-loop/command-injection/apex-publish-static-files_2.0.0/exploit-evasive.patch --ex_file /Users/saleha/Desktop/cispa/SecBench.js/command-injection/apex-publish-static-files_2.0.0/apex-publish-static-files.test.js --repo-path /tmp/apex-publish-static-files_2.0.0-src --base 2209af8f2b65c24aa55ab757e0e05b958c16f063 --repo command-injection/apex-publish-static-files_2.0.0 --docker-image secbench-fullloop/apex-publish-static-files_2.0.0 --cost-limit 0.3",
+  "pipeline_returncode": 0,
+  "pipeline_out_dir": "stratified-samples-full-loop/command-injection/apex-publish-static-files_2.0.0/pipeline_exploit-evasive",
+  "finished_at": "2026-08-20T11:18:55.083481+00:00"
+}

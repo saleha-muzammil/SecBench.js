@@ -68,27 +68,61 @@ COPY . .
 # The redos exploit tests require("../utils") == /exploit/utils.js, which sits
 # one level above the build context and so cannot be COPYed. Embedded here
 # (gzip+base64) from redos/utils.js -- edit that file and regenerate, never this.
-RUN echo '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\
-9Z03ODTqrD62bN91yLJdjXv/APIpkjCVEwAA' \
+RUN echo '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' \
     | base64 -d | gzip -dc > /exploit/utils.js
 
 RUN git clone https://github.com/salesforce/tough-cookie.git node_modules/tough-cookie \
@@ -102,13 +136,22 @@ RUN git clone https://github.com/salesforce/tough-cookie.git node_modules/tough-
            echo "       regenerate with --allow-npm-fallback to install from npm." >&2; \
            exit 1; \
        fi \
-    && npm install --no-audit --no-fund --ignore-scripts \
+    && node -e 'const fs=require("fs"),p=require("path"),want=process.argv[1],seen=[];const scan=(d,n)=>{if(n>3)return false;let E;try{E=fs.readdirSync(d,{withFileTypes:true})}catch(e){return false}for(const e of E){if(e.name==="node_modules"||e.name[0]===".")continue;const f=p.join(d,e.name);if(e.isFile()&&e.name==="package.json"){try{const x=JSON.parse(fs.readFileSync(f,"utf8")).name;if(x)seen.push(x);if(x===want)return true}catch(_){}}else if(e.isDirectory()&&scan(f,n+1))return true}return false};if(!scan(".",0)){console.error("ERROR: this checkout does not contain the package \"" + want + "\". package.json names found: " + (seen.slice(0,8).join(", ")||"(none)"));console.error("       repositories.csv maps it to salesforce/tough-cookie, and fix_commit_sha comes from that same row, so BOTH are wrong together. Correct the row before building.");process.exit(1)}' "tough-cookie" \
+    && for L in package-lock.json npm-shrinkwrap.json; do \
+           [ -f "$L" ] || continue; \
+           if grep -o "\"resolved\": *\"https\?://[^/\"]*" "$L" | sed "s|.*//||" | grep -qv "^registry\.npmjs\.org"; then \
+               echo "WARNING: $L pins dependencies to a registry that is not registry.npmjs.org; removing it so npm resolves publicly" >&2; \
+               rm -f "$L"; \
+           fi; \
+       done \
+    && (npm install --no-audit --no-fund --ignore-scripts || { echo "WARNING: npm install failed (likely ERESOLVE peer conflict in the repo devDependencies); retrying with --legacy-peer-deps" >&2; npm install --no-audit --no-fund --ignore-scripts --legacy-peer-deps; }) \
     && (npm run build --if-present || echo "WARNING: build step failed/partial; continuing") \
     && (npm run prepare --if-present || echo "WARNING: prepare step failed/partial; continuing")
 
-# jest installed globally so it does not disturb the package tree
-# jest pinned to 29: jest 30 calls os.availableParallelism(), which the node:16 base
-# image does not have, so the exploit oracle died at config load instead of running.
+# jest installed globally so it does not disturb the package tree. Pinned to 29:
+# jest 30 calls os.availableParallelism(), absent on the node:16 base image, so the
+# exploit oracle died at config load ("availableParallelism is not a function")
+# instead of running -- every harness then reported exploit=False for free.
 RUN npm install -g --no-audit --no-fund jest@29
 
 CMD ["jest", "--runInBand"]

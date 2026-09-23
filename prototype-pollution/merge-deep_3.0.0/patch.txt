@@ -1,146 +1,154 @@
-From 11e5dd56de8a6aed0b1ed022089dbce6968d82a5 Mon Sep 17 00:00:00 2001
-From: Brian Woodward <brian.woodward@gmail.com>
-Date: Mon, 4 Jan 2021 14:21:09 -0500
-Subject: [PATCH 1/3] add isValidKey function to ensure only valid keys are
- merged
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: make_release_patch.py <secbench>
+Subject: [PATCH] merge-deep 3.0.0 -> 3.0.3 (release range, production files only)
 
+Generated from tag 3.0.0 .. tag 3.0.3; 3 production file(s).
+Reverting this on the fixed tree reproduces the 3.0.0 tree.
 ---
- .travis.yml | 1 +
- index.js    | 6 +++++-
- 2 files changed, 6 insertions(+), 1 deletion(-)
-
-diff --git a/.travis.yml b/.travis.yml
-index b41bd9f..ea3ec10 100644
---- a/.travis.yml
-+++ b/.travis.yml
-@@ -17,4 +17,5 @@ node_js:
- matrix:
-   fast_finish: true
-   allow_failures:
-+    - node_js: 'node'
-     - node_js: '0.8'
+diff --git a/bower.json b/bower.json
+index cb4ae93..7a95c89 100644
+--- a/bower.json
++++ b/bower.json
+@@ -11,12 +11,13 @@
+     "index.js"
+   ],
+   "dependencies": {
+-    "clone-deep": "^0.1.1",
+-    "is-plain-object": "^2.0.0"
++    "arr-union": "^3.1.0",
++    "clone-deep": "^0.2.4",
++    "kind-of": "^3.0.2"
+   },
+   "devDependencies": {
+-    "mocha": "^2.2.5",
+-    "should": "^6.0.3"
++    "gulp-format-md": "^0.1.7",
++    "mocha": "^2.4.5"
+   },
+   "keywords": [
+     "clone",
+@@ -38,5 +39,22 @@
+     "props",
+     "value",
+     "values"
++  ],
++  "version": "3.0.0",
++  "bugs": {
++    "url": "https://github.com/jonschlinkert/merge-deep/issues"
++  },
++  "files": [
++    "index.js"
++  ],
++  "ignore": [
++    "actual",
++    "bower_components",
++    "fixtures",
++    "node_modules",
++    "temp",
++    "test",
++    "test.js",
++    "tmp"
+   ]
+-}
++}
+\ No newline at end of file
 diff --git a/index.js b/index.js
-index 16b4690..08db87a 100644
+index 11031ee..08db87a 100644
 --- a/index.js
 +++ b/index.js
-@@ -32,7 +32,7 @@ module.exports = function mergeDeep(orig, objects) {
+@@ -7,21 +7,23 @@
+ 
+ 'use strict';
+ 
+-var utils = require('./utils');
++var union = require('arr-union');
++var clone = require('clone-deep');
++var typeOf = require('kind-of');
+ 
+ module.exports = function mergeDeep(orig, objects) {
+-  if (!utils.isObject(orig) && !Array.isArray(orig)) {
++  if (!isObject(orig) && !Array.isArray(orig)) {
+     orig = {};
+   }
+ 
+-  var target = utils.clone(orig);
++  var target = clone(orig);
+   var len = arguments.length;
+   var idx = 0;
+ 
+   while (++idx < len) {
+     var val = arguments[idx];
+ 
+-    if (utils.isObject(val) || Array.isArray(val)) {
++    if (isObject(val) || Array.isArray(val)) {
+       merge(target, val);
+     }
+   }
+@@ -30,19 +32,19 @@ module.exports = function mergeDeep(orig, objects) {
  
  function merge(target, obj) {
    for (var key in obj) {
--    if (key === '__proto__' || !hasOwn(obj, key)) {
+-    if (!hasOwn(obj, key)) {
 +    if (!isValidKey(key) || !hasOwn(obj, key)) {
        continue;
      }
  
-@@ -57,3 +57,7 @@ function hasOwn(obj, key) {
- function isObject(val) {
-   return typeOf(val) === 'object' || typeOf(val) === 'function';
+     var oldVal = obj[key];
+     var newVal = target[key];
+ 
+-    if (utils.isObject(newVal) && utils.isObject(oldVal)) {
++    if (isObject(newVal) && isObject(oldVal)) {
+       target[key] = merge(newVal, oldVal);
+     } else if (Array.isArray(newVal)) {
+-      target[key] = utils.union([], newVal, oldVal);
++      target[key] = union([], newVal, oldVal);
+     } else {
+-      target[key] = utils.clone(oldVal);
++      target[key] = clone(oldVal);
+     }
+   }
+   return target;
+@@ -51,3 +53,11 @@ function merge(target, obj) {
+ function hasOwn(obj, key) {
+   return Object.prototype.hasOwnProperty.call(obj, key);
  }
++
++function isObject(val) {
++  return typeOf(val) === 'object' || typeOf(val) === 'function';
++}
 +
 +function isValidKey(key) {
 +  return key !== '__proto__' && key !== 'constructor' && key !== 'prototype';
 +}
 \ No newline at end of file
-
-From c39b16134a6a9704be2e661b49b92e8561f10d90 Mon Sep 17 00:00:00 2001
-From: Brian Woodward <brian.woodward@gmail.com>
-Date: Mon, 4 Jan 2021 14:30:09 -0500
-Subject: [PATCH 2/3] add test to ensure constructor is not cloned
-
----
- test.js | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
-
-diff --git a/test.js b/test.js
-index 926bbae..712fbe1 100644
---- a/test.js
-+++ b/test.js
-@@ -134,4 +134,16 @@ describe('mergeDeep', function() {
-     var actual = merge(fixture);
-     assert.deepEqual(actual, fixture);
-   });
-+
-+  it('should not clone invalid keys', function() {
-+    var obj1 = { a: { b: 1 } };
-+    var obj2 = JSON.parse('{ "a": { "c": 2 }, "constructor": { "keys": 42 } }');
-+
-+    var actual = merge({}, obj1, obj2);
-+    assert.deepEqual(actual, { a: { b: 1, c: 2 } });
-+    assert.notDeepEqual(actual.a, obj1.a);
-+    assert.notDeepEqual(actual.a, obj2.a);
-+    assert.notEqual(actual.keys, 42);
-+    assert.notEqual(actual.constructor.keys, 42);
-+  });
- });
-
-From 393e2cbaeacf54e77a307c3620a00f0ac057b8d5 Mon Sep 17 00:00:00 2001
-From: Brian Woodward <brian.woodward@gmail.com>
-Date: Mon, 4 Jan 2021 15:25:09 -0500
-Subject: [PATCH 3/3] adding a test to ensure using merge-deep for inheritance
- still works
-
----
- test.js | 52 ++++++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 52 insertions(+)
-
-diff --git a/test.js b/test.js
-index 712fbe1..f454cf7 100644
---- a/test.js
-+++ b/test.js
-@@ -146,4 +146,56 @@ describe('mergeDeep', function() {
-     assert.notEqual(actual.keys, 42);
-     assert.notEqual(actual.constructor.keys, 42);
-   });
-+
-+  it('should allow being used for custom constructors', function() {
-+    // The following setup code is a simple way to demonstrate multiple inheritance by merging the prototype of one class onto another
-+    function Shape() {
-+      this.type = '';
-+    }
-+
-+    function Position(x, y) {
-+      this.x = x || 0;
-+      this.y = y || 0;
-+    }
-+
-+    Position.prototype.stringify = function() {
-+      return '(' + this.x + ', ' + this.y + ')';
-+    };
-+
-+    function Moveable(x, y) {
-+      Position.call(this, x, y);
-+    }
-+
-+    // By making Moveable inherit from Position, allows us to test what happens when `constructor` is passed to `isValidKey`.
-+    Moveable.prototype = Object.create(Position.prototype);
-+    Moveable.prototype.constructor = Moveable;
-+    Moveable.prototype = merge(Moveable.prototype, Position.prototype);
-+
-+    Moveable.prototype.move = function(x, y) {
-+      this.x += x;
-+      this.y += y;
-+    };
-+
-+    Moveable.prototype.position = function() {
-+      return this.stringify();
-+    };
-+
-+    function Rectangle() {
-+      Shape.call(this);
-+      Moveable.call(this);
-+      this.type = 'rectangle';
-+    }
-+
-+    // Single inheritance using Object.create
-+    Rectangle.prototype = Object.create(Shape.prototype);
-+    Rectangle.prototype.constructor = Rectangle;
-+
-+    // This is the test to ensure that `merge-deep` can be used with prototypal inheritance
-+    Rectangle.prototype = merge(Rectangle.prototype, Moveable.prototype);
-+
-+    var rectangle = new Rectangle();
-+    assert.equal(rectangle.position(), '(0, 0)');
-+    rectangle.move(10, 20);
-+    assert.equal(rectangle.position(), '(10, 20)');
-+  });
- });
+diff --git a/utils.js b/utils.js
+deleted file mode 100644
+index 517b990..0000000
+--- a/utils.js
++++ /dev/null
+@@ -1,25 +0,0 @@
+-'use strict';
+-
+-/**
+- * Module dependencies
+- */
+-
+-var utils = require('lazy-cache')(require);
+-var fn = require;
+-require = utils;
+-
+-require('arr-union', 'union');
+-require('clone-deep', 'clone');
+-require('kind-of', 'typeOf');
+-require = fn;
+-
+-utils.isObject = function(val) {
+-  return utils.typeOf(val) === 'object' || utils.typeOf(val) === 'function';
+-};
+-
+-/**
+- * Expose `utils` modules
+- */
+-
+-module.exports = utils;
+-

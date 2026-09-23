@@ -1,0 +1,38 @@
+{
+  "category": "path-traversal",
+  "repository": "eldoy/hangersteak",
+  "package": "hangersteak",
+  "version": "0.2.2",
+  "folder": "hangersteak_0.2.2",
+  "started_at": "2026-09-21T03:39:09.712342+00:00",
+  "status": "pipeline-rc-1",
+  "error": "",
+  "base_commit": "9e853cced065c5a98f242c7ac75438d035f63532",
+  "checkout": "/tmp/hangersteak_0.2.2-src",
+  "image_tag": "secbench-fullloop/hangersteak_0.2.2",
+  "docker_loop": true,
+  "evasive_patch_reused": true,
+  "evasive_patch_regenerated": false,
+  "evades_both": true,
+  "seed_patch_applies": null,
+  "seed_exploit_fires": null,
+  "verdict": "",
+  "wall_seconds_setup": 5.6,
+  "wall_seconds_pipeline": 7244.0,
+  "wall_seconds_total": 7251.0,
+  "metrics": {
+    "totals": {
+      "instance_cost": 0.0,
+      "api_calls": 0,
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "trajectories": 0
+    },
+    "per_trajectory": []
+  },
+  "pipeline_cmd": "mini-extra cve-pipeline --patch stratified-samples-full-loop-judge14/path-traversal/hangersteak_0.2.2/exploit-evasive.patch --ex_file /Users/saleha/Desktop/cispa/SecBench.js/path-traversal/hangersteak_0.2.2/hangersteak.test.js --repo-path /tmp/hangersteak_0.2.2-src --base 9e853cced065c5a98f242c7ac75438d035f63532 --repo path-traversal/hangersteak_0.2.2 --docker-image secbench-fullloop/hangersteak_0.2.2 --max-iterations 5 --cost-limit 0.3 --no-run-codegen --gate-in-loop --gate-runs 1 --revise-iterations 2",
+  "pipeline_returncode": 1,
+  "pipeline_out_dir": "stratified-samples-full-loop-judge14/path-traversal/hangersteak_0.2.2/pipeline_exploit-evasive",
+  "finished_at": "2026-09-21T05:40:00.705877+00:00"
+}

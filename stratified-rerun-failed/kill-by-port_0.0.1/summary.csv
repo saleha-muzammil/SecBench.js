@@ -1,0 +1,2 @@
+category,folder,package,version,status,verdict,seed_exploit_fires,evades_both,evasive_patch_regenerated,base_commit,instance_cost,api_calls,prompt_tokens,completion_tokens,total_tokens,trajectories,wall_seconds_setup,wall_seconds_pipeline,wall_seconds_total,error
+command-injection,kill-by-port_0.0.1,kill-by-port,0.0.1,ok,"Pipeline done. seed=hardened, loop=SUCCESS, final tests=NO NEW FAILURES ✅ (baseline 1 failing, still 1; pre-existing failures ignored), gates=PASS, final_gate=['SOLVED']",,True,False,ea5b1f377e19,0.004568,25,119241,6298,125539,2,30.0,360.3,391.6,

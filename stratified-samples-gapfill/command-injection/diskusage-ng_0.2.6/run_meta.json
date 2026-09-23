@@ -1,0 +1,38 @@
+{
+  "category": "command-injection",
+  "repository": "iximiuz/node-diskusage-ng",
+  "package": "diskusage-ng",
+  "version": "0.2.6",
+  "folder": "diskusage-ng_0.2.6",
+  "started_at": "2026-09-22T03:58:22.176549+00:00",
+  "status": "pipeline-rc-1",
+  "error": "",
+  "base_commit": "48e7e093486b528f0c81ec699573e0e4a431b8d3",
+  "checkout": "/tmp/gapfill-src/diskusage-ng_0.2.6-src",
+  "image_tag": "secbench-fullloop/diskusage-ng_0.2.6",
+  "docker_loop": true,
+  "evasive_patch_reused": true,
+  "evasive_patch_regenerated": false,
+  "evades_both": true,
+  "seed_patch_applies": null,
+  "seed_exploit_fires": null,
+  "verdict": "",
+  "wall_seconds_setup": 19.5,
+  "wall_seconds_pipeline": 11.0,
+  "wall_seconds_total": 31.1,
+  "metrics": {
+    "totals": {
+      "instance_cost": 0.0,
+      "api_calls": 0,
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "trajectories": 0
+    },
+    "per_trajectory": []
+  },
+  "pipeline_cmd": "mini-extra cve-pipeline --patch stratified-samples-gapfill/command-injection/diskusage-ng_0.2.6/exploit-evasive.patch --ex_file /Users/saleha/Desktop/cispa/SecBench.js/command-injection/diskusage-ng_0.2.6/diskusage-ng.test.js --repo-path /tmp/gapfill-src/diskusage-ng_0.2.6-src --base 48e7e093486b528f0c81ec699573e0e4a431b8d3 --repo iximiuz/node-diskusage-ng --docker-image secbench-fullloop/diskusage-ng_0.2.6 --cost-limit 0.3",
+  "pipeline_returncode": 1,
+  "pipeline_out_dir": "stratified-samples-gapfill/command-injection/diskusage-ng_0.2.6/pipeline_exploit-evasive",
+  "finished_at": "2026-09-22T03:58:53.249860+00:00"
+}

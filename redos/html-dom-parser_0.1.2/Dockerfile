@@ -50,6 +50,12 @@ WXttE7IftOZVJ7th29L+C27jZaazk9IP+BLTIu1J+rhv1Tjco4aeiSgzTObBjJRZzFci43HFJHK5yeMy
 9Z03ODTqrD62bN91yLJdjXv/APIpkjCVEwAA' \
     | base64 -d | gzip -dc > /exploit/utils.js
 
+# The regexes patch.txt touches live in lib/domparser.js, which is only reachable
+# through the package's "browser" entry -- node loads lib/html-to-dom-server.js and
+# never sees them. The exploit therefore drives lib/html-to-dom-client.js directly
+# and needs a DOM to do it, so jsdom is installed into the package's own
+# node_modules (where the test's fallback require finds it). It is a test-harness
+# dependency only: nothing in html-dom-parser requires it at runtime.
 RUN git clone https://github.com/remarkablemark/html-dom-parser.git node_modules/html-dom-parser \
     && cd node_modules/html-dom-parser \
     && if ! (git checkout -q "v0.1.2" || git checkout -q "0.1.2"); then \
@@ -62,6 +68,7 @@ RUN git clone https://github.com/remarkablemark/html-dom-parser.git node_modules
            exit 1; \
        fi \
     && npm install --no-audit --no-fund --ignore-scripts \
+    && npm install --no-audit --no-fund --ignore-scripts --no-save jsdom@20 \
     && (npm run build --if-present || echo "WARNING: build step failed/partial; continuing") \
     && (npm run prepare --if-present || echo "WARNING: prepare step failed/partial; continuing")
 

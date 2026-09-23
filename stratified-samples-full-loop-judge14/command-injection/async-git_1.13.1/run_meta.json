@@ -1,0 +1,38 @@
+{
+  "category": "command-injection",
+  "repository": "omrilotan/async-git",
+  "package": "async-git",
+  "version": "1.13.1",
+  "folder": "async-git_1.13.1",
+  "started_at": "2026-09-21T06:19:18.669589+00:00",
+  "status": "ok",
+  "error": "",
+  "base_commit": "d1950a5021f4e19d92f347614be0d85ce991510d",
+  "checkout": "/tmp/async-git_1.13.1-src",
+  "image_tag": "secbench-fullloop/async-git_1.13.1",
+  "docker_loop": true,
+  "evasive_patch_reused": true,
+  "evasive_patch_regenerated": false,
+  "evades_both": false,
+  "seed_patch_applies": null,
+  "seed_exploit_fires": null,
+  "verdict": "Pipeline done. seed=unhardened, loop=no-win, final tests=FAILED \u274c (exit 1), gates=FAIL",
+  "wall_seconds_setup": 6.2,
+  "wall_seconds_pipeline": 2688.1,
+  "wall_seconds_total": 2695.6,
+  "metrics": {
+    "totals": {
+      "instance_cost": 0.0,
+      "api_calls": 0,
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "trajectories": 0
+    },
+    "per_trajectory": []
+  },
+  "pipeline_cmd": "mini-extra cve-pipeline --patch stratified-samples-full-loop-judge14/command-injection/async-git_1.13.1/exploit-evasive.patch --ex_file /Users/saleha/Desktop/cispa/SecBench.js/command-injection/async-git_1.13.1/async-git.test.js --repo-path /tmp/async-git_1.13.1-src --base d1950a5021f4e19d92f347614be0d85ce991510d --repo command-injection/async-git_1.13.1 --docker-image secbench-fullloop/async-git_1.13.1 --max-iterations 5 --cost-limit 0.3 --no-run-codegen --gate-in-loop --gate-runs 1 --revise-iterations 2",
+  "pipeline_returncode": 0,
+  "pipeline_out_dir": "stratified-samples-full-loop-judge14/command-injection/async-git_1.13.1/pipeline_exploit-evasive",
+  "finished_at": "2026-09-21T07:04:14.312373+00:00"
+}

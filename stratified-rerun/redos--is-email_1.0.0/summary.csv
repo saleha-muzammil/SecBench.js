@@ -1,0 +1,2 @@
+category,folder,package,version,status,verdict,seed_exploit_fires,evades_both,evasive_patch_regenerated,base_commit,instance_cost,api_calls,prompt_tokens,completion_tokens,total_tokens,trajectories,wall_seconds_setup,wall_seconds_pipeline,wall_seconds_total,error
+redos,is-email_1.0.0,is-email,1.0.0,ok,"Pipeline done. seed=hardened, loop=SUCCESS, final tests=NOT RUN / ERROR, gates=PASS, final_gate=['SOLVED_SAFE']",,False,False,060ecedf3457,0.004532,20,149249,13861,163110,2,20.2,5889.5,5912.4,
