@@ -1,0 +1,55 @@
+{
+  "category": "redos",
+  "repository": "postcss/postcss",
+  "package": "postcss",
+  "version": "8.0.0",
+  "folder": "postcss_8.0.0",
+  "started_at": "2026-09-23T20:29:51.160264+00:00",
+  "status": "ok",
+  "error": "",
+  "base_commit": "2b1d04c867995e55124e0a165b7c6622c1735956",
+  "checkout": "/tmp/gapfill-src/postcss_8.0.0-src",
+  "image_tag": "secbench-fullloop/postcss_8.0.0",
+  "docker_loop": true,
+  "evasive_patch_reused": true,
+  "evasive_patch_regenerated": false,
+  "evades_both": false,
+  "seed_patch_applies": null,
+  "seed_exploit_fires": null,
+  "verdict": "Pipeline done. seed=hardened, loop=SUCCESS, final tests=FAILED \u274c (exit 2), gates=PASS, final_gate=['SOLVED']",
+  "wall_seconds_setup": 109.0,
+  "wall_seconds_pipeline": 676.7,
+  "wall_seconds_total": 790.9,
+  "metrics": {
+    "totals": {
+      "instance_cost": 0.008581,
+      "api_calls": 33,
+      "prompt_tokens": 274552,
+      "completion_tokens": 8451,
+      "total_tokens": 283003,
+      "trajectories": 2
+    },
+    "per_trajectory": [
+      {
+        "file": "issue/iter_1/adopt/run_1/trajectory.traj.json",
+        "instance_cost": 0.004614,
+        "api_calls": 18,
+        "prompt_tokens": 141479,
+        "completion_tokens": 4501,
+        "total_tokens": 145980
+      },
+      {
+        "file": "solve_gate/run_1/trajectory.traj.json",
+        "instance_cost": 0.003967,
+        "api_calls": 15,
+        "prompt_tokens": 133073,
+        "completion_tokens": 3950,
+        "total_tokens": 137023
+      }
+    ]
+  },
+  "pipeline_cmd": "mini-extra cve-pipeline --patch stratified-samples-gapfill/redos/postcss_8.0.0/exploit-evasive.patch --ex_file /Users/saleha/Desktop/cispa/SecBench.js/redos/postcss_8.0.0/postcss.test.js --repo-path /tmp/gapfill-src/postcss_8.0.0-src --base 2b1d04c867995e55124e0a165b7c6622c1735956 --repo postcss/postcss --docker-image secbench-fullloop/postcss_8.0.0 --cost-limit 0.3",
+  "pipeline_returncode": 0,
+  "pipeline_out_dir": "stratified-samples-gapfill/redos/postcss_8.0.0/pipeline_exploit-evasive",
+  "finished_at": "2026-09-23T20:43:02.041314+00:00"
+}

@@ -1,0 +1,38 @@
+{
+  "category": "redos",
+  "repository": "ramda/ramda",
+  "package": "ramda",
+  "version": "0.27.1",
+  "folder": "ramda_0.27.1",
+  "started_at": "2026-09-23T20:43:02.208912+00:00",
+  "status": "ok",
+  "error": "",
+  "base_commit": "37af6ae2ca8b94656996dd27fb0a1f208d69134e",
+  "checkout": "/tmp/gapfill-src/ramda_0.27.1-src",
+  "image_tag": "secbench-fullloop/ramda_0.27.1",
+  "docker_loop": true,
+  "evasive_patch_reused": true,
+  "evasive_patch_regenerated": false,
+  "evades_both": false,
+  "seed_patch_applies": null,
+  "seed_exploit_fires": null,
+  "verdict": "Pipeline done. seed=unhardened, loop=no-win, final tests=FAILED \u274c (exit 1), gates=FAIL",
+  "wall_seconds_setup": 118.3,
+  "wall_seconds_pipeline": 3319.1,
+  "wall_seconds_total": 3444.5,
+  "metrics": {
+    "totals": {
+      "instance_cost": 0.0,
+      "api_calls": 0,
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "trajectories": 0
+    },
+    "per_trajectory": []
+  },
+  "pipeline_cmd": "mini-extra cve-pipeline --patch stratified-samples-gapfill/redos/ramda_0.27.1/exploit-evasive.patch --ex_file /Users/saleha/Desktop/cispa/SecBench.js/redos/ramda_0.27.1/ramda.test.js --repo-path /tmp/gapfill-src/ramda_0.27.1-src --base 37af6ae2ca8b94656996dd27fb0a1f208d69134e --repo ramda/ramda --docker-image secbench-fullloop/ramda_0.27.1 --cost-limit 0.3",
+  "pipeline_returncode": 0,
+  "pipeline_out_dir": "stratified-samples-gapfill/redos/ramda_0.27.1/pipeline_exploit-evasive",
+  "finished_at": "2026-09-23T21:40:26.713655+00:00"
+}

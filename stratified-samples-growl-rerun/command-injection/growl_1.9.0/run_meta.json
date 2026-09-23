@@ -1,0 +1,55 @@
+{
+  "category": "command-injection",
+  "repository": "tj/node-growl",
+  "package": "growl",
+  "version": "1.9.0",
+  "folder": "growl_1.9.0",
+  "started_at": "2026-09-23T21:43:03.536083+00:00",
+  "status": "ok",
+  "error": "",
+  "base_commit": "d71177d5331c9de4658aca62e0ac921f178b0669",
+  "checkout": "/tmp/growl_1.9.0-src",
+  "image_tag": "secbench-fullloop/growl_1.9.0",
+  "docker_loop": true,
+  "evasive_patch_reused": true,
+  "evasive_patch_regenerated": false,
+  "evades_both": true,
+  "seed_patch_applies": null,
+  "seed_exploit_fires": null,
+  "verdict": "Pipeline done. seed=hardened, loop=SUCCESS, final tests=FAILED \u274c (exit 1), gates=PASS, final_gate=['SOLVED']",
+  "wall_seconds_setup": 11.0,
+  "wall_seconds_pipeline": 2024.2,
+  "wall_seconds_total": 2035.9,
+  "metrics": {
+    "totals": {
+      "instance_cost": 0.032144,
+      "api_calls": 74,
+      "prompt_tokens": 1783363,
+      "completion_tokens": 41283,
+      "total_tokens": 1824646,
+      "trajectories": 2
+    },
+    "per_trajectory": [
+      {
+        "file": "issue/iter_2/adopt/run_1/trajectory.traj.json",
+        "instance_cost": 0.025268,
+        "api_calls": 50,
+        "prompt_tokens": 1435421,
+        "completion_tokens": 28544,
+        "total_tokens": 1463965
+      },
+      {
+        "file": "solve_gate/run_1/trajectory.traj.json",
+        "instance_cost": 0.006876,
+        "api_calls": 24,
+        "prompt_tokens": 347942,
+        "completion_tokens": 12739,
+        "total_tokens": 360681
+      }
+    ]
+  },
+  "pipeline_cmd": "mini-extra cve-pipeline --patch stratified-samples-growl-rerun/command-injection/growl_1.9.0/exploit-evasive.patch --ex_file /Users/saleha/Desktop/cispa/SecBench.js/command-injection/growl_1.9.0/growl.test.js --repo-path /tmp/growl_1.9.0-src --base d71177d5331c9de4658aca62e0ac921f178b0669 --repo tj/node-growl --docker-image secbench-fullloop/growl_1.9.0 --max-iterations 5 --cost-limit 0.3 --no-run-codegen --gate-in-loop --gate-runs 1 --revise-iterations 2",
+  "pipeline_returncode": 0,
+  "pipeline_out_dir": "stratified-samples-growl-rerun/command-injection/growl_1.9.0/pipeline_exploit-evasive",
+  "finished_at": "2026-09-23T22:16:59.406936+00:00"
+}

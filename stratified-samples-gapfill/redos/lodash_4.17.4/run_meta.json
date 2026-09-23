@@ -1,0 +1,55 @@
+{
+  "category": "redos",
+  "repository": "lodash/lodash",
+  "package": "lodash",
+  "version": "4.17.4",
+  "folder": "lodash_4.17.4",
+  "started_at": "2026-09-23T19:14:13.674380+00:00",
+  "status": "ok",
+  "error": "",
+  "base_commit": "c4847ebe7d14540bb28a8b932a9ce1b9ecbfee1a",
+  "checkout": "/tmp/gapfill-src/lodash_4.17.4-src",
+  "image_tag": "secbench-fullloop/lodash_4.17.4",
+  "docker_loop": true,
+  "evasive_patch_reused": true,
+  "evasive_patch_regenerated": false,
+  "evades_both": false,
+  "seed_patch_applies": null,
+  "seed_exploit_fires": null,
+  "verdict": "Pipeline done. seed=hardened, loop=no-win, final tests=FAILED \u274c (exit 1), gates=PASS, final_gate=['SOLVED_SAFE']",
+  "wall_seconds_setup": 71.7,
+  "wall_seconds_pipeline": 5994.5,
+  "wall_seconds_total": 6076.5,
+  "metrics": {
+    "totals": {
+      "instance_cost": 0.122579,
+      "api_calls": 181,
+      "prompt_tokens": 7293070,
+      "completion_tokens": 114603,
+      "total_tokens": 7407673,
+      "trajectories": 2
+    },
+    "per_trajectory": [
+      {
+        "file": "issue/iter_3/adopt/run_1/trajectory.traj.json",
+        "instance_cost": 0.068625,
+        "api_calls": 116,
+        "prompt_tokens": 4507310,
+        "completion_tokens": 56535,
+        "total_tokens": 4563845
+      },
+      {
+        "file": "solve_gate/run_1/trajectory.traj.json",
+        "instance_cost": 0.053953,
+        "api_calls": 65,
+        "prompt_tokens": 2785760,
+        "completion_tokens": 58068,
+        "total_tokens": 2843828
+      }
+    ]
+  },
+  "pipeline_cmd": "mini-extra cve-pipeline --patch stratified-samples-gapfill/redos/lodash_4.17.4/exploit-evasive.patch --ex_file /Users/saleha/Desktop/cispa/SecBench.js/redos/lodash_4.17.4/lodash.test.js --repo-path /tmp/gapfill-src/lodash_4.17.4-src --base c4847ebe7d14540bb28a8b932a9ce1b9ecbfee1a --repo lodash/lodash --docker-image secbench-fullloop/lodash_4.17.4 --cost-limit 0.3",
+  "pipeline_returncode": 0,
+  "pipeline_out_dir": "stratified-samples-gapfill/redos/lodash_4.17.4/pipeline_exploit-evasive",
+  "finished_at": "2026-09-23T20:55:30.162299+00:00"
+}

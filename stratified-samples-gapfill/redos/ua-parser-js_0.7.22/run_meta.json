@@ -1,0 +1,38 @@
+{
+  "category": "redos",
+  "repository": "faisalman/ua-parser-js",
+  "package": "ua-parser-js",
+  "version": "0.7.22",
+  "folder": "ua-parser-js_0.7.22",
+  "started_at": "2026-09-23T20:55:30.375807+00:00",
+  "status": "pipeline-rc-1",
+  "error": "",
+  "base_commit": "809439e20e273ce0d25c1d04e111dcf6011eb566",
+  "checkout": "/tmp/gapfill-src/ua-parser-js_0.7.22-src",
+  "image_tag": "secbench-fullloop/ua-parser-js_0.7.22",
+  "docker_loop": true,
+  "evasive_patch_reused": true,
+  "evasive_patch_regenerated": false,
+  "evades_both": false,
+  "seed_patch_applies": null,
+  "seed_exploit_fires": null,
+  "verdict": "",
+  "wall_seconds_setup": 50.2,
+  "wall_seconds_pipeline": 579.7,
+  "wall_seconds_total": 631.1,
+  "metrics": {
+    "totals": {
+      "instance_cost": 0.0,
+      "api_calls": 0,
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "trajectories": 0
+    },
+    "per_trajectory": []
+  },
+  "pipeline_cmd": "mini-extra cve-pipeline --patch stratified-samples-gapfill/redos/ua-parser-js_0.7.22/exploit-evasive.patch --ex_file /Users/saleha/Desktop/cispa/SecBench.js/redos/ua-parser-js_0.7.22/ua-parser.test.js --repo-path /tmp/gapfill-src/ua-parser-js_0.7.22-src --base 809439e20e273ce0d25c1d04e111dcf6011eb566 --repo faisalman/ua-parser-js --docker-image secbench-fullloop/ua-parser-js_0.7.22 --cost-limit 0.3",
+  "pipeline_returncode": 1,
+  "pipeline_out_dir": "stratified-samples-gapfill/redos/ua-parser-js_0.7.22/pipeline_exploit-evasive",
+  "finished_at": "2026-09-23T21:06:01.435430+00:00"
+}

@@ -1,0 +1,55 @@
+{
+  "category": "redos",
+  "repository": "Khan/simple-markdown",
+  "package": "simple-markdown",
+  "version": "0.7.2",
+  "folder": "simple-markdown_0.7.2",
+  "started_at": "2026-09-23T20:57:10.244516+00:00",
+  "status": "ok",
+  "error": "",
+  "base_commit": "015a719bf5cdc561feea05500ecb3274ef609cd2",
+  "checkout": "/tmp/gapfill-src/simple-markdown_0.7.2-src",
+  "image_tag": "secbench-fullloop/simple-markdown_0.7.2",
+  "docker_loop": true,
+  "evasive_patch_reused": true,
+  "evasive_patch_regenerated": false,
+  "evades_both": false,
+  "seed_patch_applies": null,
+  "seed_exploit_fires": null,
+  "verdict": "Pipeline done. seed=hardened, loop=SUCCESS, final tests=FAILED \u274c (exit 2), gates=PASS, final_gate=['SOLVED']",
+  "wall_seconds_setup": 33.2,
+  "wall_seconds_pipeline": 292.2,
+  "wall_seconds_total": 327.8,
+  "metrics": {
+    "totals": {
+      "instance_cost": 0.0057,
+      "api_calls": 36,
+      "prompt_tokens": 263609,
+      "completion_tokens": 12045,
+      "total_tokens": 275654,
+      "trajectories": 2
+    },
+    "per_trajectory": [
+      {
+        "file": "issue/iter_1/adopt/run_1/trajectory.traj.json",
+        "instance_cost": 0.002341,
+        "api_calls": 16,
+        "prompt_tokens": 109968,
+        "completion_tokens": 5299,
+        "total_tokens": 115267
+      },
+      {
+        "file": "solve_gate/run_1/trajectory.traj.json",
+        "instance_cost": 0.003359,
+        "api_calls": 20,
+        "prompt_tokens": 153641,
+        "completion_tokens": 6746,
+        "total_tokens": 160387
+      }
+    ]
+  },
+  "pipeline_cmd": "mini-extra cve-pipeline --patch stratified-samples-gapfill/redos/simple-markdown_0.7.2/exploit-evasive.patch --ex_file /Users/saleha/Desktop/cispa/SecBench.js/redos/simple-markdown_0.7.2/simple-markdown.test.js --repo-path /tmp/gapfill-src/simple-markdown_0.7.2-src --base 015a719bf5cdc561feea05500ecb3274ef609cd2 --repo Khan/simple-markdown --docker-image secbench-fullloop/simple-markdown_0.7.2 --cost-limit 0.3",
+  "pipeline_returncode": 0,
+  "pipeline_out_dir": "stratified-samples-gapfill/redos/simple-markdown_0.7.2/pipeline_exploit-evasive",
+  "finished_at": "2026-09-23T21:02:38.024809+00:00"
+}

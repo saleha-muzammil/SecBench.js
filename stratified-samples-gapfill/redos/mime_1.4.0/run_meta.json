@@ -1,0 +1,71 @@
+{
+  "category": "redos",
+  "repository": "broofa/node-mime",
+  "package": "mime",
+  "version": "1.4.0",
+  "folder": "mime_1.4.0",
+  "started_at": "2026-09-23T21:12:52.647750+00:00",
+  "status": "ok",
+  "error": "",
+  "base_commit": "1df903fdeb9ae7eaa048795b8d580ce2c98f40b0",
+  "checkout": "/tmp/gapfill-src/mime_1.4.0-src",
+  "image_tag": "secbench-fullloop/mime_1.4.0",
+  "docker_loop": true,
+  "evasive_patch_reused": true,
+  "evasive_patch_regenerated": false,
+  "evades_both": false,
+  "seed_patch_applies": null,
+  "seed_exploit_fires": null,
+  "verdict": "Pipeline done. seed=hardened, loop=SUCCESS, final tests=PASSED \u2705, gates=PASS, final_gate=['SOLVED']",
+  "wall_seconds_setup": 26.6,
+  "wall_seconds_pipeline": 1643.4,
+  "wall_seconds_total": 1671.0,
+  "metrics": {
+    "totals": {
+      "instance_cost": 0.052486,
+      "api_calls": 141,
+      "prompt_tokens": 2742248,
+      "completion_tokens": 84723,
+      "total_tokens": 2826971,
+      "trajectories": 4
+    },
+    "per_trajectory": [
+      {
+        "file": "issue/iter_1/adopt/run_1/trajectory.traj.json",
+        "instance_cost": 0.01168,
+        "api_calls": 29,
+        "prompt_tokens": 564096,
+        "completion_tokens": 26626,
+        "total_tokens": 590722
+      },
+      {
+        "file": "issue/iter_2/adopt/run_1/trajectory.traj.json",
+        "instance_cost": 0.017546,
+        "api_calls": 44,
+        "prompt_tokens": 987284,
+        "completion_tokens": 19819,
+        "total_tokens": 1007103
+      },
+      {
+        "file": "issue/iter_3/adopt/run_1/trajectory.traj.json",
+        "instance_cost": 0.013865,
+        "api_calls": 40,
+        "prompt_tokens": 686766,
+        "completion_tokens": 22514,
+        "total_tokens": 709280
+      },
+      {
+        "file": "solve_gate/run_1/trajectory.traj.json",
+        "instance_cost": 0.009395,
+        "api_calls": 28,
+        "prompt_tokens": 504102,
+        "completion_tokens": 15764,
+        "total_tokens": 519866
+      }
+    ]
+  },
+  "pipeline_cmd": "mini-extra cve-pipeline --patch stratified-samples-gapfill/redos/mime_1.4.0/exploit-evasive.patch --ex_file /Users/saleha/Desktop/cispa/SecBench.js/redos/mime_1.4.0/mime.test.js --repo-path /tmp/gapfill-src/mime_1.4.0-src --base 1df903fdeb9ae7eaa048795b8d580ce2c98f40b0 --repo broofa/node-mime --docker-image secbench-fullloop/mime_1.4.0 --cost-limit 0.3",
+  "pipeline_returncode": 0,
+  "pipeline_out_dir": "stratified-samples-gapfill/redos/mime_1.4.0/pipeline_exploit-evasive",
+  "finished_at": "2026-09-23T21:40:43.635272+00:00"
+}

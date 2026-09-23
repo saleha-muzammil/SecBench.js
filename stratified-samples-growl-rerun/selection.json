@@ -1,0 +1,16 @@
+{
+  "seed": 20260817,
+  "n": 3,
+  "until_success": false,
+  "generated_at": "2026-09-23T21:43:03.535742+00:00",
+  "categories": {
+    "command-injection": [
+      {
+        "folder": "growl_1.9.0",
+        "package": "growl",
+        "version": "1.9.0",
+        "repository": "tj/node-growl"
+      }
+    ]
+  }
+}

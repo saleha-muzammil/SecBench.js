@@ -1,0 +1,16 @@
+=== 15 targets, 6 at a time -> stratified-samples-gapfill ===
+Wed Sep 23 15:14:13 EDT 2026
+[15:46:37] DONE  redos/markdown-it_9.1.0 -> ok | Pipeline done. seed=hardened, loop=no-win, final tests=FAILED ❌ (exit 1), gates=FAIL
+[16:29:51] DONE  redos/marked_0.3.6 -> ok | Pipeline done. seed=unhardened, loop=no-win, final tests=FAILED ❌ (exit 1), gates=FAIL
+[16:43:02] DONE  redos/postcss_8.0.0 -> ok | Pipeline done. seed=hardened, loop=SUCCESS, final tests=FAILED ❌ (exit 2), gates=PASS, final_gate=['
+[16:55:30] DONE  redos/lodash_4.17.4 -> ok | Pipeline done. seed=hardened, loop=no-win, final tests=FAILED ❌ (exit 1), gates=PASS, final_gate=['S
+[16:57:10] DONE  redos/react-native_0.63.0-rc.0 -> ok | Pipeline done. seed=unhardened, loop=no-win, final tests=NO NEW FAILURES ✅ (baseline 4 failing, stil
+[17:02:38] DONE  redos/simple-markdown_0.7.2 -> ok | Pipeline done. seed=hardened, loop=SUCCESS, final tests=FAILED ❌ (exit 2), gates=PASS, final_gate=['
+[17:06:01] DONE  redos/ua-parser-js_0.7.22 -> pipeline-rc-1 | 
+[17:12:52] DONE  redos/validator_13.5.2 -> ok | Pipeline done. seed=unhardened, loop=no-win, final tests=FAILED ❌ (exit 1), gates=FAIL
+[17:32:31] DONE  redos/jspdf_2.1.1 -> pipeline-rc-1 | 
+[17:36:08] DONE  redos/highlight.js_10.4.0 -> pipeline-rc-1 | 
+[17:40:26] DONE  redos/ramda_0.27.1 -> ok | Pipeline done. seed=unhardened, loop=no-win, final tests=FAILED ❌ (exit 1), gates=FAIL
+[17:40:43] DONE  redos/mime_1.4.0 -> ok | Pipeline done. seed=hardened, loop=SUCCESS, final tests=PASSED ✅, gates=PASS, final_gate=['SOLVED']
+[18:05:04] DONE  redos/semver-regex_3.1.1 -> ok | Pipeline done. seed=unhardened, loop=no-win, final tests=FAILED ❌ (exit 1), gates=PASS, final_gate=[
+[18:15:16] DONE  redos/ws_7.0.0 -> ok | Pipeline done. seed=unhardened, loop=no-win, final tests=PASSED ✅, gates=FAIL

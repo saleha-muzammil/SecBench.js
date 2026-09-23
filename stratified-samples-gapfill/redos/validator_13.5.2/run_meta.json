@@ -1,0 +1,38 @@
+{
+  "category": "redos",
+  "repository": "tux-tn/validator.js",
+  "package": "validator",
+  "version": "13.5.2",
+  "folder": "validator_13.5.2",
+  "started_at": "2026-09-23T19:14:13.661510+00:00",
+  "status": "ok",
+  "error": "",
+  "base_commit": "2a3a1c33607698d69fc788c3b9efddffa6195193",
+  "checkout": "/tmp/gapfill-src/validator_13.5.2-src",
+  "image_tag": "secbench-fullloop/validator_13.5.2",
+  "docker_loop": true,
+  "evasive_patch_reused": true,
+  "evasive_patch_regenerated": false,
+  "evades_both": false,
+  "seed_patch_applies": null,
+  "seed_exploit_fires": null,
+  "verdict": "Pipeline done. seed=unhardened, loop=no-win, final tests=FAILED \u274c (exit 1), gates=FAIL",
+  "wall_seconds_setup": 138.5,
+  "wall_seconds_pipeline": 6977.4,
+  "wall_seconds_total": 7118.8,
+  "metrics": {
+    "totals": {
+      "instance_cost": 0.0,
+      "api_calls": 0,
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "trajectories": 0
+    },
+    "per_trajectory": []
+  },
+  "pipeline_cmd": "mini-extra cve-pipeline --patch stratified-samples-gapfill/redos/validator_13.5.2/exploit-evasive.patch --ex_file /Users/saleha/Desktop/cispa/SecBench.js/redos/validator_13.5.2/validator.test.js --repo-path /tmp/gapfill-src/validator_13.5.2-src --base 2a3a1c33607698d69fc788c3b9efddffa6195193 --repo tux-tn/validator.js --docker-image secbench-fullloop/validator_13.5.2 --cost-limit 0.3",
+  "pipeline_returncode": 0,
+  "pipeline_out_dir": "stratified-samples-gapfill/redos/validator_13.5.2/pipeline_exploit-evasive",
+  "finished_at": "2026-09-23T21:12:52.486914+00:00"
+}

@@ -1,0 +1,38 @@
+{
+  "category": "redos",
+  "repository": "highlightjs/highlight.js",
+  "package": "highlight.js",
+  "version": "10.4.0",
+  "folder": "highlight.js_10.4.0",
+  "started_at": "2026-09-23T19:14:13.660744+00:00",
+  "status": "pipeline-rc-1",
+  "error": "",
+  "base_commit": "373b9d862401162e832ce77305e49b859e110f9c",
+  "checkout": "/tmp/gapfill-src/highlight.js_10.4.0-src",
+  "image_tag": "secbench-fullloop/highlight.js_10.4.0",
+  "docker_loop": true,
+  "evasive_patch_reused": true,
+  "evasive_patch_regenerated": false,
+  "evades_both": false,
+  "seed_patch_applies": null,
+  "seed_exploit_fires": null,
+  "verdict": "",
+  "wall_seconds_setup": 72.1,
+  "wall_seconds_pipeline": 8438.4,
+  "wall_seconds_total": 8514.7,
+  "metrics": {
+    "totals": {
+      "instance_cost": 0.0,
+      "api_calls": 0,
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "trajectories": 0
+    },
+    "per_trajectory": []
+  },
+  "pipeline_cmd": "mini-extra cve-pipeline --patch stratified-samples-gapfill/redos/highlight.js_10.4.0/exploit-evasive.patch --ex_file /Users/saleha/Desktop/cispa/SecBench.js/redos/highlight.js_10.4.0/highlight.test.js --repo-path /tmp/gapfill-src/highlight.js_10.4.0-src --base 373b9d862401162e832ce77305e49b859e110f9c --repo highlightjs/highlight.js --docker-image secbench-fullloop/highlight.js_10.4.0 --cost-limit 0.3",
+  "pipeline_returncode": 1,
+  "pipeline_out_dir": "stratified-samples-gapfill/redos/highlight.js_10.4.0/pipeline_exploit-evasive",
+  "finished_at": "2026-09-23T21:36:08.334181+00:00"
+}

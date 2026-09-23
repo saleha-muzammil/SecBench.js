@@ -1,0 +1,20 @@
+{
+  "totals": {
+    "instance_cost": 0.028917,
+    "api_calls": 52,
+    "prompt_tokens": 1576466,
+    "completion_tokens": 28396,
+    "total_tokens": 1604862,
+    "trajectories": 1
+  },
+  "per_trajectory": [
+    {
+      "file": "issue/iter_1/adopt/run_1/trajectory.traj.json",
+      "instance_cost": 0.028917,
+      "api_calls": 52,
+      "prompt_tokens": 1576466,
+      "completion_tokens": 28396,
+      "total_tokens": 1604862
+    }
+  ]
+}

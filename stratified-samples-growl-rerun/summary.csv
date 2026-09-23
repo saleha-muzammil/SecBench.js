@@ -1,0 +1,2 @@
+category,folder,package,version,status,verdict,seed_exploit_fires,evades_both,evasive_patch_regenerated,base_commit,instance_cost,api_calls,prompt_tokens,completion_tokens,total_tokens,trajectories,wall_seconds_setup,wall_seconds_pipeline,wall_seconds_total,error
+command-injection,growl_1.9.0,growl,1.9.0,ok,"Pipeline done. seed=hardened, loop=SUCCESS, final tests=FAILED ❌ (exit 1), gates=PASS, final_gate=['SOLVED']",,True,False,d71177d5331c,0.032144,74,1783363,41283,1824646,2,11.0,2024.2,2035.9,
