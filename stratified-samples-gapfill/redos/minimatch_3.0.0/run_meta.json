@@ -1,0 +1,38 @@
+{
+  "category": "redos",
+  "repository": "isaacs/minimatch",
+  "package": "minimatch",
+  "version": "3.0.0",
+  "folder": "minimatch_3.0.0",
+  "started_at": "2026-09-23T21:32:31.962818+00:00",
+  "status": "ok",
+  "error": "",
+  "base_commit": "6944abf9e0694bd22fd9dad293faa40c2bc8a955",
+  "checkout": "/tmp/gapfill-src/minimatch_3.0.0-src",
+  "image_tag": "secbench-fullloop/minimatch_3.0.0",
+  "docker_loop": true,
+  "evasive_patch_reused": true,
+  "evasive_patch_regenerated": false,
+  "evades_both": true,
+  "seed_patch_applies": null,
+  "seed_exploit_fires": null,
+  "verdict": "Pipeline done. seed=unhardened, loop=no-win, final tests=NO NEW FAILURES \u2705 (baseline 0 failing, still 0; pre-existing failures ignored), gates=FAIL",
+  "wall_seconds_setup": 43.0,
+  "wall_seconds_pipeline": 6583.4,
+  "wall_seconds_total": 6628.6,
+  "metrics": {
+    "totals": {
+      "instance_cost": 0.0,
+      "api_calls": 0,
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "trajectories": 0
+    },
+    "per_trajectory": []
+  },
+  "pipeline_cmd": "mini-extra cve-pipeline --patch stratified-samples-gapfill/redos/minimatch_3.0.0/exploit-evasive.patch --ex_file /Users/saleha/Desktop/cispa/SecBench.js/redos/minimatch_3.0.0/minimatch.test.js --repo-path /tmp/gapfill-src/minimatch_3.0.0-src --base 6944abf9e0694bd22fd9dad293faa40c2bc8a955 --repo isaacs/minimatch --docker-image secbench-fullloop/minimatch_3.0.0 --cost-limit 0.3",
+  "pipeline_returncode": 0,
+  "pipeline_out_dir": "stratified-samples-gapfill/redos/minimatch_3.0.0/pipeline_exploit-evasive",
+  "finished_at": "2026-09-23T23:23:00.547832+00:00"
+}

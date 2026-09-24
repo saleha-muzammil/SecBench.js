@@ -14,3 +14,11 @@ Wed Sep 23 15:14:13 EDT 2026
 [17:40:43] DONE  redos/mime_1.4.0 -> ok | Pipeline done. seed=hardened, loop=SUCCESS, final tests=PASSED ✅, gates=PASS, final_gate=['SOLVED']
 [18:05:04] DONE  redos/semver-regex_3.1.1 -> ok | Pipeline done. seed=unhardened, loop=no-win, final tests=FAILED ❌ (exit 1), gates=PASS, final_gate=[
 [18:15:16] DONE  redos/ws_7.0.0 -> ok | Pipeline done. seed=unhardened, loop=no-win, final tests=PASSED ✅, gates=FAIL
+[19:23:00] DONE  redos/minimatch_3.0.0 -> ok | Pipeline done. seed=unhardened, loop=no-win, final tests=NO NEW FAILURES ✅ (baseline 0 failing, stil
+=== all targets finished Wed Sep 23 19:23:00 EDT 2026 ===
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x00000001ff2f4f40 (most recent call first):
+  <no Python frame>

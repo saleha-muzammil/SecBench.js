@@ -1,2 +1,2 @@
 category,folder,package,version,status,verdict,seed_exploit_fires,evades_both,evasive_patch_regenerated,base_commit,instance_cost,api_calls,prompt_tokens,completion_tokens,total_tokens,trajectories,wall_seconds_setup,wall_seconds_pipeline,wall_seconds_total,error
-redos,ws_7.0.0,ws,7.0.0,ok,"Pipeline done. seed=unhardened, loop=no-win, final tests=PASSED ✅, gates=FAIL",,False,False,00c425ec7799,0.0,0,0,0,0,0,55.1,4097.5,4155.1,
+redos,minimatch_3.0.0,minimatch,3.0.0,ok,"Pipeline done. seed=unhardened, loop=no-win, final tests=NO NEW FAILURES ✅ (baseline 0 failing, still 0; pre-existing failures ignored), gates=FAIL",,True,False,6944abf9e069,0.0,0,0,0,0,0,43.0,6583.4,6628.6,
